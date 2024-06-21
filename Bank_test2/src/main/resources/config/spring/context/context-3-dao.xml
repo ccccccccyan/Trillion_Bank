@@ -7,4 +7,8 @@
 		<property name="sqlSession" ref="sqlSessionBean"></property>	
 	</bean>
 		
+	<bean id="account_daoBean" class="dao.AccountDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>	
+	</bean>
+	
 </beans>

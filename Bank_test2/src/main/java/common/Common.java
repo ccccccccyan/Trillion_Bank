@@ -12,6 +12,10 @@ public class Common {
 		public static final String VIEW_PATH = "/WEB-INF/views/bank/";
 	}
 
+	public static class Account{
+		public static final String VIEW_PATH_AC = "/WEB-INF/views/account/";
+	}
+
 //	public static class SecurePwd{
 //		//비밀번호 암호화 메서드
 //		public static String encodePwd(String pwd) {
