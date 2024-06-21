@@ -16,7 +16,7 @@ import vo.RateVO;
 
 @Controller
 public class BankController {
-	RateDAO rate_dao;
+	RateDAO rate_dao; //
 
 	public BankController(RateDAO rate_dao) {
 		this.rate_dao = rate_dao;
