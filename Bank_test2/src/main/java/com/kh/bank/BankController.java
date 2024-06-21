@@ -13,7 +13,7 @@ import common.Common;
 import dao.RateDAO;
 import service.BankService;
 import vo.RateVO;
-//20240621 오전 10;34 시작
+//이제 정말 시작
 @Controller
 public class BankController {
 	RateDAO rate_dao;
