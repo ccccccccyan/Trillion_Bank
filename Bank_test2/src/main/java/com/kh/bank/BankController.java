@@ -29,7 +29,8 @@ public class BankController {
 
 		// 원하는 형식의 DateTimeFormatter 생성
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
-	//야호	
+	//야호	1
+		
 		// LocalDate를 문자열로 변환
 		String formattedDate = date.format(fommat_date);
 		
