@@ -13,7 +13,7 @@ import common.Common;
 import dao.RateDAO;
 import service.BankService;
 import vo.RateVO;
-//20240621 오전 10;34 시작
+// 제 브런치 건들지 마세요!!!!!! 누구신데 들어오신거에요..? ㅡㅡ
 @Controller
 public class BankController {
 	RateDAO rate_dao;
@@ -29,7 +29,7 @@ public class BankController {
 
 		// 원하는 형식의 DateTimeFormatter 생성
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
-	//야호	12asdasdad
+
 		
 		// LocalDate를 문자열로 변환
 		String formattedDate = date.format(fommat_date);
