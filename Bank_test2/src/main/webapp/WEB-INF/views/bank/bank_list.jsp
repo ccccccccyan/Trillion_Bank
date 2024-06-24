@@ -9,6 +9,8 @@
 	</head>
 	
 	<body>
+			<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+	
 		<!-- ttb : 받을때, tts : 보낼 때, cur_nm : 국가/통화명 -->
 		받을 때 / 보낼 때 / 국가,통화명 / 화폐이름 <br>
 		<hr>

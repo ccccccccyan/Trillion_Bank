@@ -93,7 +93,7 @@
 	</head>
 	
 	<body>
-		<h1 align="right">${user_id} 님 환영합니다</h1>
+		<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 		
 		
 		<div id="bank_box"></div>

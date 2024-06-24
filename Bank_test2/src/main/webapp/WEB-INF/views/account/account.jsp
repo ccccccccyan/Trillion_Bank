@@ -97,8 +97,8 @@
 	</head>
 	
 	<body>
-	<h1 align="right">${user_id} 님 환영합니다</h1>
-		
+	<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+			
 		<div class="account_box">
 			
 			<div id="back" class="account_move" onclick="account_moving('-1');"><img src="/bank/resources/img/이전.png"> </div>
