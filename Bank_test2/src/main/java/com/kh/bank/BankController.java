@@ -19,11 +19,9 @@ import vo.RateVO;
 @Controller
 public class BankController {
 	RateDAO rate_dao;
-	AccountDAO account_dao;
 
-	public BankController(RateDAO rate_dao, AccountDAO account_dao) {
+	public BankController(RateDAO rate_dao) {
 		this.rate_dao = rate_dao;
-		this.account_dao = account_dao;
 	}
 
 	@RequestMapping("list.do")
@@ -54,18 +52,4 @@ public class BankController {
 		model.addAttribute("list", selectlist);
 		return Common.Bank.VIEW_PATH + "bank_list.jsp"; 
 	}
-	
-	@RequestMapping("/")
-	public String account(Model model) {
-		
-		String user_id = "abc123";
-		model.addAttribute("user_id", user_id);
-		
-		List<AccountVO> account_list = account_dao.selectList(user_id);
-		System.out.println(account_list.size() + "sdasd");
-		model.addAttribute("account_list", account_list);
-		
-		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
-	}
-	
 }

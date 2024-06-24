@@ -25,7 +25,7 @@
 				height: 250px;
 			}
 		
-			.account_slide{
+			#account_slide{
 				border: 1px solid;
 				overflow: hidden;
 				width: 2000px;
@@ -46,24 +46,53 @@
 				cursor: pointer;
 			}
 			
-			.account_box a{position: absolute;
+			.account_box .account_move{position: absolute;
 							z-index: 2;
 							font-size: 16px;
 							border: 1px solid red;
 							cursor: pointer;
 							}
 			
-			.back > img{width: 50px;}
-			.next > img{width: 50px;}
+			#back > img{width: 50px;}
+			#next > img{width: 50px;}
 			
-			.back{	top: 60px;
-					left: 600px;
+			#back{	top: 80px;
+					left: 100px;
 					}
 
-			.next{  top: 60px;
-					right: 600px;
+			#next{  top: 80px;
+					right: 100px;
 					}
 		</style>
+		
+		<script>
+			function account_insert_form(user_id) {
+				
+				location.href="account_insert_form.do?user_id="+user_id;
+				
+			}
+			
+			let position_Count = 0;
+			
+			function account_moving(moving_width) {
+				let oldStyle = document.getElementById("move");
+				if (oldStyle) {
+					oldStyle.remove();
+				}
+				let oldposition_Count = position_Count;
+				position_Count += Number(moving_width);
+				
+				let account_slide = document.getElementById("account_slide");
+				
+				let style = document.createElement("style");
+				style.id = "move"
+				style.innerHTML = '#account_slide{ animation: move 1s forwards;} @keyframes move { from { right: '+oldposition_Count*100+'px; } to { right: '+position_Count*100+'px } }';
+				
+				document.head.appendChild(style);
+			//	account_slide.style.left = position_Count*100+"px";
+			
+			}
+		</script>
 		
 	</head>
 	
@@ -72,9 +101,9 @@
 		
 		<div class="account_box">
 			
-			<a class="back"><img src="/bank/resources/img/이전.png"> </a>
+			<div id="back" class="account_move" onclick="account_moving('-1');"><img src="/bank/resources/img/이전.png"> </div>
 		
-			<div class="account_slide">
+			<div id="account_slide">
 				<c:forEach var="vo" items="${account_list}">
 				<div class="account" id="">	
 							${vo.account_number} <br>
@@ -82,13 +111,13 @@
 							${vo.now_money } <br>
 				</div>
 				</c:forEach>
-				
+				??????????????
 				<div class="account" id="">
-					<a><img src="/bank/resources/img/카드 추가.png" width="250px" height="150px"> </a>
+					<a><img src="/bank/resources/img/카드 추가.png" width="250px" height="150px" onclick="account_insert_form('${user_id}');"> </a>
 				</div>				
 			</div>
 			
-			<a class="next"><img src="/bank/resources/img/다음.png"> </a>
+			<div id="next" class="account_move" onclick="account_moving('1');"><img src="/bank/resources/img/다음.png"> </div>
 
 		</div>
 		
