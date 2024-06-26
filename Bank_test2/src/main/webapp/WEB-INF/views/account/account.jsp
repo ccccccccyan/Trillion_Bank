@@ -50,33 +50,113 @@
 			</div>
 		
 			<div class="account_box ">
-
-	
+				<h2 class="seeMyaccount">내 계좌 보기</h2>
 				<div id="account_container" class="mySwiper">
 					<div id="account_slide" class="swiper-wrapper">
 							<c:forEach var="vo" items="${account_list}">
-								<div class="account swiper-slide" id="">
-									${vo.account_number}
-									<br>
-									${vo.bank_name }
-									<br>
+								<div class="bankbook_body swiper-slide">
+									<div class="nowmoney_info">
 									${vo.now_money }
-									<br>
+									</div>
+									<div class="account_number_info">
+									${vo.account_number}
+									</div>
+									<div class="bankname_info">
+									${vo.bank_name }
+									</div>
+									
+									<div class="bankbook_front"></div>
+									<div class="bankbook_line"></div>
+									<div class="bankbook_page1"></div>
+									<div class="bankbook_page2"></div>
+									<div class="bankbook_end"></div>
 								</div>
 							</c:forEach>
 							<div class="account swiper-slide">
-								<a><img src="/bank/resources/img/카드 추가.png" width="250px" height="150px" onclick="account_insert_form('${user_id}');"> </a>
+								<a><img src="/bank/resources/img/카드 추가.png" onclick="account_insert_form('${user_id}');"> </a>
 							</div>
 					</div>
 
 					<div class="swiper-button-next"></div>
 				    <div class="swiper-button-prev"></div>
 				    <div class="swiper-pagination"></div>
-
 				</div>
-	
-
 			</div>
+			
+			<hr style="background-color: #9dc1c9; margin-top: 1000px; height: 2px">
+			
+			<div class="seenotice">
+				<h2>공지사항</h2>
+				<table border="1">
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="seeboard">
+				<h2>환율 게시판</h2>
+				<table border="1">
+					<tr>
+						<td>제목</td>
+						<td>조회수</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td>조회수</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td>조회수</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td>조회수</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td>조회수</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="seeqna">
+				<h2>Q&A</h2>
+				<table border="1">
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+				</table>
+			</div>
+			<div class="fagor">
+				<h2>﻿그래프 (아니면 FAQ)</h2>
+				
+			</div>
+			
 		</div>
 	
 	</body>
