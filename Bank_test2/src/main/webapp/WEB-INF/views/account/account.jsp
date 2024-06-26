@@ -48,9 +48,11 @@
 			<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 			</div>
-		
-			<div class="account_box ">
+			<div id="side_header">
+				<jsp:include page="/WEB-INF/views/side_header.jsp"></jsp:include>
+			</div>
 
+			<div class="account_box ">
 	
 				<div id="account_container" class="mySwiper">
 					<div id="account_slide" class="swiper-wrapper">

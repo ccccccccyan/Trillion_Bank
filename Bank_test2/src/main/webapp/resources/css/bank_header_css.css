@@ -23,7 +23,7 @@
 						height: 100%; /* 추가: 부모 요소의 높이를 100%로 설정 */
 						position: absolute;
 						 opacity: 0.8; /* 30% 투명 */
-						z-index: 2;
+						z-index: 6;
 						}
 		
 		#setting_category #set_category{ margin: 320px auto;
@@ -124,32 +124,30 @@
 	/* side header ------------------------------------------*/
 	
 	#side_container{
-					height: 60px;
+					height: 220px;
 					width: 1400px;
 					position: relative;
-					left: 300px;
 					display: flex;
 					flex-direction: row; 기본값 수평축, 왼쪽에서 오른쪽으로. 
 					}
 	
 	.side_header_img{position: absolute;
-					margin-top: 10px;
 					z-index: 1;
-					width: 280px;
+					width: 220px;
 					height: 50px;
 	}
 	.side_header_img img{
-					height: 200px;
-					width: 1400px;
+					height: 300px;
+					width: 1750px;
 					}
 	.side_header_content{border: 2px solid white;
-					margin-top: 30px;
-						width: 280px;
+					margin-top: 90px;
+						width: 250px;
 						height: 50px;
-						margin-left: 60px;
-						border-radius: 15px;
+						margin-left: 90px;
 						position: relative;
 					z-index: 3;
+					box-shadow: 2px 3px 3px white;
 						}
 						
 	.side_header_content a{	color: white;
@@ -160,8 +158,8 @@
 						margin-left: 10px;
 						padding: 5px;
 						position: absolute;
+						text-shadow: 2px 4px 3px black;
 	}
-
 	
 	
 	

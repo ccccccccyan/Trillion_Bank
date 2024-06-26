@@ -18,6 +18,13 @@
 				left: 0px;
 				}
 		
+		#side_header{
+					height: 220px;
+					width: 1750px;
+					position: absolute;
+					left: 400px;
+		}
+		
 		.account_box {
 				width: calc(100% - 300px);
 				height: 100%;
