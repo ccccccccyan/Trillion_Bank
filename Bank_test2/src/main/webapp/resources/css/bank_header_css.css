@@ -123,8 +123,7 @@
 									
 	/* side header ------------------------------------------*/
 	
-	#side_container{border: 1px solid;
-					margin-top: 30px;
+	#side_container{
 					height: 60px;
 					width: 1400px;
 					position: relative;
@@ -133,13 +132,24 @@
 					flex-direction: row; 기본값 수평축, 왼쪽에서 오른쪽으로. 
 					}
 	
-	.side_header_content{border: 2px solid red;
+	.side_header_img{position: absolute;
+					margin-top: 10px;
+					z-index: 1;
+					width: 280px;
+					height: 50px;
+	}
+	.side_header_img img{
+					height: 200px;
+					width: 1400px;
+					}
+	.side_header_content{border: 2px solid white;
+					margin-top: 30px;
 						width: 280px;
 						height: 50px;
 						margin-left: 60px;
-						background-color: #1e5e5e;
 						border-radius: 15px;
 						position: relative;
+					z-index: 3;
 						}
 						
 	.side_header_content a{	color: white;
@@ -147,7 +157,6 @@
 						font-weight: 700;
 						width: 260px;
 						height: 50px;
-						border: 1px solid;
 						margin-left: 10px;
 						padding: 5px;
 						position: absolute;

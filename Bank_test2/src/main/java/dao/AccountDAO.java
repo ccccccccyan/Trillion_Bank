@@ -23,10 +23,7 @@ public class AccountDAO {
 	}
 	
 	// 추가 
-	public int data_insert(AccountVO vo) {
-		String encodePwd = Common.SecurePwd.encodePwd(vo.getAccount_pwd());
-		vo.setAccount_pwd(encodePwd);
-		
+	public int data_insert(AccountVO vo) {	
 		int res = sqlSession.insert("ac.account_insert", vo);
 		return res;
 	}

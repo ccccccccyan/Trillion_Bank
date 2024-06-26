@@ -13,7 +13,7 @@
 	<body>
 		<div id="side_container">
 		
-			<div><img src="/bank/resources/img/설정1.png"> </div>
+			<div class="side_header_img"><img src="/bank/resources/img/밤도시2_1.png"> </div>
 		
 			<div class="side_header_content"><a href="#">일조은행이란?</a></div>
 			<div class="side_header_content"><a href="#">오시는 길</a></div>
