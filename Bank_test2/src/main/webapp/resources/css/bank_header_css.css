@@ -6,7 +6,8 @@
                 height: 100%; /* 추가: 부모 요소의 높이를 100%로 설정 */
            }
 		
-		li{list-style: none;}
+		li{list-style: none;
+			}
 			
 		a{text-decoration: none;}
 		
@@ -21,35 +22,49 @@
 						width: 100%;
 						height: 100%; /* 추가: 부모 요소의 높이를 100%로 설정 */
 						position: absolute;
-						 opacity: 0.3; /* 30% 투명 */
+						 opacity: 0.8; /* 30% 투명 */
 						z-index: 2;
 						}
 		
-		#setting_category #set_category{ margin: 100px auto;
+		#setting_category #set_category{ margin: 320px auto;
 										border: 1px solid;
-										width: 200px;}
+										width: 250px;
+										height: 250px;
+										background-color: white;
+										opacity: 1; /* 30% 투명 */
+										}
 		#setting_category #set_category div{text-align: center;
 											cursor: pointer;
+											margin-top: 30px;
+											font-size: 30px;
+											font-weight: 800;
 											}
+		#setting_category #set_category div:hover{color: red}
+		
 		#setting_category #close_category{height: 40px;
 										border: 1px solid;
 										}
 		#setting_category #close_category img{width: 40px;
 											height: 40px;
 											float: right;
+											cursor: pointer;
 											}
 		
-		#header_container{border: 1px solid #a4a2fa;
+		#header_container{
 						background-color: rgb(127,179,250);
+						/* background-color: #252863;  */
 						width: 400px;
 						height: 100%;
 						position: relative;
 						z-index: 1;
 						}
 		
-		#header_container #header img{position: absolute;
-									width: 400px;
-									height: 300px;
+		#header_container #header_icon img{position: absolute;
+									width: 280px;
+									height: 160px;
+									left: 50px;
+									top: 80px;
+									cursor: pointer;
 									}
 		
 		#header_container #body{position: absolute;
@@ -58,32 +73,88 @@
 		#body .mainMenu{font-size: 30px;
 						font-style: normal;
 						font-weight: bold;
-						color: #24286e;
+						color: #e8e9fa;
 						margin-bottom: 20px;
 						margin-left: 30px;
-						width: 200px;
+						width: 150px;
+						cursor: pointer;
 					}
+		#body .mainMenu:active{border-bottom: 3px solid skyblue;}
 		
 		#body li{position: relative;}
 					
 		#body li ul{display: none;
-					border: 1px solid #464cb3;
 					width: 120px;
 					position: absolute;
- 					left: 160px; 
+ 					left: 190px; 
  					overflow: hidden;
  					background: white;
  					top: 0px;
+ 					opacity: 0.9; /* 30% 투명 */
+ 					padding: 0;
+ 					border-bottom: 6px solid #c0d9fc;
+ 					border-right: 3px solid #c0d9fc;
+ 					border-radius: 8px;
+ 					font-size: 16px;
+ 					font-weight: 700;
 					}
-
-		.mainMenu{cursor: pointer;
+		#body li ul li{ padding: 5px; margin: 5px;}
+		#body li ul li a{left: 5px;
+						 color: black;}
+		#body li ul li a:hover{color: blue;}
+/* 		.mainMenu{cursor: pointer;
 				color: #dadee0;
-				}
-
-		#header_container #settings img{position: absolute;
-										bottom: 10px;
+				} */
+		
+		#header_container #settings{position: absolute;
+										bottom: 0px;
 										left: 10px;
 										width: 70px;
 										height: 70px;
-										cursor: pointer;
 									}
+		#header_container #settings img{position: absolute;
+										cursor: pointer;
+										width: 60px;
+										height: 60px;
+										left: 10px;
+										bottom: 10px;
+									}
+									
+									
+	/* side header ------------------------------------------*/
+	
+	#side_container{border: 1px solid;
+					margin-top: 30px;
+					height: 60px;
+					width: 1400px;
+					position: relative;
+					left: 300px;
+					display: flex;
+					flex-direction: row; 기본값 수평축, 왼쪽에서 오른쪽으로. 
+					}
+	
+	.side_header_content{border: 2px solid red;
+						width: 280px;
+						height: 50px;
+						margin-left: 60px;
+						background-color: #1e5e5e;
+						border-radius: 15px;
+						position: relative;
+						}
+						
+	.side_header_content a{	color: white;
+						font-size: 30px;
+						font-weight: 700;
+						width: 260px;
+						height: 50px;
+						border: 1px solid;
+						margin-left: 10px;
+						padding: 5px;
+						position: absolute;
+	}
+
+	
+	
+	
+	
+	

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import common.Common;
 import vo.AccountVO;
 import vo.RateVO;
 
@@ -15,7 +16,7 @@ public class AccountDAO {
 		this.sqlSession = sqlSession;
 	}
 	
-	// 조회
+	// 조회 ???
 	public List<AccountVO> selectList(String user_id) {
 		List<AccountVO> list = sqlSession.selectList("ac.account_list", user_id);
 		return list;
@@ -23,8 +24,16 @@ public class AccountDAO {
 	
 	// 추가 
 	public int data_insert(AccountVO vo) {
+		String encodePwd = Common.SecurePwd.encodePwd(vo.getAccount_pwd());
+		vo.setAccount_pwd(encodePwd);
+		
 		int res = sqlSession.insert("ac.account_insert", vo);
 		return res;
+	}
+	
+	public AccountVO check(String account_number) {
+		AccountVO vo = sqlSession.selectOne("ac.account_selectOne", account_number);
+		return vo;
 	}
 
 }

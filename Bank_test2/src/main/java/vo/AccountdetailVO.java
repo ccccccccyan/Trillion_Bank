@@ -1,7 +1,7 @@
 package vo;
 
 public class AccountdetailVO {
-	private int account_idx, deal_money, send, now_money;
+	private int account_idx, deal_money;
 	private String account_number, depo_user, depo_account, bank_date;
 	
 	public int getAccount_idx() {
@@ -15,18 +15,6 @@ public class AccountdetailVO {
 	}
 	public void setDeal_money(int deal_money) {
 		this.deal_money = deal_money;
-	}
-	public int getSend() {
-		return send;
-	}
-	public void setSend(int send) {
-		this.send = send;
-	}
-	public int getNow_money() {
-		return now_money;
-	}
-	public void setNow_money(int now_money) {
-		this.now_money = now_money;
 	}
 	public String getAccount_number() {
 		return account_number;

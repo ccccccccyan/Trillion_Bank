@@ -28,7 +28,7 @@
 			<div id="header_container">
 			
 			
-				<div id="header"> <img src="/bank/resources/img/일조은행아이콘.png"> </div>
+				<div id="header_icon" onclick="location.href='account_list.do'"> <img src="/bank/resources/img/일조은행아이콘.png"> </div>
 	
 				<div id="body">
 					<ul>
@@ -47,7 +47,6 @@
 									<li class="sideMenu"><a href="#">비전</a></li>
 									<li class="sideMenu"><a href="#">조직도</a></li>
 									<li class="sideMenu"><a href="#">영업점 안내</a></li>
-									<li class="sideMenu"><a href="#">찾아오시는 길</a></li>
 								</ul>
 						</li>
 						
@@ -69,7 +68,6 @@
 									<li class="sideMenu"><a href="#">인재상</a></li>
 									<li class="sideMenu"><a href="#">홍보센터</a></li>
 									<li class="sideMenu"><a href="#">공지사항</a></li>
-									<li class="sideMenu"><a href="#">FAQ (자주 묻는 질문)</a></li>
 									<li class="sideMenu"><a href="#">Q&A</a></li>
 								</ul>
 						</li>
