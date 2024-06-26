@@ -38,8 +38,9 @@
 		function send_check(f) {
 			let bank_name = f.bank_name.value;
 			let account_number = f.account_number.value.trim();
+			let account_pwd = f.account_pwd.value.trim();
 				
-			if(bank_name != '' && account_number != ''){
+			if(bank_name != '' && account_number != '' && account_pwd != ''){
 			let send_button = document.getElementById("send_button");
 			send_button.disabled = false;
 			}else{

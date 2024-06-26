@@ -8,12 +8,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					#{account_number},
 					#{user_id},
 					#{bank_name},
-					#{now_money}
+					#{now_money},
+					#{account_pwd}
 		)
 	</insert>
 	
 	<select id="account_list" resultType="vo.AccountVO" parameterType="String">
 		select * from ACCOUNT_LIST where user_id = #{user_id}
+	</select>
+	
+	<select id="account_selectOne" resultType="vo.AccountVO" parameterType="String">
+		select * from ACCOUNT_LIST where account_number = #{account_number}
 	</select>
 	
 </mapper>

@@ -43,6 +43,8 @@ public class AccountController {
 		vo.setUser_id(user_id);
 		vo.setNow_money(0);
 		System.out.println(vo.getAccount_number() +" / "+vo.getBank_name() + " / " + vo.getUser_id());
+		String encodePwd = Common.SecurePwd.encodePwd(vo.getAccount_pwd());
+		vo.setAccount_pwd(encodePwd);
 		int res = account_dao.data_insert(vo);
 		if(res > 0) {
 			System.out.println("추가 성공");

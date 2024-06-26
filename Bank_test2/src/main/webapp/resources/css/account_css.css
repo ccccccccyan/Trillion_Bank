@@ -5,7 +5,7 @@
 	a {text-decoration: none;}
 		
 /* account.jsp --------------------------------------------------- */		
-		#container{border: 2px solid;
+		#container{
 					position: relative;
 					width: 100vh;
 					height: 100vh;
@@ -19,16 +19,15 @@
 				}
 		
 		.account_box {
-			border: 2px solid yellow;
-				width: calc(100% - 400px);
+				width: calc(100% - 300px);
 				height: 100%;
 				position: absolute;
-				left: 400px;
+				left: 300px;
 				}
 		.mySwiper {
 			width: 1400px;
-			top: 300px;
-			left: 50px;
+			top: 370px;
+			left: 150px;
 			height: 450px;
 			padding: 10px;
 			position: absolute;
