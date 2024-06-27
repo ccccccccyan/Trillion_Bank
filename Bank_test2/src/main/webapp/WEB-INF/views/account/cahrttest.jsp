@@ -31,6 +31,19 @@
 	                return response.json();
 	            })
 	            .then(data => {
+/* 	                // 데이터 가공
+	                let flattenedData = data.flat(); // 다차원 배열을 1차원 배열로 변환
+
+	                let ttb = [];
+	                let rate_date = [];
+	                
+	                // 콘솔에 데이터 로그 찍기
+	                flattenedData.forEach(rateVO => {
+	                    console.log('Rate Index:', rateVO.rate_idx);
+	                    console.log('TTB:', rateVO.ttb);
+	                    console.log('TTS:', rateVO.tts);
+	                    console.log('Currency Name:', rateVO.cur_nm);
+	                    console.log('Rate Date:', rateVO.rate_date); */
 	            
 	                let ttb = [];
 	                let rate_date = [];

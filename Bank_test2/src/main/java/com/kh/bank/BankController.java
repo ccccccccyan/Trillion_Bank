@@ -3,6 +3,7 @@ package com.kh.bank;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,31 +55,41 @@ public class BankController {
 		return Common.Bank.VIEW_PATH + "bank_list.jsp"; 
 	}
 	
-//	@RequestMapping("/cart_view.do")
-//	@ResponseBody
-//	public List<RateVO> showChart(Model model){
-//		  // 현재 날짜 가져오기
-//	    LocalDate first_date = LocalDate.of(2024, 5, 20); // 수정: 날짜 설정 변경
-//	    LocalDate last_date = LocalDate.of(2024, 6, 20); // 수정: 날짜 설정 변경
-//		// 원하는 형식의 DateTimeFormatter 생성
-//		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
-//		// LocalDate를 문자열로 변환
-//		String format_first_Date = first_date.format(fommat_date);
-//		String format_last_Date = last_date.format(fommat_date);
-//		
-//		System.out.println(format_first_Date + " / " + format_last_Date);
-//		
-//		Map<String, String> day_map = new HashMap<String, String>();
-//		
-//		day_map.put("first_day", format_first_Date);
-//		day_map.put("last_day", format_last_Date);
-//		
-//		List<RateVO> dataList =  rate_dao.select_chart(day_map);
-//		model.addAttribute("data", dataList);
-//
-//		System.out.println(dataList.get(0) +" / "+ dataList.size());
-//		
-//		return dataList;
-//	}
-//	
+	@RequestMapping("/cart_view.do")
+	@ResponseBody
+	public List<List<RateVO>> showChart(Model model){
+		  // 현재 날짜 가져오기
+	    LocalDate first_date = LocalDate.of(2024, 5, 20); // 수정: 날짜 설정 변경
+	    LocalDate last_date = LocalDate.of(2024, 6, 20); // 수정: 날짜 설정 변경
+		// 원하는 형식의 DateTimeFormatter 생성
+		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
+		// LocalDate를 문자열로 변환
+		String format_first_Date = first_date.format(fommat_date);
+		String format_last_Date = last_date.format(fommat_date);
+		
+		System.out.println(format_first_Date + " / " + format_last_Date);
+		
+		String[] CUR_UNIT = {"CHF", "CNH", "DKK", "EUR", "GBP", "HKD",
+							"IDR(100)", "JPY(100)", "KRW", "KWD", "MYR",
+							"NOK", "NZD", "SAR", "SEK", "SGD", "THB", "USD"};
+		
+		List<List<RateVO>> day_map_list = new ArrayList<List<RateVO>>();
+
+		for(int i = 0; i < CUR_UNIT.length; i++) {
+			Map<String, String> day_map = new HashMap<String, String>();
+			day_map.put("first_day", format_first_Date);
+			day_map.put("last_day", format_last_Date);
+			day_map.put("CUR_UNIT", CUR_UNIT[i]);
+
+			List<RateVO> dataList =  rate_dao.select_chart(day_map);
+			day_map_list.add(dataList);
+		}
+		
+		model.addAttribute("data", day_map_list);
+
+		System.out.println(day_map_list.get(0).get(0) +" / "+ day_map_list.size());
+		
+		return day_map_list;
+	}
+	
 }

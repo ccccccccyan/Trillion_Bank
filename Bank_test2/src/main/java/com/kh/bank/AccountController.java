@@ -61,6 +61,9 @@ public class AccountController {
 		model.addAttribute("qna_list", qna_list);
 		
 		
+		/*
+		 * return Common.Account.VIEW_PATH_AC + "account.jsp";
+		 */		
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 	}
 	
