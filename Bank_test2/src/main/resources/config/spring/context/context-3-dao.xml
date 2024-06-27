@@ -11,4 +11,17 @@
 		<property name="sqlSession" ref="sqlSessionBean"></property>	
 	</bean>
 	
+	<bean id="comment_daoBean" class="dao.CommentDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>	
+	</bean>
+	<bean id="rateB_daoBean" class="dao.RateBDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>	
+	</bean>
+	<bean id="qna_daoBean" class="dao.QnaDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>	
+	</bean>
+	<bean id="notice_daoBean" class="dao.NoticeDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>	
+	</bean>
+	
 </beans>

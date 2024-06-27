@@ -15,5 +15,10 @@
 	<mappers>
 	  <mapper resource="config/mybatis/mapper/rate.xml" /> 
 	  <mapper resource="config/mybatis/mapper/account.xml" /> 
+	
+	  <mapper resource="config/mybatis/mapper/rateB.xml" /> 
+	  <mapper resource="config/mybatis/mapper/comment.xml" /> 
+	  <mapper resource="config/mybatis/mapper/qna.xml" /> 
+	  <mapper resource="config/mybatis/mapper/notice.xml" /> 
 	</mappers>
 </configuration>

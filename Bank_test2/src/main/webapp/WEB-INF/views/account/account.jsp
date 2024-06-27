@@ -83,81 +83,53 @@
 				</div>
 			</div>
 			
-			<hr style="background-color: #9dc1c9; margin-top: 1000px; height: 2px">
 			
-			<div class="seenotice">
-				<h2>공지사항</h2>
-				<table border="1">
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-				</table>
+			<div id="board_body">
+				<div class="seeqna board_body_content">
+					<h2>Q&A</h2>
+					<table border="1">
+						<c:forEach var="vo" items="${qna_list}">
+						<tr>
+							<td>${vo.subject}</td>
+						</tr>
+						</c:forEach>
+					</table>
+				</div>
+
+				<div class="seenotice board_body_content">
+					<h2>공지사항</h2>
+					<table border="1">
+						<c:forEach var="vo" items="${notice_list}">
+						<tr>
+							<td>${vo.subject}</td>
+						</tr>
+						</c:forEach>
+
+					</table>
+				</div>
 			</div>
 			
-			<div class="seeboard">
-				<h2>환율 게시판</h2>
-				<table border="1">
-					<tr>
-						<td>제목</td>
-						<td>조회수</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td>조회수</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td>조회수</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td>조회수</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td>조회수</td>
-					</tr>
-				</table>
+			<div id="rate_body">
+				<div class="fagor">
+					<h2>﻿그래프 (아니면 FAQ)</h2>
+				</div>
+
+				<div class="seeboard">
+					<h2>환율 게시판</h2>
+					<table border="1">
+						<c:forEach var="vo" items="${board_list}">
+						<tr>
+							<td>${vo.subject} ( ${vo.comm_cnt} )</td>
+						</tr>
+						</c:forEach>
+					</table>
+				</div>
 			</div>
 			
-			<div class="seeqna">
-				<h2>Q&A</h2>
-				<table border="1">
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-					</tr>
-				</table>
-			</div>
-			<div class="fagor">
-				<h2>﻿그래프 (아니면 FAQ)</h2>
-				
-			</div>
 			
+			<div id="footer">
+			a
+			</div>			
 		</div>
-	
 	</body>
 </html>

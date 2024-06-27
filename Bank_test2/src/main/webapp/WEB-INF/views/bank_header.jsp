@@ -12,7 +12,7 @@
 	</head>
 	
 	<body>
-		<div id="container">
+		<div id="bank_headcontainer">
 	
 			<div id="setting_category">
 				<div id="close_category" onclick="close_settings();"><img src="/bank/resources/img/창끄기.png"> </div>

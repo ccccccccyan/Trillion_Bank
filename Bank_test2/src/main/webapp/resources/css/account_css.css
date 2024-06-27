@@ -3,12 +3,12 @@
 	body {margin: 0; padding: 0;}
 		
 	a {text-decoration: none;}
-		
+	table{border-collapse: collapse;}	
 /* account.jsp --------------------------------------------------- */		
 		#container{
 					position: relative;
-					width: 100vh;
-					height: 100vh;
+					width: 100%;
+					height: 100%;
 					}
 		
 		#header{
@@ -152,46 +152,58 @@
        					 padding: 10px;
 			}
 
-			.seenotice{border: 1px solid;
-						position: absolute;
-						width: 400px;
+	#rate_body{position: absolute;
+				border: 2px solid;
+				width: 1430px;
+				height:800px;
+				top: 1100px;
+				left: 450px; 
+				display: flex;
+	}
+
+	.fagor{
+	border: 1px solid;
+	width: 1000px;
+	height: 700px;
+	}
+	.seeboard{
+	padding: 30px;
+	border: 1px solid;
+	width: 350px;
+	height: 650px;
+	}
+	.seeboard table{
+				width: 340px;
+				height: 600px;
+				border: 2px solid;
+
+	}			
+	#board_body{position: absolute;
+				border: 2px solid;
+				width: 1430px;
+				height: 600px;
+				top: 2100px;
+				left: 450px; 
+				display: flex;
+				}
+	.board_body_content{border: 1px solid;
+						width: 620px;
 						height: 500px;
-						left: 450px;
 						margin-top: 80px;
+						margin-left: 60px;
 						}
-			.seenotice table{
-						width: 400px;
+						
+	.board_body_content table{
+						width: 600px;
 						height: 400px;
-			}
-			.seeboard{border: 1px solid;
-						position: absolute;
-						width: 400px;
-						height: 500px;
-						left: 950px;
-						margin-top: 80px;
-						}
-			.seeboard table{
-						width: 400px;
-						height: 400px;
-			}
-			.seeqna{border: 1px solid;
-						position: absolute;
-						width: 400px;
-						height: 230px;
-						left: 1460px;
-						margin-top: 80px;
-						}
-			.seeqna table{
-						width: 400px;
-						height: 150px;
-			}
-			.fagor{border: 1px solid;
-						position: absolute;
-						width: 400px;
-						height: 200px;
-						left: 1460px;
-						margin-top: 380px;
-						}
+						margin: 10px;	
+	}					
+	
+	#footer{position: absolute;
+			top: 3000px;
+			background-color: #23212b;
+			width: 100%;
+			height: 150px}
 		
 /* account_inset_form.jsp --------------------------------------------------- */	
 	h1{ border: 1px solid;

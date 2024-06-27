@@ -16,24 +16,24 @@ public class RateDAO {
 	
 	// 조회
 	public List<RateVO> selectList() {
-		List<RateVO> list = sqlSession.selectList("r.bank_list");
+		List<RateVO> list = sqlSession.selectList("rate.bank_list");
 		return list;
 	}
 	
 	public List<RateVO> selectList_ok(String rate_date) {
-		List<RateVO> vo = sqlSession.selectList("r.select_list_ok", rate_date);
+		List<RateVO> vo = sqlSession.selectList("rate.select_list_ok", rate_date);
 		return vo;
 	}
 	
 	// 추가 
 	public int data_insert(RateVO vo) {
-		int res = sqlSession.insert("r.data_insert", vo);
+		int res = sqlSession.insert("rate.data_insert", vo);
 		return res;
 	}
 	
 	// 추가 (공휴일)
 	public int no_insert(RateVO vo) {
-		int res = sqlSession.insert("r.no_insert", vo);
+		int res = sqlSession.insert("rate.no_insert", vo);
 		return res;
 	}
 }

@@ -52,8 +52,8 @@
 				<form>
 					<input name="user_id" value="${user_id}" type="hidden">
 					<input name="bank_name" value="" disabled="disabled" id="bank_name"> 은행 <br>
-					<input name="account_number" onchange="send_check(this.form);"> 계좌 번호
-					<input name="account_pwd" onchange="send_check(this.form);"> 비밀 번호
+					<input name="account_number" maxlength="14" onchange="send_check(this.form);"> 계좌 번호
+					<input name="account_pwd" maxlength="4" onchange="send_check(this.form);"> 비밀 번호
 	
 					<input type="button" value="추가" id="send_button" disabled="disabled" onclick="account_insert(this.form);">
 				</form>
