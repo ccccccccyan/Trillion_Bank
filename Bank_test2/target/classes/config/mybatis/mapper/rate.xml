@@ -30,7 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from RATE where rate_date = #{rate_date}
 	</select>
 	
-	
+	<select id="day_list" parameterType="java.util.Map" resultType="vo.RateVO">
+		select * from RATE where rate_date between #{start_day} and #{last_day}
+	</select>
 	
 	<!-- rate_board  ==================================== -->
 	
