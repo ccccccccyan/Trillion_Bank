@@ -208,13 +208,20 @@
 /* account_inset_form.jsp --------------------------------------------------- */	
 	h1{ border: 1px solid;
 		height: 100px;}
+	
+	#account_insert_container{
+					position: relative;
+					width: 100%;
+					height: 100%;
+	}
 			
 	#bank_box{
+			position: absolute;
 			border: 1px solid;
 			width: 330px;
 			height: 400px;
-			overflow: auto; /* 필요시 스크롤 사용 */
-			float: left;
+			display: flex;			
+			position: 
 			}
 			
 	.bank_mini{

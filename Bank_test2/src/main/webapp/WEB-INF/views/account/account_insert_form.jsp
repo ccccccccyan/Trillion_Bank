@@ -14,7 +14,7 @@
 		
 		<script>
 			window.onload = function() {
-				let bank_list = ["ibk", "교보", "국민", "농협", "비씨", "새마을", "시티", "신한", "우리"]
+				let bank_list = ["ibk", "교보", "국민", "농협", "비씨", "새마을", "시티", "신한", "우리", "카카오뱅크", "토스", "하나"];
 			
 				let bank_box = document.getElementById("bank_box");
 				
@@ -41,6 +41,8 @@
 	</head>
 	
 	<body>
+		<div id="account_insert_container">
+
 		<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 		</div>
@@ -60,5 +62,6 @@
 			</div>
 		</div>
 		
+		</div>
 	</body>
 </html>
