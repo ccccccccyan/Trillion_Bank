@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="c">
+	<!-- 코멘트 추가 -->
+	<insert id="comment_insert" parameterType="vo.CommentVO">
+		insert into RATE_BOARDCOMMENT values(
+			seq_b_comm_idx.nextVal,
+			#{name},
+			#{content},
+			#{comm_pwd},
+			#{r_board_idx}
+		)
+	</insert>
+	
+	<!-- 코멘트 조회 -->
+	<select id="comment_list" parameterType="java.util.Map" resultType="vo.CommentVO"><!-- 오름차순으로 조회 -->
+		select * from (
+			select row_number() over( order by c_board_idx ) no, c.* from
+			( select * from RATE_BOARDCOMMENT where r_board_idx=#{r_board_idx} ) c
+		)
+		where no between #{start} and #{end}
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="comment_delete" parameterType="int">
+		delete from RATE_BOARDCOMMENT where c_board_idx=#{c_board_idx}
+	</delete>
+	
+	<!-- 전체 게시글 수 -->
+	<select id="comment_idx_count" resultType="int"
+			parameterType="java.util.Map">
+		select count(*) from RATE_BOARDCOMMENT where r_board_idx=#{r_board_idx}
+	</select>
+	
+	<!-- 게시글 id로 댓글 삭제 (게시글 삭제시 댓글도 삭제) -->
+	<select id="deleteCommentsByBoardIdx" parameterType="int">
+		delete from RATE_BOARDCOMMENT where r_board_idx=#{r_board_idx}
+	</select>
+	
+</mapper>
