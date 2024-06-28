@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="u">
+	<!-- 로그인을 위한 비밀번호 체크 -->
+	  <select id="select_one" resultType="vo.UserVO" parameterType="String">
+        select * from User_info where user_id=#{user_id}
+    </select>
+	
+ <insert id="user_ins" parameterType="vo.UserVO">
+        insert into USER_INFO (
+            user_id,
+            user_name,
+            user_pwd,
+            user_tel,
+            user_addr,
+            manager
+        ) values (
+            #{user_id},
+            #{user_name},
+            #{user_pwd},
+            #{user_tel},
+            #{user_addr},
+            'N'
+        )
+    </insert>
+    
+     <insert id="user_ins_admin" parameterType="vo.UserVO">
+        insert into USER_INFO (
+            user_id,
+            user_name,
+            user_pwd,
+            user_tel,
+            user_addr,
+            manager
+        ) values (
+            #{user_id},
+            #{user_name},
+            #{user_pwd},
+            #{user_tel},
+            #{user_addr},
+            'Y'
+        )
+    </insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
