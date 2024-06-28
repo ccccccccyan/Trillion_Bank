@@ -53,52 +53,69 @@
 	                return response.json();
 	            })
 	            .then(data => {
-	            
-	                let ttb = [];
-	                let rate_date = [];
+	            	console.log("들어옴");
+	            	console.log(data);
+	                let cur_unit = [];
+	                let max_ttb = [];
+	                let min_ttb = [];
+	                let max_tts = [];
+	                let min_tts = [];
+
+	                let ttb_list = [];
+	                let tts_list = [];
+	                let rate_date_list = [];
 	                
-	                let flattenedData = data[0].flat(); // 다차원 배열을 1차원 배열로 변환
-	                // 콘솔에 데이터 로그 찍기
-	                flattenedData.forEach(rateVO => {
-	                    console.log('Rate Index:', rateVO.rate_idx);
-	                    console.log('TTB:', rateVO.ttb);
-	                    console.log('TTS:', rateVO.tts);
-	                    console.log('Currency Name:', rateVO.cur_nm);
-	                    console.log('Rate Date:', rateVO.rate_date);
-	               
-	                   
-	                    ttb.push(rateVO.ttb);
-	                    rate_date.push(rateVO.rate_date);
-	                });
-					
-	                console.log("=====================");
-	                console.log(flattenedData);
+	//                let flattenedData = data[0].flat(); // 다차원 배열을 1차원 배열로 변환
+	               data.forEach((day_map_list, index) =>{
+		                let rate_date = [];
+		                let ttb = [];
+		                let tts = [];
+
+	            	   cur_unit.push(day_map_list.cur_unit);
+		            	console.log(day_map_list.cur_unit);
+		            	console.log(day_map_list.max_data_ttb);
+		            	console.log(parseFloat(day_map_list.max_data_ttb));
+	            	   
+	            	   max_ttb.push(parseFloat(day_map_list.max_data_ttb));
+	            	   min_ttb.push(parseFloat(day_map_list.min_data_ttb));
+	            	   
+	            	   max_tts.push(parseFloat(day_map_list.max_data_tts));
+	            	   min_tts.push(parseFloat(day_map_list.min_data_ttb));
+	            	   
+	            	   day_map_list.rateVO_data.forEach( rateVO=> {
+	            		   ttb.push(parseFloat(rateVO.ttb.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
+	                       tts.push(parseFloat(rateVO.tts.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
+	                   	   rate_date.push(rateVO.rate_date);
+	            	   });
+	            	   
+	            	   ttb_list.push(ttb); // 2차원 배열의 각 행 초기화
+	                   tts_list.push(tts);
+	                   rate_date_list.push(rate_date)
+	               });
 	                
 	                // 차트 그리기 함수 호출
-	                show_chart(ttb, rate_date);
+	                show_chart(cur_unit[10], rate_date_list[10], ttb_list[10].flat(), tts_list[10].flat(), max_ttb[10], min_ttb[10], max_tts[10] , min_tts[10]);
 	            })
 	            .catch(error => {
 	                console.error('There was a problem with the fetch operation:', error);
 	            });
 	
 	 }); 
-	function show_chart(ttb, rate_date) {
+	function show_chart(cur_unit, rate_date, ttb, tts, max_ttb , min_ttb, max_tts, min_tts) {
 	    // 캔버스 요소 가져오기
 	    var ctx = document.getElementById('myChart').getContext('2d');
 		console.log("------------------");
 		  // ttb 배열의 데이터를 숫자로 변환하는 과정
-	    let ttb_numeric = ttb.map(value => parseFloat(value.replace(',', ''))); // ',' 제거 후 숫자로 변환
-		
-		
-		console.log(ttb);
+//	    let ttb_numeric = ttb.map(value => parseFloat(value.replace(',', ''))); // ',' 제거 후 숫자로 변환
+
 	    // 차트 생성
 	    var myChart = new Chart(ctx, {
 	        type: 'line', // 차트 유형 (bar, line, pie, 등)
 	        data: {
 	            labels: rate_date,
 	            datasets: [{
-	                label: 'TTB',
-	                data: ttb_numeric,
+	                label: cur_unit,
+	                data: ttb,
 	                borderColor:[
 	                    'rgba(49, 140, 114, 1)'
 	                ] ,
@@ -109,11 +126,8 @@
 	            scales: {
 	                y: {
 	                    beginAtZero: false,
-	                    min: 1000,  // y축 최소값 설정
-	                    max: 1600,  // y축 최대값 설정
-	                    ticks: {
-	                        stepSize: 200 // 눈금 간격 설정
-	                    }
+	                    min: min_ttb,  // y축 최소값 설정
+	                    max: max_ttb  // y축 최대값 설정
 	                }
 	            }
 	        }

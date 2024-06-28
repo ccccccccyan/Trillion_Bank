@@ -4,7 +4,7 @@ public class RateVO {
 	private int rate_idx;
 	private String ttb, tts;
 	private String cur_nm, rate_date, cur_unit;
-
+	
 	public String getCur_unit() {
 		return cur_unit;
 	}

@@ -37,7 +37,7 @@ public class RateDAO {
 		return res;
 	}
 	
-	public List<RateVO> select_chart(Map<String, String> day_map){
+	public List<RateVO> select_chart(Map<String, Object> day_map){
 		List<RateVO> day_list = sqlSession.selectList("rate.day_list", day_map);
 		return day_list;
 	}

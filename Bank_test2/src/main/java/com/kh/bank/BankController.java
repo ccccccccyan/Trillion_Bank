@@ -57,7 +57,7 @@ public class BankController {
 	
 	@RequestMapping("/cart_view.do")
 	@ResponseBody
-	public List<List<RateVO>> showChart(Model model){
+	public List<Map<String, Object>> showChart(Model model){
 		  // 현재 날짜 가져오기
 	    LocalDate first_date = LocalDate.of(2024, 5, 20); // 수정: 날짜 설정 변경
 	    LocalDate last_date = LocalDate.of(2024, 6, 20); // 수정: 날짜 설정 변경
@@ -73,21 +73,50 @@ public class BankController {
 							"IDR(100)", "JPY(100)", "KRW", "KWD", "MYR",
 							"NOK", "NZD", "SAR", "SEK", "SGD", "THB", "USD"};
 		
-		List<List<RateVO>> day_map_list = new ArrayList<List<RateVO>>();
-
+		List<Map<String, Object>> day_map_list = new ArrayList<Map<String,Object>>();
 		for(int i = 0; i < CUR_UNIT.length; i++) {
-			Map<String, String> day_map = new HashMap<String, String>();
+			Map<String, Object> day_map_data = new HashMap<String, Object>();
+			Map<String, Object> day_map = new HashMap<String, Object>();
 			day_map.put("first_day", format_first_Date);
 			day_map.put("last_day", format_last_Date);
 			day_map.put("CUR_UNIT", CUR_UNIT[i]);
 
 			List<RateVO> dataList =  rate_dao.select_chart(day_map);
-			day_map_list.add(dataList);
-		}
-		
-		model.addAttribute("data", day_map_list);
+			double max_data_ttb = Double.parseDouble(dataList.get(0).getTtb().replace(",", ""));
+			double min_data_ttb = Double.parseDouble(dataList.get(0).getTts().replace(",", ""));
 
-		System.out.println(day_map_list.get(0).get(0) +" / "+ day_map_list.size());
+			double max_data_tts = Double.parseDouble(dataList.get(0).getTts().replace(",", ""));
+			double min_data_tts = Double.parseDouble(dataList.get(0).getTtb().replace(",", ""));
+				for(RateVO data : dataList) {
+					Double data_ttb = Double.parseDouble(data.getTtb().replace(",", ""));
+					Double data_tts = Double.parseDouble(data.getTts().replace(",", ""));
+					if(max_data_ttb < data_ttb) {
+						max_data_ttb = data_ttb;
+					}
+					
+					if(min_data_ttb > data_ttb ) {
+						min_data_ttb = data_ttb;
+					}
+	
+					if(max_data_tts < data_tts) {
+						max_data_tts = data_tts;
+					}
+					
+					if(min_data_tts > data_tts ) {
+						min_data_tts = data_tts;
+					}
+				}
+
+			day_map_data.put("cur_unit", CUR_UNIT[i]);
+			day_map_data.put("max_data_ttb", max_data_ttb);
+			day_map_data.put("min_data_ttb", min_data_ttb);
+			day_map_data.put("max_data_tts", max_data_tts);
+			day_map_data.put("min_data_tts", min_data_tts);
+			day_map_data.put("rateVO_data", dataList);
+			day_map_list.add(day_map_data);
+			System.out.println(day_map_list.get(i).get("cur_unit"));
+			System.out.println(day_map_list.get(i).size());
+		}
 		
 		return day_map_list;
 	}
