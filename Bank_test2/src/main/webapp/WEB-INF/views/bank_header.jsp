@@ -28,7 +28,7 @@
 			<div id="header_container">
 			
 			
-				<div id="header_icon" onclick="location.href='account_list.do'"> Trillion Bank</div>
+				<div id="header_icon" onclick="location.href='account_list.do'"><img src="/bank/resources/img/일조은행아이콘.png">  </div>
 	
 				<div id="body">
 					<ul>

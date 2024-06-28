@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="day_list" parameterType="java.util.Map" resultType="vo.RateVO">
-		select * from RATE where CUR_UNIT=#{CUR_UNIT} and rate_date between #{first_day} and #{last_day}
+		select * from RATE where CUR_UNIT=#{CUR_UNIT} and rate_date between #{first_day} and #{last_day} order by rate_date
 	</select>
 	
 	<!-- rate_board  ==================================== -->

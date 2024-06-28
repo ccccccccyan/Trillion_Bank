@@ -19,15 +19,15 @@
 						z-index: 1;
 						border: 1px solid;
 						}
-/*		
+		
 		#header_container #header_icon img{position: absolute;
-									width: 180px;
+									width: 300px;
 									height: 90px;
 									left: 15px;
 									top: 15px;
 									cursor: pointer;
 									}
-		*/
+		
 		#header_container #header_icon{position: absolute;
 									width: 300px;
 									height: 90px;

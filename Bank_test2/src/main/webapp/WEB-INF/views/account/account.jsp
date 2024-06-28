@@ -23,6 +23,7 @@
 	<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
 	
 	<script>
+	
 	document.addEventListener("DOMContentLoaded", function() {
 	    // Swiper 라이브러리가 로드된 후에 실행되어야 하는 코드
 	    var swiper = new Swiper(".mySwiper", {
@@ -39,9 +40,14 @@
 	        },
 	    });
 	})
+
 	
 	// 그래프 ---------------------------------------------------
-	  document.addEventListener("DOMContentLoaded", function() {
+	
+	// 전역 변수로 myChart 정의
+	let myChart;  
+	
+	document.addEventListener("DOMContentLoaded", function() {
 	        fetch("cart_view.do")
 	            .then(response => {
 	            	
@@ -56,10 +62,8 @@
 	            	console.log("들어옴");
 	            	console.log(data);
 	                let cur_unit = [];
-	                let max_ttb = [];
-	                let min_ttb = [];
-	                let max_tts = [];
-	                let min_tts = [];
+	                let max = [];
+	                let min = [];
 
 	                let ttb_list = [];
 	                let tts_list = [];
@@ -73,14 +77,11 @@
 
 	            	   cur_unit.push(day_map_list.cur_unit);
 		            	console.log(day_map_list.cur_unit);
-		            	console.log(day_map_list.max_data_ttb);
-		            	console.log(parseFloat(day_map_list.max_data_ttb));
+		            	console.log(day_map_list.max_data);
+		            	console.log(parseFloat(day_map_list.max_data));
 	            	   
-	            	   max_ttb.push(parseFloat(day_map_list.max_data_ttb));
-	            	   min_ttb.push(parseFloat(day_map_list.min_data_ttb));
-	            	   
-	            	   max_tts.push(parseFloat(day_map_list.max_data_tts));
-	            	   min_tts.push(parseFloat(day_map_list.min_data_ttb));
+		            	max.push(parseFloat(day_map_list.max_data));
+		            	min.push(parseFloat(day_map_list.min_data));
 	            	   
 	            	   day_map_list.rateVO_data.forEach( rateVO=> {
 	            		   ttb.push(parseFloat(rateVO.ttb.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
@@ -94,47 +95,100 @@
 	               });
 	                
 	                // 차트 그리기 함수 호출
-	                show_chart(cur_unit[10], rate_date_list[10], ttb_list[10].flat(), tts_list[10].flat(), max_ttb[10], min_ttb[10], max_tts[10] , min_tts[10]);
+	               show_chart(cur_unit[0], rate_date_list[0], ttb_list[0], tts_list[0], max[0], min[0]);
+	               updataChartData(cur_unit, rate_date_list, ttb_list, tts_list, max, min);
+	               
 	            })
 	            .catch(error => {
 	                console.error('There was a problem with the fetch operation:', error);
 	            });
-	
 	 }); 
-	function show_chart(cur_unit, rate_date, ttb, tts, max_ttb , min_ttb, max_tts, min_tts) {
+	
+	
+	function show_chart(cur_unit, rate_date, ttb, tts, max , min) {
 	    // 캔버스 요소 가져오기
 	    var ctx = document.getElementById('myChart').getContext('2d');
 		console.log("------------------");
 		  // ttb 배열의 데이터를 숫자로 변환하는 과정
 //	    let ttb_numeric = ttb.map(value => parseFloat(value.replace(',', ''))); // ',' 제거 후 숫자로 변환
-
+		
+		console.log("cur_unit : "+cur_unit);
+		console.log("rate_date : "+rate_date);
+		console.log("ttb : "+ttb);
+		console.log("tts : "+tts);
+		console.log("max : "+max);
+		console.log("min : "+min);
+		
 	    // 차트 생성
-	    var myChart = new Chart(ctx, {
+	    if (!myChart) {
+	    myChart = new Chart(ctx, {
 	        type: 'line', // 차트 유형 (bar, line, pie, 등)
 	        data: {
 	            labels: rate_date,
 	            datasets: [{
-	                label: cur_unit,
+	                label: 'ttb',
 	                data: ttb,
-	                borderColor:[
-	                    'rgba(49, 140, 114, 1)'
-	                ] ,
+	                borderColor:'rgba(49, 140, 114, 1)',
 	                borderWidth: 1
-	            }]
+	            },{
+	                label: 'tts',
+	                data: tts,
+	                borderColor:'rgba(219, 214, 53, 1)',
+	                borderWidth: 1
+	            }
+	            ]
 	        },
 	        options: {
+	        	responsive: true, // 차트 크기가 자동으로 조절되도록 설정
+	    		maintainAspectRatio: true, // 차트의 가로 세로 비율을 유지하지 않음
+	            // 차트 애니메이션 효과를 설정
+	            animation: {
+	                duration: 500, // 애니메이션 지속 시간을 설정
+	                easing: 'easeOutQuad' // 애니메이션의 변화 속도 설정
+	            },
 	            scales: {
 	                y: {
 	                    beginAtZero: false,
-	                    min: min_ttb,  // y축 최소값 설정
-	                    max: max_ttb  // y축 최대값 설정
+	                    min: min,  // y축 최소값 설정
+	                    max: max  // y축 최대값 설정
 	                }
+	            },
+	            plugins: {
+	                title: {
+	                    display: true,
+	                    text: cur_unit
+	                } 
 	            }
 	        }
 	    });
+	
+		}else {// 차트 객체가 있는 경우, 데이터 업데이트
+	        myChart.data.labels = rate_date;
+	        myChart.data.datasets[0].data = ttb;
+	        myChart.data.datasets[1].data = tts;
+	        myChart.options.scales.y.min = min;
+	        myChart.options.scales.y.max = max;
+	        myChart.options.plugins.title.text = cur_unit;
+	        myChart.update();
+		}
 	}
 	
+	let intervaled;
+	let cur_unit_index = 1;
 	
+	function updataChartData(cur_unit, rate_date_list, ttb_list, tts_list, max, min) {
+		intervaled = setInterval(function() {
+			if( cur_unit_index == cur_unit.length){
+				cur_unit_index = 0;
+			}
+			console.log("이건 : "+cur_unit_index);
+			console.log("이건 2 : "+cur_unit.length );
+			
+	       show_chart(cur_unit[cur_unit_index], rate_date_list[cur_unit_index], ttb_list[cur_unit_index], tts_list[cur_unit_index], max[cur_unit_index], min[cur_unit_index]);
+			cur_unit_index++;
+		}, 4000);
+	}  
+	 
 	</script>
 
 	  
