@@ -24,7 +24,7 @@
 	<body>
 		<form name="f" method="post" action="insert.do">
 			<table border="1" width="700" align="center">
-				<caption>::: 새 글 작성 :::</caption>
+				<caption>::: 공지사항 새 글 작성 :::</caption>
 				
 				<tr>
 					<th>제목</th>

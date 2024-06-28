@@ -48,7 +48,8 @@
 	<body>
 		<form>
 		
-			<input type="hidden" name="r_notice_idx" value="${vo.r_notice_idx}"><!-- gpt가 추천한 코드 / 삭제 요청 시 r_notice_idx가 누락되지 않고 정상적으로 전달 -->
+			<input type="hidden" name="r_notice_idx" value="${vo.r_notice_idx}">
+			<!-- gpt가 추천한 코드 / 삭제 요청 시 r_notice_idx가 누락되지 않고 정상적으로 전달 -->
 			
 			<table border="1" width="700" align="center">
 				<caption>공지사항 게시글 상세보기</caption>
