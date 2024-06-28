@@ -14,7 +14,7 @@
 	#bank_headcontainer{background-color: #23212b;
 						/* background-color: #252863;  */
 						width: 100%;
-						height: 130px;
+						height: 140px;
 						position: relative;
 						z-index: 1;
 						border: 1px solid;
@@ -57,10 +57,11 @@
 				float: left;
 				 }
 					
-		#body li ul{display: none; 
-					width: 140px;
+		#body li ul{display: none;
+					right:0;
+					height: 300px;
+					overflow:hidden; 
 					position: absolute;
-					height: 320px; /* 이거 왜 안먹히냐.. */
  					background: white;
  					top: 40px;
  					opacity: 0.9; /* 30% 투명 */

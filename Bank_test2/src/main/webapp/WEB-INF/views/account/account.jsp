@@ -108,7 +108,12 @@
 	        options: {
 	            scales: {
 	                y: {
-	                    beginAtZero: true
+	                    beginAtZero: false,
+	                    min: 1000,  // y축 최소값 설정
+	                    max: 1600,  // y축 최대값 설정
+	                    ticks: {
+	                        stepSize: 200 // 눈금 간격 설정
+	                    }
 	                }
 	            }
 	        }

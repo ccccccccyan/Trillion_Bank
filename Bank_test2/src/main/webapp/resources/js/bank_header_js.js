@@ -33,8 +33,8 @@
 	        styleSheet.id = "oldstyle"
 			// 동적 키프레임 정의
 			let keyframes_side_show = "@keyframes side_show { 0% { width: 0px; height: 0px; } "
-	        												+"30% { width: 150px; height: 0px; }"
-	        												+"100% { width: 150px; height: 150px; } } #body li ul{ animation: side_show 0.5s linear forwards; }";
+	        												+"30% { width: 150px; height: 0px; } "
+	        												+"100% { width: 150px; height: 190px; } } #body li ul{ animation: side_show 0.5s linear forwards; }";
 	        // <style> 요소에 키프레임 애니메이션 추가
 	        styleSheet.innerHTML = keyframes_side_show;
 	        
