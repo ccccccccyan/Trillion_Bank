@@ -22,7 +22,7 @@
 				width: calc(100% - 300px);
 				height: 100%;
 				position: absolute;
-				left: 300px;
+				left: 100px;
 				}
 
 		.seeMyaccount{position: absolute;
@@ -157,7 +157,7 @@
 				width: 1430px;
 				height:800px;
 				top: 1100px;
-				left: 450px; 
+				left: 250px; 
 				display: flex;
 	}
 
@@ -183,7 +183,7 @@
 				width: 1430px;
 				height: 600px;
 				top: 2100px;
-				left: 450px; 
+				left: 250px; 
 				display: flex;
 				}
 	.board_body_content{border: 1px solid;
@@ -218,29 +218,45 @@
 	#bank_box{
 			position: absolute;
 			border: 1px solid;
-			width: 330px;
-			height: 400px;
-			display: flex;			
-			position: 
+			width: 400px;
+			height: 600px;
+			top: 200px;
+			left: 80px;
+			overflow: auto;
 			}
 			
 	.bank_mini{
 			border: 1px solid red;
-			width: 60px;
+			width: 80px;
+			height: 80px;
 			float: left;
 			margin: 20px;
 			cursor: pointer;
 			}
-			
+	.bank_mini img{
+			width: 80px;
+			height: 80px;
+	}	
+
 
 	.bank_img{
 			border: 1px solid green;
 			width: 60px;
 			}
+	#color_box{
+			border: 2px solid;
+			position: absolute;
+			top: 200px;
+			left: 600px;
+			width: 700px;
+			height: 80px		
+	}
 			
 	#form_box{border: 2px solid blue;
-			width: 300px;
-			height: 700px;
-			float: right}
+			width: 700px;
+			height: 500px;
+			position: absolute;
+			top: 300px;
+			left: 600px;}
 
 	

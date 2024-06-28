@@ -14,7 +14,7 @@
 		
 		<script>
 			window.onload = function() {
-				let bank_list = ["ibk", "교보", "국민", "농협", "비씨", "새마을", "시티", "신한", "우리", "카카오뱅크", "토스", "하나"];
+				let bank_list = ["일조","ibk", "국민", "농협", "비씨", "새마을", "시티", "신한", "우리", "카카오뱅크", "토스", "하나", "우체국", "현대", "롯데"];
 			
 				let bank_box = document.getElementById("bank_box");
 				
@@ -48,8 +48,13 @@
 		</div>
 		
 		<div class="account_box">
-			<div id="bank_box"></div>
+			<div id="bank_box">
+				<h2>은행 선택</h2>
+			</div>
 		
+			<div id="color_box">
+			.
+			</div>
 			<div id="form_box">
 				<form>
 					<input name="user_id" value="${user_id}" type="hidden">
