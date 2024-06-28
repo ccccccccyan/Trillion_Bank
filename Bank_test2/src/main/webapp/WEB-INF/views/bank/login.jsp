@@ -41,11 +41,13 @@
 		<h2>로그인</h2>
 		<form name="f">
 			<div class="id">
-				id:<input name="user_id"><br> pwd :<input
+				id:<input name="user_id" maxlength="12"><br> pwd :<input
 					type="password" name="user_pwd"><br>
 			</div>
 			<input type="button" value="로그인" onclick="send(this.form)" /> <input
-				type="button" value="회원가입" onclick="location.href='signup.do'" />
+				type="button" value="회원가입" onclick="location.href='signup.do'" /><br>
+				<input type="button" value="ID 찾기" onclick="location.href='search_id.do'"/>
+				<input type="button" value="비밀번호 찾기" onclick="location.href='search_pwd.do'"/>
 		</form>
 	</div>
 </body>

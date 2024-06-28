@@ -7,6 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <select id="select_one" resultType="vo.UserVO" parameterType="String">
         select * from User_info where user_id=#{user_id}
     </select>
+
+	  <select id="select_tel" resultType="vo.UserVO" parameterType="String">
+        select * from User_info where user_tel=#{user_tel}
+    </select>
 	
  <insert id="user_ins" parameterType="vo.UserVO">
         insert into USER_INFO (
@@ -43,6 +47,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             'Y'
         )
     </insert>
+    
+    <update id="user_upd" parameterType="vo.UserVO">
+    	UPDATE USER_INFO SET user_pwd=#{user_pwd} WHERE user_id=#{user_id}
+    </update>
 </mapper>
 
 

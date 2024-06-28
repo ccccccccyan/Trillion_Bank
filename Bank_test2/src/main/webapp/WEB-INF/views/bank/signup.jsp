@@ -59,6 +59,50 @@
 			}
 		}
 	}
+	
+	function check_id(f) {
+		let user_id = f.user_id.value;
+		
+		let url = "signup_ins_id.do";
+		let param = "user_id=" + user_id ;
+
+		sendRequest(url, param, result_id, "post");
+	}
+	
+	function result_id() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let data = xhr.responseText;
+			let json = (new Function('return ' + data))();
+
+			if (json[0].result == 'clear') {
+				alert("사용가능한 ID입니다.")				
+			} else {
+				alert("이미 존재하는 ID입니다.");
+			}
+		}
+	}
+	
+	function check_tel(f) {
+		let user_tel = f.user_tel.value;
+		
+		let url = "signup_ins_tel.do";
+		let param = "user_tel=" + user_tel ;
+
+		sendRequest(url, param, result_tel, "post");
+	}
+	
+	function result_tel() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let data = xhr.responseText;
+			let json = (new Function('return ' + data))();
+
+			if (json[0].result == 'clear') {
+				alert("가입가능한 전화번호입니다.")				
+			} else {
+				alert("해당 전화번호는 회원가입이 완료된 번호입니다.");
+			}
+		}
+	}
 </script>
 </head>
 <body>
@@ -67,10 +111,12 @@
 		<form name="f">
 			<div class="id">
 				이름:<input name="user_name" required><br>
-				ID:<input name="user_id" required>(영어 + 숫자의 4~12자리)<input type="button" value="중복확인" onclick="check()"><br> 
-				비밀번호:<input type="password" name="user_pwd" required>(영어 + 숫자의 8~16자리)<br> 
-				비밀번호 확인:<input type="password" name="user_pwd_check" required><br>
-				전화번호:<input name="user_tel" required><input type="button" value="중복확인" onclick="check()"><br> 
+				ID:<input name="user_id" placeholder="영어 + 숫자의 4~12자리" required maxlength="12">
+				   <input type="button" value="중복확인" onclick="check_id(this.form)"><br> 
+				비밀번호:<input type="password" name="user_pwd" placeholder="영어 + 숫자의 8~16자리" maxlength="16" required ><br> 
+				비밀번호 확인:<input type="password" name="user_pwd_check" placeholder="비밀번호 확인" maxlength="16" required><br>
+				전화번호:<input name="user_tel" required>
+					  <input type="button" value="중복확인" onclick="check_tel(this.form)"><br> 
 				주소:<input name="user_addr" required><br>
 			</div>
 			<!-- <input type="hidden" name="manager"> -->
