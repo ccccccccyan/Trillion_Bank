@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ac">
+	<insert id="account_insert" parameterType="vo.AccountVO">
+		insert into ACCOUNT_LIST values(
+					#{account_number},
+					#{user_id},
+					#{bank_name},
+					#{now_money},
+					#{account_pwd}
+		)
+	</insert>
+	
+	<select id="account_list" resultType="vo.AccountVO" parameterType="String">
+		select * from ACCOUNT_LIST where user_id = #{user_id}
+	</select>
+	
+	<select id="account_selectOne" resultType="vo.AccountVO" parameterType="String">
+		select * from ACCOUNT_LIST where account_number = #{account_number}
+	</select>
+	<select id="account_info" resultType="vo.AccountVO" parameterType="String">
+		select * from account_list where account_number = #{account_number}
+	</select>
+	
+	<select id="accountuser_info" resultType="vo.AccountVO" parameterType="String">
+		select * from account_list where user_id = #{user_id} and account_number = #{account_number}
+	</select>
+	
+	<select id="user_info" resultType="vo.UserVO" parameterType="String">
+		select * from user_info where user_id = #{user_id}
+	</select>
+	
+	
+	
+	<insert id="detail_insert" parameterType="vo.AccountdetailVO">
+		insert into ACCOUNT_detail values(
+			seq_account_idx.nextVal,
+			#{account_number},
+			#{user_name},
+			#{depo_username},
+			#{depo_account},
+			#{deal_money},
+			sysdate
+		)
+	</insert>
+	
+	<update id="user_money" parameterType="vo.AccountVO">
+		update ACCOUNT_LIST set now_money = #{now_money} where account_number = #{account_number}
+	</update>
+	
+	<!-- 삭제를 위한 비밀번호 체크 -->
+	<select id="select_one" resultType="vo.UserVO" parameterType="String">
+		select * from USER_INFO where account_number=#{account_number}
+	</select>
+	
+	
+	<select id="accountdetail_list" resultType="vo.AccountdetailVO" parameterType="vo.AccountVO">
+		select * from account_detail where account_number = #{account_number} or depo_account = #{account_number}
+		order by bank_date desc
+	</select>
+	
+	<delete id="account_delete" parameterType="String">
+		delete from account_list where account_number=#{account_number}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

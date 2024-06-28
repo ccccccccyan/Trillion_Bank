@@ -40,6 +40,7 @@
 	        },
 	    });
 	})
+		
 
 	
 	// 그래프 ---------------------------------------------------
@@ -189,6 +190,11 @@
 		}, 4000);
 	}  
 	 
+			function send(accountnumber) {
+				location.href = "account_info.do?account_number="+accountnumber;
+			}
+	
+	
 	</script>
 
 	  
@@ -207,9 +213,9 @@
 			<div class="account_box ">
 				<h2 class="seeMyaccount">내 계좌 보기</h2>
 				<div id="account_container" class="mySwiper">
-					<div id="account_slide" class="swiper-wrapper">
-							<c:forEach var="vo" items="${account_list}">
-								<div class="bankbook_body swiper-slide">
+					<div id="account_slide" class="swiper-wrapper" >
+							<c:forEach var="vo" items="${account_list}" >
+								<div class="bankbook_body swiper-slide" onclick="send(${vo.account_number});">
 									<div class="nowmoney_info">
 									${vo.now_money }
 									</div>
