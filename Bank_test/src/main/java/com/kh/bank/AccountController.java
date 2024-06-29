@@ -41,7 +41,7 @@ public class AccountController {
 	@RequestMapping(value={"/", "/account_list.do"})
 	public String account(Model model) {
 		
-		String user_id = "tester111";
+		String user_id = "abc123";
 		model.addAttribute("user_id", user_id);
 		
 		List<AccountVO> account_list = account_dao.selectList(user_id);
@@ -80,7 +80,7 @@ public class AccountController {
 	public String account_insert(AccountVO vo, String user_id) {
 		vo.setUser_id(user_id);
 		vo.setNow_money(0);
-		System.out.println(vo.getAccount_number() +" / "+vo.getBank_name() + " / " + vo.getUser_id());
+		System.out.println(vo.getAccount_number() +" / "+vo.getBank_name() + " / " + vo.getUser_id() + " / " + vo.getAccount_color());
 		String encodePwd = Common.SecurePwd.encodePwd(vo.getAccount_pwd());
 		vo.setAccount_pwd(encodePwd);
 		int res = account_dao.data_insert(vo);

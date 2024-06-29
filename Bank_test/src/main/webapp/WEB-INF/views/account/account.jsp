@@ -226,11 +226,11 @@
 									${vo.bank_name }
 									</div>
 									
-									<div class="bankbook_front"></div>
+									<div class="bankbook_front" style="background: ${vo.account_color}"></div>
 									<div class="bankbook_line"></div>
 									<div class="bankbook_page1"></div>
 									<div class="bankbook_page2"></div>
-									<div class="bankbook_end"></div>
+									<div class="bankbook_end" style="background: ${vo.account_color}"></div>
 								</div>
 							</c:forEach>
 							<div class="account swiper-slide">

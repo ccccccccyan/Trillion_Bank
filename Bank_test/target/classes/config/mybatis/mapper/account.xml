@@ -9,7 +9,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					#{user_id},
 					#{bank_name},
 					#{now_money},
-					#{account_pwd}
+					#{account_pwd},
+					#{account_color}
 		)
 	</insert>
 	
