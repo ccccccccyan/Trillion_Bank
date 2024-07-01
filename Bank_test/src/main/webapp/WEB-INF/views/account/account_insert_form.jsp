@@ -37,7 +37,7 @@
 				
 				let color_list = ["#ff5145", "#ff763b", "#ffad33", "#ffd736", "#d0ff36", "#a8ff2e", "#68ff1c",
 					"#52f760", "#63ffa4", "#63ffce", "#73fffa", "#73d7ff", "#73b7ff", 
-					"#73a2ff", "#737eff", "#b473ff", "#d773ff", "#c95df5", "#f55df2", "#f55dbd"
+					"#73a2ff", "#737eff", "#1e2a4a", "#b473ff", "#d773ff", "#c95df5", "#f55df2"
 					];
 	
 				let color_box = document.getElementById("color_box");
@@ -57,7 +57,6 @@
 			
 			
 			function color_choice(color) {
-				alert(color);
 				let insert_account_front = document.getElementById("insert_account_front");
 				let insert_account_end = document.getElementById("insert_account_end");
 				let account_color = document.getElementById("account_color");

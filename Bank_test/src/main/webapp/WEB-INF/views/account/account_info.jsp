@@ -6,6 +6,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		
+		<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">
+		
+		
 		<script>
 			function send(f) {
 				let account_number = f.account_number.value;
@@ -20,6 +24,10 @@
 	</head>
 	
 	<body>
+			<div id="header">
+				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+			</div>
+	
 		<form>
 			<table border="1" align="center">
 			<input type="hidden" value="${vo.account_number}" name ="account_number">
