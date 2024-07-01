@@ -6,6 +6,10 @@
 	<bean id="rate_daoBean" class="dao.RateDAO">
 		<property name="sqlSession" ref="sqlSessionBean"></property>	
 	</bean>
+	
+	<bean id="user_daoBean" class="dao.UserDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>
+	</bean>
 		
 	<bean id="account_daoBean" class="dao.AccountDAO">
 		<property name="sqlSession" ref="sqlSessionBean"></property>	

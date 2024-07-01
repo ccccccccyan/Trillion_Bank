@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,9 +19,17 @@
 				<div id="close_category" onclick="close_settings();"><img src="/bank/resources/img/창끄기.png"> </div>
 
 				<div id="set_category">
-					<div>개인정보 수정</div>
-					<div>로그아웃</div>
-					<div>회원탈퇴</div>
+				
+					<c:if test="${ empty user_id }">
+						<div> <a href="login.do">로그인</a></div>
+						<div> <a href="signup.do">회원가입</a></div>
+					</c:if>
+				
+					<c:if test="${not empty user_id }">
+						<div>개인정보 수정</div>
+						<div> <a href="logout.do">로그아웃</a></div>
+						<div>회원탈퇴</div>
+					</c:if>
 				</div>
 				
 			</div>

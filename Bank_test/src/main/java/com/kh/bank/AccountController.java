@@ -1,7 +1,12 @@
 package com.kh.bank;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,6 +29,12 @@ import vo.UserVO;
 @Controller
 public class AccountController {
 
+	@Autowired
+	HttpServletRequest request;
+	
+	@Autowired
+	HttpSession session;
+	
 	AccountDAO account_dao;
 	CommentDAO comment_dao;
 	RateBDAO rateB_dao;
@@ -38,16 +49,18 @@ public class AccountController {
 		this.notice_dao = notice_dao;
 	}
 	
-	@RequestMapping(value={"/", "/account_list.do"})
+	@RequestMapping(value = { "/", "/account_list.do"})
 	public String account(Model model) {
 		
-		String user_id = "abc123";
-		model.addAttribute("user_id", user_id);
+		String user_id = request.getParameter("user_id");
 		
-		List<AccountVO> account_list = account_dao.selectList(user_id);
-		System.out.println(account_list.size() + "sdasd");
-		model.addAttribute("account_list", account_list);
+
+		if(user_id != null) {
+			session.setAttribute("user_id", user_id);
 		
+			List<AccountVO> account_list = account_dao.selectList(user_id);
+			model.addAttribute("account_list", account_list);
+		}
 		
 		List<RateboardVO> board_list = rateB_dao.selectRank_List();
 		
@@ -70,6 +83,12 @@ public class AccountController {
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 	}
 	
+	@RequestMapping("/logout.do")
+	public String logout() {
+		HttpSession session = request.getSession();
+		session.removeAttribute("user_id");
+		return "redirect:account_list.do";
+	}
 	@RequestMapping("/account_insert_form.do")
 	public String account_insert_form(Model model, String user_id) {
 		model.addAttribute("user_id", user_id);
@@ -80,7 +99,6 @@ public class AccountController {
 	public String account_insert(AccountVO vo, String user_id) {
 		vo.setUser_id(user_id);
 		vo.setNow_money(0);
-		System.out.println(vo.getAccount_number() +" / "+vo.getBank_name() + " / " + vo.getUser_id() + " / " + vo.getAccount_color());
 		String encodePwd = Common.SecurePwd.encodePwd(vo.getAccount_pwd());
 		vo.setAccount_pwd(encodePwd);
 		int res = account_dao.data_insert(vo);
@@ -97,11 +115,8 @@ public class AccountController {
 		AccountVO vo = account_dao.check(account_number);
 		
 		if(vo != null) {
-			System.out.println("실패");
-			System.out.println(vo.getAccount_number());
 			return "[{'result':'fail'}]";
 		}
-			System.out.println("성공");
 			return "[{'result':'clear'}]";
 		
 		

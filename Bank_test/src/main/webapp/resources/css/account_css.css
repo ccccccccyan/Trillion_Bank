@@ -16,7 +16,14 @@
 				height: 200px;
 				position: absolute;
 				left: 0px;
+				top: 0px;
 				}
+		
+		.seeMyid{border: 2px solid;
+				width: 200px;
+				position: absolute;
+				left: 1500px;
+				top: 130px}
 		
 		.account_box {
 				width: calc(100% - 300px);
