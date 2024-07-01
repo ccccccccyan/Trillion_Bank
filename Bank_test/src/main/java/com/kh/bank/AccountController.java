@@ -53,12 +53,16 @@ public class AccountController {
 	public String account(Model model) {
 		
 		String user_id = request.getParameter("user_id");
-		
+		String session_user_id = (String) session.getAttribute("user_id");
 
 		if(user_id != null) {
 			session.setAttribute("user_id", user_id);
 		
 			List<AccountVO> account_list = account_dao.selectList(user_id);
+			model.addAttribute("account_list", account_list);
+		}else if(session_user_id != null) {
+			
+			List<AccountVO> account_list = account_dao.selectList(session_user_id);
 			model.addAttribute("account_list", account_list);
 		}
 		
@@ -85,7 +89,7 @@ public class AccountController {
 	
 	@RequestMapping("/logout.do")
 	public String logout() {
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		session.removeAttribute("user_id");
 		return "redirect:account_list.do";
 	}
