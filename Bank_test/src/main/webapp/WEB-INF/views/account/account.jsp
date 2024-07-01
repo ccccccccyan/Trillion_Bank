@@ -13,8 +13,9 @@
 		
 	
 	<!-- swiper 설정 -->	
-	<script src="/bank/resources/js/swiper-bundle.min.js"></script>
-	<link rel="stylesheet" href="/bank/resources/css/swiper-bundle.min.css">
+	<link rel="stylesheet"
+  		href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 	<script src="/bank/resources/js/account_js.js"></script>
 	<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">

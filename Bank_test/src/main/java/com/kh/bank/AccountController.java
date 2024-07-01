@@ -89,6 +89,25 @@ public class AccountController {
 		}
 		return "redirect:account_list.do";
 	}
+	
+	@RequestMapping("/account_number_check.do")
+	@ResponseBody
+	public String account_number_check(String account_number) {
+		System.out.println(account_number);
+		AccountVO vo = account_dao.check(account_number);
+		
+		if(vo != null) {
+			System.out.println("실패");
+			System.out.println(vo.getAccount_number());
+			return "[{'result':'fail'}]";
+		}
+			System.out.println("성공");
+			return "[{'result':'clear'}]";
+		
+		
+	}
+	
+	
 	@RequestMapping("/account_info.do")
 	public String account_info(Model model, String account_number) { 
 		 

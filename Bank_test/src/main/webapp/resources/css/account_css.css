@@ -340,7 +340,7 @@
 			       font-size: 18px; /* 폰트 크기 설정 */
 			       padding: 5px; /* 내부 여백 설정 */
 			       border: none;
-			       border-bottom: 2px dashed;
+			       border-bottom: 3px dashed white;
 			       background: none;
 			}
 			.account_form_box #account_number {
@@ -349,7 +349,7 @@
 			       font-size: 18px; /* 폰트 크기 설정 */
 			       padding: 5px; /* 내부 여백 설정 */
 			       border: none;
-			       border-bottom: 2px dashed;
+			       border-bottom: 3px dashed white;
 			       background: none;
 			}
 			.account_form_box #account_pwd {

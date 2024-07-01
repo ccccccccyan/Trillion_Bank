@@ -30,18 +30,24 @@
 		
 		
  		//account_insert_form.jsp-------------------------------------------------------
+		
 		function bank_choice(choice_name) {
 			let bank_name = document.getElementById("bank_name");
 			bank_name.value = choice_name;
+			
+			if(choice_name == "일조"){
+				color_choice("#1b202e");
+			}
+			
 		}	
 			
 		function send_check(f) {
 			let bank_name = f.bank_name.value;
 			let account_number = f.account_number.value.trim();
 			let account_pwd = f.account_pwd.value.trim();
-				
-			if(bank_name != '' && account_number != '' && account_pwd != ''){
 			let send_button = document.getElementById("send_button");
+				
+			if(bank_name != '' && account_number != '' && account_pwd != '' && account_no == 'yes'){
 			send_button.disabled = false;
 			}else{
 			send_button.disabled = true;
