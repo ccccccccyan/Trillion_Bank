@@ -55,10 +55,4 @@ public class UserDAO {
 		return cnt;
 	}
 
-	// 매니저 아이디 회원가입
-	public int insert_admin(UserVO vo) {
-		int cnt = sqlSession.insert("u.user_ins_admin", vo);
-		return cnt;
-	}
-
 }

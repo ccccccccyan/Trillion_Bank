@@ -70,39 +70,45 @@ public class BankController {
 		model.addAttribute("list", selectlist);
 		return Common.Bank.VIEW_PATH + "bank_list.jsp";
 	}
-	
+
 	// 메인 화면
 	@RequestMapping(value = { "/", "/home.do" })
 	public String Home() {
 		return Common.Bank.VIEW_PATH + "home.jsp";
 	}
-	
+
 	// 로그인 창
 	@RequestMapping("/login.do")
 	public String login() {
 		return Common.Bank.VIEW_PATH + "login.jsp";
 	}
-	
+
 	// 회원가입 창
 	@RequestMapping(value = "/signup.do", produces = "application/json;charset=UTF-8")
 	public String signup() {
 		return Common.Bank.VIEW_PATH + "signup.jsp";
 	}
-	
+
 	// 아이디 비밀번호 체크
 	@RequestMapping("/login_check.do")
 	@ResponseBody
-	public String login_check(UserVO vo) {
+	public String login_check(UserVO vo, Model model) {
+
+		UserVO X_User = user_dao.check(vo.getUser_id());
+		System.out.println(X_User.getUser_name());
 		boolean isValid = Common.SecurePwd.decodePwd(vo, user_dao);
-		
 		if (isValid) {
-			String res = String.format("[{'result':'clear', 'User_id':'%s'}]", vo.getUser_id());
-			return res;
+			if ("unknown".equals(X_User.getUser_name())) {
+				return "[{'result':'freeze'}]";
+			} else {
+				String res = String.format("[{'result':'clear', 'User_id':'%s'}]", vo.getUser_id());
+				return res;
+			}
 		} else {
 			return "[{'result':'no'}]";
 		}
 	}
-	
+
 	// 회원가입 정보 삽입 1
 	@RequestMapping(value = "/signup_ins.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -112,13 +118,7 @@ public class BankController {
 		if (existingUser != null) {
 			return "[{'result':'duplicate'}]";
 		}
-
-		if (vo.getUser_id().toLowerCase().contains("admin")) {
-			vo.setManager("Y");
-		} else {
-			vo.setManager("N");
-		}
-
+		vo.setManager("N");
 		String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
 		vo.setUser_pwd(encode_pwd);
 
@@ -133,7 +133,31 @@ public class BankController {
 			return "[{'result':'error'}]";
 		}
 	}
-	
+
+	@RequestMapping(value = "/signup_ins_admin.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String signup_ins_admin(UserVO vo) {
+		// 중복된 user_id 확인
+		UserVO existingUser = user_dao.check(vo.getUser_id());
+		if (existingUser != null) {
+			return "[{'result':'duplicate'}]";
+		}
+		vo.setManager("Y");
+		String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
+		vo.setUser_pwd(encode_pwd);
+
+		try {
+			String res = String.format(
+					"[{'result':'clear', 'User_id':'%s','User_name':'%s','User_pwd':'%s' ,'User_tel':'%s','User_addr':'%s','Manager':'%s'}]",
+					vo.getUser_id(), vo.getUser_name(), vo.getUser_pwd(), vo.getUser_tel(), vo.getUser_addr(),
+					vo.getManager());
+			return res;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "[{'result':'error'}]";
+		}
+	}
+
 	// 회원가입 아이디 중복체크
 	@RequestMapping(value = "/signup_ins_id.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -142,7 +166,6 @@ public class BankController {
 		if (existingUser != null) {
 			return "[{'result':'duplicate'}]";
 		}
-
 		try {
 			String res = String.format("[{'result':'clear', 'User_id':'%s'}]", vo.getUser_id());
 			return res;
@@ -151,7 +174,7 @@ public class BankController {
 			return "[{'result':'error'}]";
 		}
 	}
-	
+
 	// 회원가입 전화번호 중복체크
 	@RequestMapping(value = "/signup_ins_tel.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -170,7 +193,7 @@ public class BankController {
 			return "[{'result':'error'}]";
 		}
 	}
-	
+
 	// 회원가입 정보 삽입 2
 	@RequestMapping("/signup_final.do")
 	public String signup_final(UserVO vo, Model model) {
@@ -192,19 +215,41 @@ public class BankController {
 
 		return "redirect:/login.do";
 	}
-	
-	//아이디 찾기
+
+	// 관리자 정보 삽입 2
+	@RequestMapping("/signup_final_admin.do")
+	public String signup_final_admin(UserVO vo, Model model) {
+		// 중복된 user_id 확인
+		UserVO existingUser = user_dao.check(vo.getUser_id());
+		if (existingUser != null) {
+			model.addAttribute("error", "중복된 사용자 ID가 존재합니다.");
+			return Common.Bank.VIEW_PATH + "signup.jsp";
+		}
+		
+		// 비밀번호 암호화
+		/*
+		 * String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
+		 * vo.setUser_pwd(encode_pwd);
+		 */
+		
+		// 사용자 데이터베이스에 삽입
+		user_dao.insert(vo);
+		
+		return "redirect:/login.do";
+	}
+
+	// 아이디 찾기
 	@RequestMapping("/search_id.do")
 	public String search_id() {
 		return Common.Bank.VIEW_PATH + "search_id.jsp";
 	}
-	
+
 	// 비밀번호 찾기
 	@RequestMapping("/search_pwd.do")
 	public String search_pwd() {
 		return Common.Bank.VIEW_PATH + "search_pwd.jsp";
 	}
-	
+
 	// 아이디 찾기 2
 	@RequestMapping(value = "/search_id2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -223,7 +268,7 @@ public class BankController {
 			return "[{'result':'error'}]";
 		}
 	}
-	
+
 	// 비밀번호 찾기 2
 	@RequestMapping(value = "/search_pwd2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -241,7 +286,7 @@ public class BankController {
 		}
 		return "[{'result':'duplicate'}]";
 	}
-	
+
 	// 비밀번호 찾기 후 비밀번호 변경
 	@RequestMapping("/change_pwd.do")
 	public String change_pwd(@RequestParam("user_id") String user_id, Model model) {
@@ -249,7 +294,7 @@ public class BankController {
 		model.addAttribute("user_id", user_id);
 		return Common.Bank.VIEW_PATH + "change_pwd.jsp";
 	}
-	
+
 	// 비밀번호 찾기 후 변경 최종
 	@RequestMapping("/change_pwd_final.do")
 	public String change_pwd_final(UserVO vo) {
