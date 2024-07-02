@@ -63,8 +63,8 @@
 					console.log(data);
 					let json = (new Function('return ' + data))();
 					
-					if(json[0].pwd == prompt("비밀번호를 입력하세요")){
-						location.href="user_info_modify.do";
+					if(json[0].result == 'clear' ){
+						location.href="user_info_modify_form.do";
 					}else{
 						alert("비밀번호 불일치.");
 					}

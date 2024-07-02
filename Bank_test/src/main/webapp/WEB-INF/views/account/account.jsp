@@ -196,6 +196,16 @@
 		}
 		
 		window.onload = function () {
+			let miss_info = "${miss_info}";
+			
+			if(miss_info == "잘못된 접근입니다."){
+				console.log("dahsdvhgsdfvhgadsvfhsbjfhjh");
+				console.log(miss_info);
+				alert(miss_info);
+				location.href = "account_list.do";
+			}
+			
+			
 			let account_box = document.getElementById("account_box");
 			
 			let user_id = "${user_id}"; 

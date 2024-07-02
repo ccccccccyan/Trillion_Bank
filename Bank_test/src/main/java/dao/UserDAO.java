@@ -61,8 +61,13 @@ public class UserDAO {
 		return cnt;
 	}
 	
-	public int delete_user(String user_id) {
-		int res = sqlSession.delete("u.user_delete", user_id);
+	public int update_user(String user_id) {
+		int res = sqlSession.update("u.user_del_update", user_id);
+		return res;
+	}
+	
+	public int update_info(UserVO vo) {
+		int res = sqlSession.update("u.user_info_update", vo);
 		return res;
 	}
 

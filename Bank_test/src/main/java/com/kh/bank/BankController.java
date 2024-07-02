@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,9 @@ public class BankController {
 
 	@Autowired
 	HttpServletRequest request;
+	
+	@Autowired
+	HttpSession session;
 	
 	@Autowired
 	UserDAO user_dao;	
@@ -332,10 +336,51 @@ public class BankController {
 		public String user_info_check(UserVO vo, Model model) {
 			
 			boolean decode_pwd_check = Common.Secure_userPwd.decodePwd(vo, user_dao);	
+			System.out.println("비밀번호 일치 결과 :"+ decode_pwd_check);
+			
 			if(decode_pwd_check) {
-				return "[{'result':'clear']";
+				return "[{'result':'clear'}]";
 			}else {
 				return "[{'result':'no'}]";
+			}
+		}
+
+		@RequestMapping("/user_info_modify_form.do") // 수정중
+		public String user_info_modify_form(Model model) {
+			String session_user_id = (String) session.getAttribute("user_id");
+		
+			UserVO vo = user_dao.check(session_user_id);
+		
+			model.addAttribute("vo", vo);
+			
+			return Common.Bank.VIEW_PATH + "user_info_modify_form.jsp";
+		}
+		
+		@RequestMapping("/modify_ins_tel.do")
+		@ResponseBody
+		public String user_tel_check_modify(UserVO vo) {
+			UserVO db_vo = user_dao.check_tel(vo.getUser_tel());
+			
+			if( db_vo == null) {
+				return "[{'result':'clear'}]";
+			}else if(vo.getUser_id().equals(db_vo.getUser_id()) && !(db_vo == null)) {
+					System.out.println(vo.getUser_id() +" 1 "+ db_vo.getUser_id() );
+				return "[{'result':'clear'}]";
+			}else{
+				return "[{'result':'fail'}]";
+			}
+		}
+		
+		@RequestMapping("modify_ins_user.do")
+		@ResponseBody
+		public String modify_ins_user(UserVO vo) {
+			vo.setUser_pwd(Common.SecurePwd.encodePwd(vo.getUser_pwd()));
+			int res = user_dao.update_info(vo);
+			
+			if(res > 0) {
+				return "[{'result':'clear'}]";
+			}else {
+				return "[{'result':'fail'}]";
 			}
 		}
 		

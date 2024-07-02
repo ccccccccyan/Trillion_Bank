@@ -57,14 +57,29 @@ public class AccountController {
 	public String account(Model model) {
 		
 		String user_id = request.getParameter("user_id");
+		
 		String session_user_id = (String) session.getAttribute("user_id");
 
-		if(user_id != null) {
-			session.setAttribute("user_id", user_id);
+		System.out.println("user_id "+ user_id );
+		System.out.println("session_user_id "+ session_user_id );
 		
-			List<AccountVO> account_list = account_dao.selectList(user_id);
-			model.addAttribute("account_list", account_list);
-		}else if(session_user_id != null) {
+		if(user_id != null && session_user_id != null && !(user_id.equals(session_user_id))) {
+			String miss_info = "잘못된 접근입니다.";
+			model.addAttribute("miss_info", miss_info);
+			session.removeAttribute("user_id");
+			user_id = null;
+			return Common.Account.VIEW_PATH_AC + "account.jsp"; 
+		}
+		
+		if(user_id != null) {
+			UserVO vo = user_dao.check(user_id);
+			
+				session.setAttribute("user_id", user_id);
+				List<AccountVO> account_list = account_dao.selectList(user_id);
+				model.addAttribute("account_list", account_list);
+			
+			
+		} else if(session_user_id != null) {
 			
 			List<AccountVO> account_list = account_dao.selectList(session_user_id);
 			model.addAttribute("account_list", account_list);
@@ -102,12 +117,7 @@ public class AccountController {
 	@ResponseBody
 	public String user_remove(String user_id) {
 		
-//		List<AccountVO> delect_list = account_dao.selectList(user_id);
-//		int datail_res = account_dao.delete_ac_detailinfo(user_id);
-		
-		int account_res = account_dao.delete_ac_info(user_id);
-		
-		int res = user_dao.delete_user(user_id);
+		int res = user_dao.update_user(user_id);
 		
 		if(res > 0 ) {
 			session.removeAttribute("user_id");
