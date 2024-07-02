@@ -60,5 +60,10 @@ public class UserDAO {
 		int cnt = sqlSession.insert("u.user_ins_admin", vo);
 		return cnt;
 	}
+	
+	public int delete_user(String user_id) {
+		int res = sqlSession.delete("u.user_delete", user_id);
+		return res;
+	}
 
 }

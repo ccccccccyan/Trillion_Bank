@@ -24,9 +24,9 @@
 	</head>
 	
 	<body>
-			<div id="header">
+<%-- 			<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
-			</div>
+			</div> --%>
 	
 		<form>
 			<table border="1" align="center">

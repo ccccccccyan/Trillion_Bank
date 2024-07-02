@@ -10,6 +10,70 @@
 		<script src="/bank/resources/js/bank_header_js.js"></script>
 		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
 		
+		<!-- Ajax사용을 위한 js파일 -->
+		<script src="/bank/resources/js/httpRequest.js"></script>
+		
+		<script>
+			function user_remove_check(user_id) {
+				if(confirm(user_id+"님의 정보가 영구적으로 제거됩니다. 정말 탈퇴하시겠습니까?")){
+					let url = "user_remove.do";
+					let param = "user_id="+user_id;
+					
+					sendRequest(url, param, user_removeFn, "post");
+					
+				}else{
+					alert("회원 탈퇴가 중지되었습니다.");
+				}
+			}
+			
+			function user_removeFn() {
+				if(xhr.readyState == 4 && xhr.status == 200){
+					let data = xhr.responseText;
+					
+					console.log(data);
+					let json = (new Function('return ' + data))();
+					
+					if(json[0].result == 'clear'){
+						alert("회원 정보가 성공적으로 제거되었습니다.");
+						location.href="account_list.do";
+					}else{
+						alert("회원 정보 제거에 실패하였습니다.");
+					}
+					
+				}
+			}
+			
+			function user_info_check(user_id) {
+					let user_pwd = prompt("비밀번호를 입력하세요");
+					    
+					if (user_pwd !== null) { // 사용자가 입력을 취소하지 않은 경우
+					
+					
+					let url = "user_infocheck.do";
+					let param = "user_id="+user_id + "&user_pwd="+user_pwd;
+					
+					sendRequest(url, param, user_infoFn, "post");
+					}
+			}
+			
+			function user_infoFn() {
+				if(xhr.readyState == 4 && xhr.status == 200){
+					let data = xhr.responseText;
+					
+					console.log(data);
+					let json = (new Function('return ' + data))();
+					
+					if(json[0].pwd == prompt("비밀번호를 입력하세요")){
+						location.href="user_info_modify.do";
+					}else{
+						alert("비밀번호 불일치.");
+					}
+					
+				}
+			}
+		
+		</script>
+		
 	</head>
 	
 	<body>
@@ -26,9 +90,9 @@
 					</c:if>
 				
 					<c:if test="${not empty user_id }">
-						<div>개인정보 수정</div>
+						<div onclick="user_info_check('${user_id}');">개인정보 수정</div>
 						<div> <a href="logout.do">로그아웃</a></div>
-						<div>회원탈퇴</div>
+						<div onclick="user_remove_check('${user_id}');">회원탈퇴</div>
 					</c:if>
 				</div>
 				

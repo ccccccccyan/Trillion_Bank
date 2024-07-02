@@ -65,6 +65,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="account_delete" parameterType="String">
 		delete from account_list where account_number=#{account_number}
 	</delete>
+
+
+	<delete id="delete_ac_detailinfo" parameterType="String">
+		delete from account_detail where user_id=#{user_id}
+	</delete>
+	
+	<delete id="delete_ac_info" parameterType="String">
+		delete from account_list where user_id=#{user_id}
+	</delete>
 </mapper>
 
 

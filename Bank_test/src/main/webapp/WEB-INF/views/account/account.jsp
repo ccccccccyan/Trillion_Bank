@@ -238,7 +238,7 @@
 				<div id="account_container" class="mySwiper">
 					<div id="account_slide" class="swiper-wrapper" >
 							<c:forEach var="vo" items="${account_list}" >
-								<div class="bankbook_body swiper-slide" onclick="send(${vo.account_number}, ${user_id});">
+								<div class="bankbook_body swiper-slide" onclick="send('${vo.account_number}', '${user_id}');">
 									<div class="nowmoney_info">
 									${vo.now_money }
 									</div>

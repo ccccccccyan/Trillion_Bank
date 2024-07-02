@@ -327,6 +327,18 @@ public class BankController {
 			return "redirect:/login.do";
 		}
 
+		@RequestMapping("/user_infocheck.do") // 수정중
+		@ResponseBody
+		public String user_info_check(UserVO vo, Model model) {
+			
+			boolean decode_pwd_check = Common.Secure_userPwd.decodePwd(vo, user_dao);	
+			if(decode_pwd_check) {
+				return "[{'result':'clear']";
+			}else {
+				return "[{'result':'no'}]";
+			}
+		}
+		
 	}
 
 	

@@ -61,4 +61,15 @@ public class AccountDAO {
 		int res = sqlSession.delete("ac.account_delete", account_number);
 		return res;
 	}
+	
+	public int delete_ac_detailinfo(String user_id) {
+		int res = sqlSession.delete("ac.delete_ac_detailinfo", user_id);
+		return res;
+	}
+	public int delete_ac_info(String user_id) {
+		int res = sqlSession.delete("ac.delete_ac_info", user_id);
+		return res;
+	}
+	
+	
 }

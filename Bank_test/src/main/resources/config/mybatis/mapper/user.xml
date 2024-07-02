@@ -51,6 +51,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="user_upd" parameterType="vo.UserVO">
     	UPDATE USER_INFO SET user_pwd=#{user_pwd} WHERE user_id=#{user_id}
     </update>
+    
+    <delete id="user_delete" parameterType="String">
+    	delete from user_info where user_id=#{user_id}
+    </delete>
+    
 </mapper>
 
 

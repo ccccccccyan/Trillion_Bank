@@ -19,6 +19,7 @@ import dao.CommentDAO;
 import dao.NoticeDAO;
 import dao.QnaDAO;
 import dao.RateBDAO;
+import dao.UserDAO;
 import vo.AccountVO;
 import vo.AccountdetailVO;
 import vo.NoticeVO;
@@ -34,6 +35,9 @@ public class AccountController {
 	
 	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	UserDAO user_dao;	
 	
 	AccountDAO account_dao;
 	CommentDAO comment_dao;
@@ -93,6 +97,26 @@ public class AccountController {
 		session.removeAttribute("user_id");
 		return "redirect:account_list.do";
 	}
+	
+	@RequestMapping("/user_remove.do")
+	@ResponseBody
+	public String user_remove(String user_id) {
+		
+//		List<AccountVO> delect_list = account_dao.selectList(user_id);
+//		int datail_res = account_dao.delete_ac_detailinfo(user_id);
+		
+		int account_res = account_dao.delete_ac_info(user_id);
+		
+		int res = user_dao.delete_user(user_id);
+		
+		if(res > 0 ) {
+			session.removeAttribute("user_id");
+			return "[{'result':'clear'}]";
+		}
+		return "[{'result':'fail'}]";
+	}
+	
+	
 	@RequestMapping("/account_insert_form.do")
 	public String account_insert_form(Model model, String user_id) {
 		model.addAttribute("user_id", user_id);
@@ -121,9 +145,8 @@ public class AccountController {
 		if(vo != null) {
 			return "[{'result':'fail'}]";
 		}
-			return "[{'result':'clear'}]";
 		
-		
+		return "[{'result':'clear'}]";
 	}
 	
 	
