@@ -72,11 +72,11 @@ public class AccountController {
 			return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 		}
 		
-		// 해당 user_id의 계정 정보를 조회 
-		UserVO vo_ok = user_dao.check(user_id);
 
 		// 파라미터로 받아지는 user_id가 있으면서 DB에 해당 user_id가 있을 경우
-		if(user_id != null && vo_ok != null) {
+		if(user_id != null) {
+			// 해당 user_id의 계정 정보를 조회 
+			UserVO vo_ok = user_dao.check(user_id);
 			// session에 저장하고 그 사용자의 계좌 리스트를 조회한다.
 			session.setAttribute("user_id", user_id);
 			List<AccountVO> account_list = account_dao.selectList(user_id);
