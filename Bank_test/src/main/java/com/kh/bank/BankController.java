@@ -158,12 +158,17 @@ public class BankController {
 		// 아이디 비밀번호 체크
 		@RequestMapping("/login_check.do")
 		@ResponseBody
-		public String login_check(UserVO vo) {
+		public String login_check(UserVO vo, Model model) {
+
+			UserVO X_User = user_dao.check(vo.getUser_id());
 			boolean isValid = Common.Secure_userPwd.decodePwd(vo, user_dao);
-			
 			if (isValid) {
-				String res = String.format("[{'result':'clear', 'User_id':'%s'}]", vo.getUser_id());
-				return res;
+				if ("unknown".equals(X_User.getUser_name())) {
+					return "[{'result':'freeze'}]";
+				} else {
+					String res = String.format("[{'result':'clear', 'User_id':'%s'}]", vo.getUser_id());
+					return res;
+				}
 			} else {
 				return "[{'result':'no'}]";
 			}
@@ -190,6 +195,30 @@ public class BankController {
 //				vo.setManager("N");
 //			}
 
+			String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
+			vo.setUser_pwd(encode_pwd);
+
+			try {
+				String res = String.format(
+						"[{'result':'clear', 'User_id':'%s','User_name':'%s','User_pwd':'%s' ,'User_tel':'%s','User_addr':'%s','Manager':'%s'}]",
+						vo.getUser_id(), vo.getUser_name(), vo.getUser_pwd(), vo.getUser_tel(), vo.getUser_addr(),
+						vo.getManager());
+				return res;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "[{'result':'error'}]";
+			}
+		}
+		
+		@RequestMapping(value = "/signup_ins_admin.do", produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String signup_ins_admin(UserVO vo) {
+			// 중복된 user_id 확인
+			UserVO existingUser = user_dao.check(vo.getUser_id());
+			if (existingUser != null) {
+				return "[{'result':'duplicate'}]";
+			}
+			vo.setManager("Y");
 			String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
 			vo.setUser_pwd(encode_pwd);
 
@@ -264,6 +293,29 @@ public class BankController {
 			return "redirect:/login.do";
 		}
 		
+		// 관리자 정보 삽입 2
+		@RequestMapping("/signup_final_admin.do")
+		public String signup_final_admin(UserVO vo, Model model) {
+			// 중복된 user_id 확인
+			UserVO existingUser = user_dao.check(vo.getUser_id());
+			if (existingUser != null) {
+				model.addAttribute("error", "중복된 사용자 ID가 존재합니다.");
+				return Common.Bank.VIEW_PATH + "signup.jsp";
+			}
+			
+			// 비밀번호 암호화
+			/*
+			 * String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
+			 * vo.setUser_pwd(encode_pwd);
+			 */
+			
+			// 사용자 데이터베이스에 삽입
+			user_dao.insert(vo);
+			
+			return "redirect:/login.do";
+		}
+
+		
 		//아이디 찾기
 		@RequestMapping("/search_id.do")
 		public String search_id() {
@@ -331,7 +383,7 @@ public class BankController {
 			return "redirect:/login.do";
 		}
 
-		@RequestMapping("/user_infocheck.do") // 수정중
+		@RequestMapping("/user_infocheck.do") 
 		@ResponseBody
 		public String user_info_check(UserVO vo, Model model) {
 			

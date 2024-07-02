@@ -67,14 +67,18 @@
 </style>
 
 <script>
-    function send(f) {
-        let user_id = f.user_id.value;
-        let user_pwd = f.user_pwd.value;
-
-        let url = "login_check.do";
-        let param = "user_id=" + user_id + "&user_pwd=" + encodeURIComponent(user_pwd);
-        sendRequest(url, param, resultFn, "post");
-    }
+	function send(f) {
+	    let user_id = f.user_id.value;
+	    let user_pwd = f.user_pwd.value;
+	    
+	    if(user_id =='' || user_pwd ==''){
+	    	alert("올바른 정보를 입력해주십시오.")
+	    }
+	
+	    let url = "login_check.do";
+	    let param = "user_id=" + user_id + "&user_pwd=" + encodeURIComponent(user_pwd);
+	    sendRequest(url, param, resultFn, "post");
+	}
 
     function resultFn() {
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -84,7 +88,11 @@
             if (json[0].result == 'no') {
                 alert("회원정보 불일치");
                 return;
-            } else {
+            }else if (json[0].result == 'freeze'){
+            	alert("이 계정은 현재 동결상태이므로 서비스 이용을 원하시면 가까운 지점이나 본사를 방문하여주십시오.")
+            	return;
+            }
+            else {
                 location.href = "account_list.do?user_id=" + user_id;
             }
         }
@@ -94,16 +102,16 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>로그인</h2>
+        <h2>LOG IN</h2>
         <form name="f">
             <div class="id">
-                id:<input type="text" name="user_id" maxlength="12"><br>
-                pwd:<input type="password" name="user_pwd"><br>
+                <input type="text" name="user_id" maxlength="12" placeholder="ID"><br>
+                <input type="password" name="user_pwd" placeholder="PASSWORD"><br>
             </div>
-            <input type="button" value="로그인" onclick="send(this.form)" />
-            <input type="button" value="회원가입" onclick="location.href='signup.do'" />
-            <input type="button" value="ID 찾기" onclick="location.href='search_id.do'" />
-            <input type="button" value="비밀번호 찾기" onclick="location.href='search_pwd.do'" />
+            <input type="button" value="LOG IN" onclick="send(this.form)" />
+            <input type="button" value="SIGN UP" onclick="location.href='signup.do'" />
+            <input type="button" value="FIND ID" onclick="location.href='search_id.do'" />
+            <input type="button" value="FIND PASSWORD" onclick="location.href='search_pwd.do'" />
         </form>
     </div>
 </body>

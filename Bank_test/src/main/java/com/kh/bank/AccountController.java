@@ -53,16 +53,16 @@ public class AccountController {
 		this.notice_dao = notice_dao;
 	}
 	
+	// 메인 페이지 조회
 	@RequestMapping(value = { "/", "/account_list.do"})
 	public String account(Model model) {
-		
+		// 이전 페이지에서 파라미터로 보내는 user_id가 있을 경우 받는다.
 		String user_id = request.getParameter("user_id");
 		
+		// session에 user_id 데이터 저장 여부 확인
 		String session_user_id = (String) session.getAttribute("user_id");
-
-		System.out.println("user_id "+ user_id );
-		System.out.println("session_user_id "+ session_user_id );
 		
+		// session에 user_id 데이터가 이미 있으면서, 다른 user_id가 파라미터로 보내지고 있는 경우
 		if(user_id != null && session_user_id != null && !(user_id.equals(session_user_id))) {
 			String miss_info = "잘못된 접근입니다.";
 			model.addAttribute("miss_info", miss_info);

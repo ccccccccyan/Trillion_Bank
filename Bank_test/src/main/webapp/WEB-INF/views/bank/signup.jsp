@@ -58,7 +58,8 @@ body {
 
 .signup-container .inline-button {
 	width: calc(50% - 10px);
-	display: inline-block;
+	display: inline-block; /* inline-block으로 설정하여 옆으로 정렬 */
+	margin-right: 10px; /* 각 버튼 사이의 간격 조정 */
 }
 
 .signup-container .inline-button+.inline-button {
@@ -146,6 +147,7 @@ body {
 			alert("4~12자의 아이디를 입력하여주십시오.");
 			return;
 		}
+		
 
 		let url = "signup_ins.do";
 		let param = "user_name=" + user_name + "&user_id=" + user_id +
@@ -166,20 +168,93 @@ body {
 				let user_pwd = json[0].User_pwd;
 				let user_tel = json[0].User_tel;
 				let user_addr = json[0].User_addr;
-				location.href = "signup_final.do?user_id=" + user_id + "&user_name=" + user_name + "&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" + user_tel + "&user_addr=" + user_addr;
+				let manager = json[0].Manager;
+				
+				location.href = "signup_final.do?user_id=" + user_id + "&user_name=" + user_name +
+								"&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" + user_tel + 
+								"&user_addr=" + user_addr + "&manager=" + manager;
+			} else {
+				alert("가입실패");
+			}
+		}
+	}
+	
+	function send2(f) {
+		let user_name = f.user_name.value;
+		let user_id = f.user_id.value;
+		let user_pwd = f.user_pwd.value;
+		let user_pwd_check = f.user_pwd_check.value;
+		let user_tel = f.user_tel.value;
+		let user_addr = f.user_addr.value;
+
+		if (user_pwd != user_pwd_check) {
+			alert("비밀번호가 일치하지 않습니다.");
+			return;
+		} else if (user_pwd.length < 8 || user_pwd.length > 16) {
+			alert("8~16자의 비밀번호를 입력하여주십시오.");
+			return;
+		}
+
+		if (user_id.length < 4 || user_id.length > 12) {
+			alert("4~12자의 아이디를 입력하여주십시오.");
+			return;
+		}
+		
+		if (user_id.toLowerCase().includes("admin")) {
+			let adminPwd = prompt("관리자 계정으로 등록하려면 비밀번호를 입력하세요:");
+			if (adminPwd !== "wlqdprkrhtlvek") {
+				alert("비밀번호가 틀렸습니다.");
+				return;
+			} else {
+				alert("관리자 권한부여가 완료되었습니다.");
+			}
+			}else{
+			 	alert("접근 권한이 없습니다.");
+			 	return;
+		}
+
+		let url = "signup_ins_admin.do";
+		let param = "user_name=" + user_name + "&user_id=" + user_id +
+			"&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" +
+			user_tel + "&user_addr=" + user_addr;
+
+		sendRequest(url, param, resultFn2, "post");
+	}
+
+	function resultFn2() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let data = xhr.responseText;
+			let json = (new Function('return ' + data))();
+
+			if (json[0].result == 'clear') {
+				let user_id = json[0].User_id;
+				let user_name = json[0].User_name;
+				let user_pwd = json[0].User_pwd;
+				let user_tel = json[0].User_tel;
+				let user_addr = json[0].User_addr;
+				let manager = json[0].Manager;
+				location.href = "signup_final_admin.do?user_id=" + user_id + "&user_name=" + user_name + 
+								"&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" + user_tel + 
+								"&user_addr=" + user_addr + "&manager=" + manager;
 			} else {
 				alert("가입실패");
 			}
 		}
 	}
 
+
 	function check_id(f) {
 		let user_id = f.user_id.value;
-
+		
+		if (user_id.length < 4 || user_id.length > 12) {
+			alert("4~12자의 아이디를 입력하여주십시오.");
+			return;
+		}
+		
 		let url = "signup_ins_id.do";
 		let param = "user_id=" + user_id;
 
-		sendRequest(url, param, result_id, "post");
+		sendRequest(url, param, result_id, "post"); 
 	}
 
 	function result_id() {
@@ -190,10 +265,11 @@ body {
 			if (json[0].result == 'clear') {
 				alert("사용가능한 ID입니다.");
 			} else {
-				alert("이미 존재하는 ID입니다.");
+				alert("중복되는 ID입니다.");
 			}
 		}
 	}
+	
 
 	function check_tel(f) {
 		let user_tel = f.user_tel.value;
@@ -223,26 +299,23 @@ body {
 		<h2>회원 가입</h2>
 		<form name="f">
 			<div class="id">
-				이름:<input type="text" name="user_name" required><br>
-				ID:<input type="text" name="user_id" placeholder="영어 + 숫자의 4~12자리"
-					required maxlength="12"> <input type="button" value="중복확인"
-					class="inline-button" onclick="check_id(this.form)"><br>
-				비밀번호:<input type="password" name="user_pwd"
-					placeholder="영어 + 숫자의 8~16자리" maxlength="16" required><br>
-				비밀번호 확인:<input type="password" name="user_pwd_check"
-					placeholder="비밀번호 확인" maxlength="16" required><br>
-				전화번호:<input type="text" name="user_tel" required> <input
-					type="button" value="중복확인" class="inline-button"
-					onclick="check_tel(this.form)"><br> 
-				<input type="text" id="sample4_postcode" placeholder="우편번호"> 
+				<input type="text" name="user_name" placeholder="이름" required><br>
+				<input type="text" name="user_id" placeholder="영어 + 숫자의 4~12자리의 ID" required maxlength="12"> 
+				<input type="button" value="중복확인" class="inline-button" onclick="check_id(this.form)">
+				<input type="password" name="user_pwd" placeholder="영어 + 숫자의 8~16자리의 비밀번호" maxlength="16" required><br> 
+				<input type="password" name="user_pwd_check" placeholder="비밀번호 확인" maxlength="16" required><br>
+				<input type="text" name="user_tel" placeholder="전화번호" required>
+				<input type="button" value="중복확인" class="inline-button" onclick="check_tel(this.form)"> <br> 
+				<input type="text" id="sample4_postcode" placeholder="우편번호">
 				<input type="button" onclick="DaumPostcode_api()" value="우편번호 찾기"><br>
 				<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
 				<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
-				<span id="guide" style="color: #999; display: none"></span>
-				<input type="text" id="user_addr" placeholder="상세주소">
+				<span id="guide" style="color: #999; display: none"></span> 
+				<input type="text" id="user_addr" placeholder="상세주소"> 
 				<input type="text" id="sample4_extraAddress" placeholder="참고항목"><br>
+				<input type="button" value="회원가입" onclick="send(this.form)">
+				<input type="button" value="관리자 회원가입" onclick="send2(this.form)">
 			</div>
-			<input type="button" value="회원가입" onclick="send(this.form)">
 		</form>
 	</div>
 </body>

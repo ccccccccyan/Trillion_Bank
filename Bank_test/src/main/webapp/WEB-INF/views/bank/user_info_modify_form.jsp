@@ -64,6 +64,13 @@ body {
 .signup-container .inline-button+.inline-button {
 	margin-left: 20px;
 }
+
+#sign_go_away{
+	background: #f73b31;
+}
+#sign_go_away:hover {
+	background: #bd0d04;
+}
 </style>
 
 <script>
@@ -125,6 +132,36 @@ body {
 			}
 		}
 	}
+	
+	function user_remove_check(user_id) {
+		if(confirm(user_id+"님의 정보가 영구적으로 제거됩니다. 정말 탈퇴하시겠습니까?")){
+			let url = "user_remove.do";
+			let param = "user_id="+user_id;
+			
+			sendRequest(url, param, user_removeFn, "post");
+			
+		}else{
+			alert("회원 탈퇴가 중지되었습니다.");
+		}
+	}
+	
+	function user_removeFn() {
+		if(xhr.readyState == 4 && xhr.status == 200){
+			let data = xhr.responseText;
+			
+			console.log(data);
+			let json = (new Function('return ' + data))();
+			
+			if(json[0].result == 'clear'){
+				alert("회원 정보가 성공적으로 제거되었습니다.");
+				location.href="account_list.do";
+			}else{
+				alert("회원 정보 제거에 실패하였습니다.");
+			}
+			
+		}
+	}
+	
 </script>
 </head>
 <body>
@@ -142,8 +179,8 @@ body {
 					type="button" value="중복확인" class="inline-button"
 					onclick="check_tel(this.form)"><br> 
 			</div>
-			<input type="button" value="회원가입" onclick="send(this.form)">
-		
+			<input type="button" value="수정하기" onclick="send(this.form)">
+			<input id="sign_go_away" type="button" value="회원탈퇴" onclick="user_remove_check('${vo.user_id}');">
 		</form>
 	</div>
 	</body>

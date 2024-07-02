@@ -55,12 +55,6 @@ public class UserDAO {
 		return cnt;
 	}
 
-	// 매니저 아이디 회원가입
-	public int insert_admin(UserVO vo) {
-		int cnt = sqlSession.insert("u.user_ins_admin", vo);
-		return cnt;
-	}
-	
 	public int update_user(String user_id) {
 		int res = sqlSession.update("u.user_del_update", user_id);
 		return res;
