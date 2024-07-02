@@ -55,7 +55,7 @@ public class UserDAO {
 		return cnt;
 	}
 
-	public int update_user(String user_id) {
+	public int update_user_del(String user_id) {
 		int res = sqlSession.update("u.user_del_update", user_id);
 		return res;
 	}

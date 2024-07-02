@@ -58,78 +58,84 @@ public class AccountController {
 	public String account(Model model) {
 		// 이전 페이지에서 파라미터로 보내는 user_id가 있을 경우 받는다.
 		String user_id = request.getParameter("user_id");
-		
 		// session에 user_id 데이터 저장 여부 확인
 		String session_user_id = (String) session.getAttribute("user_id");
 		
 		// session에 user_id 데이터가 이미 있으면서, 다른 user_id가 파라미터로 보내지고 있는 경우
 		if(user_id != null && session_user_id != null && !(user_id.equals(session_user_id))) {
+			// 잘못된 정보 여부 모델에 저장
 			String miss_info = "잘못된 접근입니다.";
 			model.addAttribute("miss_info", miss_info);
+			// 문제 원인 데이터들 모두 지우고 메인 페이지로 이동
 			session.removeAttribute("user_id");
 			user_id = null;
 			return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 		}
 		
-		if(user_id != null) {
-			UserVO vo = user_dao.check(user_id);
-			
-				session.setAttribute("user_id", user_id);
-				List<AccountVO> account_list = account_dao.selectList(user_id);
-				model.addAttribute("account_list", account_list);
-			
-			
+		// 해당 user_id의 계정 정보를 조회 
+		UserVO vo_ok = user_dao.check(user_id);
+
+		// 파라미터로 받아지는 user_id가 있으면서 DB에 해당 user_id가 있을 경우
+		if(user_id != null && vo_ok != null) {
+			// session에 저장하고 그 사용자의 계좌 리스트를 조회한다.
+			session.setAttribute("user_id", user_id);
+			List<AccountVO> account_list = account_dao.selectList(user_id);
+			model.addAttribute("account_list", account_list);
+	
+			// session에 저장된 user_id가 있을 경우
 		} else if(session_user_id != null) {
-			
+			// 저장된 user_id의 계좌 리스트를 조회한다.
 			List<AccountVO> account_list = account_dao.selectList(session_user_id);
 			model.addAttribute("account_list", account_list);
 		}
 		
+		// 환율 게시판 리스트 조회 (최근 10개)
 		List<RateboardVO> board_list = rateB_dao.selectRank_List();
 		
+		// 환율 게시판 별 댓글 수 조회 (댓글 수 카운트)
 		for(RateboardVO vo : board_list) {
-			vo.setComm_cnt(comment_dao.selectRow(vo.getR_board_idx()));
+			vo.setComm_cnt(comment_dao.selectRow(vo.getR_board_idx())); // 환율 게시판 vo에 댓글수 확인하는 변수 생성했어요 
 		}
-
 		model.addAttribute("board_list", board_list);
 		
+		//공지 게시판 리스트 조회 (최근 10개)
 		List<NoticeVO> notice_list = notice_dao.selectRank_List();
 		model.addAttribute("notice_list", notice_list);
 		
+		//공지 게시판 리스트 조회 (최근 10개)
 		List<QnaboardVO> qna_list = qna_dao.selectRank_List();
 		model.addAttribute("qna_list", qna_list);
 		
-		
-		/*
-		 * return Common.Account.VIEW_PATH_AC + "account.jsp";
-		 */		
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 	}
 	
+	// 메인 페이지에서 로그아웃
 	@RequestMapping("/logout.do")
 	public String logout() {
-		//HttpSession session = request.getSession();
+		// session에 담긴 user_id 데이터 제거
 		session.removeAttribute("user_id");
 		return "redirect:account_list.do";
 	}
 	
+	// 회원 탈퇴
 	@RequestMapping("/user_remove.do")
 	@ResponseBody
 	public String user_remove(String user_id) {
-		
-		int res = user_dao.update_user(user_id);
+		// 사용자명 unknown으로 변경
+		int res = user_dao.update_user_del(user_id);
 		
 		if(res > 0 ) {
+			//회원 탈퇴 완료 시 session에 저장된 user_id 정보 제거
 			session.removeAttribute("user_id");
 			return "[{'result':'clear'}]";
 		}
 		return "[{'result':'fail'}]";
 	}
 	
-	
+	// 계좌 추가 폼
 	@RequestMapping("/account_insert_form.do")
-	public String account_insert_form(Model model, String user_id) {
-		model.addAttribute("user_id", user_id);
+	public String account_insert_form(Model model, String user_id ) {
+		model.addAttribute("user_id", user_id); // 여기까지 주석 담
 		return Common.Account.VIEW_PATH_AC + "account_insert_form.jsp"; 
 	}
 	
