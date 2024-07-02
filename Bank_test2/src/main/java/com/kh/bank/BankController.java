@@ -95,7 +95,6 @@ public class BankController {
 	public String login_check(UserVO vo, Model model) {
 
 		UserVO X_User = user_dao.check(vo.getUser_id());
-		System.out.println(X_User.getUser_name());
 		boolean isValid = Common.SecurePwd.decodePwd(vo, user_dao);
 		if (isValid) {
 			if ("unknown".equals(X_User.getUser_name())) {
@@ -212,7 +211,7 @@ public class BankController {
 
 		// 사용자 데이터베이스에 삽입
 		user_dao.insert(vo);
-
+		
 		return "redirect:/login.do";
 	}
 

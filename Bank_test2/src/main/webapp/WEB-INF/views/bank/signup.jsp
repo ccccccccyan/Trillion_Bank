@@ -143,8 +143,18 @@ body {
 			return;
 		}
 
-		if (user_id.length < 4 || user_id.length > 12) {
-			alert("4~12자의 아이디를 입력하여주십시오.");
+		if (!/^[a-zA-Z0-9]+$/.test(user_id) || user_id.length < 4 || user_id.length > 12) {
+			alert("영어와 숫자로만 이루어진 4~12자의 아이디를 입력하여주십시오.");
+			return;
+		}
+		
+		if(!/^\d+$/.test(user_tel) || user_tel.length != 11){
+			alert("숫자로만 이루어진 11글자의 번호를 입력해주십시오.")
+			return;
+		}
+		
+		if(sample4_postcode == ''|| sample4_roadAddress =='' || sample4_jibunAddress =='' || user_addr =='' || sample4_extraAddress ==''){
+			alert("올바른 주소를 입력하여주십시오.")
 			return;
 		}
 		
@@ -173,6 +183,8 @@ body {
 				location.href = "signup_final.do?user_id=" + user_id + "&user_name=" + user_name +
 								"&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" + user_tel + 
 								"&user_addr=" + user_addr + "&manager=" + manager;
+				
+				alert("회원가입이 정상적으로 완료되었습니다.")
 			} else {
 				alert("가입실패");
 			}
@@ -195,8 +207,18 @@ body {
 			return;
 		}
 
-		if (user_id.length < 4 || user_id.length > 12) {
-			alert("4~12자의 아이디를 입력하여주십시오.");
+		if (!/^[a-zA-Z0-9]+$/.test(user_id) || user_id.length < 4 || user_id.length > 12) {
+			alert("영어와 숫자로만 이루어진 4~12자의 아이디를 입력하여주십시오.");
+			return;
+		}
+		
+		if(!/^\d+$/.test(user_tel) || user_tel.length != 11){
+			alert("숫자로만 이루어진 11글자의 번호를 입력해주십시오.")
+			return;
+		}
+		
+		if(sample4_postcode == ''|| sample4_roadAddress =='' || sample4_jibunAddress =='' || user_addr =='' || sample4_extraAddress ==''){
+			alert("올바른 주소를 입력하여주십시오.")
 			return;
 		}
 		
@@ -246,8 +268,8 @@ body {
 	function check_id(f) {
 		let user_id = f.user_id.value;
 		
-		if (user_id.length < 4 || user_id.length > 12) {
-			alert("4~12자의 아이디를 입력하여주십시오.");
+		if (!/^[a-zA-Z0-9]+$/.test(user_id) || user_id.length < 4 || user_id.length > 12) {
+			alert("영어와 숫자로만 이루어진 4~12자의 아이디를 입력하여주십시오.");
 			return;
 		}
 		
@@ -273,7 +295,13 @@ body {
 
 	function check_tel(f) {
 		let user_tel = f.user_tel.value;
+		
+		if(!/^\d+$/.test(user_tel) || user_tel.length != 11){
+			alert("숫자로만 이루어진 11글자의 번호를 입력해주십시오.")
+			return;
+		}
 
+		
 		let url = "signup_ins_tel.do";
 		let param = "user_tel=" + user_tel;
 
@@ -304,7 +332,7 @@ body {
 				<input type="button" value="중복확인" class="inline-button" onclick="check_id(this.form)">
 				<input type="password" name="user_pwd" placeholder="영어 + 숫자의 8~16자리의 비밀번호" maxlength="16" required><br> 
 				<input type="password" name="user_pwd_check" placeholder="비밀번호 확인" maxlength="16" required><br>
-				<input type="text" name="user_tel" placeholder="전화번호" required>
+				<input type="text" name="user_tel" placeholder="전화번호 '-'을 제외한 11자리" maxlength="11" required>
 				<input type="button" value="중복확인" class="inline-button" onclick="check_tel(this.form)"> <br> 
 				<input type="text" id="sample4_postcode" placeholder="우편번호">
 				<input type="button" onclick="DaumPostcode_api()" value="우편번호 찾기"><br>

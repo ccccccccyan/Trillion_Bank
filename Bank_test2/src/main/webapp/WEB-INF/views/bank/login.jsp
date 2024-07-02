@@ -70,6 +70,10 @@
     function send(f) {
         let user_id = f.user_id.value;
         let user_pwd = f.user_pwd.value;
+        
+        if(user_id =='' || user_pwd ==''){
+        	alert("올바른 정보를 입력해주십시오.")
+        }
 
         let url = "login_check.do";
         let param = "user_id=" + user_id + "&user_pwd=" + encodeURIComponent(user_pwd);
@@ -82,7 +86,7 @@
             let json = (new Function('return ' + data))();
             let user_id = json[0].User_id;
             if (json[0].result == 'no') {
-                alert("회원정보 불일치");
+                alert("ID와 비밀번호를 다시 확인하여 주십시오.");
                 return;
             }else if (json[0].result == 'freeze'){
             	alert("이 계정은 현재 동결상태이므로 서비스 이용을 원하시면 가까운 지점이나 본사를 방문하여주십시오.")
@@ -104,6 +108,9 @@
                 <input type="text" name="user_id" maxlength="12" placeholder="ID"><br>
                 <input type="password" name="user_pwd" placeholder="PASSWORD"><br>
             </div>
+             <label>
+                <input type="checkbox" name="remember_me"> Remember Me
+            </label><br>
             <input type="button" value="LOG IN" onclick="send(this.form)" />
             <input type="button" value="SIGN UP" onclick="location.href='signup.do'" />
             <input type="button" value="FIND ID" onclick="location.href='search_id.do'" />
