@@ -53,7 +53,8 @@ public class AccountController {
 		this.notice_dao = notice_dao;
 	}
 	
-	// 메인 페이지 조회
+	
+	// 메인 페이지 조회-------------------------------------------------------
 	@RequestMapping(value = { "/", "/account_list.do"})
 	public String account(Model model) {
 		// 이전 페이지에서 파라미터로 보내는 user_id가 있을 경우 받는다.
@@ -71,7 +72,6 @@ public class AccountController {
 			user_id = null;
 			return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 		}
-		
 
 		// 파라미터로 받아지는 user_id가 있으면서 DB에 해당 user_id가 있을 경우
 		if(user_id != null) {
@@ -109,7 +109,8 @@ public class AccountController {
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 	}
 	
-	// 메인 페이지에서 로그아웃
+	
+	// 메인 페이지에서 로그아웃 -----------------------------------------
 	@RequestMapping("/logout.do")
 	public String logout() {
 		// session에 담긴 user_id 데이터 제거
@@ -117,7 +118,7 @@ public class AccountController {
 		return "redirect:account_list.do";
 	}
 	
-	// 회원 탈퇴
+	// 회원 탈퇴-------------------------------------------------------
 	@RequestMapping("/user_remove.do")
 	@ResponseBody
 	public String user_remove(String user_id) {
@@ -132,36 +133,39 @@ public class AccountController {
 		return "[{'result':'fail'}]";
 	}
 	
-	// 계좌 추가 폼
+	// 계좌 추가 폼 --------------------------------------------------
 	@RequestMapping("/account_insert_form.do")
-	public String account_insert_form(Model model, String user_id ) {
-		model.addAttribute("user_id", user_id); // 여기까지 주석 담
+	public String account_insert_form(Model model) {
 		return Common.Account.VIEW_PATH_AC + "account_insert_form.jsp"; 
 	}
 	
+	// 계좌 추가 -------------------------------------------------------
 	@RequestMapping("/account_insert.do")
-	public String account_insert(AccountVO vo, String user_id) {
-		vo.setUser_id(user_id);
-		vo.setNow_money(0);
+	public String account_insert(AccountVO vo) {
+		// session에 있는 user_id 값을 받아 vo로 셋팅
+		String session_user_id = (String) session.getAttribute("user_id");
+		vo.setUser_id(session_user_id);
+		
+		// 입력받은 비밀번호 암호화
 		String encodePwd = Common.SecurePwd.encodePwd(vo.getAccount_pwd());
 		vo.setAccount_pwd(encodePwd);
 		int res = account_dao.data_insert(vo);
 		if(res > 0) {
 			System.out.println("추가 성공");
 		}
-		return "redirect:account_list.do";
+		return "redirect:account_list.do"; // 다시 메인 페이지로 이동
 	}
 	
+	// 계좌 번호 중복 체크 ----------------------------------------------
 	@RequestMapping("/account_number_check.do")
 	@ResponseBody
 	public String account_number_check(String account_number) {
-		System.out.println(account_number);
-		AccountVO vo = account_dao.check(account_number);
+		// 해당 계좌가 이미 DB에 있는지 확인한다.
+		AccountVO vo = account_dao.check(account_number); 
 		
 		if(vo != null) {
 			return "[{'result':'fail'}]";
 		}
-		
 		return "[{'result':'clear'}]";
 	}
 	
@@ -276,6 +280,7 @@ public class AccountController {
 				return "[{'result':'no'}]";
 			}
 	}
+	
 	@RequestMapping("account_delete.do")
 	public String account_delete(String account_number) {
 		account_dao.account_delete(account_number);

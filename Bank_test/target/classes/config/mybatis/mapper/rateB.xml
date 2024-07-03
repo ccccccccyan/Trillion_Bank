@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="r">
 
+	<!-- 환율 게시판 최신순 10개 조회 -->
 	<select id="select_list_rank" resultType="vo.RateboardVO">
 		select * from ( select rank() over(order by r_board_idx DESC) no, r.*from rate_board r)
 		where no BETWEEN 1 and 10

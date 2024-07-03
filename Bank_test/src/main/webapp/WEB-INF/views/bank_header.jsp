@@ -14,7 +14,6 @@
 		<script src="/bank/resources/js/httpRequest.js"></script>
 		
 		<script>
-			
 			function user_info_check(user_id) {
 					let user_pwd = prompt("비밀번호를 입력하세요");
 					    

@@ -76,10 +76,10 @@ public class BankController {
 		return Common.Bank.VIEW_PATH + "bank_list.jsp"; 
 	}
 	
-	@RequestMapping("/cart_view.do")
+	@RequestMapping("/chart_view.do")
 	@ResponseBody
 	public List<Map<String, Object>> showChart(Model model){
-		  // 현재 날짜 가져오기
+		// 현재 날짜 가져오기
 	    LocalDate first_date = LocalDate.of(2024, 5, 20); // 수정: 날짜 설정 변경
 	    LocalDate last_date = LocalDate.of(2024, 6, 20); // 수정: 날짜 설정 변경
 		// 원하는 형식의 DateTimeFormatter 생성
@@ -88,52 +88,58 @@ public class BankController {
 		String format_first_Date = first_date.format(fommat_date);
 		String format_last_Date = last_date.format(fommat_date);
 		
+		// 조회할 나라 배열
 		String[] CUR_UNIT = {"CHF", "CNH", "DKK", "EUR", "GBP", "HKD",
 							"IDR(100)", "JPY(100)", "KWD", "MYR",
 							"NOK", "NZD", "SAR", "SEK", "SGD", "THB", "USD"};
 		
+		// 반환할 리스트 생성
 		List<Map<String, Object>> day_map_list = new ArrayList<Map<String,Object>>();
+		
 		for(int i = 0; i < CUR_UNIT.length; i++) {
+			// 리스트에 조회한 데이터를 담을 map 변수
 			Map<String, Object> day_map_data = new HashMap<String, Object>();
+			// 나라별 데이터를 조회할 map 변수
 			Map<String, Object> day_map = new HashMap<String, Object>();
 			day_map.put("first_day", format_first_Date);
 			day_map.put("last_day", format_last_Date);
 			day_map.put("CUR_UNIT", CUR_UNIT[i]);
-
+			// first_day에서 last_day 사이의 cur_unit 데이터를 조회
 			List<RateVO> dataList =  rate_dao.select_chart(day_map);
+			
+			// 최대 최소 구하기
 			double max_data = Double.parseDouble(dataList.get(0).getTtb().replace(",", ""));
 			double min_data = Double.parseDouble(dataList.get(0).getTtb().replace(",", ""));
 
-				for(RateVO data : dataList) {
-					Double data_ttb = Double.parseDouble(data.getTtb().replace(",", ""));
-					Double data_tts = Double.parseDouble(data.getTts().replace(",", ""));
-					if(max_data < data_ttb) {
-						max_data = data_ttb;
-					}
-					
-					if(max_data < data_tts) {
-						max_data = data_tts;
-					}
-					
-					if(min_data > data_ttb ) {
-						min_data = data_ttb;
-					}
-	
-					
-					if(min_data > data_tts ) {
-						min_data = data_tts;
-					}
+			for(RateVO data : dataList) { // , 있으면 계산 안돼서 제거해주고 형변환했어요
+				Double data_ttb = Double.parseDouble(data.getTtb().replace(",", ""));
+				Double data_tts = Double.parseDouble(data.getTts().replace(",", ""));
+				if(max_data < data_ttb) {
+					max_data = data_ttb;
 				}
-
+				
+				if(max_data < data_tts) {
+					max_data = data_tts;
+				}
+				
+				if(min_data > data_ttb ) {
+					min_data = data_ttb;
+				}
+						
+				if(min_data > data_tts ) {
+					min_data = data_tts;
+				}
+			}
+			
+			// cur_unit과 max, min 값 담기
 			day_map_data.put("cur_unit", CUR_UNIT[i]);
 			day_map_data.put("max_data", max_data);
 			day_map_data.put("min_data", min_data);
-
+			// 조회된 rateVO 객체 리스트 담기
 			day_map_data.put("rateVO_data", dataList);
 			day_map_list.add(day_map_data);
 		}
-		
-		return day_map_list;
+		return day_map_list; // 최종적으로 리스트 반환
 	}
 	
 	

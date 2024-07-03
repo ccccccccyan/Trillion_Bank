@@ -74,6 +74,7 @@ body {
 </style>
 
 <script>
+	// 회원 정보 수정
 	function send(f) {
 		let user_id = f.user_id.value;
 		let user_pwd = f.user_pwd.value;
@@ -88,13 +89,12 @@ body {
 			return;
 		}
 
-
 		let url = "modify_ins_user.do";
 		let param = "user_id=" + user_id + "&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" + user_tel;
-
 		sendRequest(url, param, resultFn, "post");
-	}
-
+	}// send----------------------------------
+	
+	// 회원 정보 수정 결과
 	function resultFn() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			let data = xhr.responseText;
@@ -107,49 +107,46 @@ body {
 				alert("수정실패");
 			}
 		}
-	}
+	}// resultFn------------------------------
 
-	
+	// 전화번호 중복 확인
 	function check_tel(f) {
 		let user_tel = f.user_tel.value;
 		let user_id = f.user_id.value;
-
+		
 		let url = "modify_ins_tel.do";
 		let param = "user_tel=" + user_tel + "&user_id=" + user_id;
-
 		sendRequest(url, param, result_tel, "post");
-	}
+	}// check_tel------------------------------
 
+	// 전화번호 중복 확인 결과
 	function result_tel() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			let data = xhr.responseText;
 			let json = (new Function('return ' + data))();
-
 			if (json[0].result == 'clear') {
 				alert("사용 가능한 전화번호입니다.");
 			} else {
 				alert("다른 계정에서 사용 중인 번호입니다.");
 			}
 		}
-	}
+	}// result_tel----------------------------------
 	
+	// 사용자 정보 비공개 처리
 	function user_remove_check(user_id) {
 		if(confirm(user_id+"님의 정보가 영구적으로 제거됩니다. 정말 탈퇴하시겠습니까?")){
 			let url = "user_remove.do";
 			let param = "user_id="+user_id;
-			
 			sendRequest(url, param, user_removeFn, "post");
-			
 		}else{
 			alert("회원 탈퇴가 중지되었습니다.");
 		}
-	}
+	}// user_remove_check---------------------------
 	
+	// 사용자 정보 비공개 처리 결과
 	function user_removeFn() {
 		if(xhr.readyState == 4 && xhr.status == 200){
 			let data = xhr.responseText;
-			
-			console.log(data);
 			let json = (new Function('return ' + data))();
 			
 			if(json[0].result == 'clear'){
@@ -158,9 +155,8 @@ body {
 			}else{
 				alert("회원 정보 제거에 실패하였습니다.");
 			}
-			
 		}
-	}
+	}// user_removeFn----------------------
 	
 </script>
 </head>
