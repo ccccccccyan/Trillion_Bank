@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,8 +33,7 @@ body {
 	color: #fff;
 }
 
-.search input[type="text"],
-.search input[type="password"] {
+.search input[type="text"], .search input[type="password"] {
 	width: 250px;
 	padding: 12px;
 	margin: 10px;
@@ -61,10 +60,16 @@ body {
 .search input[type="button"]:hover {
 	background-color: #0056b3;
 }
+
+
+.search input[type="password"]::placeholder{
+    color: #ccc; /* 플레이스홀더의 글자색 설정 */
+    opacity: 1; /* 투명도 설정 */
+}
 </style>
 
 <title>비밀번호 변경</title>
-	<script>
+<script>
 		function send(f) {
 			let user_id = f.user_id.value;
 			let user_pwd = f.user_pwd.value;
@@ -72,26 +77,38 @@ body {
 			
 			if (user_pwd != user_pwd_check) {
 				alert("비밀번호가 일치하지 않습니다.");
-				alert(user_id);
+				return;
+			} else if (user_pwd.length < 8 || user_pwd.length > 16) {
+				alert("8~16자의 비밀번호를 입력하여주십시오.");
 				return;
 			}else {
 				location.href = "change_pwd_final.do?user_id=" + user_id + "&user_pwd=" + user_pwd;
+				alert("비밀번호 변경완료!")
 			}
 			
 			
 		}
+		
+		document.addEventListener('DOMContentLoaded', function() {
+	        document.forms["f"].addEventListener('keydown', function(event) {
+	            if (event.key === 'Enter') {
+	                event.preventDefault();
+	                send(this);
+	            }
+	        });
+	    });
 	</script>
 
 </head>
 <body>
-<div class="search">
-	<h2>비밀번호 변경</h2>
-	<form name="f">	
-		 <input type="hidden" name="user_id" value="${user_id}">
-		<input type = "password" name="user_pwd" placeholder="변경할 비밀번호를 입력하여주십시오"><br>
-		<input type = "password" name="user_pwd_check" placeholder="비밀번호 확인"><br>
-		<input type="button" value="비밀번호 변경" onclick="send(this.form)">
-	</form>
+	<div class="search">
+		<h2>비밀번호 변경</h2>
+		<form name="f">
+			<input type="hidden" name="user_id" value="${user_id}"> <input
+				type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력하여주십시오"><br>
+			<input type="password" name="user_pwd_check" placeholder="비밀번호 확인"><br>
+			<input type="button" value="비밀번호 변경" onclick="send(this.form)">
+		</form>
 	</div>
 </body>
 </html>

@@ -62,43 +62,58 @@ body {
 .search input[type="button"]:hover {
 	background-color: #0056b3;
 }
+
+
+.search input[type="text"]::placeholder{
+    color: #ccc; /* 플레이스홀더의 글자색 설정 */
+    opacity: 1; /* 투명도 설정 */
+}
 </style>
 
 
 <script>
 	function send(f) {
-		
-	let user_id = f.user_id.value;
-	
-	let url = "search_pwd2.do";
-	let param = "user_id=" + user_id;
-	
-	sendRequest(url, param, resultFn, "post"); 
+
+		let user_id = f.user_id.value;
+
+		let url = "search_pwd2.do";
+		let param = "user_id=" + user_id;
+
+		sendRequest(url, param, resultFn, "post");
 	}
-	
+
 	function resultFn() {
-	if (xhr.readyState == 4 && xhr.status == 200) {
-		let data = xhr.responseText;
-		let json = (new Function('return ' + data))();
-	 	let user_id = json[0].user_id;	
-		
-		if (json[0].result == 'clear') {
-			 location.href = "change_pwd.do?user_id=" + user_id;
-		} else {
-			alert("존재하지 않는 아이디입니다.");
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let data = xhr.responseText;
+			let json = (new Function('return ' + data))();
+			let user_id = json[0].user_id;
+
+			if (json[0].result == 'clear') {
+				location.href = "change_pwd.do?user_id=" + user_id;
+			} else {
+				alert("존재하지 않는 아이디입니다.");
+			}
 		}
 	}
-	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		document.forms["f"].addEventListener('keydown', function(event) {
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				send(this);
+			}
+		});
+	});
 </script>
 
 </head>
 <body>
-<div class ="search">
-	<h2>비밀번호 찾기</h2>
-	<form name="f">
-		<input type= "text" name="user_id" placeholder="ID를 입력하여주십시오"> <input
-			type="button" value="ID 확인" onclick="send(this.form)">
-	</form>
-</div>
+	<div class="search">
+		<h2>비밀번호 찾기</h2>
+		<form name="f">
+			<input type="text" name="user_id" placeholder="ID를 입력하여주십시오">
+			<input type="button" value="ID 확인" onclick="send(this.form)">
+		</form>
+	</div>
 </body>
 </html>

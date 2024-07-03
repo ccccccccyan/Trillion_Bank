@@ -61,6 +61,11 @@ body {
 .search input[type="button"]:hover {
 	background-color: #0056b3;
 }
+
+.search input[type="text"]::placeholder{
+    color: #ccc; /* 플레이스홀더의 글자색 설정 */
+    opacity: 1; /* 투명도 설정 */
+}
 </style>
 
 <script>
@@ -87,6 +92,17 @@ body {
 			}
 		}
 	}
+	
+	document.addEventListener('DOMContentLoaded', function() {
+        document.forms["f"].addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                send(this);
+            }
+        });
+    });
+	
+	
 </script>
 
 </head>

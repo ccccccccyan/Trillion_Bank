@@ -20,24 +20,27 @@ body {
 
 .signup-container {
 	background-color: #444;
-	padding: 30px;
-	border-radius: 10px;
+	padding-top: 20px;
+	padding-left: 28px;
+	padding-right: 28px;
+	padding-bottom: 28px;
+	border-radius: 12px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	width: 320px;
+	width: 420px;
 	text-align: center;
 }
 
 .signup-container h2 {
 	margin-bottom: 20px;
-	font-size: 24px;
+	font-size: 30px;
 	color: #fff;
 }
 
 .signup-container input[type="text"], .signup-container input[type="password"],
 	.signup-container input[type="button"] {
-	width: 100%;
+	width: calc(100% - 0px);
 	padding: 12px;
-	margin: 10px 0;
+	margin: 8px 0;
 	border: 1px solid #555;
 	border-radius: 5px;
 	background-color: #555;
@@ -50,6 +53,20 @@ body {
 	border: none;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	width: calc(50% - 5px);
+}
+
+.signup-container input[type="text"].check{
+	float :left;
+	width: calc(100% - 70px);
+}
+
+.signup-container input[type="button"].inline-button {
+	margin-left:10px;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	width: calc(30% - 70px);
 }
 
 .signup-container input[type="button"]:hover {
@@ -58,17 +75,23 @@ body {
 
 .signup-container .inline-button {
 	width: calc(50% - 10px);
-	display: inline-block; /* inline-block으로 설정하여 옆으로 정렬 */
-	margin-right: 10px; /* 각 버튼 사이의 간격 조정 */
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 
 .signup-container .inline-button+.inline-button {
 	margin-left: 20px;
 }
+
+.signup-container input[type="text"]::placeholder,
+.signup-container input[type="password"]::placeholder {
+    color: #ccc; /* 플레이스홀더의 글자색 설정 */
+    opacity: 1; /* 투명도 설정 */
+}
 </style>
 
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function DaumPostcode_api() {
@@ -324,18 +347,18 @@ body {
 </head>
 <body>
 	<div class="signup-container">
-		<h2>회원 가입</h2>
+		<h2>SIGN UP</h2>
 		<form name="f">
 			<div class="id">
 				<input type="text" name="user_name" placeholder="이름" required><br>
-				<input type="text" name="user_id" placeholder="영어 + 숫자의 4~12자리의 ID" required maxlength="12"> 
-				<input type="button" value="중복확인" class="inline-button" onclick="check_id(this.form)">
+				<input type="text" name="user_id" class="check" placeholder="영어 + 숫자의 4~12자리의 ID" required maxlength="12"> 
+				<input type="button" value="확인" class="inline-button" onclick="check_id(this.form)">
 				<input type="password" name="user_pwd" placeholder="영어 + 숫자의 8~16자리의 비밀번호" maxlength="16" required><br> 
 				<input type="password" name="user_pwd_check" placeholder="비밀번호 확인" maxlength="16" required><br>
-				<input type="text" name="user_tel" placeholder="전화번호 '-'을 제외한 11자리" maxlength="11" required>
-				<input type="button" value="중복확인" class="inline-button" onclick="check_tel(this.form)"> <br> 
-				<input type="text" id="sample4_postcode" placeholder="우편번호">
-				<input type="button" onclick="DaumPostcode_api()" value="우편번호 찾기"><br>
+				<input type="text" name="user_tel" class="check" placeholder="전화번호 '-'을 제외한 11자리" maxlength="11" required>
+				<input type="button" value="확인" class="inline-button" onclick="check_tel(this.form)"> <br> 
+				<input type="text" id="sample4_postcode" class="check" placeholder="우편번호">
+				<input type="button" onclick="DaumPostcode_api()" class="inline-button" value="찾기"><br>
 				<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
 				<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
 				<span id="guide" style="color: #999; display: none"></span> 

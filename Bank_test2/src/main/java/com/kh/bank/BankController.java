@@ -72,13 +72,13 @@ public class BankController {
 	}
 
 	// 메인 화면
-	@RequestMapping(value = { "/", "/home.do" })
+	@RequestMapping("/home.do" )
 	public String Home() {
 		return Common.Bank.VIEW_PATH + "home.jsp";
 	}
 
 	// 로그인 창
-	@RequestMapping("/login.do")
+	@RequestMapping(value = { "/", "/login.do"})
 	public String login() {
 		return Common.Bank.VIEW_PATH + "login.jsp";
 	}
