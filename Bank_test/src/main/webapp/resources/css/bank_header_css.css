@@ -1,15 +1,14 @@
 @charset "UTF-8";
 
-		html, body {
+	html, body {
                 margin: 0; 
                 padding: 0;
                 height: 100%; /* 추가: 부모 요소의 높이를 100%로 설정 */
            }
 		
-		li{list-style: none;
-			}
+	li{list-style: none;}
 			
-		a{text-decoration: none;}
+	a{text-decoration: none;}
 		
 	#bank_headcontainer{background-color: #23212b;
 						width: 100%;
@@ -50,11 +49,14 @@
 						width: 150px;
 						cursor: pointer;
 					}
-		#body .mainMenu:active{border-bottom: 3px solid skyblue;}
+		#body .mainMenu:hover{border-bottom: 3px solid skyblue;}
 		
 		#body > ul > li{position: relative;
 				float: left;
 				 }
+		
+		#body > ul > li ul:hover{display: block;
+								background-color: red}
 					
 		#body li ul{display: none;
 					right:0;

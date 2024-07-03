@@ -18,7 +18,7 @@ public class AccountDAO {
 		this.sqlSession = sqlSession;
 	}
 	
-	// 조회 ???
+	// 조회 
 	public List<AccountVO> selectList(String user_id) {
 		List<AccountVO> list = sqlSession.selectList("ac.account_list", user_id);
 		return list;
@@ -62,14 +62,9 @@ public class AccountDAO {
 		return res;
 	}
 	
-	public int delete_ac_detailinfo(String user_id) {
-		int res = sqlSession.delete("ac.delete_ac_detailinfo", user_id);
-		return res;
+	public List<AccountdetailVO> search_detailaccountlist(Map<String, Object> map){
+		List<AccountdetailVO> searchaccount_list = sqlSession.selectList("ac.searchdetailaccount_list", map);
+		return searchaccount_list;
 	}
-	public int delete_ac_info(String user_id) {
-		int res = sqlSession.delete("ac.delete_ac_info", user_id);
-		return res;
-	}
-	
 	
 }

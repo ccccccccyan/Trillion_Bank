@@ -1,7 +1,10 @@
 package com.kh.bank;
 
 import java.net.http.HttpRequest;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -225,12 +228,6 @@ public class AccountController {
 		AccountVO user = account_dao.accountnum_selectOne(account_number); // userid의 계좌상세정보를 조회
 		AccountVO target = account_dao.accountnum_selectOne(target_account_number);//내가 송금할 계좌번호의 계좌 상세정보를 조회
 		
-		if(deal_money > 100000) {
-			System.out.println("아오 서영시치");
-			throw new RuntimeException("아오 서영시치");
-		}
-		
-		
 		int usermoney = user.getNow_money() - deal_money; //user의 계좌에서 빠져나간만큼의 금액을 빼줌
 		int targetmoney = target.getNow_money() + deal_money;//상대 계좌의 송금받은 만큼의 금액을 더함
 		
@@ -266,19 +263,22 @@ public class AccountController {
 		return Common.Account.VIEW_PATH_AC + "delete_form.jsp";
 	}
 
-	@RequestMapping("del_accountpwd_chk.do")
+	@RequestMapping(value="/del_accountpwd_chk.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String accountpwd_chk(AccountVO vo) {
-		boolean isValid = Common.SecurePwd.decodePwd(vo, account_dao);	
+		boolean isValid = Common.SecurePwd.decodePwd(vo, account_dao);
+		AccountVO one = account_dao.accountnum_selectOne(vo.getAccount_number());
+		int now_money = one.getNow_money();
+		String bank_name = one.getBank_name();
 		if(isValid) {
 		//비밀번호가 일치하므로, 삭제 form으로 이동
 			String resIdx = 
-			String.format("[{'result':'clear', 'account_number':'%s'}]", vo.getAccount_number());
-			return resIdx;
-			}else {
-				//비밀번호 불일치
+				String.format("[{'result':'clear', 'account_number':'%s', 'now_money':'%d', 'bank_name':'%s'}]", vo.getAccount_number(), now_money, bank_name);
+				return resIdx;
+		}else {
+		//비밀번호 불일치
 				return "[{'result':'no'}]";
-			}
+		}
 	}
 	
 	@RequestMapping("account_delete.do")
@@ -286,4 +286,58 @@ public class AccountController {
 		account_dao.account_delete(account_number);
 		return "redirect:account_list.do";
 	}
+	
+	@RequestMapping("accountdetail_Searchform.do")
+	public String accountdetail_Searchform(Model model, String account_number) {
+		AccountVO vo = account_dao.accountnum_selectOne(account_number);
+		model.addAttribute("vo", vo);
+		return Common.Account.VIEW_PATH_AC + "detail_searchform.jsp";
+	}
+	@RequestMapping("detail_search.do")
+	public String detail_search(Model model, String account_number, String period, String type, String sorting, String additional, String year, String month, String startDate, String endDate) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+
+	    if (sorting.equals("최신순")) {
+	        String order = "bank_date desc";
+	        map.put("order", order);
+	    } else if (sorting.equals("과거순")) {
+	        String order = "bank_date";
+	        map.put("order", order);
+	    }
+
+	    LocalDate nowdate = LocalDate.now();
+	    nowdate = nowdate.plusDays(1);
+	    map.put("account_number", account_number);
+
+	    if (period != null && !period.equals("")) {
+	        map.put("end", nowdate);
+	        if (period.equals("1주일")) {
+	            LocalDate weekago = nowdate.minusDays(7);
+	            map.put("begin", weekago);
+	        } else if (period.equals("1개월")) {
+	            LocalDate monthago = nowdate.minusMonths(1);
+	            map.put("begin", monthago);
+	        } else if (period.equals("3개월")) {
+	            LocalDate monthago3 = nowdate.minusMonths(3);
+	            map.put("begin", monthago3);
+	        }
+	    }
+	    
+	    if ("월별".equals(additional)) {
+	        map.put("begin", LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), 1));
+	        map.put("end", LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), 1).plusMonths(1).minusDays(1));
+	    } else if ("직접입력".equals(additional)) {
+	        map.put("begin", LocalDate.parse(startDate));
+	        map.put("end", LocalDate.parse(endDate).plusDays(1));
+	    }
+	   
+	    List<AccountdetailVO> list = account_dao.search_detailaccountlist(map);
+	    model.addAttribute("type", type);
+	    AccountVO vo = account_dao.accountnum_selectOne(account_number);
+	    model.addAttribute("vo", vo);
+	    model.addAttribute("list", list);
+
+	    return Common.Account.VIEW_PATH_AC + "search_account_list.jsp";
+	}
+
 }
