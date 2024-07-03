@@ -43,7 +43,7 @@
 				<div id="body">
 					<ul>
 						<li>
-							<div class="mainMenu">환율</div>
+							<div class="mainMenu" onclick="sideMenu_open('sideMenu1');">환율</div>
 								<ul id="sideMenu1">
 									<li class="sideMenu"><a href="#">환율 조회</a></li>
 									<li class="sideMenu"><a href="#">환율 게시판</a></li>
@@ -51,7 +51,7 @@
 						</li>
 						
 						<li>
-							<div class="mainMenu">은행 안내</div>
+							<div class="mainMenu" onclick="sideMenu_open('sideMenu2');">은행 안내</div>
 								<ul id="sideMenu2">
 									<li class="sideMenu"><a href="#">CEO인사말</a></li>
 									<li class="sideMenu"><a href="#">비전</a></li>
@@ -61,7 +61,7 @@
 						</li>
 						
 						<li>
-							<div class="mainMenu">연혁</div>
+							<div class="mainMenu" onclick="sideMenu_open('sideMenu3');">연혁</div>
 								<ul id="sideMenu3">
 									<li class="sideMenu"><a href="#">전체 일정</a></li>
 									<li class="sideMenu"><a href="#">김서영 CEO</a></li>
@@ -72,7 +72,7 @@
 						</li>
 						
 						<li>
-							<div class="mainMenu">자료실</div>
+							<div class="mainMenu" onclick="sideMenu_open('sideMenu4');">자료실</div>
 								<ul id="sideMenu4">
 									<li class="sideMenu"><a href="#">채용정보</a></li>
 									<li class="sideMenu"><a href="#">인재상</a></li>

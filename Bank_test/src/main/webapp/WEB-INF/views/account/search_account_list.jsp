@@ -15,7 +15,7 @@
                 
             }
             form {
-            	padding: 220px;
+            	padding: 80px;
             }
         
             .transaction-list {
