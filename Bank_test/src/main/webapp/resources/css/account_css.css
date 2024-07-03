@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	body {margin: 0; padding: 0;}
 		
 	a {text-decoration: none;}
@@ -71,7 +71,7 @@
 		}
 		
 			
-			.bankbook_front{position: absolute;
+		.bankbook_front{position: absolute;
 						left: 5px;
 						z-index: 4;
 						width: 380px;

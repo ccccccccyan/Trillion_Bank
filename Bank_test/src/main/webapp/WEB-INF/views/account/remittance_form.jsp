@@ -5,8 +5,62 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		
+		<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">
 		<script src="/bank/resources/js/httpRequest.js"></script>
+		
+		 <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            
+        }
+        form {
+        	 padding: 220px;
+        }
+        
+        
+        table {
+            width: 400px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+           
+        }
+        
+        table td {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        table input[type="text"],
+        table input[type="password"],
+        table input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        
+        table input[type="button"] {
+            width: 100px;
+            padding: 10px;
+            background-color: #23212b;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        table input[type="button"]:hover {
+            background-color: #1a1720;
+        }
+    </style>
+		
 		
 		<script>
 		function send(f) {
@@ -81,35 +135,38 @@
 		
 	</head>
 	<body>
-		<form>
-		<table border="1" align="center">
-		
-			<input type="hidden" name="account_pwd" value="${vo.account_pwd}">
-			<input type="hidden" name="account_number" value="${vo.account_number}">
-			<input type="hidden" name="now_money" value="${vo.now_money}">
-			
-			
-			<tr>
-				<td>아이디: ${vo.user_id}</td>
-			</tr>
-			<tr>
-				<td>계좌번호<input name="target_account_number" maxlength="14"></td>
-			</tr>
-			<tr>
-				<td>금액<input name="deal_money"></td>
-			</tr>
-			<tr>
-				<td>비밀번호<input type ="password" name="input_pwd" maxlength="4"></td>
-			</tr>
-			<tr>
-				<td>잔액: ${vo.now_money}원</td>
-			</tr>
-			<tr>
-				<td align="right"><input type ="button" value="송금" onclick="send(this.form);"></td>
-				<td align="right"><input type ="button" value="취소" onclick="history.back();"></td>
-			</tr>
-			
-		</table>
-		</form>
+			<div id="header">
+				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+			</div>
+	
+    <form>
+        <table border="1" align="center">
+            <input type="hidden" name="account_pwd" value="${vo.account_pwd}">
+            <input type="hidden" name="account_number" value="${vo.account_number}">
+            <input type="hidden" name="now_money" value="${vo.now_money}">
+            
+            <tr>
+                <td>아이디: ${vo.user_id}</td>
+            </tr>
+            <tr>
+                <td>계좌번호<input name="target_account_number" maxlength="14" type="text"></td>
+            </tr>
+            <tr>
+                <td>금액<input name="deal_money" type="number"></td>
+            </tr>
+            <tr>
+                <td>비밀번호<input type="password" name="input_pwd" maxlength="4"></td>
+            </tr>
+            <tr>
+                <td>잔액: ${vo.now_money}원</td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <input type="button" value="송금" onclick="send(this.form);">
+                    <input type="button" value="취소" onclick="history.back();">
+                </td>
+            </tr>
+        </table>
+    </form>
 	</body>
 </html>

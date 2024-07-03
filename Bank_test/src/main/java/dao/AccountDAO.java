@@ -61,4 +61,8 @@ public class AccountDAO {
 		int res = sqlSession.delete("ac.account_delete", account_number);
 		return res;
 	}
+	public List<AccountdetailVO> search_detailaccountlist(Map<String, Object> map){
+		List<AccountdetailVO> searchaccount_list = sqlSession.selectList("ac.searchdetailaccount_list", map);
+		return searchaccount_list;
+	}
 }

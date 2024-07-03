@@ -65,6 +65,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="account_delete" parameterType="String">
 		delete from account_list where account_number=#{account_number}
 	</delete>
+	
+	<select id="searchdetailaccount_list" resultType="vo.AccountdetailVO" parameterType="java.util.Map">
+    SELECT * FROM account_detail 
+    WHERE (account_number = #{account_number} OR depo_account = #{account_number})
+    AND bank_date BETWEEN #{begin, jdbcType=DATE} AND #{end, jdbcType=DATE}
+    ORDER BY ${order}
+</select>
+	
 </mapper>
 
 
