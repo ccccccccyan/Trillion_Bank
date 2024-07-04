@@ -261,6 +261,8 @@ public class BankController {
 	@RequestMapping(value = "/search_id2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String search_id2(UserVO vo) {
+		System.out.println(vo.getUser_tel() + " tel");
+		
 		// 중복된 user_id 확인
 		UserVO existingUser = user_dao.check_tel(vo.getUser_tel());
 		if (existingUser == null) {
