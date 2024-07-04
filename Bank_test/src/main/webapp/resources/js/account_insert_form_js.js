@@ -119,7 +119,7 @@
 		let account_number = f.account_number.value.trim();
 		let account_pwd = f.account_pwd.value.trim();
 		let send_button = document.getElementById("send_button");
-			
+		
 		if(bank_name != '' && account_number != '' && account_pwd != '' && account_no == 'yes'){
 			send_button.disabled = false;
 		}else{

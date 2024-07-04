@@ -20,6 +20,52 @@
 		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
 	</head>
 	
+	<script>
+		// 계좌번호 유효성 체크
+		function account_pattern(event) {
+			let account_warn_msg = document.getElementById("account_warn_msg");
+			let same_account = document.getElementById("same_account");
+		    const input = event.target.value;
+		
+		    // 숫자 유효성 검사 (정규 표현식 사용)
+            const isValidNumber = /^\d*$/.test(input);
+
+            if (!isValidNumber) {
+                console.warn('Invalid input: Only numbers are allowed.');
+                account_warn_msg.innerHTML = "유효하지 않은 형식입니다."
+                same_account.disabled = true;
+                account_no = "no"
+                //event.target.value = input.replace(/\D/g, ''); // 숫자가 아닌 문자를 제거
+            }else{
+            	account_warn_msg.innerHTML="";
+	            same_account.disabled = false;
+            }
+			
+		    console.log(event.type, event.target.value);
+		}
+
+		// 계좌번호 유효성 체크
+		function pwd_pattern(event, f) {
+			let pwd_warn_msg = document.getElementById("pwd_warn_msg");
+			let send_button = document.getElementById("send_button");
+		    const input = event.target.value;
+		
+		    // 숫자 유효성 검사 (정규 표현식 사용)
+            const isValidNumber = /^\d*$/.test(input);
+
+            if (!isValidNumber) {
+                console.warn('Invalid input: Only numbers are allowed.');
+                pwd_warn_msg.innerHTML = "유효하지 않은 형식입니다."
+                send_button.disabled = true;
+            }else{
+            	pwd_warn_msg.innerHTML="";
+            	send_button.disabled = false;
+	            send_check(f);
+            }
+			
+		    console.log(event.type, event.target.value);
+		}
+	</script>
 	
 	
 	<body>
@@ -55,13 +101,15 @@
 							
 							<input name="bank_name" value="" disabled="disabled" id="bank_name"> 은행 <br> <br>
 							계좌번호 <br>
-							<input name="account_number" maxlength="14" onchange="send_check(this.form);" id="account_number"> <br>
+							<input name="account_number" maxlength="14" onchange="send_check(this.form);" id="account_number" oninput="account_pattern(event);"> <br>
 							
 							<input type="button" value="중복확인" id="same_account" onclick="account_check(this.form);">
+							<span id="account_warn_msg" style="color: red"></span>
 							
 							<div class="isnert_pwd_form">
-								<input name="account_pwd" maxlength="4" onchange="send_check(this.form);" id="account_pwd"> 비밀 번호
-								<input type="button" value="추가" id="send_button" disabled="disabled" onclick="account_insert(this.form);">
+								<input name="account_pwd" maxlength="4" onchange="send_check(this.form);" id="account_pwd" oninput="pwd_pattern(event , this.form);"> 비밀 번호
+								<input type="button" value="추가" id="send_button" disabled="disabled" onclick="account_insert(this.form);"> <br>
+							<span id="pwd_warn_msg" style="color: red"></span>
 							</div>
 						</form>
 					</div>
