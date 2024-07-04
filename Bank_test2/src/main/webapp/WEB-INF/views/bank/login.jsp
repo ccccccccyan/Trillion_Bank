@@ -222,7 +222,7 @@ body {
 	<img src="/bank/resources/img/일조은행아이콘.png" alt="Trillion Bank Logo"
 		class="logo">
 	<div class="login-container">
-		<h2>LOG IN</h2>
+		<h2>로그인</h2>
 		<form name="f">
 			<div class="input-wrapper">
 				<i class='bx bxs-user'></i> <input type="text" name="user_id"
@@ -232,11 +232,10 @@ body {
 				<i class='bx bxs-lock-alt'></i> <input type="password"
 					name="user_pwd" placeholder="PASSWORD">
 			</div>
-			<label> <input type="checkbox" name="remember_me">Remember
-				Me?
-			</label> <a href="signup.do" class="signup">Sign up</a> <input type="button"
-				value="LOG IN" onclick="send(this.form)" /> <a href="search_id.do">Forgot
-				ID?</a> <a href="search_pwd.do">Forgot Password?</a>
+			<label> <input type="checkbox" name="remember_me">저장하기
+			</label> <a href="signup.do" class="signup">회원 가입</a> <input type="button"
+				value="LOG IN" onclick="send(this.form)" /> <a href="search_id.do">아이디 찾기
+				</a> <a href="search_pwd.do">비밀번호 찾기</a>
 		</form>
 	</div>
 </body>

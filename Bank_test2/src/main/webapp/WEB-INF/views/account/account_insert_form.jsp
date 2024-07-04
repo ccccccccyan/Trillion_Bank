@@ -20,8 +20,6 @@
 		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
 	</head>
 	
-	
-	
 	<body>
 		<div id="account_insert_container">
 			<div id="header">
@@ -55,13 +53,13 @@
 							
 							<input name="bank_name" value="" disabled="disabled" id="bank_name"> 은행 <br> <br>
 							계좌번호 <br>
-							<input name="account_number" maxlength="14" onchange="send_check(this.form);" id="account_number"> <br>
-							
-							<input type="button" value="중복확인" id="same_account" onclick="account_check(this.form);">
+							<input name="account_number" maxlength="14" oninput="send_check(this.form);" id="account_number" placeholder="계좌번호는 숫자 10 ~ 14자리"> <br>
+							<span id="account_warn_msg" style="color: red"></span>
 							
 							<div class="isnert_pwd_form">
-								<input name="account_pwd" maxlength="4" onchange="send_check(this.form);" id="account_pwd"> 비밀 번호
-								<input type="button" value="추가" id="send_button" disabled="disabled" onclick="account_insert(this.form);">
+								<input name="account_pwd" maxlength="4" oninput="send_check(this.form);" id="account_pwd" placeholder="숫자 4자리"> 비밀 번호
+								<input type="button" value="추가" id="send_button" disabled="disabled" onclick="account_insert(this.form);"> <br>
+							<span id="pwd_warn_msg" style="color: red"></span>
 							</div>
 						</form>
 					</div>

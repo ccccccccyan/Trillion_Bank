@@ -73,34 +73,8 @@
 		account_color.value = color;
 	}// color_choice----------
 		
-	// 계좌번호 중복 체크	
-	function account_check(f) {
-		let account_number = f.account_number.value.trim();
-		
-		let url = "account_number_check.do";
-		let param = "account_number="+account_number;
-		
-		sendRequest(url, param, function() {
-               check_resultFn(f);
-           }, "post");
-	}// account_check-------------
+
 	
-	// 계좌번호 중복 체크 결과 확인	
-	function check_resultFn(f) {
-		if(xhr.readyState == 4 && xhr.status == 200){
-			let data = xhr.responseText;
-			let json = (new Function('return ' + data))();
-			
-			if(json[0].result == 'clear'){
-				alert("사용 가능한 번호입니다.");
-				account_no = "yes";
-				send_check(f); 
-			}else{
-				alert("이미 있는 번호입니다.");
-				account_no = "no";
-			}
-		}
-	}// check_resultFn-----------
 	
 	// 선택한 은행별 데이터 변경
 	function bank_choice(choice_name) {
@@ -113,13 +87,77 @@
 		}
 	}// bank_choice-------------	
 
-	// 모든 작성이 완료됐는지 여부 확인		
+	// 계좌번호 유효성 체크	
 	function send_check(f) {
 		let bank_name = f.bank_name.value;
 		let account_number = f.account_number.value.trim();
-		let account_pwd = f.account_pwd.value.trim();
+		let account_warn_msg = document.getElementById("account_warn_msg");
 		let send_button = document.getElementById("send_button");
+		
+		let pattern = /^[0-9]*$/;
+		
+		if(!pattern.test(account_number)){
+			 account_warn_msg.innerHTML = "계좌번호는 숫자 10 ~ 14자리입니다."
+			 account_warn_msg.style.color = "red";
+             send_check_no = "no";
+	         send_button.disabled = true;
+             return;
+		}
+		account_warn_msg.innerHTML="";
+		
+		let url = "account_number_check.do";
+		let param = "account_number="+account_number;
+		
+		// 계좌 번호 중복 체크
+		sendRequest(url, param, function() {
+               check_resultFn(f);
+           }, "post");
+	}
+	
+	// 계좌번호 중복 체크 결과 확인	
+	function check_resultFn(f) {
+		if(xhr.readyState == 4 && xhr.status == 200){
+			let data = xhr.responseText;
+			let json = (new Function('return ' + data))();
+			let account_warn_msg = document.getElementById("account_warn_msg");
+			let send_button = document.getElementById("send_button");
 			
+			if(json[0].result == 'clear'){
+				account_warn_msg.innerHTML = "사용 가능한 계좌 번호입니다.";
+				account_warn_msg.style.color = "green";
+				account_no = "yes";
+			}else{
+				account_warn_msg.innerHTML = "이미 사용중인 계좌 번호입니다.";
+				account_warn_msg.style.color = "red";
+				account_no = "no";
+	            send_button.disabled = true;
+				return;
+			}
+			
+			let account_pwd = f.account_pwd.value.trim();
+			let pwd_warn_msg = document.getElementById("pwd_warn_msg");
+			let pattern = /^[0-9]*$/;
+
+			if(!pattern.test(account_pwd)){
+				 pwd_warn_msg.innerHTML = "유효하지 않은 형식입니다."
+	             send_button.disabled = true;
+				 return;
+			}else{
+				 pwd_warn_msg.innerHTML="";
+			}
+			// 모든 유효성 체크와 계좌 번호 중복 확인이 정상적으로 완료됐을 경우
+			send_check_fn(f);
+		}
+	}// check_resultFn-----------
+	
+	// 모든 작성이 정상적으로 완료됐는지 여부 확인		
+	function send_check_fn(f) {
+		let send_button = document.getElementById("send_button");
+		let bank_name = f.bank_name.value;
+		let account_number = f.account_number.value.trim();
+		let account_pwd = f.account_pwd.value.trim();
+	
+		// 전송 버튼 활성화
 		if(bank_name != '' && account_number != '' && account_pwd != '' && account_no == 'yes'){
 			send_button.disabled = false;
 		}else{
