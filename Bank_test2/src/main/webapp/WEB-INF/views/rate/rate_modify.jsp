@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>rate_modify.jsp</title>
 		
-		<script src="/rateBoard/resources/js/httpRequest.js"></script>
+		<script src="/bank/resources/js/httpRequest.js"></script>
 		
 		<script>
 			function send(f){
@@ -30,7 +30,7 @@
 			
 			function resultFn(){
 				if( xhr.readyState == 4 && xhr.status == 200 ){
-					
+					console.log("emfdjadlaskdfnkjsdanfkj");
 					let data = xhr.responseText;
 					//let json = (new Function('return '+data))();
 					

@@ -8,6 +8,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>comment_list.jsp</title>
+		
 	</head>
 	
 	<body>

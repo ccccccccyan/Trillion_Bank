@@ -32,7 +32,7 @@
 		</style>
 		
 		<!-- Ajax사용을 위한 js파일 -->
-		<script src="/qnab/resources/js/httpRequest.js"></script>
+		<script src="/bank/resources/js/httpRequest.js"></script>
 		
 		<script>
 		
@@ -110,12 +110,12 @@
 						
 						<c:if test="${ vo.depth lt 1 }">
 							<!-- 답변 -->
-							<img src="/qnab/resources/img/btn_reply.gif" onclick="reply();"
+							<img src="/bank/resources/img/btn_reply.gif" onclick="reply();"
 								   style="cursor: pointer;">
 						</c:if>
 						
 						<!-- 삭제 -->
-						<img src="/qnab/resources/img/btn_delete.gif" onclick="del();"
+						<img src="/bank/resources/img/btn_delete.gif" onclick="del();"
 							   style="cursor: pointer;">
 						
 					</td>

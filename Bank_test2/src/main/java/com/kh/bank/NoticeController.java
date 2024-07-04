@@ -35,7 +35,7 @@ public class NoticeController {
 	}
 	
 	//전체 게시글 보기
-	@RequestMapping("n_list.do")
+	@RequestMapping("/n_list.do")
 	public String list(Model model, String page, String search, String search_text) {
 		int nowPage = 1; //현재 페이지 1페이지부터 시작
 		if (page != null && !page.isEmpty()) { // null 체크
@@ -85,7 +85,7 @@ public class NoticeController {
 		// 페이지 메뉴 생성
 		String search_param = String.format("search=%s&search_text=%s", search, search_text);
 
-		String pageMenu = Paging.getPaging("list.do", nowPage, row_total, search_param, Common.Notice.BLOCKLIST,
+		String pageMenu = Paging.getPaging("n_list.do", nowPage, row_total, search_param, Common.Notice.BLOCKLIST,
 				Common.Notice.BLOCKPAGE);
 
 		// list객체 바인딩 및 포워딩
@@ -117,7 +117,7 @@ public class NoticeController {
 	@RequestMapping("/n_insert.do")
 	public String insert(NoticeVO vo) {
 		notice_dao.insert(vo);
-		return "redirect:list.do";
+		return "redirect:n_list.do";
 	}
 	
 	//수정
@@ -133,14 +133,14 @@ public class NoticeController {
 	@RequestMapping("/n_modify_fin.do")
 	public String modify_fin(NoticeVO vo) {
 		notice_dao.update(vo);
-		return "redirect:list.do";
+		return "redirect:n_list.do";
 	}
 	
 	//글 삭제
 	@RequestMapping("/n_del.do")
 	public String del(int r_notice_idx) {
 		notice_dao.del_update(r_notice_idx);
-		return "redirect:list.do";
+		return "redirect:n_list.do";
 	}
 	
 	

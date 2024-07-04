@@ -85,7 +85,7 @@ public class QnaController {
 		// 페이지 메뉴 생성
 		String search_param = String.format("search=%s&search_text=%s", search, search_text);
 
-		String pageMenu = Paging.getPaging("list.do", nowPage, row_total, search_param, Common.Qna.BLOCKLIST,
+		String pageMenu = Paging.getPaging("q_list.do", nowPage, row_total, search_param, Common.Qna.BLOCKLIST,
 				Common.Qna.BLOCKPAGE);
 
 		// list객체 바인딩 및 포워딩
@@ -120,7 +120,7 @@ public class QnaController {
 	@RequestMapping("/q_insert.do")
 	public String insert(QnaVO vo) {
 		qna_dao.insert(vo);
-		return "redirect:list.do";
+		return "redirect:q_list.do";
 	}
 
 	// 글 삭제
@@ -165,7 +165,7 @@ public class QnaController {
 
 		qna_dao.reply(vo);
 		// response.sendRedirect("list.do?page="+page);
-		return "redirect:list.do?page=" + page;
+		return "redirect:q_list.do?page=" + page;
 
 	}
 

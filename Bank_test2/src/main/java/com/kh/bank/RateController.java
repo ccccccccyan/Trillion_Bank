@@ -19,6 +19,7 @@ import util.Common;
 import util.Paging;
 import vo.CommentVO;
 import vo.RateVO;
+import vo.RateboardVO;
 
 @Controller
 public class RateController {
@@ -42,7 +43,7 @@ public class RateController {
 	}
 	
 	// 전체 게시글 보기
-	@RequestMapping("r_list.do")
+	@RequestMapping("/r_list.do")
 	public String list(Model model, String page, String search, String search_text) {
 		int nowPage = 1; // 현재 페이지 1페이지부터 시작
 		if (page != null && !page.isEmpty()) { // null 체크
@@ -83,8 +84,7 @@ public class RateController {
 		} // if
 
 		// 전체 목록 가져오기
-		List<RateVO> list = rateb_dao.selectList(map);
-
+		List<RateboardVO> list = rateb_dao.selectList(map);
 		// 전체 게시글 수 가져오기
 		int row_total = rateb_dao.getRowTotal(map); // 얘한테도 맵 주기
 
@@ -92,10 +92,12 @@ public class RateController {
 		// 페이지 메뉴 생성
 		String search_param = String.format("search=%s&search_text=%s", search, search_text);
 
-		String pageMenu = Paging.getPaging("list.do", nowPage, row_total, search_param, 
+		String pageMenu = Paging.getPaging("r_list.do", nowPage, row_total, search_param, 
 				Common.Rate.BLOCKLIST,
 				Common.Rate.BLOCKPAGE);
-
+		
+		System.out.println(list.get(0).getR_board_idx());
+		
 		// list객체 바인딩 및 포워딩
 		model.addAttribute("list", list);
 		model.addAttribute("pageMenu", pageMenu); // 리스트 보내는 김에 페이지 메뉴도 같이 보냄.
@@ -109,7 +111,7 @@ public class RateController {
 		// view.do?r_board_idx=21 <- 21번 글을 상세보기
 		System.out.println(r_board_idx + ".....");
 		// 상세보기를 위한 게시글 조회
-		RateVO vo = rateb_dao.selectOne(r_board_idx);
+		RateboardVO vo = rateb_dao.selectOne(r_board_idx);
 
 		model.addAttribute("vo", vo);
 		return Common.Rate.VIEW_PATH + "rate_view.jsp";
@@ -123,15 +125,15 @@ public class RateController {
 
 	// 새 글 등록
 	@RequestMapping("/r_insert.do")
-	public String insert(RateVO vo) {
+	public String insert(RateboardVO vo) {
 		rateb_dao.insert(vo);
-		return "redirect:list.do";
+		return "redirect:r_list.do";
 	}
 
 	// 수정
 	@RequestMapping("/r_board_modify.do")
 	public String board_modify(int r_board_idx, Model model) {
-		RateVO vo = rateb_dao.selectOne(r_board_idx);
+		RateboardVO vo = rateb_dao.selectOne(r_board_idx);
 		model.addAttribute("vo", vo);
 
 		return Common.Rate.VIEW_PATH + "rate_modify.jsp";
@@ -140,7 +142,7 @@ public class RateController {
 	// 수정 제출
 	@RequestMapping("/rate_update.do") // ("/modify_fin.do")<-였다.
 	@ResponseBody
-	public String modify_fin(RateVO vo) {
+	public String modify_fin(RateboardVO vo) {
 		int res = rateb_dao.modify(vo);
 	    if (res > 0) {
 	        return "yes";
@@ -211,12 +213,18 @@ public class RateController {
 		map.put("r_board_idx", r_board_idx); //이 부분 다시 생각하기. idx가 맞나??
 		map.put("start", start);
 		map.put("end", end);
+		System.out.println(start + "     start");
+		System.out.println(end + "     end");
+		System.out.println(r_board_idx + "     r_board_idx");
 
 		List<CommentVO> list = comment_dao.selectList(map);
 		int row_total = comment_dao.getRowTotal(map);
-
+		
+		System.out.println(list + "     aaaaaaaaa");
+		System.out.println(row_total + "     dasfbahsfbjh bfsa");
+		
 		// 페이지 메뉴
-		String pageMenu = Paging.getPaging("comment_list.do", nowPage, row_total, 
+		String pageMenu = Paging.getPaging("r_comment_list.do", nowPage, row_total, 
 				Common.Comment.BLOCKLIST,
 				Common.Comment.BLOCKPAGE);
 

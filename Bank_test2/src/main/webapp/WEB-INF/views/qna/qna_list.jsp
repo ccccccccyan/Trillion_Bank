@@ -105,7 +105,7 @@
 					<td class="type_subject">
 					<!-- 댓글 기호(ㄴ) 표시 (관리자가 답변시 ㄴ) -->
 					<c:if test="${ vo.depth ne 0 }">ㄴ</c:if>
-						<a href="view.do?q_board_idx=${ vo.q_board_idx }">${ vo.subject }</a>
+						<a href="q_view.do?q_board_idx=${ vo.q_board_idx }">${ vo.subject }</a>
 					</td><!-- qna 게시판 제목(질문하는 제목) -->
 					
 					<td class="type_user_id">${ vo.user_id }</td><!-- 작성자(질문자) 아이디 -->

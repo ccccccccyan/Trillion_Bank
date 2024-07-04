@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>rate_view.jsp</title>
 		
-		<script src="/rateBoard/resources/js/httpRequest.js"></script>
+		<script src="/bank/resources/js/httpRequest.js"></script>
 		
 		<script>
 			
@@ -47,7 +47,7 @@
 					
 					if( json[0].result == 'yes' ){
 						alert("삭제성공");
-						location.href="list.do?page=${param.page}";
+						location.href="r_list.do?page=${param.page}";
 					}else{
 						alert("삭제실패");
 					}
@@ -143,7 +143,7 @@
 			
 			function commFn(){
 				if( xhr.readyState == 4 & xhr.status == 200 ){
-					
+					console.log("commFn");
 					let data = xhr.responseText;
 					let json = ( new Function('return '+data) )();
 					
@@ -160,10 +160,10 @@
 			
 			/*코멘트 작성 완료 후, 해당 게시글에 대한 코멘트만 추려내서 가져온 결과*/
 			function comm_list_fn(){
-				
+				console.log("comm_list_fn");
 				if( xhr.readyState == 4 && xhr.status == 200 ){
-					
 					let data = xhr.responseText;
+					alert(data);
 					
 					document.getElementById("comment_disp").innerHTML = data;
 				}
@@ -173,7 +173,8 @@
 			function comment_list(comm_page){
 				
 				let r_board_idx = ${vo.r_board_idx};
-				
+				alert("아악------------------" + r_board_idx);
+				alert("아악------------------" + ${vo.r_board_idx});
 				let url = "r_comment_list.do";
 				let param = "r_board_idx=${vo.r_board_idx}&page="+comm_page;
 				sendRequest(url, param, comm_list_fn, "post");
@@ -224,11 +225,6 @@
 				<tr>
 					<td>작성자</td>
 					<td>${ vo.name }</td>
-				</tr>
-				
-				<tr>
-					<td>작성자 id</td>
-					<td>${ vo.user_id }</td>
 				</tr>
 				
 				<tr>
@@ -288,7 +284,7 @@
 		</form>
 		</div>
 		
-		<div id="comment_disp" width="700"></div>
+		<div id="comment_disp" width="700"> <jsp:include page="/WEB-INF/views/comment/comment_list.jsp"></jsp:include> </div>
 		
 	</body>
 </html>

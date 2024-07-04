@@ -49,10 +49,10 @@ public class Paging {
 			//sb.append("<a href ='"+pageURL+"?page=");
 			//sb.append(nowPage - blockPage);
 			sb.append( startPage-1 );
-			sb.append(");'><img src='/bbs/resources/img/btn_prev.gif'></a>");
+			sb.append(");'><img src='/bank/resources/img/btn_prev.gif'></a>");
 		}
 		else
-			sb.append("<img src='/bbs/resources/img/btn_prev.gif'>");
+			sb.append("<img src='/bank/resources/img/btn_prev.gif'>");
 		
 //------페이지 목록 출력 -------------------------------------------------------------------------------------------------
 		// sb.append("|");
@@ -82,10 +82,10 @@ public class Paging {
 			sb.append("<a href='#' onclick='comment_list(");
 			
 			sb.append(endPage + 1);
-			sb.append(");'><img src='/bbs/resources/img/btn_next.gif'></a>");
+			sb.append(");'><img src='/bank/resources/img/btn_next.gif'></a>");
 		}
 		else
-			sb.append("<img src='/bbs/resources/img/btn_next.gif'>");
+			sb.append("<img src='/bank/resources/img/btn_next.gif'>");
 //---------------------------------------------------------------------------------------------------------------------	    
 
 		return sb.toString();
@@ -135,10 +135,10 @@ public class Paging {
 			//sb.append(nowPage - blockPage);
 			sb.append( startPage-1 );
 			sb.append( "&"+search_param );//얘를 같이 넣어줌!
-			sb.append("'><img src='/bbs/resources/img/btn_prev.gif'></a>");
+			sb.append("'><img src='/bank/resources/img/btn_prev.gif'></a>");
 		}
 		else
-			sb.append("<img src='/bbs/resources/img/btn_prev.gif'>");
+			sb.append("<img src='/bank/resources/img/btn_prev.gif'>");
 		
 //------페이지 목록 출력 -------------------------------------------------------------------------------------------------
 		// sb.append("|");
@@ -171,10 +171,10 @@ public class Paging {
 			sb.append(endPage + 1);
 			sb.append( "&"+search_param );//여기에도 넣어주기~
 			
-			sb.append("'><img src='/bbs/resources/img/btn_next.gif'></a>");
+			sb.append("'><img src='/bank/resources/img/btn_next.gif'></a>");
 		}
 		else
-			sb.append("<img src='/bbs/resources/img/btn_next.gif'>");
+			sb.append("<img src='/bank/resources/img/btn_next.gif'>");
 //---------------------------------------------------------------------------------------------------------------------	    
 
 		return sb.toString();

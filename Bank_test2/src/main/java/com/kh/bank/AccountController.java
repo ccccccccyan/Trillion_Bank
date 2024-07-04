@@ -43,14 +43,14 @@ public class AccountController {
 	
 	AccountDAO account_dao;
 	CommentDAO comment_dao;
-	RateBDAO rateB_dao;
+	RateBDAO rateb_dao;
 	QnaDAO qna_dao;
 	NoticeDAO notice_dao;
 	
-	public AccountController( AccountDAO account_dao, CommentDAO comment_dao, RateBDAO rateB_dao, QnaDAO qna_dao, NoticeDAO notice_dao) {
+	public AccountController( AccountDAO account_dao, CommentDAO comment_dao, RateBDAO rateb_dao, QnaDAO qna_dao, NoticeDAO notice_dao) {
 		this.account_dao = account_dao;
 		this.comment_dao = comment_dao;
-		this.rateB_dao = rateB_dao;
+		this.rateb_dao = rateb_dao;
 		this.qna_dao = qna_dao;
 		this.notice_dao = notice_dao;
 	}
@@ -92,7 +92,7 @@ public class AccountController {
 		}
 		
 		// 환율 게시판 리스트 조회 (최근 10개)
-		List<RateboardVO> board_list = rateB_dao.selectRank_List();
+		List<RateboardVO> board_list = rateb_dao.selectRank_List();
 		
 		// 환율 게시판 별 댓글 수 조회 (댓글 수 카운트)
 		for(RateboardVO vo : board_list) {

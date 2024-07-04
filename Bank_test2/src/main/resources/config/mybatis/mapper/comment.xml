@@ -9,8 +9,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			seq_b_comm_idx.nextVal,
 			#{name},
 			#{content},
-			#{comm_pwd},
-			#{r_board_idx}
+			#{r_board_idx},
+			#{comm_pwd}
 		)
 	</insert>
 	

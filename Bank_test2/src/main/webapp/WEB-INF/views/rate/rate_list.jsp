@@ -79,7 +79,7 @@
 						<td class="type_r_board_idx" align="center">${ vo.r_board_idx }</td><!-- 환율 게시판 일련번호 -->
 						<td class="type_name">${ vo.name }</td><!-- 작성자 이름 -->
 						<td class="type_subject">
-							<a href="view.do?r_board_idx=${ vo.r_board_idx }">${ vo.subject }</a>
+							<a href="r_view.do?r_board_idx=${ vo.r_board_idx }">${ vo.subject }</a>
 						</td><!-- 환율 게시판 제목 -->
 					</tr>
 					

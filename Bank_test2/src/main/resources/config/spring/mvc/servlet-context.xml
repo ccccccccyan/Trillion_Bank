@@ -26,6 +26,9 @@
 	<context:annotation-config/>
 	
 	<!-- 수동으로 Controller클래스 생성 -->	
+	<beans:bean class="com.kh.bank.QnaController">
+		<beans:constructor-arg name="qna_dao" ref="qna_daoBean"/>
+	</beans:bean>
 	<beans:bean class="com.kh.bank.BankController">
 		<beans:constructor-arg name="rate_dao" ref="rate_daoBean"/>
 	</beans:bean>
@@ -43,7 +46,7 @@
 	<beans:bean class="com.kh.bank.AccountController">
 		<beans:constructor-arg ref="account_daoBean"/>
 		<beans:constructor-arg ref="comment_daoBean"/>
-		<beans:constructor-arg ref="rateB_daoBean"/>
+		<beans:constructor-arg ref="rateb_daoBean"/>
 		<beans:constructor-arg ref="qna_daoBean"/>
 		<beans:constructor-arg ref="notice_daoBean"/>
 	</beans:bean>

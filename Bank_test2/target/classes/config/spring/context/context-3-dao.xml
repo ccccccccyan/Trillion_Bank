@@ -26,11 +26,6 @@
 		<property name="sqlSession"
 				  ref="sqlSessionBean"/> <!-- context-2번에서 만든 거 가지고 옴. -->
 	</bean>
-
-	<bean id="rateB_daoBean" class="dao.RateBDAO">
-		<property name="sqlSession"
-				  ref="sqlSessionBean"/> <!-- context-2번에서 만든 거 가지고 옴. -->
-	</bean>
 		
 	<bean id="comment_daoBean" class="dao.CommentDAO">
 		<constructor-arg name="sqlSession"

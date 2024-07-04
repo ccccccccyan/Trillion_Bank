@@ -16,7 +16,7 @@
 	</head>
 	
 	<body>
-		<form name="f" method="post" action="insert.do">
+		<form name="f" method="post" action="r_insert.do">
 			<table border="1" width="700" align="center">
 				<caption>::: 환율게시판 새 글 작성 :::</caption>
 				

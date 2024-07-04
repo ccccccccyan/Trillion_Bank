@@ -46,7 +46,7 @@
 							<div class="mainMenu" onclick="sideMenu_open('sideMenu1');">환율</div>
 								<ul id="sideMenu1">
 									<li class="sideMenu"><a href="#">환율 조회</a></li>
-									<li class="sideMenu"><a href="#">환율 게시판</a></li>
+									<li class="sideMenu"><a href="r_list.do">환율 게시판</a></li>
 								</ul>
 						</li>
 						
@@ -77,8 +77,8 @@
 									<li class="sideMenu"><a href="#">채용정보</a></li>
 									<li class="sideMenu"><a href="#">인재상</a></li>
 									<li class="sideMenu"><a href="#">홍보센터</a></li>
-									<li class="sideMenu"><a href="#">공지사항</a></li>
-									<li class="sideMenu"><a href="#">Q&A</a></li>
+									<li class="sideMenu"><a href="n_list.do">공지사항</a></li>
+									<li class="sideMenu"><a href="q_list.do">Q&A</a></li>
 								</ul>
 						</li>
 					</ul>
