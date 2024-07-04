@@ -36,4 +36,9 @@ public class RateDAO {
 		int res = sqlSession.insert("r.no_insert", vo);
 		return res;
 	}
+	
+	public List<RateVO> select_chart(Map<String, Object> day_map){
+		List<RateVO> day_list = sqlSession.selectList("r.day_list", day_map);
+		return day_list;
+	}
 }

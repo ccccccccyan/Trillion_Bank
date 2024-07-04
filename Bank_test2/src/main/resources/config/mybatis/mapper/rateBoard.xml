@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="r">
+    <!-- 전체 공지사항 게시글 조회 -->
+    <select id="rate_list" resultType="rate" parameterType="java.util.Map">
+        select * from
+        ( select rank() over(order by r_board_idx DESC) no, r.* 
+          from ( select * from RATE_BOARD
+          <trim prefix="where" prefixOverrides="or|and">
+            <if test="name!=null">
+                name like '%'||#{name}||'%'
+            </if>
+            <if test="subject!=null">
+                or subject like '%'||#{subject}||'%'
+            </if>
+            <if test="content!=null">
+                or content like '%'||#{content}||'%'
+            </if>
+          </trim>
+        ) r )
+        where no BETWEEN #{start} and #{end}
+    </select>
+    
+    <!-- 페이지 메뉴에 필요한 전체 게시글 수 -->
+    <select id="rate_count" resultType="int" parameterType="java.util.Map">
+        select count(*) from RATE_BOARD
+        <trim prefix="where" prefixOverrides="or|and">
+            <if test="name!=null">
+                name like '%'||#{name}||'%'
+            </if>
+            <if test="subject!=null">
+                or subject like '%'||#{subject}||'%'
+            </if>
+            <if test="content!=null">
+                or content like '%'||#{content}||'%'
+            </if>
+        </trim>
+    </select>
+    
+    <!-- r_board_idx에 해당하는 게시글 하나를 조회(상세보기) -->
+    <select id="rate_one" parameterType="int" resultType="rate">
+        select * from RATE_BOARD where r_board_idx=#{r_board_idx}
+    </select>
+    
+    <!-- 새 글 작성 -->
+    <insert id="rate_insert" parameterType="rate">
+        insert into RATE_BOARD values(
+            seq_board_idx.nextVal,
+            #{subject},
+            #{name},
+            #{content},
+            #{pwd}
+        )
+    </insert>
+    
+    <!-- 글 수정하기 -->
+    <update id="rate_update" parameterType="rate">
+        update RATE_BOARD set subject=#{subject}, name=#{name}, content=#{content}
+        where r_board_idx=#{r_board_idx}
+    </update>
+    
+    <!-- 삭제하기 -->
+    <delete id="rate_del_upd" parameterType="int">
+        delete from RATE_BOARD where r_board_idx=#{r_board_idx}
+    </delete>
+    
+    	<!-- 환율 게시판 최신순 10개 조회 -->
+	<select id="select_list_rank" resultType="rateboard">
+		select * from ( select rank() over(order by r_board_idx DESC) no, r.*from rate_board r)
+		where no BETWEEN 1 and 10
+	</select>	
+    
+</mapper>

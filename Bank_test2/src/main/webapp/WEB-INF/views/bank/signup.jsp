@@ -89,6 +89,15 @@ body {
     color: #ccc; /* 플레이스홀더의 글자색 설정 */
     opacity: 1; /* 투명도 설정 */
 }
+
+.logo {
+	position: absolute;
+	width: 400px;
+	height: 65px;
+	left: 37px;
+	top: 37px;
+	cursor: pointer;
+}
 </style>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -346,6 +355,7 @@ body {
 </script>
 </head>
 <body>
+	<img src="/bank/resources/img/일조은행아이콘.png" class ="logo" onclick="location.href='login.do'">
 	<div class="signup-container">
 		<h2>SIGN UP</h2>
 		<form name="f">

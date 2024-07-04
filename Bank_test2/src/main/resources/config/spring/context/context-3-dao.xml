@@ -10,5 +10,36 @@
 	<bean id="rate_daoBean" class="dao.RateDAO">
 		<property name="sqlSession" ref="sqlSessionBean"></property>
 	</bean>
+	
+	<bean id="notice_daoBean" class="dao.NoticeDAO">
+		<property name="sqlSession"
+				  ref="sqlSessionBean"/> <!-- context-2번에서 만든 거 가지고 옴. -->
+	</bean>
+	
+		<bean id="qna_daoBean" class="dao.QnaDAO">
+		<property name="sqlSession"
+				  ref="sqlSessionBean"/> <!-- context-2번에서 만든 거 가지고 옴. -->
+	</bean>
+	
+		
+	<bean id="rateb_daoBean" class="dao.RateBDAO">
+		<property name="sqlSession"
+				  ref="sqlSessionBean"/> <!-- context-2번에서 만든 거 가지고 옴. -->
+	</bean>
 
+	<bean id="rateB_daoBean" class="dao.RateBDAO">
+		<property name="sqlSession"
+				  ref="sqlSessionBean"/> <!-- context-2번에서 만든 거 가지고 옴. -->
+	</bean>
+		
+	<bean id="comment_daoBean" class="dao.CommentDAO">
+		<constructor-arg name="sqlSession"
+				  ref="sqlSessionBean"/>
+	</bean>
+	
+		<bean id="account_daoBean" class="dao.AccountDAO">
+		<property name="sqlSession" ref="sqlSessionBean"></property>	
+	</bean>
+	
+	
 </beans>

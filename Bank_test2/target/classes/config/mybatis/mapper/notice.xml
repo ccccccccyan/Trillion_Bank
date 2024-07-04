@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="n">
+	<!-- 전체 공지사항 게시글 조회 -->
+	<select id="notice_list" resultType="notice" parameterType="java.util.Map">
+		select * from
+		( select rank() over(order by r_notice_idx DESC) no, n.* 
+		from ( select * from NOTICE
+		<trim prefix="where" prefixOverrides="or|and">
+			<if test="name!=null">
+				name like '%'||#{name}||'%'
+			</if>
+			
+			<if test="subject!=null">
+				or subject like '%'||#{subject}||'%'
+			</if>
+			
+			<if test="content!=null">
+				or content like '%'||#{content}||'%'
+			</if>
+		</trim>
+		) n )
+		where no BETWEEN #{start} and #{end}
+	</select>
+	
+	<!-- 페이지 메뉴에 필요한 전체 게시글 수 -->
+	<select id="notice_count" resultType="int" parameterType="java.util.Map">
+		select count(*) from NOTICE
+		
+		<!-- MyBatis 동적쿼리 : 
+		상황에 따라 동적인 SQL 문장이 
+		실행될 수 있도록 하는 기능 -->
+		
+		<!-- prefix 쿼리를 붙여서 출발 -->
+		<!-- where or, where and와 같이 문법적으로 사용불가한
+			 or, and로 시작되는 상황일 때에
+			 이를 제거해주는 속성이 prefixOverrides다. -->
+		<trim prefix="where" prefixOverrides="or|and">
+			<if test="name!=null">
+				name like '%'||#{name}||'%'
+			</if>
+			
+			<if test="subject!=null">
+				or subject like '%'||#{subject}||'%'
+			</if>
+			
+			<if test="content!=null">
+				or content like '%'||#{content}||'%'
+			</if>
+		</trim>
+		
+	</select>
+	
+	<!-- r_notice_idx에 해당하는 게시글 하나를 조회(상세보기) -->
+	<select id="notice_one" parameterType="int" resultType="notice">
+		select * from notice where r_notice_idx=#{r_notice_idx}
+	</select>
+	
+	<!-- 새 글 작성 -->
+	<insert id="notice_insert" parameterType="notice">
+		insert into NOTICE values(
+			seq_notice_idx.nextVal,
+			#{ subject },
+			#{ name },
+			#{ content }
+		)
+	</insert>
+	
+	<!-- 글 수정하기 -->
+	<update id="notice_update" parameterType="notice">
+		update NOTICE set subject=#{subject}, name=#{name}, content=#{content}
+		where r_notice_idx=#{r_notice_idx}
+	</update>
+	
+	<!-- 삭제하기 -->
+	<delete id="notice_del_upd" parameterType="int">
+		delete from NOTICE where r_notice_idx=#{r_notice_idx}
+	</delete>
+	
+		<!-- 공지 게시판 최신순 10개 조회 -->
+	<select id="select_list_rank" resultType="notice">
+		select * from ( select rank() over(order by r_notice_idx DESC) no, n.*from notice n)
+		where no BETWEEN 1 and 10
+	</select>	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

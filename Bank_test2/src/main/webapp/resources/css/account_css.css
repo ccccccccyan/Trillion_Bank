@@ -1,0 +1,375 @@
+@charset "UTF-8";
+
+	body {margin: 0; padding: 0;}
+		
+	a {text-decoration: none;}
+	table{border-collapse: collapse;}	
+/* account.jsp --------------------------------------------------- */		
+		#container{
+					position: relative;
+					width: 100%;
+					height: 100%;
+					}
+		
+		#header{
+				width: 100%;
+				height: 200px;
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				}
+		
+		.seeMyid{border: 2px solid;
+				width: 200px;
+				position: absolute;
+				left: 1500px;
+				top: 130px}
+		
+		.account_box {
+				width: calc(100% - 300px);
+				height: 100%;
+				position: absolute;
+				left: 100px;
+				}
+
+		.seeMyaccount{position: absolute;
+						left: 150px;
+						top: 300px;
+						width: 200px;
+						border: 1px solid;
+						
+		}
+		
+		.mySwiper {
+			width: 1400px;
+			top: 370px;
+			left: 150px;
+			height: 450px;
+			padding: 10px;
+			position: absolute;
+			z-index: 1;
+			overflow: hidden;
+			border: 3px solid #9d98ab;
+		}
+		
+		.swiper-wrapper{
+			width: 1400px;
+			position: absolute;
+			top: 80px;
+			height: 305px;
+			padding-left: 30px;
+		
+		}
+		
+		.swiper-slide {
+			display: flex;
+			width: 400px;
+			height: 300px;
+			cursor: pointer;
+		}
+		
+		.swiper-slide a img{
+						width: 380px;
+						height: 270px;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						border: 3px solid;
+						box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8); /* 내부 그림자 */
+		}
+		
+			
+			.bankbook_front{position: absolute;
+						left: 5px;
+						z-index: 4;
+						width: 380px;
+						height: 200px;
+						/* background: #4cacad; */
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(55, 102, 102, 0.5); /* 내부 그림자 */
+			}
+			
+			.bankbook_line{ border: 1px solid;
+							width: 380px;
+							height: 30px;
+							position: absolute;
+							left: 4px;
+							top: 25px;
+							z-index: 5; 
+							background:#1e2626;
+							 box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.5); /* 내부 그림자 */
+							 }
+			.bankbook_page1{position: absolute;
+						left: 7px;
+						top: 5px;
+						z-index: 3;
+						width: 375px;
+						height: 260px;
+						background: #fcf2d2;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(135, 117, 55, 1); /* 내부 그림자 */
+			}
+			.bankbook_page2{position: absolute;
+						left: 7px;
+						top: 7px;
+						z-index: 2;
+						width: 375px;
+						height: 270px;
+						background: #d9cfb0;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(186, 164, 91, 0.8); /* 내부 그림자 */
+			}
+
+			
+			.bankbook_end{position: absolute;
+						left: 5px;
+						top: 10px;
+						z-index: 1;
+						width: 380px;
+						height: 270px;
+						/* background: #416e6e; */
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(55, 102, 102, 0.5); /* 내부 그림자 */
+			}
+			.nowmoney_info{position: absolute;
+						z-index: 6;
+						   left: 20px;
+        				bottom: 40px;
+       					 z-index: 6;
+       					 font-size: 35px;
+       					 padding: 10px;
+			}
+			.account_number_info{position: absolute;
+						z-index: 6;
+						   left: 20px;
+        				bottom: 100px;
+       					 z-index: 6;
+       					 font-size: 18px;
+       					 padding: 10px;
+			}
+			.bankname_info{position: absolute;
+						z-index: 6;
+						   right: 100px;
+        				bottom: 100px;
+       					 z-index: 6;
+       					 font-size: 18px;
+       					 padding: 10px;
+			}
+
+	#rate_body{position: absolute;
+				border: 2px solid;
+				width: 1430px;
+				height:800px;
+				top: 1100px;
+				left: 250px; 
+				display: flex;
+	}
+
+	.fagor{
+	border: 1px solid;
+	width: 1000px;
+	height: 700px;
+	}
+	.seeboard{
+	padding: 30px;
+	border: 1px solid;
+	width: 350px;
+	height: 650px;
+	}
+	.seeboard table{
+				width: 340px;
+				height: 600px;
+				border: 2px solid;
+
+	}			
+	#board_body{position: absolute;
+				border: 2px solid;
+				width: 1430px;
+				height: 600px;
+				top: 2100px;
+				left: 250px; 
+				display: flex;
+				}
+	.board_body_content{border: 1px solid;
+						width: 620px;
+						height: 500px;
+						margin-top: 80px;
+						margin-left: 60px;
+						}
+						
+	.board_body_content table{
+						width: 600px;
+						height: 400px;
+						margin: 10px;	
+	}					
+	
+	#footer{position: absolute;
+			top: 3000px;
+			background-color: #23212b;
+			width: 100%;
+			height: 150px}
+		
+/* account_inset_form.jsp --------------------------------------------------- */	
+	h1{ border: 1px solid;
+		height: 100px;}
+	
+	#account_insert_container{
+					position: relative;
+					width: 100%;
+					height: 100%;
+	}
+			
+	#bank_box{
+			position: absolute;
+			border: 1px solid;
+			width: 400px;
+			height: 600px;
+			top: 200px;
+			left: 80px;
+			overflow: auto;
+			}
+			
+	.bank_mini{
+			border: 1px solid red;
+			width: 80px;
+			height: 80px;
+			float: left;
+			margin: 20px;
+			cursor: pointer;
+			}
+	.bank_mini img{
+			width: 80px;
+			height: 80px;
+	}	
+
+
+	.bank_img{
+			border: 1px solid green;
+			width: 60px;
+			}
+	#color_box{
+			border: 2px solid;
+			position: absolute;
+			top: 200px;
+			left: 600px;
+			width: 700px;
+			height: 80px;
+			display: flex;
+	}
+	
+	.color_mini{flex: 1;  /*각 요소가 동일한 비율로 공간을 차지*/
+				cursor: pointer;
+				}
+				
+	.color_mini:hover{border: 2px solid white;}		
+				
+	#form_box{border: 2px solid blue;
+			width: 700px;
+			height: 500px;
+			position: absolute;
+			top: 300px;
+			left: 600px;}
+
+
+			#insert_account_front{position: absolute;
+						left: 35px;
+						top: 30px;
+						z-index: 4;
+						width: 620px;
+						height: 300px;
+						background: #4cacad;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(55, 102, 102, 0.5); /* 내부 그림자 */
+			}
+			
+			.insert_account_line{ border: 1px solid;
+							width: 620px;
+							height: 55px;
+							position: absolute;
+							left: 34px;
+							top: 85px;
+							z-index: 5; 
+							background:#1e2626;
+							 box-shadow: inset 0 0 5px rgba(128, 128, 128, 0.5); /* 내부 그림자 */
+							 }
+			.insert_account_page1{position: absolute;
+						left: 37px;
+						top: 35px;
+						z-index: 3;
+						width: 615px;
+						height: 360px;
+						background: #fcf2d2;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(135, 117, 55, 1); /* 내부 그림자 */
+			}
+			.insert_account_page2{position: absolute;
+						left: 37px;
+						top: 37px;
+						z-index: 2;
+						width: 615px;
+						height: 370px;
+						background: #d9cfb0;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(186, 164, 91, 0.8); /* 내부 그림자 */
+			}
+
+			
+			#insert_account_end{position: absolute;
+						left: 35px;
+						top: 40px;
+						z-index: 1;
+						width: 620px;
+						height: 370px;
+						background: #416e6e;
+						border-bottom-left-radius: 20px; 
+						border-bottom-right-radius: 20px;
+						box-shadow: inset 0 0 10px rgba(55, 102, 102, 0.5); /* 내부 그림자 */
+			}
+			
+			.account_form_box{border: 1px solid green;
+								position: absolute;
+								z-index: 7;
+								bottom: 30px;
+								left: 80px;
+								width: 500px;
+								height: 300px;
+								}
+
+			.account_form_box #bank_name {
+				   width: 100px; /* 너비 설정 */
+			       height: 20px; /* 높이 설정 */
+			       font-size: 18px; /* 폰트 크기 설정 */
+			       padding: 5px; /* 내부 여백 설정 */
+			       border: none;
+			       border-bottom: 3px dashed white;
+			       background: none;
+			}
+			.account_form_box #account_number {
+				   width: 300px; /* 너비 설정 */
+			       height: 20px; /* 높이 설정 */
+			       font-size: 18px; /* 폰트 크기 설정 */
+			       padding: 5px; /* 내부 여백 설정 */
+			       border: none;
+			       border-bottom: 3px dashed white;
+			       background: none;
+			}
+			.account_form_box #account_pwd {
+				   width: 100px; /* 너비 설정 */
+			       height: 20px; /* 높이 설정 */
+			       font-size: 18px; /* 폰트 크기 설정 */
+			       padding: 5px; /* 내부 여백 설정 */
+			       border: none;
+			       border-bottom: 2px dashed;
+			       background: none;
+			}
+			
+			.isnert_pwd_form{
+							width: 300px;
+							bottom: 0px;
+							position: absolute;}

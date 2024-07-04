@@ -9,11 +9,23 @@
 	</settings>
 	
 	<typeAliases>
-	<!-- 	<typeAlias type="vo.VisitVO" alias="visit"/>  -->
+		<typeAlias type="vo.AccountdetailVO" alias="account_detail"/>  
+		<typeAlias type="vo.AccountVO" alias="account"/>  
+		<typeAlias type="vo.CommentVO" alias="comm"/>  
+		<typeAlias type="vo.NoticeVO" alias="notice"/>  
+		<typeAlias type="vo.QnaVO" alias="qna"/>   
+		<typeAlias type="vo.RateboardVO" alias="rateboard"/>  
+		<typeAlias type="vo.RateVO" alias="rate"/>  
+		<typeAlias type="vo.UserVO" alias="user"/>  
 	</typeAliases>
 	
 	<mappers>
+	  <mapper resource="config/mybatis/mapper/account.xml" /> 
 	  <mapper resource="config/mybatis/mapper/rate.xml" /> 
 	  <mapper resource="config/mybatis/mapper/user.xml" /> 
+	  <mapper resource="config/mybatis/mapper/notice.xml" />
+ 	  <mapper resource="config/mybatis/mapper/qna.xml" />
+ 	  <mapper resource="config/mybatis/mapper/rateBoard.xml" />
+		<mapper resource="config/mybatis/mapper/comment.xml" />
 	</mappers>
 </configuration>

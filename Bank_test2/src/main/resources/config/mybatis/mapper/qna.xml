@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="q">
+    <!-- 전체 qna 게시판 게시글 조회 -->
+    <select id="qna_list" resultType="qna" parameterType="java.util.Map">
+        select * from
+        ( select rank() over(order by q_board_ref DESC) no, q.* 
+          from ( select * from QNA_BOARD
+          <trim prefix="where" prefixOverrides="or|and">
+            <if test="user_id!=null">
+                user_id like '%'||#{user_id}||'%'
+            </if>
+            <if test="subject!=null">
+                or subject like '%'||#{subject}||'%'
+            </if>
+            <if test="content!=null">
+                or content like '%'||#{content}||'%'
+            </if>
+          </trim>
+        ) q )
+        where no BETWEEN #{start} and #{end}
+    </select>
+    
+    <!-- 페이지 메뉴에 필요한 전체 게시글 수 -->
+    <select id="qna_count" resultType="int" parameterType="java.util.Map">
+        select count(*) from QNA_BOARD
+        <trim prefix="where" prefixOverrides="or|and">
+            <if test="user_id!=null">
+                user_id like '%'||#{user_id}||'%'
+            </if>
+            <if test="subject!=null">
+                or subject like '%'||#{subject}||'%'
+            </if>
+            <if test="content!=null">
+                or content like '%'||#{content}||'%'
+            </if>
+        </trim>
+    </select>
+    
+    <!-- q_board_idx에 해당하는 게시글 하나를 조회(상세보기) -->
+    <select id="qna_one" parameterType="int" resultType="qna">
+        select * from QNA_BOARD where q_board_idx=#{q_board_idx}
+    </select>
+    
+    <!-- 새 글 작성 -->
+    <insert id="qna_insert" parameterType="qna">
+        insert into QNA_BOARD (
+            q_board_idx,
+            subject,
+            content,
+            user_id,
+            depth,
+            q_board_ref
+        ) values (
+            seq_board_idx.nextVal,
+            #{subject},
+            #{content,jdbcType=CLOB},
+            #{user_id,jdbcType=VARCHAR},
+            #{depth,jdbcType=NUMERIC},
+            #{q_board_ref,jdbcType=NUMERIC}
+        )
+    </insert>
+    
+    <!-- 글 수정하기 -->
+    <update id="qna_update" parameterType="qna">
+        update QNA_BOARD set subject=#{subject}, user_id=#{user_id}, content=#{content}
+        where q_board_idx=#{q_board_idx}
+    </update>
+    
+    <!-- 삭제하기 -->
+    <delete id="qna_del_upd" parameterType="int">
+        delete from QNA_BOARD where q_board_idx=#{q_board_idx}
+    </delete>
+    
+    <!-- 답변 추가 전 자리확보 -->
+	<update id="board_update_step" parameterType="qna">
+		update QNA_BOARD set q_board_ref = q_board_ref + 1
+		where q_board_ref=#{q_board_ref}
+	</update>
+    
+    <!-- 답변 추가(작성?) -->
+	<insert id="board_reply" parameterType="qna">
+		insert into QNA_BOARD values (
+		seq_board_idx.nextVal,
+		#{subject},
+		#{content},
+		#{user_id},
+		#{depth},
+		#{q_board_ref}
+		)
+	</insert>
+	
+		<!-- 질문 게시판 최신순 10개 조회 -->
+	<select id="select_list_rank" resultType="qna">
+		select * from ( select rank() over(order by q_board_idx DESC) no, q.*from QNA_BOARD q)
+		where no BETWEEN 1 and 10
+	</select>
+	
+    
+</mapper>

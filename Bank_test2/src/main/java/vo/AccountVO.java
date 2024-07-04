@@ -1,7 +1,7 @@
 package vo;
 
 public class AccountVO {
-	private String account_number, user_id, bank_name;
+	private String account_number, user_id, bank_name, account_pwd, account_color;
 	private int now_money;
 	
 	public String getAccount_number() {
@@ -28,4 +28,17 @@ public class AccountVO {
 	public void setNow_money(int now_money) {
 		this.now_money = now_money;
 	}
+	public String getAccount_pwd() {
+		return account_pwd;
+	}
+	public void setAccount_pwd(String account_pwd) {
+		this.account_pwd = account_pwd;
+	}
+	public String getAccount_color() {
+		return account_color;
+	}
+	public void setAccount_color(String account_color) {
+		this.account_color = account_color;
+	}
+	
 }

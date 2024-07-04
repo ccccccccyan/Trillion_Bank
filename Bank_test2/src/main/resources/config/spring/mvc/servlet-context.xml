@@ -30,4 +30,22 @@
 		<beans:constructor-arg name="rate_dao" ref="rate_daoBean"/>
 	</beans:bean>
 	
+	<beans:bean class="com.kh.bank.NoticeController">
+		<beans:property name="notice_dao"
+						ref="notice_daoBean"/>
+	</beans:bean>
+	
+	<beans:bean class="com.kh.bank.RateController">
+		<beans:constructor-arg ref="rateb_daoBean"/>
+		<beans:constructor-arg ref="comment_daoBean"/>
+	</beans:bean>
+	
+	<beans:bean class="com.kh.bank.AccountController">
+		<beans:constructor-arg ref="account_daoBean"/>
+		<beans:constructor-arg ref="comment_daoBean"/>
+		<beans:constructor-arg ref="rateB_daoBean"/>
+		<beans:constructor-arg ref="qna_daoBean"/>
+		<beans:constructor-arg ref="notice_daoBean"/>
+	</beans:bean>
+	
 </beans:beans>

@@ -54,5 +54,15 @@ public class UserDAO {
 		int cnt = sqlSession.insert("u.user_upd", vo);
 		return cnt;
 	}
+	
+	public int update_user_del(String user_id) {
+		int res = sqlSession.update("u.user_del_update", user_id);
+		return res;
+	}
+	
+	public int update_info(UserVO vo) {
+		int res = sqlSession.update("u.user_info_update", vo);
+		return res;
+	}
 
 }

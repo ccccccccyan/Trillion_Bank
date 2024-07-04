@@ -24,19 +24,21 @@ body {
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	width: 320px;
+	height : 400px;
 	text-align: center;
 }
 
 .search h2 {
-	margin-bottom: 20px;
-	font-size: 24px;
+	margin-top: 20px;
+	margin-bottom: 60px;
+	font-size: 34px;
 	color: #fff;
 }
 
 .search input[type="text"], .search input[type="password"] {
-	width: 250px;
+	width: 100%;
 	padding: 12px;
-	margin: 10px;
+	margin: 15px 0;
 	border: 1px solid #555;
 	border-radius: 5px;
 	background-color: #555;
@@ -46,8 +48,9 @@ body {
 }
 
 .search input[type="button"] {
+	width: 100%;
 	padding: 12px;
-	margin: 10px;
+	margin: 30px 0;
 	border: none;
 	border-radius: 5px;
 	background-color: #007bff;
@@ -65,6 +68,15 @@ body {
 .search input[type="password"]::placeholder{
     color: #ccc; /* 플레이스홀더의 글자색 설정 */
     opacity: 1; /* 투명도 설정 */
+}
+
+.logo {
+	position: absolute;
+	width: 400px;
+	height: 65px;
+	left: 37px;
+	top: 37px;
+	cursor: pointer;
 }
 </style>
 
@@ -101,8 +113,9 @@ body {
 
 </head>
 <body>
+	<img src="/bank/resources/img/일조은행아이콘.png" class ="logo" onclick="location.href='login.do'">
 	<div class="search">
-		<h2>비밀번호 변경</h2>
+		<h2>FIND PASSWORD</h2>
 		<form name="f">
 			<input type="hidden" name="user_id" value="${user_id}"> <input
 				type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력하여주십시오"><br>

@@ -1,7 +1,7 @@
 package vo;
 
 public class RateboardVO {
-	private int r_board_idx;
+	private int r_board_idx ,comm_cnt;
 	private String subject, name, content, user_id;
 	
 	public int getR_board_idx() {
@@ -33,6 +33,13 @@ public class RateboardVO {
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	
+	public int getComm_cnt() {
+		return comm_cnt;
+	}
+	public void setComm_cnt(int comm_cnt) {
+		this.comm_cnt = comm_cnt;
 	}
 	
 }
