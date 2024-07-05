@@ -51,7 +51,7 @@ public class AccountController {
 	@RequestMapping(value={"/", "/account_list.do"})
 	public String account(Model model) {
 		
-		String user_id = "tester444";
+		String user_id = "tester111";
 		model.addAttribute("user_id", user_id);
 		
 		List<AccountVO> account_list = account_dao.selectList(user_id);
@@ -129,10 +129,11 @@ public class AccountController {
 		 
 		UserVO targetusername = account_dao.user_selectOne(account_dao.accountnum_selectOne(target_account_number).getUser_id());
 		String target_user_name = targetusername.getUser_name();
+		String target_bank_name = account.getBank_name();
 		if(isValid) {
 		//비밀번호가 일치하므로, 수정 form으로 이동
 			String resIdx = 
-			String.format("[{'result':'clear', 'account_number':'%s', 'target_account_number':'%s', 'target_user_name':'%s', 'deal_money':'%d'}]", vo.getAccount_number(), target_account_number, target_user_name, deal_money);
+			String.format("[{'result':'clear', 'account_number':'%s', 'target_account_number':'%s', 'target_user_name':'%s', 'deal_money':'%d', 'target_bank_name':'%s'}]", vo.getAccount_number(), target_account_number, target_user_name, deal_money, target_bank_name);
 			System.out.println(resIdx);
 			return resIdx;
 			}else {

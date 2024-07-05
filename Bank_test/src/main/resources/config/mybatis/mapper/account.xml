@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT * FROM account_detail 
     WHERE (account_number = #{account_number} OR depo_account = #{account_number})
     AND bank_date BETWEEN #{begin, jdbcType=DATE} AND #{end, jdbcType=DATE}
-    ORDER BY ${order}
+    ORDER BY #{order}
 </select>
 	
 </mapper>

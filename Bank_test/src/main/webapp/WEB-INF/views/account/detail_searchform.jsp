@@ -12,7 +12,7 @@
                 width: 400px;
                 border: 1px solid #ccc;
                 border-radius: 15px;
-                padding: 20px;
+                padding: 30px;
                 background-color: #f0f0f0;
                 display: flex; /* Flex 컨테이너로 설정 */
                 flex-direction: column; /* 세로 방향으로 요소들을 배치 */

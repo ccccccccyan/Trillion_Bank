@@ -6,23 +6,22 @@
     <meta charset="UTF-8">
     <title>계좌 삭제 폼</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">
+		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
     <script src="/bank/resources/js/httpRequest.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
         }
         
         .container {
             max-width: 400px;
-            margin: 50px auto;
+            margin: 0px auto;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            padding: 220px;
+            padding: 30px;
             text-align: center;
         }
         
@@ -98,7 +97,7 @@
                         return;
                     } else {
                     	location.href="account_list.do";
-                       /*  location.href = "account_delete.do?account_number=" + json[0].account_number; */
+                        location.href = "account_delete.do?account_number=" + json[0].account_number; 
                     }
                 }
             }

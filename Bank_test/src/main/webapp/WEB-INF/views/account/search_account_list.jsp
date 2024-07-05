@@ -6,14 +6,20 @@
 	<head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
+        <link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
+        
         <style>
+        
+        
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f4;
                 margin: 0;
-                padding: 20px;
             }
-        
+        	form {
+        		padding: 30px;
+        	}
+        	
             .transaction-list {
                 max-width: 800px;
                 margin: 0 auto;
@@ -73,6 +79,11 @@
         </style> 
     </head>
     <body>
+    	<div id="header">
+				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+		</div>
+    
+    	<form>
         <div class="transaction-list">
             <div class="transaction-header">
                 <div class="transaction-party">거래대상</div>
@@ -148,5 +159,6 @@
             </c:forEach>
         </div>
         <a href="javascript:history.back()" class="back-button">다시조회</a>
+        </form>
     </body>
 </html>

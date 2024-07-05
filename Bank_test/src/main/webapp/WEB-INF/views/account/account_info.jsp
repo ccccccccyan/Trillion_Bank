@@ -7,23 +7,23 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">
+		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header_css.css">
 		
 		<style>
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f4;
                 margin: 0;
-                padding: 20px;
-            }
 
+            }
+ 
             .account-table {
                 max-width: 800px;
                 margin: 0 auto;
                 background: #fff;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 border-radius: 8px;
-                padding: 220px;
+                padding: 30px;
                 text-align: center;
             }
             

@@ -5,20 +5,27 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">
+		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header.css">
 		<script src="/bank/resources/js/httpRequest.js"></script>
-		
-		 <style>
-        body {
-            font-family: Arial, sans-serif;
+		<!-- account_insert_form.jsp script 코드 -->
+        <script src="/bank/resources/js/remittance_js.js"></script>
+		<style>
+			
+			
+        #body-container{
+        	position: relative;
+            font-family: 'Noto Sans KR', Arial, sans-serif; /* 한글 폰트 추가 */
             background-color: #f4f4f4;
             margin: 0;
-            
         }
+        #header{position: absolute;
+        	z-index: 9;
+        	width: 100%;
+        	height: 200px;
+        	}
         form {
-        	 padding: 220px;
+            padding: 30px;
         }
-        
         
         table {
             width: 400px;
@@ -27,12 +34,13 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-           
         }
         
         table td {
             padding: 10px;
             text-align: center;
+            font-family: 'Noto Sans KR', Arial, sans-serif; /* 한글 폰트 추가 */
+            font-weight: bold;
         }
         
         table input[type="text"],
@@ -43,6 +51,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-top: 5px;
+            font-size: 14px; /* 폰트 크기 조정 */
         }
         
         table input[type="button"] {
@@ -54,119 +63,167 @@
             cursor: pointer;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-family: 'Noto Sans KR', Arial, sans-serif; /* 한글 폰트 추가 */
+            font-weight: bold;
+            font-size: 14px; /* 폰트 크기 조정 */
         }
         
         table input[type="button"]:hover {
             background-color: #1a1720;
         }
-    </style>
-		
-		
-		<script>
-		function send(f) {
-			let account_number = f.account_number.value;
-			let input_pwd = f.input_pwd.value;
-			let target_account_number = f.target_account_number.value;
-			let deal_money = Number(f.deal_money.value);
-			let now_money = Number(f.now_money.value);
-			//계좌번호 유효성체크
-			if(target_account_number.length < 10 || target_account_number.length > 14){
-				alert("계좌번호는 10~14자 입니다.");
-				return;
-			}
-			 // 숫자로만 이루어져 있는지 검사
-		    let onlynumber = /^[0-9]+$/;
-		    if (!onlynumber.test(target_account_number)) {
-		        alert("계좌번호는 숫자로만 입력해야 합니다.");
-		        return; // 유효하지 않으면 함수 종료
-		    }
-		    //비빌번호 유효성체크
-		    if(input_pwd.length != 4){
-		    	alert("계좌 비밀번호는 4자리 입니다.");
-		    	return;
-		    }
-		    if (!onlynumber.test(input_pwd)) {
-		        alert("계좌 비밀번호는 숫자로만 입력해야 합니다.");
-		        return; // 유효하지 않으면 함수 종료
-		    }
-		    if(now_money < deal_money){
-				alert("잔액이 부족합니다.");
-				return;
-			}
-			if (!(deal_money > 0)) {
-			    alert("거래금액은 1원이상 입력해주세요.");
-			    return;
-			}
-		    
-		    
-			let url = "remittance_pwd_chk.do";
-			let param = "account_number="+account_number+"&account_pwd="+encodeURIComponent(input_pwd)+"&target_account_number="+target_account_number+"&deal_money="+deal_money;
-			sendRequest(url, param, resultFn, "post");
-		}
+        #form1{position: absolute;
+        		top: 150px;
+             	left: 740px;
+        		z-index: 1;}
+        
+        #confirmform {
+        	 position: absolute;
+             opacity: 0;
+             width : 250px;
+             height : 300px;
+             top: 700px;
+             left: 820px;
+             text-align: center;
+            /*  align-items: center;  */
+              /*  transform: translate(-50%, -50%); */
+             background-color: #fff;
+             border-radius: 8px;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+             z-index: 900; /* 다른 요소 위에 띄우기 위해 z-index 설정 */
+             max-width: 80%; /* 최대 너비 설정 */         
+             transition-property: top, opacity ;   
+             transition-duration: 1s; 
+             transition-delay: 0.3s;
+               
+           }
+
+	        
+	        #confirmform img {
+	            max-width: 100%;
+	            height: auto;
+	            margin-bottom: 10px;
+	            border-radius: 5px;
+	        }
+	        
+	        #confirmform div {
+	            margin-bottom: 10px;
+	        }
+	        
+	        #confirmform div#targetUserName {
+	            font-weight: bold;
+	            font-size: 18px;
+	            margin-bottom: 15px;
+	        }
+	        
+	        #confirmform input[type="button"] {
+	            width: 100px;
+	            padding: 10px;
+	            background-color: #23212b;
+	            color: #fff;
+	            border: none;
+	            cursor: pointer;
+	            border-radius: 5px;
+	            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	            font-family: 'Noto Sans KR', Arial, sans-serif; /* 한글 폰트 추가 */
+	            font-weight: bold;
+	            font-size: 14px; /* 폰트 크기 조정 */
+	            margin-right: 10px;
+	        }
+	        
+	        #confirmform input[type="button"]:hover {
+	            background-color: #1a1720;
+	        }
+	        
+	        #confirmform input[type="button"]:last-child {
+	            margin-right: 0;
+	        }
+	        #blockall {
+	          position: absolute;
+	          width: 2000px;
+	          height: 2000px;
+	           
+	          background-color: #d7dbd8;
+	          opacity: 0.7;
+	          z-index: 800;
+			  display: none;
+	        }
+	</style>
 			
-		function resultFn(){
-			if( xhr.readyState == 4 && xhr.status == 200 ){
-				let data = xhr.responseText;
-				let json = (new Function('return '+data))();
-				
-				if( json[0].result == 'no_account'){
-					alert("유효하지 않은 계좌번호입니다.");
-					return;
-				}
-				
-				
-				if( json[0].result == 'no' ){
-					alert("비밀번호 불일치");
-					return;
-				}else{
-					//json으로 넘겨받은 idx값을 가지고 수정 폼으로 이동
-					if( !confirm(json[0].target_user_name +"님에게 송금하시겠습니까?")){
-						return;
-					}else{
-					location.href="remittance.do?account_number="+ 
-							json[0].account_number+"&target_account_number="+json[0].target_account_number+"&deal_money="+json[0].deal_money;
-					}
-					
-				
-				}
-			}
+		<script>
+		
+		function send2(ff) {
+			let deal_money = parseInt(document.getElementById("dealMoney").textContent.replace("원", ""));
+	
+				ff.method = "post";
+				ff.action = "remittance.do?deal_money="+deal_money+"&target_account_number="+ff.targetaccount.value+"&account_number="+ff.account.value;
+				ff.submit();
 		}
+		
+		
 		</script>
 		
 	</head>
 	<body>
+			
+		<div id="body-container">
+			
 			<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 			</div>
-	
-    <form>
-        <table border="1" align="center">
-            <input type="hidden" name="account_pwd" value="${vo.account_pwd}">
-            <input type="hidden" name="account_number" value="${vo.account_number}">
-            <input type="hidden" name="now_money" value="${vo.now_money}">
-            
-            <tr>
-                <td>아이디: ${vo.user_id}</td>
-            </tr>
-            <tr>
-                <td>계좌번호<input name="target_account_number" maxlength="14" type="text"></td>
-            </tr>
-            <tr>
-                <td>금액<input name="deal_money" type="number"></td>
-            </tr>
-            <tr>
-                <td>비밀번호<input type="password" name="input_pwd" maxlength="4"></td>
-            </tr>
-            <tr>
-                <td>잔액: ${vo.now_money}원</td>
-            </tr>
-            <tr>
-                <td align="center" colspan="2">
-                    <input type="button" value="송금" onclick="send(this.form);">
-                    <input type="button" value="취소" onclick="history.back();">
-                </td>
-            </tr>
-        </table>
-    </form>
+	    <form id="form1">
+	        <table border="1" align="center">
+	            
+	              
+	            <tr>
+	                <td>아이디: ${vo.user_id}</td>
+	            </tr>
+	            <tr>
+	                <td>계좌번호<input name="target_account_number" oninput="send(this.form);" maxlength="14" type="text">
+	                 <span id="target_account_warn_msg" style="color: red"></span></td>
+	            </tr>
+	            <tr>
+	                <td>금액<input name="deal_money" oninput="send(this.form);" type="number">
+	                <span id="deal_money_warn_msg" style="color: red"></span></td>
+	            </tr>
+	            <tr>
+	                <td>비밀번호<input type="password" oninput="send(this.form);" name="input_pwd" maxlength="4"><br>
+	                <span id="account_input_pwd_warn_msg" style="color: red"></span></td>
+	            </tr>
+	           
+	            <tr>
+	                <td>잔액: ${vo.now_money}원</td>
+	            </tr>
+	            <tr>
+	                <td align="center" colspan="2">
+	                    <input type="button" id="send_button" value="송금" onclick="fn_send(this.form);" >
+	                    <input type="button" value="취소" onclick="history.back();">
+	                </td>
+	            </tr>
+	        </table>
+	        <input type="hidden" name="account_pwd" value="${vo.account_pwd}">
+	        <input type="hidden" name="account_number" value="${vo.account_number}">
+	        <input type="hidden" name="now_money" value="${vo.now_money}">
+	    </form>
+	    
+	    
+	    
+	    
+	    <form id="confirmform">
+	    	<div id="imageContainer">
+	        <!-- 스크립트에서 동적으로 추가될 이미지가 여기에 들어갑니다 -->
+	   		</div>
+	   		<input type="hidden" name="account" id="accountnumber" value="">
+	   		<input type="hidden" name="targetaccount" id="targetaccountnumber" value="">
+	    	<div id=targetUserName></div>
+	    	<div id=targetBankName></div>
+	    	<div id=dealMoney></div>
+	    	<div>보낼게요</div>
+	    	<input type="button" value="아니요" onclick="history.back();">
+	    	<input type="button" value="이체하기" onclick="send2(this.form);">  	   	
+	    </form>
+	    
+	    
+    <div id="blockall">f</div>
+	   	</div>
 	</body>
 </html>
