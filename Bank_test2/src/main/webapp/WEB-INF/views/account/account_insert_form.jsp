@@ -40,7 +40,7 @@
 					
 					<!-- 통장 이미지 -->
 					<div id="insert_account_front"></div>
-					<div class="insert_account_line"></div>
+					<div class="insert_account_line" id="insert_account_line" style="background: #1e2626"></div>
 					<div class="insert_account_page1"></div>
 					<div class="insert_account_page2"></div>
 					<div id="insert_account_end"></div>

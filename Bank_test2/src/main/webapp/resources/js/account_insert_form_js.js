@@ -55,16 +55,24 @@
 		let account_form_box = document.getElementById("account_form_box");
 		let bank_name = document.getElementById("bank_name");
 		let account_number = document.getElementById("account_number");
+		let insert_account_line = document.getElementById("insert_account_line");
 		
 		// 색상별 글자 색 변경
-		if(color == "#2c344a" || color == "#1b202e"){
+		if(color == "#1b202e"){
 			account_form_box.style.color = "#fff";
 			bank_name.style.color = "#fff";
 			account_number.style.color = "#fff";
+			insert_account_line.style.background = "#FFCF40";
+		}else if(color == "#2c344a"){
+			account_form_box.style.color = "#fff";
+			bank_name.style.color = "#fff";
+			account_number.style.color = "#fff";
+			insert_account_line.style.background = "black";
 		}else{
 			account_form_box.style.color = "#171a21";
 			bank_name.style.color = "#171a21";
 			account_number.style.color = "#171a21";
+			insert_account_line.style.background = "black";
 		}
 		
 		// 색상별 통장 색 변경
@@ -79,27 +87,30 @@
 	// 선택한 은행별 데이터 변경
 	function bank_choice(choice_name) {
 		let bank_name = document.getElementById("bank_name");
+		let insert_account_line = document.getElementById("insert_account_line");
 		bank_name.value = choice_name;
 		
 		// 일조 은행 선택시 통장 색 변경 함수 호출
 		if(choice_name == "일조"){
 			color_choice("#1b202e");
+			insert_account_line.style.background = "#FFCF40";
+		}else{
+			insert_account_line.style.background = "#1e2626";
 		}
 	}// bank_choice-------------	
 
 	// 계좌번호 유효성 체크	
 	function send_check(f) {
 		let bank_name = f.bank_name.value;
-		let account_number = f.account_number.value.trim();
+		let account_number = f.account_number.value;
 		let account_warn_msg = document.getElementById("account_warn_msg");
 		let send_button = document.getElementById("send_button");
 		
-		let pattern = /^[0-9]*$/;
+		let onlynumber = /^[0-9]{10,14}$/;
 		
-		if(!pattern.test(account_number)){
+		if(!onlynumber.test(account_number)){
 			 account_warn_msg.innerHTML = "계좌번호는 숫자 10 ~ 14자리입니다."
 			 account_warn_msg.style.color = "red";
-             send_check_no = "no";
 	         send_button.disabled = true;
              return;
 		}
@@ -134,12 +145,12 @@
 				return;
 			}
 			
-			let account_pwd = f.account_pwd.value.trim();
+			let account_pwd = f.account_pwd.value;
 			let pwd_warn_msg = document.getElementById("pwd_warn_msg");
-			let pattern = /^[0-9]*$/;
+			let onlynumber = /^[0-9]{4}$/; 
 
-			if(!pattern.test(account_pwd)){
-				 pwd_warn_msg.innerHTML = "유효하지 않은 형식입니다."
+			if(!onlynumber.test(account_pwd)){
+				 pwd_warn_msg.innerHTML = "유효하지 않은 형식입니다.";
 	             send_button.disabled = true;
 				 return;
 			}else{
@@ -154,8 +165,8 @@
 	function send_check_fn(f) {
 		let send_button = document.getElementById("send_button");
 		let bank_name = f.bank_name.value;
-		let account_number = f.account_number.value.trim();
-		let account_pwd = f.account_pwd.value.trim();
+		let account_number = f.account_number.value;
+		let account_pwd = f.account_pwd.value;
 	
 		// 전송 버튼 활성화
 		if(bank_name != '' && account_number != '' && account_pwd != '' && account_no == 'yes'){

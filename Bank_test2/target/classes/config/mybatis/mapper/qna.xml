@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 전체 qna 게시판 게시글 조회 -->
     <select id="qna_list" resultType="qna" parameterType="java.util.Map">
         select * from
-        ( select rank() over(order by q_board_ref DESC) no, q.* 
+        ( select rank() over(order by q_board_idx DESC) no, q.* 
           from ( select * from QNA_BOARD
           <trim prefix="where" prefixOverrides="or|and">
             <if test="user_id!=null">
