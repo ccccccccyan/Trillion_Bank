@@ -40,16 +40,23 @@
 				alert(miss_info);
 				location.href = "account_list.do";
 			}
-	
 			let account_box = document.getElementById("account_box");
+			let account_manager = document.getElementById("account_manager");
 			console.log("sadsad : ");
 			// 계좌 리스트는 user_id가 있을 때만(로그인된 상태일 경우), 보여진다.
 			let user_id = "${user_id}"; 
+			let manager = "${manager}"; 
 			console.log(user_id);
-				if(user_id == 'null' || user_id ==''){
+			console.log(manager);
+			if(user_id == 'null' || user_id ==''){
 				account_box.style.display ="none";
+				account_manager.style.display ="none";
+			}else if(manager == 'Y'){
+				account_box.style.display ="none";
+				account_manager.style.display ="block";
 			}else{
 				account_box.style.display ="block";
+				account_manager.style.display ="none";
 			}
 		}
 		
@@ -63,11 +70,157 @@
 			location.href = "account_info.do?account_number="+accountnumber;
 		}
 	 	
-		window.addEventListener('resize', function() {
-		    var yourDiv = document.querySelector('#container');
-		    yourDiv.style.width = window.innerWidth + 'px';
-		    yourDiv.style.height = window.innerHeight + 'px';
-		});
+	 	
+	 	// 계좌 검색으로 사용자 정보 조회
+	 	function search_userinfo(event) {
+			let search_account_number = event.target.value;
+	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		let search_result = document.getElementById("search_result");
+	 		search_result.innerHTML = "";
+			
+			let onlynumber = /^[0-9]{10,14}$/;
+			if(!onlynumber.test(search_account_number)){
+				search_worn_msg.innerHTML = "유효한 형식의 계좌 번호는 숫자 10 ~ 14자리 입니다.";
+				search_worn_msg.style.color = "red";
+				search_result.style.display = "none";
+				return;
+			}
+			search_worn_msg.innerHTML = "";
+			
+			// 프로미스 객체를 받아온다.
+			search_userinfoFn(search_account_number)
+			 .then(search_data => {
+				console.log("search_data : "+search_data);
+	            
+		 		let account_number = [];
+		 		let bank_name = [];
+		 		let user_id = [];
+		 		let user_tel = [];
+	            let search_print = "";
+			            
+	           if(search_data.search_result == 'no'){
+	   			    search_worn_msg.innerHTML = "검색 결과가 없습니다.";
+				    search_worn_msg.style.color = "gray";
+					search_result.style.display = "none";
+	           		return;
+	           }
+			           
+	           search_data.account_result.forEach(account_data => {
+	       		account_number.push(account_data.account_number);
+	           	bank_name.push(account_data.bank_name);
+	            });
+			            
+	           search_data.userinfo_result.forEach(user_data => {
+	           	user_id.push(user_data.user_id);
+	           	user_tel.push(user_data.user_tel);
+	            });
+			            
+	            for(let i = 0; i < account_number.length; i++){
+		           	search_print += "<div class='search_content' onclick='change_searchinfo("+ account_number[i] +")'>"
+	    	       					+ account_number[i] + "(" + bank_name[i] + ")   "
+			       					+ user_id[i] + "님 (" + user_tel[i] + ")"
+			       					+"</div> " 
+			    }
+				search_result.innerHTML = search_print;
+				search_result.style.display = "block";
+			 })
+		     .catch(error => {
+		     console.error('처리 중 오류 발생', error);
+		     search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+		     search_worn_msg.style.color = "red";
+		     });
+			 
+	 	}
+	 	
+	 	
+	 	// 계좌 검색으로 사용자 정보 조회 
+	 	function search_userinfoFn(search_account_number) {
+	 		let search_result = document.getElementById("search_result");
+	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		
+	 		// fetch 앞에 return을 붙이면 해당 함수를 호출했을때 프로미스 객체를 반환받을 수 있다.
+	 		return fetch("search_userinfo_account.do?search_account_number="+search_account_number)
+	 		  .then(response => {
+	           	console.log(response);
+	               if (!response.ok) { // ==> xhr.readyState == 4 && xhr.status == 200
+						search_worn_msg.innerHTML = "서버와 통신 중 문제가 발생했습니다.";
+						search_worn_msg.style.color = "red";
+	                   throw new Error('Network response was not ok');
+	               }
+	               return response.json();
+	           })
+	 		  // 에러 발생 시 호출
+	          .catch(error => {
+   			   search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			   search_worn_msg.style.color = "red";
+	           console.error('There was a problem with the fetch operation:', error);
+	          });
+		}
+	 	
+	 	// 검색 박스 이외의 곳을 클릭했을 경우
+	    document.addEventListener('click', function(event) {
+			let search_result = document.getElementById("search_result");
+			let search_account_number = document.getElementById("search_account_number");
+	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	        
+	        // 클릭된 요소가 검색 결과 박스 내부에 있는지 확인
+	        let isClickedInsideSearchBox = search_result.contains(event.target);  // 한 요소가 다른 요소를 포함하는지를 판별 . 즉, 검색 결과 박스 내부에 클릭된 요소가 포함되어 있는지를 판별
+	        let isClickedOnSearchInput = (event.target == search_account_number); // 검색 input 필드에 직접 클릭했을 경우에만 true를 반환하고, 그 외의 경우엔 false를 반환
+
+	        // 검색 결과 박스가 열려 있고, 검색 input 이외의 곳을 클릭한 경우
+	        if (!isClickedInsideSearchBox && !isClickedOnSearchInput && search_result.style.display == 'block') {
+				search_result.style.display = "none";
+				search_worn_msg.innerHTML = "";
+	        }
+	        
+	    });
+	 	
+	 	// 검색 결과 중 하나를 선택했을 경우
+	 	function change_searchinfo( account_number) {
+			console.log(account_number);
+
+			let search_user_name = document.getElementById("search_user_name");
+			let search_bank_name = document.getElementById("search_bank_name");
+			let search_bank_name_position = document.getElementById("search_bank_name_position");
+			let search_user_id = document.getElementById("search_user_id");
+			let search_account = document.getElementById("search_account");
+			let search_tel = document.getElementById("search_tel");
+			let search_now_money = document.getElementById("search_now_money");
+			let search_account_color = document.getElementById("search_account_color");
+			
+			// 다시 한번 정보 조회
+			search_userinfoFn(account_number)
+			 .then(search_data => {
+				console.log(search_data);
+				
+				if(search_data.userinfo_result[0].user_name == 'unknown'){
+					search_user_name.innerHTML = " ×";
+				}else{
+					search_user_name.innerHTML = " ●";
+				}
+				
+				// 검색 결과 출력
+				search_tel.innerHTML = search_data.userinfo_result[0].user_tel;
+				
+				search_account.innerHTML = search_data.account_result[0].account_number;
+				search_bank_name.innerHTML = search_data.account_result[0].bank_name;
+				search_bank_name_position.style.background = "url('/bank/resources/img/"+ search_data.account_result[0].bank_name +".png') no-repeat right";
+				search_bank_name_position.style.backgroundSize = "26px";
+				search_user_id.innerHTML = search_data.account_result[0].user_id;
+				search_now_money.innerHTML = search_data.account_result[0].now_money;
+				search_account_color.style.background = search_data.account_result[0].account_color;
+				
+			 })
+		     .catch(error => {
+			     console.error('처리 중 오류 발생', error);
+			     search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			     search_worn_msg.style.color = "red";
+		     });
+			
+			// 검색이 완료되었으니 검색 박스 none
+			let search_result = document.getElementById("search_result");
+			search_result.style.display = "none";
+		}
 	</script>
 	
 	</head>
@@ -85,11 +238,17 @@
 						비회원입니다.
 					</c:if>
 				
-					<c:if test="${not empty user_id }">
+					<c:if test="${not empty user_id && empty manager }">
 						${user_id} 님
 					</c:if>
+
+					<c:if test="${not empty user_id && not empty manager }">
+						${user_id} 님 <br> 
+						( 관리자 )
+					</c:if>
+				
 				</h2>
-	
+				
 			<div class="account_content">
 				<!-- 계좌 리스트 박스 -->		
 				<div class="account_box" id="account_box">
@@ -159,6 +318,63 @@
 					</div>
 				</div>
 				
+				<!-- 관리자에게만 보이는 통장 검색 기능 -->
+				<div id="account_manager">
+					<h2>사용자 통장 관리</h2> 
+					
+					<div id="search_user_account">
+						계좌 검색 
+						<input id="search_account_number" name="search_account_number" oninput="search_userinfo(event);" placeholder="계좌 번호 검색하기"> ▼ 
+						<br> <span id="search_worn_msg"></span>
+						<div id="search_result"></div>
+					</div>
+											
+					<div class="account_slide" >
+						<div id="search_info">
+							<h4 id="search_user_name_position"> 계정 활성화 여부 :<span id="search_user_name"></span></h4>
+							<h4 id="search_bank_name_position"> <span id="search_bank_name"></span></h4>
+							<h4 id="search_user_id_position">아이디 : <span id="search_user_id"></span> 님</h4>
+							<h4 id="search_user_account_position">계좌 번호 : <span id="search_account"> </span></h4>
+							<h4 id="search_tel_position">전화 번호 : <span id="search_tel"> </span></h4>
+							<h4 id="search_now_money_position">현재 잔액 : <span id="search_now_money"> </span> \</h4>
+							<h4 id="search_account_color_position">통장 색상 : <div id="search_account_color"></div></h4>
+						</div>
+						
+						<div class="bankbook_back" style="background: black;"></div>
+						<div class="bankbook_mainpage">
+							<hr> <hr> <hr> <hr> <hr> <hr> <hr> <hr>	<hr>
+						</div>
+						<div class="bankbook_hidepage"></div>
+						<div class="bankbook_shadow" ></div> 
+					</div>
+					
+					<div id="update_user_account">
+							
+						<div class="update_user">
+							<h4>계정 상태 관리</h4>
+							<div>계정 활성화</div>
+							<div>계정 비활성화</div>
+						</div>
+						<div class="update_userinfo">
+							<h4>계정 정보 수정 및 변경</h4>
+							<div>계정 이름 찾기</div>
+							<div>계정 이름 변경</div>
+							<div>아이디 찾기</div>
+							<div>계정 비밀번호 찾기</div>
+							<div>계정 비밀번호 변경</div>
+							<div>전화번호 찾기</div>
+							<div>전화번호 변경</div>
+						</div>
+						
+						<div id="update_userinfo">
+							<h4>계좌 정보 수정 및 변경</h4>
+							<div>계좌 비밀번호 변경</div>
+							<div>계좌 색상 변경</div>
+						</div>
+					</div>
+						
+				</div>
+				
 				<!-- 환율 그래프, 환율 게시판 박스 -->		
 				<div id="rate_body">
 						<div id="chart_div">
@@ -206,9 +422,7 @@
 				
 				
 				<!-- 하단 footer -->
-				<div id="footer">
-					a
-				</div>			
+				<div id="footer"></div>			
 		</div>
 	</body>
 </html>

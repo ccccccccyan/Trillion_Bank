@@ -23,9 +23,8 @@
 				
 		.account_content{
 			vertical-align: middle;
-			position: absolute;
-			left : 220px;
-			top: 300px;
+			margin-top: 300px;
+			margin-left: 100px;
 			width: 2000px;
 			height: auto;
 			padding: 10px;
@@ -51,6 +50,161 @@
 						
 		}
 		
+		#account_manager{width: 1300px;
+						height: 600px;
+						padding: 30px;
+						margin-bottom: 200px;
+						position: relative;
+						background-color: #fff;
+		    	        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+						left: 30px;
+						}
+		
+		#account_manager > h2{border: 1px solid;
+							width: 280px;}
+		
+		#search_user_account{
+							width: 600px;
+							position: absolute;
+							top: 90px;
+							left: 650px;
+							font-size: 18px;
+		}
+		
+		#search_user_account input {width: 400px;
+									height: 30px;
+									border: 1px solid;
+									margin-left: 50px;
+									font-size: 15px;
+									}
+		#search_result{width: 405px;
+						height: 400px;
+						border: 1px solid;
+						background: white;
+						overflow: auto;
+						position: absolute;
+						left: 132px;
+						display: none;
+						font-size: 14px;
+						z-index: 7
+						}
+		.search_content{padding: 5px;
+						cursor: pointer;
+						border-bottom: 1px solid gray;
+						}
+		.search_content:hover{background: #f2f2f2;}
+		
+		#search_info{position: absolute;
+					z-index: 10;
+					width: 480px;
+					height:450px;
+					left: 30px;
+					top: 5px;
+					}
+
+		#search_user_name_position{position: absolute;
+								top: 50px;
+								right: 0px;}
+							
+		#search_bank_name_position{position: absolute;
+									right: 0px;
+									top: 5px;
+									width: 80px;
+									height: 30px;
+									}
+		#search_user_id_position {position: absolute;
+						top: 50px;
+						left: 20px;}
+		
+		#search_user_account_position {position: absolute;
+								left: 20px;
+								top: 100px;
+								}
+								
+		#search_tel_position{position: absolute;
+							top: 145px;
+							left: 20px;}
+		
+		#search_now_money_position{position: absolute;
+									top: 278px;
+									left: 20px;}
+									
+		#search_account_color_position{position: absolute;
+										top: 330px;
+										left: 20px;
+										width: 130px;
+										height: 20px;}
+										
+		#search_account_color{border: 2px solid white;
+							background: green;
+							right: 0px;
+							top: 0px;
+							width: 40px;
+							height: 15px;
+							position: absolute;
+							}
+										
+		.account_slide{position: absolute;
+						top: 100px;}
+		
+		#update_user_account{position: absolute;
+							right: 100px;
+							top: 130px;
+							width: 600px;
+							z-index: 3;}
+		
+		#update_user_account h4{border: 1px solid gray;
+								border-radius: 10px;
+								background: #e3e3e3;
+								padding: 5px;}
+		
+		#update_user_account div{ margin: 3px;
+								cursor: pointer;}
+		
+		#update_user_account div div:hover{color: #667180;}
+		
+		.bankbook_back{
+						border-radius: 20px;
+						width: 550px;
+						height: 500px;
+						position: absolute;
+						z-index: 1;
+						}
+		.bankbook_hidepage{
+						border-radius: 20px;
+						left: 5px;
+						top: 10px;
+						width: 540px;
+						height: 480px;
+						position: absolute;
+						z-index: 1;
+						background: #d9cfb0;
+						box-shadow: inset 0 0 10px rgba(186, 164, 91, 0.8); 
+						}
+		.bankbook_mainpage{border: 1px solid gray;
+						border-radius: 20px;
+						left: 5px;
+						top: 20px;
+						width: 540px;
+						height: 460px;
+						position: absolute;
+						z-index: 2;
+						background: #fcf2d2;
+						box-shadow: inset 0 0 10px rgba(186, 164, 91, 0.8); 
+						}
+		
+		.bankbook_mainpage hr{ margin: 45px 20px 40px;
+								border: 1px dashed rgba(130, 121, 101, 0.2); 
+								}
+		
+		.bankbook_shadow{position: absolute;
+						width: 550px;
+						height: 2px;
+						background: #6b5c3d;
+						box-shadow:  0 0  8px rgba(94, 86, 69, 0.8); 
+						z-index: 3;
+						top: 245px;}
+
 		.mySwiper {position: relative;
 			background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -219,7 +373,7 @@
 	.board_body_content td{ padding: 0 30px;
 	}
 	#footer{position: relative;
-			top: 2700px;
+			bottom: 0;
 			background-color: #23212b;
 			width: 100%;
 			height: 150px}

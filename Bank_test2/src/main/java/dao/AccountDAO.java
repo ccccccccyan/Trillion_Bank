@@ -67,4 +67,9 @@ public class AccountDAO {
 		return searchaccount_list;
 	}
 	
+	// 해당 숫자를 포함하는 계좌 번호 추가
+	public List<AccountVO> search_userinfo_account(String search_account_number){
+		List<AccountVO> search_account_unmber = sqlSession.selectList("search_userinfo_account", search_account_number);
+		return search_account_unmber;
+	}
 }

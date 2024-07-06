@@ -2,6 +2,7 @@ package com.kh.bank;
 
 import java.net.http.HttpRequest;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,7 @@ public class AccountController {
 			model.addAttribute("miss_info", miss_info);
 			// 문제 원인 데이터들 모두 지우고 메인 페이지로 이동 
 			session.removeAttribute("user_id");
+			session.removeAttribute("manager");
 			user_id = null;
 			return Common.Account.VIEW_PATH_AC + "account.jsp";  
 		}
@@ -81,6 +83,12 @@ public class AccountController {
 			UserVO vo_ok = user_dao.check(user_id);
 			// session에 저장하고 그 사용자의 계좌 리스트를 조회한다.
 			session.setAttribute("user_id", user_id);
+			
+			// 해당 사용자가 관리자일 경우 추가 정보를 세션에 저장
+			if(vo_ok.getManager().equals("Y")) {
+				session.setAttribute("manager", vo_ok.getManager());
+			}
+			
 			List<AccountVO> account_list = account_dao.selectList(user_id);
 			model.addAttribute("account_list", account_list);
 	
@@ -117,6 +125,7 @@ public class AccountController {
 	public String logout() {
 		// session에 담긴 user_id 데이터 제거
 		session.removeAttribute("user_id");
+		session.removeAttribute("manager");
 		return "redirect:account_list.do";
 	}
 	
@@ -130,6 +139,7 @@ public class AccountController {
 		if(res > 0 ) {
 			//회원 탈퇴 완료 시 session에 저장된 user_id 정보 제거
 			session.removeAttribute("user_id");
+			session.removeAttribute("manager");
 			return "[{'result':'clear'}]";
 		}
 		return "[{'result':'fail'}]";
@@ -339,4 +349,30 @@ public class AccountController {
 	    return Common.Account.VIEW_PATH_AC + "search_account_list.jsp";
 	}
 
+	
+	// 계좌 번호로 사용자 정보 조회
+	@RequestMapping("/search_userinfo_account.do")
+	@ResponseBody
+	public Map<String, Object> search_userinfo_account(String search_account_number) {
+		Map<String, Object> search_result_vo = new HashMap<String, Object>();
+		List<UserVO> search_user_vo = new ArrayList<UserVO>();
+		
+		// 계좌 정보 조회
+		List<AccountVO> search_account_vo = account_dao.search_userinfo_account(search_account_number);
+	
+		if(search_account_vo.size() == 0){
+			search_result_vo.put("search_result", "no"); // 데이터 여부
+			return search_result_vo;
+		}
+		
+		search_result_vo.put("search_result", "yes");
+		search_result_vo.put("account_result", search_account_vo);
+		
+		for(AccountVO account_vo : search_account_vo) {
+			search_user_vo.add(user_dao.check_id(account_vo.getUser_id()));
+		}
+		search_result_vo.put("userinfo_result", search_user_vo);
+		
+		return search_result_vo;
+	}
 }
