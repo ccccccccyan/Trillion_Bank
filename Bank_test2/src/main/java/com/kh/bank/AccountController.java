@@ -376,4 +376,31 @@ public class AccountController {
 		
 		return search_result_vo;
 	}
+	
+	// 선택한 계좌 번호로 최종 사용자 정보 조회
+	@RequestMapping("/change_searchinfo_account.do")
+	@ResponseBody
+	public Map<String, Object> change_searchinfo_account(String account_number) {
+		Map<String, Object> search_result_vo = new HashMap<String, Object>();
+		
+		// 계좌 정보 조회
+		AccountVO search_account_vo = account_dao.check(account_number);
+		
+		if(search_account_vo == null){
+			search_result_vo.put("search_result", "no"); // 데이터 여부
+			return search_result_vo;
+		}
+		
+		// 검색 결과 저장
+		search_result_vo.put("search_result", "yes");
+		// 계좌 정보 저장
+		search_result_vo.put("account_result", search_account_vo);
+		
+		// 사용자 정보 저장
+		UserVO search_user_vo = user_dao.check_id(search_account_vo.getUser_id());
+
+		search_result_vo.put("userinfo_result", search_user_vo);
+		
+		return search_result_vo;
+	}
 }

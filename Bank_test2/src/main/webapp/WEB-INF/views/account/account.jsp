@@ -179,6 +179,7 @@
 	 	function change_searchinfo( account_number) {
 			console.log(account_number);
 
+			let search_username = document.getElementById("search_username");
 			let search_user_name = document.getElementById("search_user_name");
 			let search_bank_name = document.getElementById("search_bank_name");
 			let search_bank_name_position = document.getElementById("search_bank_name_position");
@@ -189,26 +190,27 @@
 			let search_account_color = document.getElementById("search_account_color");
 			
 			// 다시 한번 정보 조회
-			search_userinfoFn(account_number)
+			change_searchinfoFn(account_number)
 			 .then(search_data => {
 				console.log(search_data);
 				
-				if(search_data.userinfo_result[0].user_name == 'unknown'){
+				if(search_data.userinfo_result.user_name == 'unknown'){
 					search_user_name.innerHTML = " ×";
 				}else{
 					search_user_name.innerHTML = " ●";
 				}
 				
 				// 검색 결과 출력
-				search_tel.innerHTML = search_data.userinfo_result[0].user_tel;
+				search_tel.innerHTML = search_data.userinfo_result.user_tel;
+				search_username.innerHTML = search_data.userinfo_result.user_name;
 				
-				search_account.innerHTML = search_data.account_result[0].account_number;
-				search_bank_name.innerHTML = search_data.account_result[0].bank_name;
-				search_bank_name_position.style.background = "url('/bank/resources/img/"+ search_data.account_result[0].bank_name +".png') no-repeat right";
+				search_account.innerHTML = search_data.account_result.account_number;
+				search_bank_name.innerHTML = search_data.account_result.bank_name;
+				search_bank_name_position.style.background = "url('/bank/resources/img/"+ search_data.account_result.bank_name +".png') no-repeat right";
 				search_bank_name_position.style.backgroundSize = "26px";
-				search_user_id.innerHTML = search_data.account_result[0].user_id;
-				search_now_money.innerHTML = search_data.account_result[0].now_money;
-				search_account_color.style.background = search_data.account_result[0].account_color;
+				search_user_id.innerHTML = search_data.account_result.user_id;
+				search_now_money.innerHTML = search_data.account_result.now_money;
+				search_account_color.style.background = search_data.account_result.account_color;
 				
 			 })
 		     .catch(error => {
@@ -221,6 +223,32 @@
 			let search_result = document.getElementById("search_result");
 			search_result.style.display = "none";
 		}
+	 	
+	 	// 계좌 검색으로 사용자 정보 조회 
+	 	function change_searchinfoFn(account_number) {
+	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		
+	 		// fetch 앞에 return을 붙이면 해당 함수를 호출했을때 프로미스 객체를 반환받을 수 있다.
+	 		return fetch("change_searchinfo_account.do?account_number="+account_number)
+	 		  .then(response => {
+	           	console.log(response);
+	               if (!response.ok) { // ==> xhr.readyState == 4 && xhr.status == 200
+						search_worn_msg.innerHTML = "서버와 통신 중 문제가 발생했습니다.";
+						search_worn_msg.style.color = "red";
+	                   throw new Error('Network response was not ok');
+	               }
+	               return response.json();
+	           })
+	 		  // 에러 발생 시 호출
+	          .catch(error => {
+   			   search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			   search_worn_msg.style.color = "red";
+	           console.error('There was a problem with the fetch operation:', error);
+	          });
+		}
+	 	
+	 	
+	 	
 	 	
 	 	// 임시
 	 	let head_img_index = 1;
@@ -354,7 +382,7 @@
 				
 				<!-- 관리자에게만 보이는 통장 검색 기능 -->
 				<div id="account_manager">
-					<h2>사용자 통장 관리</h2> 
+					<h2><span id="search_username">사용자</span>님 통장 관리</h2> 
 					
 					<div id="search_user_account">
 						계좌 검색 
