@@ -19,11 +19,12 @@
 				position: absolute;
 				left: 0px;
 				top: 0px;
+				z-index: 4;
 				}
 				
 		.account_content{
 			vertical-align: middle;
-			margin-top: 300px;
+			margin-top: 200px;
 			margin-left: 100px;
 			width: 2000px;
 			height: auto;
@@ -34,7 +35,7 @@
 				position: absolute;
 				width: 200px;
 				left: 1500px;
-				top: 130px}
+				top: 1130px}
 		
 		.account_box {
 				width: calc(100% - 300px);
@@ -377,6 +378,34 @@
 			background-color: #23212b;
 			width: 100%;
 			height: 150px}
+	
+	/* 잠시 추가 */
+	#head_img{width: 100%;
+					height: 1000px;
+					margin-top: 120px;
+					}
+					
+			#head_img img{width: 100%;
+					height: 800px;
+					position: absolute;
+					z-index: 1;
+					}
+					
+			#head_content{
+					position: absolute;
+					z-index: 3;
+					font-size: 60px;
+					border: 1px solid;
+					width: 1000px;
+					height: 250px;
+ 					align-items: center;
+ 					left: 700px;
+ 					
+ 					}
+			#head_content span{
+ 					text-shadow: 1px 2px 10px white;	
+			}		
+	
 		
 /* account_inset_form.jsp --------------------------------------------------- */	
 	h1{ border: 1px solid;

@@ -221,6 +221,35 @@
 			let search_result = document.getElementById("search_result");
 			search_result.style.display = "none";
 		}
+	 	
+	 	// 임시
+	 	let head_img_index = 1;
+		let head_img_path = "/bank/resources/img/은행대표이미지";
+		function change_head_img(){
+			head_img_index++;
+			if(head_img_index > 2){
+				head_img_index = 1;
+			}
+			document.getElementById("head_img_img").src = head_img_path + head_img_index + ".jpg";
+	
+			if(head_img_index == 1){
+				document.getElementById("head_content1").innerHTML = "꾸준히 키워나가는";
+				document.getElementById("head_content2").innerHTML = "미래의 가능성";
+
+				document.getElementById("head_content1").style.color = "black";
+				document.getElementById("head_content2").style.color = "black";
+			}else{
+				document.getElementById("head_content1").innerHTML = "늦은 밤, 당신에게";
+				document.getElementById("head_content2").innerHTML = "꼭 필요한 은행";
+
+				document.getElementById("head_content1").style.color = "white";
+				document.getElementById("head_content2").style.color = "white";
+			}
+		}
+		
+		// 1초간격으로 자동으로 change_head_img()함수를 호출한다
+		setInterval("change_head_img()", 3000);
+	 	
 	</script>
 	
 	</head>
@@ -230,6 +259,11 @@
 
 			<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+			</div>
+			
+			<div id="head_img"> <!-- 임시 -->
+				<img id="head_img_img" src="/bank/resources/img/은행대표이미지1.jpg">
+				<h1 id="head_content"> <span id="head_content1">꾸준히 키워나가는</span> <span id="head_content2"> 미래의 가능성 </span> </h1>
 			</div>
 			
 				<!-- 로그인 여부 -->
@@ -357,10 +391,8 @@
 						</div>
 						<div class="update_userinfo">
 							<h4>계정 정보 수정 및 변경</h4>
-							<div>계정 이름 찾기</div>
 							<div>계정 이름 변경</div>
 							<div>아이디 찾기</div>
-							<div>계정 비밀번호 찾기</div>
 							<div>계정 비밀번호 변경</div>
 							<div>전화번호 찾기</div>
 							<div>전화번호 변경</div>
