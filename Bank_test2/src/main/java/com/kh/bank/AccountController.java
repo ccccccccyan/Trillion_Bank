@@ -24,6 +24,7 @@ import dao.NoticeDAO;
 import dao.QnaDAO;
 import dao.RateBDAO;
 import dao.UserDAO;
+import service.SmsService;
 import vo.AccountVO;
 import vo.AccountdetailVO;
 import vo.NoticeVO;
@@ -115,6 +116,10 @@ public class AccountController {
 		//공지 게시판 리스트 조회 (최근 10개)
 		List<QnaVO> qna_list = qna_dao.selectRank_List();
 		model.addAttribute("qna_list", qna_list);
+		
+		
+		SmsService sms = new SmsService();
+		sms.push_smsService("010-3265-2508", "010-7157-4841");
 		
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 //		return Common.Account.VIEW_PATH_AC + "openpage.jsp"; 
