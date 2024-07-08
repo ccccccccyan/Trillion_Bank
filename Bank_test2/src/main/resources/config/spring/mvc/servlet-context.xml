@@ -47,5 +47,7 @@
 		<beans:constructor-arg ref="qna_daoBean"/>
 		<beans:constructor-arg ref="notice_daoBean"/>
 	</beans:bean>
+
+	
 	
 </beans:beans>

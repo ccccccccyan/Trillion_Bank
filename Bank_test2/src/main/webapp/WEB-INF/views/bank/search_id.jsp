@@ -84,7 +84,6 @@ body {
 <script>
 	function send(f) {
 		let user_tel = f.user_tel_value;
-
 		let url = "search_id2.do";
 		let param ="user_tel=" + user_tel;
 

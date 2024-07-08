@@ -338,5 +338,73 @@ public class AccountController {
 
 	    return Common.Account.VIEW_PATH_AC + "search_account_list.jsp";
 	}
+	
+	@RequestMapping("organization_chart.do")
+	public String organization_chart() {
+		return Common.Header.VIEW_PATH_HD + "organization_chart.jsp";
+	}
+
+	@RequestMapping("ceo_greeting.do")
+	public String ceo_greeting() {
+		return Common.Header.VIEW_PATH_HD + "ceo_greeting.jsp";
+	}
+
+	@RequestMapping("guide.do")
+	public String guide() {
+		return Common.Header.VIEW_PATH_HD + "guide.jsp";
+	}
+
+	@RequestMapping("ideal_talent.do")
+	public String ideal_talent() {
+		return Common.Header.VIEW_PATH_HD + "ideal_talent.jsp";
+	}
+
+	@RequestMapping("pr_center.do")
+	public String pr_center() {
+		return Common.Header.VIEW_PATH_HD + "pr_center.jsp";
+	}
+
+	@RequestMapping("rate_inquiry.do")
+	public String rate_inquiry() {
+		return Common.Header.VIEW_PATH_HD + "rate_inquiry.jsp";
+	}
+
+	@RequestMapping("recruitment_information.do")
+	public String recruitment_information() {
+		return Common.Header.VIEW_PATH_HD + "recruitment_information.jsp";
+	}
+
+	@RequestMapping("schedule_all.do")
+	public String schedule_all() {
+		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
+	}
+
+	@RequestMapping("schedule_ksy.do")
+	public String schedule_ksy() {
+		return Common.Header.VIEW_PATH_HD + "schedule_ksy.jsp";
+	}
+
+	@RequestMapping("schedule_kjh.do")
+	public String schedule_kjh() {
+		return Common.Header.VIEW_PATH_HD + "schedule_kjh.jsp";
+	}
+
+	@RequestMapping("schedule_ojh.do")
+	public String schedule_ojh() {
+		return Common.Header.VIEW_PATH_HD + "schedule_ojh.jsp";
+	}
+
+	@RequestMapping("schedule_mkj.do")
+	public String schedule_mkj() {
+		return Common.Header.VIEW_PATH_HD + "schedule_mkj.jsp";
+	}
+
+	@RequestMapping("vision.do")
+	public String vision() {
+		return Common.Header.VIEW_PATH_HD + "vision.jsp";
+	}
+
+	
+	
 
 }

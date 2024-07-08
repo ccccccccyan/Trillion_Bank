@@ -26,6 +26,6 @@
 	  <mapper resource="config/mybatis/mapper/notice.xml" />
  	  <mapper resource="config/mybatis/mapper/qna.xml" />
  	  <mapper resource="config/mybatis/mapper/rateBoard.xml" />
-		<mapper resource="config/mybatis/mapper/comment.xml" />
+	  <mapper resource="config/mybatis/mapper/comment.xml" />
 	</mappers>
 </configuration>

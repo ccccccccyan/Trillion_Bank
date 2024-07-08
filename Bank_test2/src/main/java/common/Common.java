@@ -20,6 +20,10 @@ public class Common {
 	public static class Account {
 		public static final String VIEW_PATH_AC = "/WEB-INF/views/account/";
 	}
+	
+	public static class Header {
+		public static final String VIEW_PATH_HD = "/WEB-INF/views/header/";
+	}
 
 	public static class SecurePwd {
 		// 계좌 비밀번호 암호화 메서드

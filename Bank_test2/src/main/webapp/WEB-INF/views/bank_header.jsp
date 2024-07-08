@@ -45,7 +45,7 @@
 						<li>
 							<div class="mainMenu">환율</div>
 								<ul id="sideMenu1">
-									<li class="sideMenu"><a href="#">환율 조회</a></li>
+									<li class="sideMenu"><a href="rate_inquiry.do">환율 조회</a></li>
 									<li class="sideMenu"><a href="#">환율 게시판</a></li>
 								</ul>
 						</li>
@@ -53,30 +53,31 @@
 						<li>
 							<div class="mainMenu">은행 안내</div>
 								<ul id="sideMenu2">
-									<li class="sideMenu"><a href="#">CEO인사말</a></li>
-									<li class="sideMenu"><a href="#">비전</a></li>
-									<li class="sideMenu"><a href="#">조직도</a></li>
-									<li class="sideMenu"><a href="#">영업점 안내</a></li>
+									<li class="sideMenu"><a href="ceo_greeting.do">CEO인사말</a></li>
+									<li class="sideMenu"><a href="vision.do">비전</a></li>
+									<li class="sideMenu"><a href="organization_chart.do">조직도</a></li>
+									<li class="sideMenu"><a href="guide.do">영업점 안내</a></li>
 								</ul>
 						</li>
 						
 						<li>
 							<div class="mainMenu">연혁</div>
 								<ul id="sideMenu3">
-									<li class="sideMenu"><a href="#">전체 일정</a></li>
-									<li class="sideMenu"><a href="#">김서영 CEO</a></li>
-									<li class="sideMenu"><a href="#">김지환 임원</a></li>
-									<li class="sideMenu"><a href="#">오종하 임원</a></li>
-									<li class="sideMenu"><a href="#">장민경 임원</a></li>
+									<li class="sideMenu"><a href="schedule_all.do">전체 일정</a></li>
+									<li class="sideMenu"><a href="schedule_ojh.do">오종하 CEO</a></li>
+
+									<li class="sideMenu"><a href="schedule_ksy.do">김서영 임원</a></li>
+									<li class="sideMenu"><a href="schedule_kjh.do">김지환 임원</a></li>
+									<li class="sideMenu"><a href="schedule_mkj.do">장민경 임원</a></li>
 								</ul>
 						</li>
 						
 						<li>
 							<div class="mainMenu">자료실</div>
 								<ul id="sideMenu4">
-									<li class="sideMenu"><a href="#">채용정보</a></li>
-									<li class="sideMenu"><a href="#">인재상</a></li>
-									<li class="sideMenu"><a href="#">홍보센터</a></li>
+									<li class="sideMenu"><a href="recruitment_information.do">채용정보</a></li>
+									<li class="sideMenu"><a href="ideal_talent.do">인재상</a></li>
+									<li class="sideMenu"><a href="pr_center.do">홍보센터</a></li>
 									<li class="sideMenu"><a href="#">공지사항</a></li>
 									<li class="sideMenu"><a href="#">Q&A</a></li>
 								</ul>

@@ -266,8 +266,6 @@ public class BankController {
 		if (existingUser == null) {
 			return "[{'result':'duplicate'}]";
 		}
-		
-
 		try {
 			String res = String.format("[{'result':'clear', 'User_id':'%s'}]", existingUser.getUser_id());
 			return res;
