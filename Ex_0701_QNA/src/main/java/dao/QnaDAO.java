@@ -35,7 +35,7 @@ public class QnaDAO {
 
 	// 새 글 추가
 	public int insert(QnaVO vo) {
-		int res = sqlSession.insert("q.qna_insert", vo);
+		int res = sqlSession.insert("q.qna_insert2", vo);
 		return res;
 	}
 
@@ -51,8 +51,18 @@ public class QnaDAO {
 		return res;
 	}
 
-	// 댓글 추가
+	// 부모 글의 depth 값을 가져오는 메서드
+	private int getParentDepth(int q_board_ref) {
+		int res = sqlSession.selectOne("q.getParentDepth", q_board_ref);
+		return res; // 기본 값으로 0을 반환
+	}
+	
+	// 답변 작성
 	public int reply(QnaVO qna_vo) {
+		//부모 글의 depth 값을 가져와서 증가시키기
+		//int parentDepth = getParentDepth(qna_vo.getQ_board_ref());
+		//qna_vo.setDepth(parentDepth + 1);
+		
 		int res = sqlSession.insert("q.board_reply", qna_vo);
 		return res;
 	}

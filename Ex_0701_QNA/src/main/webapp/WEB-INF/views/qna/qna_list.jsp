@@ -10,44 +10,59 @@
 		<title>qna_list.jsp</title>
 		
 		<style>
+			table {
+				border-collapse: collapse; /* 테두리 겹치기 */
+				background-color: #fff; /* 원하는 배경색 지정 */
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+			}
+			
+			td {
+				border: 0px solid #000; /* 테두리 설정 */
+				padding: 8px; /* 패딩 설정 */
+			}
+			
 			body {
-            	font-family: Arial, sans-serif;
-            	background-color: #fff;
-            	color: #333;
-        	}
-        	table {
-            	width: 80%;
-            	border-collapse: collapse;
-            	margin: 20px auto;
-            	border: 2px solid #555;
-            	background-color: #f2f2f2; /* 테이블 배경색 */
-        	}
-        	th, td {
-            	border: 1px solid #ddd;
-            	padding: 10px;
-            	text-align: center;
-        	}
-        	caption {
-            	font-size: 1.5em;
-            	margin: 10px;
-        	}
-       	 	select, input[type="text"], input[type="button"] {
-            	padding: 8px;
-           		font-size: 14px;
-           		border-radius: 5px;
-           		border: 1px solid #ccc;
-        	}
-        	input[type="button"] {
-           		cursor: pointer;
-           		background-color: #007bff;
-           		color: #fff;
-           		border: none;
-         		padding: 10px 20px;
-        	}
-      	  	input[type="button"]:hover {
-           		background-color: #0056b3;
-        	}
-		
+				background-color: #f4f4f4; /* 원하는 배경색 지정 */
+			}
+			
+			/* 세로 줄 숨기기 */
+			td:not(:last-child) {
+				border-right: none; /* 마지막 열을 제외한 모든 td 요소의 우측 테두리 제거 */
+			}
+			
+			/* 가로 줄만 보이게 설정 */
+			tr:not(:first-child) td {
+				border-top: 1px solid #000; /* 모든 행의 위쪽 테두리 추가 */
+			}
+			
+			.header_color_same{
+				background-color: #23212B; /* 번호, 제목, 작성자가 있는 행의 배경색 */
+				color: #fff; /*번호, 제목, 작성자의 글씨 색깔*/
+			}
+			
+			input[type="button"]{
+				background-color: #23212B; /*배경색*/
+				color: #fff; /* 글자색 */
+				border: none; /* 테두리 없음 */
+				padding: 5px 10px; /* 내부 여백 설정 */
+				cursor: pointer; /* 마우스를 올리면 포인터 모양 */
+				font-size: 13px; /* 글자 크기 */
+				font-weight: bold; /* 글자 굵기 */
+			}
+			
+			input[type="button"]:hover {
+				background-color: rgb(140, 150, 151); /* 마우스를 올렸을 때 배경색 변경 */
+			}
+			
+			caption{
+				padding-top: 20px; /* 상단 여백 설정 */
+				 margin-bottom: 25px; /* 아래 여백 설정 */
+				 font-size: 1.5em; /* 적절한 폰트 크기 */
+				 font-weight: bold; /* 굵은 글꼴 */
+				 color: #23212B;
+			}
+			
+			
 		</style>
 		
 		<script>
@@ -88,9 +103,9 @@
 	
 	<body>
 		<table border="1" width="700" align="center">
-			<caption>:::Q&A 게시판:::</caption>
+			<caption>Q&A 게시판</caption>
 			
-			<tr>
+			<tr class="header_color_same">
 				<td align="center">번호</td>
 				<td align="center">제목</td>
 				<td align="center">작성자</td>
@@ -109,7 +124,7 @@
 					</td><!-- qna 게시판 제목(질문하는 제목) -->
 					
 					<td class="type_user_id">${ vo.user_id }</td><!-- 작성자(질문자) 아이디 -->
-					
+					<%-- <td class="type_regdate">${ vo.regdate }</td> --%>
 					
 				</tr>
 				

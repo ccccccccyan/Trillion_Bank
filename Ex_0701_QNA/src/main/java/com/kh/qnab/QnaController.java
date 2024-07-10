@@ -119,6 +119,10 @@ public class QnaController {
 	// 새 글 등록
 	@RequestMapping("/insert.do")
 	public String insert(QnaVO vo) {
+		System.out.println("-----------");
+		System.out.println("user_id : "+vo.getUser_id());
+		System.out.println("content : "+vo.getContent());
+		System.out.println("subject : "+vo.getSubject());
 		qna_dao.insert(vo);
 		return "redirect:list.do";
 	}
@@ -144,23 +148,25 @@ public class QnaController {
 	// 답변 작성화면으로 이동
 	@RequestMapping("/reply_form.do")
 	public String replyForm(int q_board_idx, String page) {
-		return Common.Qna.VIEW_PATH + "qna_reply.jsp?q_board_idx=" + q_board_idx + "&page=" + page;
+		return Common.Qna.VIEW_PATH + "qna_reply.jsp?q_board_ref=" + q_board_idx + "&page=" + page;
 	}
 
 	// 답변 reply 작성
 	@RequestMapping("/reply.do")
-	public String reply(QnaVO vo, int q_board_idx, String page) {
+	public String reply(QnaVO vo, String page) {
 
+		System.out.println(vo.getQ_board_ref() + " -- " + page);
+		
 		// 답변을 작성하고 싶은 게시글의 q_board_idx에 해당되는 상세 정보를 얻기
-		QnaVO baseVO = qna_dao.selectOne(vo.getQ_board_idx());
+		QnaVO baseVO = qna_dao.selectOne(vo.getQ_board_ref());
 		// vo안에 있는 idx를 가져온 거임.
 
 		// 가져온 baseVO의 step보다 큰 값을 가진 데이터들의
 		// step을 +1 처리.
-		qna_dao.update_step(baseVO); // 새로운 댓글 들어갈테니 자리 확보하세요
-
+//		qna_dao.update_step(baseVO); // 새로운 댓글 들어갈테니 자리 확보하세요
+	
 		// 댓글이 들어갈 위치 설정
-		vo.setQ_board_ref(baseVO.getQ_board_ref());
+		//vo.setQ_board_ref(q_board_idx);
 		vo.setDepth(baseVO.getDepth() + 1);
 
 		qna_dao.reply(vo);

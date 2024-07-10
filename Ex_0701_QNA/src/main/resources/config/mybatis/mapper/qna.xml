@@ -45,21 +45,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <!-- 새 글 작성 -->
-    <insert id="qna_insert" parameterType="vo.QnaVO">
+    <insert id="qna_insert2" parameterType="vo.QnaVO">
         insert into QNA_BOARD (
-            q_board_idx,
-            subject,
-            content,
-            user_id,
-            depth,
-            q_board_ref
+        	q_board_idx,
+        	subject,
+        	content,
+        	user_id,
+        	depth,
+        	q_board_ref,
+        	regdate
         ) values (
-            seq_board_idx.nextVal,
-            #{subject},
-            #{content,jdbcType=CLOB},
-            #{user_id,jdbcType=VARCHAR},
-            #{depth,jdbcType=NUMERIC},
-            #{q_board_ref,jdbcType=NUMERIC}
+        	seq_board_idx.nextVal,
+        	#{subject},
+        	#{content,jdbcType=CLOB},
+        	#{user_id,jdbcType=VARCHAR},
+        	0, <!-- 기본 깊이는 0 -->
+        	seq_board_idx.currVal, <!-- 새로운 글의 경우 qna_idx 값으로 설정 -->
+        	sysdate <!-- 현재 날짜와 시간 삽입 -->
         )
     </insert>
     
@@ -80,15 +82,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where q_board_ref=#{q_board_ref}
 	</update>
     
-    <!-- 답변 추가(작성?) -->
+    <!-- 부모 글의 depth 값을 가져오는 쿼리 -->
+    <select id="getParentDepth" parameterType="int" resultType="int">
+    	SELECT depth FROM QNA_BOARD WHERE q_board_idx = #{q_board_ref}
+    </select>
+    
+    <!-- 답변 작성 -->
 	<insert id="board_reply" parameterType="vo.QnaVO">
-		insert into QNA_BOARD values (
-		seq_board_idx.nextVal,
-		#{subject},
-		#{content},
-		#{user_id},
-		#{depth},
-		#{q_board_ref}
+		insert into QNA_BOARD (
+			q_board_idx,
+			subject,
+			content,
+			user_id,
+			depth,
+			q_board_ref,
+			regdate
+		) values (
+			seq_board_idx.nextVal,
+			#{subject},
+			#{content},
+			#{user_id},
+			#{depth}, <!-- 부모 글의 depth에서 +1 된 값이어야 함 -->
+			#{q_board_ref}, <!-- 부모 글의 q_board_idx 값 -->
+			sysdate
 		)
 	</insert>
     
