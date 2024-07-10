@@ -207,30 +207,85 @@ public class AccountController {
 		model.addAttribute("vo", vo);
 		return Common.Account.VIEW_PATH_AC + "remittance_form.jsp";
 	}
-	//송금을 위한 비밀번호 확인
-	@RequestMapping(value="/remittance_pwd_chk.do", produces = "application/json;charset=UTF-8")
+	
+	@RequestMapping(value = "/checkaccount.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String account_pwd_chk( AccountVO vo, String target_account_number, int deal_money ){
-		
-		boolean isValid = Common.SecurePwd.decodePwd(vo, account_dao);
-		AccountVO account = account_dao.accountnum_selectOne(target_account_number);
-		if(account != null) {
-		 
-		UserVO targetusername = account_dao.user_selectOne(account_dao.accountnum_selectOne(target_account_number).getUser_id());
-		String target_user_name = targetusername.getUser_name();
-		if(isValid) {
-		//비밀번호가 일치하므로, 수정 form으로 이동
-			String resIdx = 
-			String.format("[{'result':'clear', 'account_number':'%s', 'target_account_number':'%s', 'target_user_name':'%s', 'deal_money':'%d'}]", vo.getAccount_number(), target_account_number, target_user_name, deal_money);
-			System.out.println(resIdx);
-			return resIdx;
-			}else {
-				//비밀번호 불일치
-				return "[{'result':'no'}]";
-			}
-		}else {
+	public String checkaccount(AccountVO vo, String target_account_number, Integer deal_money) {
+		 // 계좌 번호 유효성 검사
+		AccountVO targetaccount = account_dao.accountnum_selectOne(target_account_number);
+	    if(targetaccount == null){
 			return "[{'result':'no_account'}]";
+		}else {
+			UserVO targetusername = account_dao.user_selectOne(targetaccount.getUser_id());
+			String target_user_name = targetusername.getUser_name();
+			String target_bank_name = targetaccount.getBank_name();
+			String resIdx = String.format(
+		            "[{'result':'clear', 'account_number':'%s', 'target_account_number':'%s', 'target_user_name':'%s', 'deal_money':'%d', 'target_bank_name':'%s'}]",
+		            vo.getAccount_number(), target_account_number, target_user_name, deal_money, target_bank_name);
+		        return resIdx;
 		}
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/remittance_pwd_chk.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String account_pwd_chk(AccountVO vo, String account_number, String target_account_number, int deal_money) {
+
+	    // 비밀번호 유효성 검사
+	    boolean isValid = Common.SecurePwd.decodePwd(vo, account_dao);
+	    AccountVO myaccount = account_dao.accountnum_selectOne(vo.getAccount_number());
+	    int myaccount_lockcnt = myaccount.getAccount_lockcnt();
+	    
+	    if (isValid) {
+	    	AccountVO user = account_dao.accountnum_selectOne(account_number); // userid의 계좌상세정보를 조회
+			AccountVO target = account_dao.accountnum_selectOne(target_account_number);//내가 송금할 계좌번호의 계좌 상세정보를 조회
+			
+			int usermoney = user.getNow_money() - deal_money; //user의 계좌에서 빠져나간만큼의 금액을 빼줌
+			int targetmoney = target.getNow_money() + deal_money;//상대 계좌의 송금받은 만큼의 금액을 더함
+			
+			//계산한 금액을 계좌 상세보기 VO에 넣어줌 
+			user.setNow_money(usermoney);
+			target.setNow_money(targetmoney);
+			//그 금액을 각각 유저계좌와 상대계좌 db에 업데이트로 갱신함
+			account_dao.updateremittance(user);
+			account_dao.updateremittance(target);
+			
+			
+			// 접속한 사람의 계좌주의 이름과 상대 계좌주의 이름을 얻기위해 uservo로 조회함  
+			UserVO myusername = account_dao.user_selectOne(user.getUser_id());
+			UserVO targetusername = account_dao.user_selectOne(target.getUser_id()); 
+			
+			//거래내역 정보를 detail_vo에 담음
+			AccountdetailVO detail_vo = new AccountdetailVO();
+			detail_vo.setAccount_number(user.getAccount_number());
+			detail_vo.setUser_name(myusername.getUser_name());//조회한 유저 이름을 저장
+			detail_vo.setDepo_username(targetusername.getUser_name());//조회한 상대 계좌주의 이름을 저장
+			detail_vo.setDepo_account(target.getAccount_number());
+			detail_vo.setDeal_money(deal_money);
+			System.out.println(myusername.getUser_name()+"/"+targetusername.getUser_name());
+			//거래내역을 담은 vo를 insert해줌
+			account_dao.insertremittance(detail_vo);
+	   
+	    	// 비밀번호가 일치하므로, 수정 form으로 이동
+	        myaccount.setAccount_lockcnt(0);
+	        account_dao.lockcnt_update(myaccount);
+
+	        String resIdx = String.format(
+	            "[{'result':'yes', 'account_number':'%s', 'myaccount_lockcnt':'%d', 'target_user_name':'%s', 'deal_money':'%d', 'target_bank_name':'%s', 'target_account_number':'%s', 'now_money':'%d'}]",
+	            vo.getAccount_number(), myaccount_lockcnt, targetusername.getUser_name(), deal_money, target.getBank_name(), target.getAccount_number(), user.getNow_money());
+	        return resIdx;
+	    } else {
+	        // 비밀번호 불일치
+	        myaccount.setAccount_lockcnt(myaccount.getAccount_lockcnt() + 1);
+
+	        if (myaccount.getAccount_lockcnt() <= 5) {
+	            account_dao.lockcnt_update(myaccount);
+	        }
+	        
+	        String res = String.format("[{'result':'no', 'account_lockcnt':'%d'}]", myaccount.getAccount_lockcnt());
+	        return res;
+	    }
 	}
 	
 	@Transactional

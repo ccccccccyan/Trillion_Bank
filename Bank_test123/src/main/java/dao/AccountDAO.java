@@ -38,6 +38,10 @@ public class AccountDAO {
 		AccountVO vo = sqlSession.selectOne("ac.account_info", account_number);
 		return vo;
 	}
+	public int lockcnt_update(AccountVO vo) {
+		int res = sqlSession.update("ac.account_lock_update", vo);
+		return res;	
+	}
 	
 	public UserVO user_selectOne(String user_id) {
 		UserVO vo = sqlSession.selectOne("ac.user_info", user_id);

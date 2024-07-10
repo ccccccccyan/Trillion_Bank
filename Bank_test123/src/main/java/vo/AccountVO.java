@@ -2,8 +2,14 @@ package vo;
 
 public class AccountVO {
 	private String account_number, user_id, bank_name, account_pwd, account_color;
-	private int now_money;
+	private int now_money, account_lockcnt;
 	
+	public int getAccount_lockcnt() {
+		return account_lockcnt;
+	}
+	public void setAccount_lockcnt(int account_lockcnt) {
+		this.account_lockcnt = account_lockcnt;
+	}
 	public String getAccount_number() {
 		return account_number;
 	}

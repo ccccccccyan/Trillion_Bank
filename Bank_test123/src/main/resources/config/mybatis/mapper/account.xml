@@ -8,15 +8,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 계좌 추가 -->
 	<insert id="account_insert" parameterType="account">
-		insert into ACCOUNT_LIST(account_number, user_id, bank_name, now_money, account_pwd, account_color) 
-		values(
-					#{account_number},
-					#{user_id},
-					#{bank_name},
-					#{now_money},
-					#{account_pwd},
-					#{account_color}
-		)
+		insert into ACCOUNT_LIST(account_number, user_id, bank_name, now_money, account_pwd, account_color, account_lockcnt) 
+      	values(
+               #{account_number},
+               #{user_id},
+               #{bank_name},
+               #{now_money},
+               #{account_pwd},
+               #{account_color},
+               #{account_lockcnt}
+      )		
 	</insert>
 	
 	<!-- 해당 user_id의 전체 계좌 목록 조회 -->
@@ -83,6 +84,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="search_userinfo_account" resultType="account" parameterType="String">
 		select * from account_list where account_number Like '%' || #{search_account_number} || '%'
 	</select>
+	<update id="account_lock_update" parameterType="account">
+		update ACCOUNT_LIST set account_lockcnt = #{account_lockcnt} where account_number = #{account_number}
+	</update>
+	
+	
 </mapper>
 
 

@@ -128,19 +128,29 @@ body {
 
 
 
-<script>
+		<script>	
+			// 계좌비밀번호 5회 틀릴시 잠겼을때 경고창으로 잠겼다고 띄움
+			window.onload = function() {
+			    if (${vo.account_lockcnt} == 5) {
+			        alert("계좌 비밀번호 5회실패! 일조뱅크에 문의해주세요.");
+			        location.href = "account_list.do";
+			    }
+			};
+			//계좌 상세보기 컨트롤러
 			function send(f) {
 				let account_number = f.account_number.value;
 				f.action = "remittance_form.do?account_number="+account_number;
 				f.submit();
 			}
-			
+			//계좌 삭제 컨트롤러
 			function del(accountnum){
 				location.href="delete_form.do?account_number="+accountnum;
 			}
+			//디테일 서치컨트롤러 
 			function detail(accountnum){
 				location.href="accountdetail_Searchform.do?account_number="+accountnum;
 			}
+
 			
 		</script>
 </head>
