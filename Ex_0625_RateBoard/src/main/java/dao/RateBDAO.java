@@ -48,8 +48,12 @@ public class RateBDAO {
 	
 	
 	//게시글 삭제
-	public int del_update(int r_board_idx) {
-		int res = sqlSession.delete("r.rate_del_upd", r_board_idx);
+	public int delete(int r_board_idx) {
+		//자식 레코드 먼저 삭제하기
+		sqlSession.delete("r.rate_n_comm_del", r_board_idx);
+		
+		//그 뒤에 부모 레코드 삭제!
+		int res = sqlSession.delete("r.rate_delete", r_board_idx);
 		return res;
 	}
 		
@@ -59,4 +63,12 @@ public class RateBDAO {
 		return res;
 	}
 	
+	//비밀번호 암호화 및 복호화?? 과정
+	
+	//비밀번호 일치 확인
+	public RateVO Check(int r_board_idx) {
+		RateVO vo = sqlSession.selectOne("r.rate_one", r_board_idx);
+		return vo;
+	}
+
 }

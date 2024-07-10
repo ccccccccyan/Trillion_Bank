@@ -14,10 +14,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
-	<!-- 코멘트 조회 -->
-	<select id="comment_list" parameterType="java.util.Map" resultType="vo.CommentVO"><!-- 오름차순으로 조회 -->
+	<!-- 코멘트 조회 --><!-- 오름차순으로 조회 -->
+	<select id="comment_list" parameterType="java.util.Map" resultType="vo.CommentVO">
 		select * from (
-			select row_number() over( order by c_board_idx ) no, c.* from
+			select rank() over( order by c_board_idx desc ) no, c.* from
 			( select * from RATE_BOARDCOMMENT where r_board_idx=#{r_board_idx} ) c
 		)
 		where no between #{start} and #{end}

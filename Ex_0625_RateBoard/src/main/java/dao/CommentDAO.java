@@ -39,7 +39,7 @@ public class CommentDAO {
 		return res; // 결과가 1인지 0인지 보내줌.
 	}
 	// 게시글 삭제시 그 게시글 코멘트 삭제
-	public int rbooard_comm_del(int r_board_idx) {
+	public int rboard_comm_del(int r_board_idx) {
 		int res = sqlSession.delete("c.deleteCommentsByBoardIdx", r_board_idx);
 		return res;
 	}

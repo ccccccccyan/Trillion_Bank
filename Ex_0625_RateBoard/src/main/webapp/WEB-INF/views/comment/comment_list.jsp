@@ -18,7 +18,7 @@
 			
 			<hr width="700">
 			
-			<div width="700" align="center">
+			<div width="700" align="left">
 			${ vo.content }<br>
 			작성자 ( ${ vo.name } ) / ${ vo.comm_pwd }<br>
 			<input type="password" name="c_pwd" placeholder="input password">

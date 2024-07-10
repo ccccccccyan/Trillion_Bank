@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="r">
-    <!-- 전체 공지사항 게시글 조회 -->
+    <!-- 전체 공지사항 게시글 조회 --><!-- 최신 글이 가장 위로 올라옴. -->
     <select id="rate_list" resultType="vo.RateVO" parameterType="java.util.Map">
         select * from
         ( select rank() over(order by r_board_idx DESC) no, r.* 
@@ -51,7 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{subject},
             #{name},
             #{content},
-            #{pwd}
+            #{pwd},
+            sysdate
         )
     </insert>
     
@@ -62,7 +63,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     
     <!-- 삭제하기 -->
-    <delete id="rate_del_upd" parameterType="int">
+    <delete id="rate_delete" parameterType="int">
         delete from RATE_BOARD where r_board_idx=#{r_board_idx}
     </delete>
+    
+    <!-- 부모 삭제하기 전에 모든 자식 삭제함. -->
+    <delete id="rate_n_comm_del" parameterType="int">
+    	delete from RATE_BOARDCOMMENT where r_board_idx = #{r_board_idx}
+    </delete>
+    
 </mapper>

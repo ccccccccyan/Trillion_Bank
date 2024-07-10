@@ -12,11 +12,54 @@
 		<style>
 			table {
 				border-collapse: collapse; /* 테두리 겹치기 */
+				background-color: #fff; /* 원하는 배경색 지정 */
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
 			}
 			
 			td {
-				border: 1px solid #000; /* 테두리 설정 */
+				border: 0px solid #000; /* 테두리 설정 */
 				padding: 8px; /* 패딩 설정 */
+			}
+			
+			body {
+				background-color: #f4f4f4; /* 원하는 배경색 지정 */
+			}
+			
+			/* 세로 줄 숨기기 */
+			td:not(:last-child) {
+				border-right: none; /* 마지막 열을 제외한 모든 td 요소의 우측 테두리 제거 */
+			}
+			
+			/* 가로 줄만 보이게 설정 */
+			tr:not(:first-child) td {
+				border-top: 1px solid #000; /* 모든 행의 위쪽 테두리 추가 */
+			}
+			
+			.header_color_same{
+				background-color: #23212B; /* 번호, 제목, 작성자가 있는 행의 배경색 */
+				color: #fff; /*번호, 제목, 작성자의 글씨 색깔*/
+			}
+			
+			input[type="button"]{
+				background-color: #23212B; /*배경색*/
+				color: #fff; /* 글자색 */
+				border: none; /* 테두리 없음 */
+				padding: 5px 10px; /* 내부 여백 설정 */
+				cursor: pointer; /* 마우스를 올리면 포인터 모양 */
+				font-size: 13px; /* 글자 크기 */
+				font-weight: bold; /* 글자 굵기 */
+			}
+			
+			input[type="button"]:hover {
+				background-color: rgb(140, 150, 151); /* 마우스를 올렸을 때 배경색 변경 */
+			}
+			
+			caption{
+				padding-top: 20px; /* 상단 여백 설정 */
+				 margin-bottom: 25px; /* 아래 여백 설정 */
+				 font-size: 1.5em; /* 적절한 폰트 크기 */
+				 font-weight: bold; /* 굵은 글꼴 */
+				 color: #23212B;
 			}
 			
 		</style>
@@ -67,10 +110,11 @@
 			<table border="1" width="700" align="center">
 				<caption>환율 게시판</caption>
 				
-					<tr>
+					<tr class="header_color_same">
 						<td align="center" width="10%">번호</td>
 						<td align="center" width="20%">작성자</td>
 						<td align="center">제목</td>
+						<td align="center">작성일</td>
 					</tr>
 					
 				<c:forEach var="vo" items="${ list }">
@@ -81,16 +125,17 @@
 						<td class="type_subject">
 							<a href="view.do?r_board_idx=${ vo.r_board_idx }">${ vo.subject }</a>
 						</td><!-- 환율 게시판 제목 -->
+						<td class="type_regdate">${ vo.regdate }</td>
 					</tr>
 					
 				</c:forEach>
 				
 				<tr>
-					<td colspan="3" align="center">${ pageMenu }</td>
+					<td colspan="4" align="center">${ pageMenu }</td>
 				</tr>
 				
 				<tr>
-				<td colspan="3" align="center">
+				<td colspan="4" align="center">
 					
 					<select id="search">
 						<option value="all">전체보기</option>
@@ -106,7 +151,7 @@
 			</tr>
 				
 				<tr>
-					<td colspan="3" align="right">
+					<td colspan="4" align="right">
 						<input type="button" value="등록"
 						onclick="location.href='rate_write.do'">
 					</td>

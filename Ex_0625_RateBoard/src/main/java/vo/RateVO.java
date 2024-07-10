@@ -2,7 +2,7 @@ package vo;
 
 public class RateVO {
 	private int r_board_idx;
-	private String subject, name, content, user_id, pwd;
+	private String subject, name, content, pwd, regdate;
 	
 	public int getR_board_idx() {
 		return r_board_idx;
@@ -28,17 +28,17 @@ public class RateVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
 	public String getPwd() {
 		return pwd;
 	}
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
 	}
 	
 }
