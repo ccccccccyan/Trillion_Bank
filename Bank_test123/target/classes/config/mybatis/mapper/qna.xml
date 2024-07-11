@@ -90,14 +90,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{content},
 		#{user_id},
 		#{depth},
-		#{q_board_ref}
+		#{q_board_ref},
+		sysdate
 		)
 	</insert>
 	
 		<!-- 질문 게시판 최신순 10개 조회 -->
 	<select id="select_list_rank" resultType="qna">
-		select * from ( select rank() over(order by q_board_idx DESC) no, q.*from QNA_BOARD q)
-		where no BETWEEN 1 and 10
+		select * from ( select rank() over(order by q_board_ref DESC) no, q.*from QNA_BOARD q)
+		where (no BETWEEN 1 and 10) and depth = 0 
 	</select>
 	
     

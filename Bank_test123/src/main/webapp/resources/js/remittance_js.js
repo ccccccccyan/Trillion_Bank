@@ -209,6 +209,7 @@ let check_remittance = "no";
             document.getElementById("confirmform").style.top = "700px";
             document.getElementById("blockall").style.display = "none";
             document.getElementById("passwordInput").style.display = "none";
+            document.getElementById("passwordForm").reset();
             
 		}
 		function allcancel(){

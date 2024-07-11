@@ -45,6 +45,22 @@
 
 		</div>
 
+						<!-- 로그인 여부 -->
+				<h2 class="seeMyid">
+					<c:if test="${ empty user_id }">
+						비회원입니다.
+					</c:if>
+				
+					<c:if test="${not empty user_id && empty manager }">
+						${user_id} 님
+					</c:if>
+
+					<c:if test="${not empty user_id && not empty manager }">
+						${user_id} 님 <br> 
+						( 관리자 )
+					</c:if>
+				</h2>
+
 		<div id="header_container">
 
 			<div id="header_icon" onclick="location.href='account_list.do'">

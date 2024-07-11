@@ -106,7 +106,7 @@ i{
     	<h1>상무이사</h1>
         <h2>장민경</h2>
         <br>
-        <h2>상무이가가 되기까지</h2>
+        <h2>상무이사가 되기까지</h2>
         <ul class="timeline">
             <li class="timeline-item">
                 <h3>2024</h3>

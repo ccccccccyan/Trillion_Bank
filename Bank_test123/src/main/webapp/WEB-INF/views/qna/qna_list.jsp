@@ -159,8 +159,12 @@
 			
 			<tr>
 				<td colspan="4" align="right">
-					<input type="button" value="등록"
-					onclick="location.href='qna_write.do'">
+					<c:if test="${ not empty user_id }">
+						<input type="button" value="등록"
+							onclick="location.href='qna_write.do'">
+					</c:if>
+					
+				
 				</td>
 			</tr>
 			

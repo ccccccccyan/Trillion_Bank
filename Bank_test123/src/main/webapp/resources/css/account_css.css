@@ -31,13 +31,6 @@
 			padding: 10px;
 		}
 		
-		.seeMyid{
-				color:white;
-				position: absolute;
-				width: 220px;
-				left: 1570px;
-				top: 30px;
-				z-index: 100;}
 		
 		.account_box {
 				width: calc(100% - 300px);

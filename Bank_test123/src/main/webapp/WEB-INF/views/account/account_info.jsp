@@ -208,7 +208,7 @@ body {
 						<div class="transaction-date">${vo2.bank_date}</div>
 					</div>
 				</c:forEach>
-				<a href="#" class="back-button" onclick="history.back();">뒤로가기</a>
+				<a href="#" class="back-button" onclick="location.href='account_list.do'">뒤로가기</a>
 			</div>
 		</div>
 	</form>
