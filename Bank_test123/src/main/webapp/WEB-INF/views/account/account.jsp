@@ -693,7 +693,7 @@
 					<div id="account_container" class="mySwiper">
 						<div id="account_slide" class="swiper-wrapper" >
 							<c:forEach var="vo" items="${account_list}" >
-								<div class="bankbook_body swiper-slide" onclick="send('${vo.account_number}');">
+								<div class="swiper-slide" onclick="send('${vo.account_number}');">
 								
 									<c:choose>
 									    <c:when test="${vo.account_color eq '#1b202e'}">

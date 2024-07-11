@@ -230,7 +230,7 @@ body {
 			</div>
 			<div class="input-wrapper">
 				<i class='bx bxs-lock-alt'></i> <input type="password"
-					name="user_pwd" placeholder="PASSWORD">
+					name="user_pwd" placeholder="PASSWORD" maxlength="16">
 			</div>
 			<label> <input type="checkbox" name="remember_me">저장하기
 			</label> <a href="signup.do" class="signup">회원 가입</a> <input type="button"

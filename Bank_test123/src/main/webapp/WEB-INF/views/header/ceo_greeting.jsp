@@ -1,12 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+
+	h1 ,h2{
+		font-weight: bold;
+	}
+	
+	h2{
+		
+	}
+	
+	strong{
+		font-size: 100px;
+		color: purple;
+	}
+</style>
 </head>
 <body>
-ceo 인사
+	<h1>오늘의 혁신으로 내일의 가치를 만드는 일조은행이 되겠습니다.</h1>
+
+	<h2>안녕하십니까! 일조은행 대장 정용훈대장입니다. 저는 지금시간부로 이 자리에서 물러나며 후임을 <strong>서영킴</strong>으로 추천하겠습니다. <br>안녕하세요. 방금 일조대장이 된 <strong>김서영</strong>이다.  먼저, 일조은행에 아낌 없는 관심과 사랑을 보내주시는 고객님들께 모든 임직원의 마음을 담아 깊은 감사의 말씀을 드립니다. 일조은행은 일조그룹의 일원으로, 서민과 중·소상공인을 최상의 금융 서비스를 제공하는 최고의 금융 파트너가 되기 위해 노력하고 있습니다. 일조은행은 철저한 리스크 관리와 자산 포트폴리오의 균형 있는 운영을 통해 시장의 변화에 적극적으로 대응하며 건전한 내실 성장을 이루도록 하겠습니다. 일조은행은 차별화된 디지털 서비스와 고객 경험을 제공하고, 미래 성장성있는 디지털 전환 과제를 지속적으로 수행하여 디지털 혁신을 선도하는 저축은행이 되겠습니다. 일조은행은 취약계층과 금융소외계층을 적극 지원하고, 성장성 있는 중·소기업에게 적시에 자금을 공급하는 서민금융기관으로서의 역할에 충실하도록 하겠습니다. 일조은행을 향한 고객님들의 변함 없는 관심과 성원 부탁을 드리며, 고객님 가정에 건강과 행운이 가득하길 기원합니다. 감사합니다.</h2>
 </body>
 </html>

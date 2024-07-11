@@ -224,9 +224,10 @@
 		
 		.swiper-slide {
 			display: flex;
-			width: 400px;
+			width: 370px;
 			height: 300px;
 			cursor: pointer;
+			margin-right: -30px;
 		}
 		
 		.swiper-slide a img{

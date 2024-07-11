@@ -221,6 +221,7 @@ let check_remittance = "no";
             document.getElementById("remittance_form").style.top = "700px";
             document.getElementById("form1").reset();
             document.getElementById("passwordForm").reset();
+            location.reload(true); //페이지 새로고침 캐시 무시
   		}
 		function sendlist(fff) {
 			let account_number = fff.account_number.value;

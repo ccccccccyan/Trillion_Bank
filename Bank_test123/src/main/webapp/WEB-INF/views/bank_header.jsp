@@ -82,7 +82,6 @@
 							안내</div>
 						<ul id="sideMenu2">
 							<li class="sideMenu"><a href="ceo_greeting.do">CEO인사말</a></li>
-							<li class="sideMenu"><a href="vision.do">비전</a></li>
 							<li class="sideMenu"><a href="organization_chart.do">조직도</a></li>
 							<li class="sideMenu"><a href="guide.do">영업점 안내</a></li>
 						</ul>
