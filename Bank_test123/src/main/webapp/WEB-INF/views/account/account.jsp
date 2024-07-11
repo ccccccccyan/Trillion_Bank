@@ -398,7 +398,7 @@
 	 	
 	 	function change_account_pwd() {
 	 		document.getElementById("change_color").style.display = "none";
-	 		document.getElementById("change_color_msg").style.display = "";
+	 		document.getElementById("change_color_msg").innerHTML = "";
 
 	 		let change_info = document.getElementById("change_info");
 	 		let change_send = document.getElementById("change_send");
@@ -502,7 +502,7 @@
 		           }, "post");
 
 			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
-				param = "account_number="+account_number + "&account_pwd="+change_color;
+				param = "account_number="+account_number + "&account_pwd="+change_data;
 				url ="account_pwd_update.do";
 
 				sendRequest(url, param, function() {
@@ -530,9 +530,18 @@
 				let json = ( new Function('return '+data) )();
 				
 				if( json[0].result == 'clear' ){
-					change_searchinfo( account_number);
+			 		document.getElementById("change_color").style.display = "none";
+			 		document.getElementById("change_color_msg").innerHTML = "수정이 완료되었습니다.";
+		 			document.getElementById("change_info").style.display = "none";
+	 				document.getElementById("change_send").style.display = "none";
+
+	 				change_searchinfo( account_number);
+					
 				}else{
-					alert("진행 실패");
+			 		document.getElementById("change_color").style.display = "none";
+			 		document.getElementById("change_color_msg").innerHTML = "수정에 실패하였습니다.";
+		 			document.getElementById("change_info").style.display = "none";
+	 				document.getElementById("change_send").style.display = "none";
 				}
 				
 			}
