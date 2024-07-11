@@ -64,7 +64,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			seq_notice_idx.nextVal,
 			#{ subject },
 			#{ name },
-			#{ content }
+			#{ content },
+			sysdate
 		)
 	</insert>
 	
@@ -79,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from NOTICE where r_notice_idx=#{r_notice_idx}
 	</delete>
 	
-		<!-- 공지 게시판 최신순 10개 조회 -->
+	<!-- 메인페이지에서 공지 게시판 최신순 10개 조회 -->
 	<select id="select_list_rank" resultType="notice">
 		select * from ( select rank() over(order by r_notice_idx DESC) no, n.*from notice n)
 		where no BETWEEN 1 and 10

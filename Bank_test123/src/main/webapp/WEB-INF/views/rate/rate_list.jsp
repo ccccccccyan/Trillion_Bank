@@ -103,9 +103,9 @@
 	<body>
 		<form>
 		
-		<%-- <div id="header">
+		<div id="header">
 			<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
-		</div> --%>
+		</div>
 		
 			<table border="1" width="700" align="center">
 				<caption>환율 게시판</caption>

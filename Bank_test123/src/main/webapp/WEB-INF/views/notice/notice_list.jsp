@@ -110,10 +110,11 @@
 			<table border="1" width="700" align="center">
 				<caption>공지사항 게시판</caption>
 				
-					<tr>
+					<tr class="header_color_same">
 						<td align="center" width="10%">번호</td>
 						<td align="center" width="20%">작성자</td>
 						<td align="center">제목</td>
+						<td align="center">작성일</td>
 					</tr>
 					
 				<c:forEach var="vo" items="${ list }">
@@ -126,18 +127,19 @@
 							${ vo.subject }
 							</a>
 						</td><!-- 공지사항 제목 -->
+						<td class="type_regdate">${ vo.regdate }</td><!-- 작성한 날짜 -->
 					</tr>
 					
 				</c:forEach>
 				
 				<tr>
-					<td colspan="3" align="center">
+					<td colspan="4" align="center">
 						${ pageMenu }
 					</td>
 				</tr>
 				
 				<tr>
-				<td colspan="3" align="center">
+				<td colspan="4" align="center">
 					
 					<select id="search">
 						<option value="all">전체보기</option>
@@ -152,12 +154,16 @@
 				</td>
 			</tr>
 				
+				<!-- 이거 주석 해제하기! -->
+				<!-- 공지사항 글 작성버튼이 매니저에게만 보이도록 함. -->
+				<c:if test="${sessionScope.manager eq 'Y'}">
 				<tr>
-					<td colspan="3" align="right">
+					<td colspan="4" align="right">
 						<input type="button" value="등록"
 						onclick="location.href='notice_write.do'">
 					</td>
 				</tr>
+				</c:if>
 				
 			</table>
 			

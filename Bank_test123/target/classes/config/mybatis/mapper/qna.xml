@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 전체 qna 게시판 게시글 조회 -->
     <select id="qna_list" resultType="qna" parameterType="java.util.Map">
         select * from
-        ( select rank() over(order by q_board_idx DESC) no, q.* 
+        ( select rank() over(order by q_board_ref DESC) no, q.* 
           from ( select * from QNA_BOARD
           <trim prefix="where" prefixOverrides="or|and">
             <if test="user_id!=null">
@@ -52,14 +52,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             content,
             user_id,
             depth,
-            q_board_ref
+            q_board_ref,
+            regdate
         ) values (
             seq_board_idx.nextVal,
             #{subject},
             #{content,jdbcType=CLOB},
             #{user_id,jdbcType=VARCHAR},
-            #{depth,jdbcType=NUMERIC},
-            #{q_board_ref,jdbcType=NUMERIC}
+            0, <!-- 기본 깊이는 0 -->
+            seq_board_idx.currVal, <!-- 새로운 글의 경우 qna_idx 값으로 설정 -->
+            sysdate <!-- 현재 날짜와 시간 삽입 -->
         )
     </insert>
     

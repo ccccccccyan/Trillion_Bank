@@ -2,7 +2,7 @@ package vo;
 
 public class QnaVO {
 	private int q_board_idx, depth, q_board_ref;
-	private String subject, content, user_id;
+	private String subject, content, user_id, regdate;
 	
 	public int getQ_board_idx() {
 		return q_board_idx;
@@ -39,6 +39,12 @@ public class QnaVO {
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
 	}
 	
 }

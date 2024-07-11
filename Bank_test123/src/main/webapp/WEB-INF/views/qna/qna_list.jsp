@@ -101,13 +101,19 @@
 	</head>
 	
 	<body>
+	
+	<div id="header">
+		<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+	</div>
+	
 		<table border="1" width="700" align="center">
-			<caption>:::Q&A 게시판:::</caption>
+			<caption>Q&A 게시판</caption>
 			
-			<tr>
+			<tr class="header_color_same">
 				<td align="center">번호</td>
 				<td align="center">제목</td>
 				<td align="center">작성자</td>
+				<td align="center">작성일</td>
 			</tr>
 			
 			<c:forEach var="vo" items="${ list }">
@@ -123,14 +129,14 @@
 					</td><!-- qna 게시판 제목(질문하는 제목) -->
 					
 					<td class="type_user_id">${ vo.user_id }</td><!-- 작성자(질문자) 아이디 -->
-					
+					<td class="type_regdate">${ vo.regdate }</td>
 					
 				</tr>
 				
 			</c:forEach>
 			
 			<tr>
-				<td colspan="3" align="center">
+				<td colspan="4" align="center">
 					
 					<select id="search">
 						<option value="all">전체보기</option>
@@ -146,13 +152,13 @@
 			</tr>
 			
 			<tr>
-				<td colspan="3" align="center">
+				<td colspan="4" align="center">
 					${ pageMenu }
 				</td>
 			</tr>
 			
 			<tr>
-				<td colspan="3" align="right">
+				<td colspan="4" align="right">
 					<input type="button" value="등록"
 					onclick="location.href='qna_write.do'">
 				</td>
