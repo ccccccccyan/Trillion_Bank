@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -7,8 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css"
-	href="/bank/resources/css/account_css.css">
+<link rel="stylesheet" type="text/css" href="/bank/resources/css/account_css.css">
 
 <style>
 body {
@@ -128,11 +126,11 @@ body {
 
 
 
-		<script>	
+<script>	
 			// 계좌비밀번호 5회 틀릴시 잠겼을때 경고창으로 잠겼다고 띄움
 			window.onload = function() {
 			    if (${vo.account_lockcnt} == 5) {
-			        alert("계좌 비밀번호 5회실패! 일조뱅크에 문의해주세요.");
+			        alert("계좌 비밀번호 5회실패! 일조은행에 문의해주세요.");
 			        location.href = "account_list.do";
 			    }
 			};
@@ -162,23 +160,20 @@ body {
 
 	<form>
 		<div class="account-table">
-			<input type="hidden" value="${vo.account_number}"
-				name="account_number">
+			<input type="hidden" value="${vo.account_number}" name="account_number">
 
 			<div class="account-info">
 				<div class="bank-name">${vo.bank_name}은행${vo.account_number}</div>
 				<div>
 					<input type="button" value="송금하기" onclick="send(this.form);">
-					<input type="button" value="계좌삭제"
-						onclick="del(${vo.account_number});">
+					<input type="button" value="계좌삭제" onclick="del(${vo.account_number});">
 				</div>
 			</div>
 
 			<div class="account-balance">계좌 잔액: ${vo.now_money}원</div>
 
 			<div class="transaction-list">
-				<div align="right" onclick="detail(${vo.account_number})"
-					style="cursor: pointer;">전체·최신순 ▼</div>
+				<div align="right" onclick="detail(${vo.account_number})" style="cursor: pointer;">전체·최신순 ▼</div>
 				<div class="transaction-header">
 					<div>거래대상</div>
 					<div>거래금액</div>

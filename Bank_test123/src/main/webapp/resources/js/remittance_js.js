@@ -167,7 +167,7 @@ let check_remittance = "no";
 			        let account_input_pwd_warn_msg = document.getElementById("account_input_pwd_warn_msg");
 			        let send_button = document.getElementById("send_button");
 			        if (json[0].account_lockcnt == '5') {
-		                alert("계좌 비빌번호 5회 실패! 일조뱅크에 문의해주세요.");
+		                alert("계좌 비빌번호 5회 실패! 일조은행에 문의해주세요.");
 		                location.href = "account_list.do";
 		            }
 			        
