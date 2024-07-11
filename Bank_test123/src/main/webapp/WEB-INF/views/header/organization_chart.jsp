@@ -200,7 +200,7 @@ i#crown{
 		<div class="org-chart">
 			<div class="level">
 				<div class="person-container">
-					<div class="person_box" id="jyh">
+					<div class="person_box" id="jyh" onclick="location.href='chart_all.do'">
 						<div class="person" id="jyh_text2">일조은행 본사</div>
 						<div class="person" id="jyh_text">창업주 정용훈</div>
 					</div>

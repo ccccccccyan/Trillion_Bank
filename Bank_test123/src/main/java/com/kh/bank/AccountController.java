@@ -583,4 +583,8 @@ public class AccountController {
 	public String chart_kjh() {
 		return Common.Header.VIEW_PATH_HD + "schedule_kjh.jsp";
 	}
+	@RequestMapping("chart_all.do")
+	public String chart_all() {
+		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
+	}
 }
