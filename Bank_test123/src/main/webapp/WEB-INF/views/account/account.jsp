@@ -556,7 +556,7 @@
 		let head_img_path = "/bank/resources/img/은행대표이미지";
 		function change_head_img(){
 			head_img_index++;
-			if(head_img_index > 2){
+			if(head_img_index > 3){
 				head_img_index = 1;
 			}
 			document.getElementById("head_img_img").src = head_img_path + head_img_index + ".jpg";
@@ -567,9 +567,15 @@
 
 				document.getElementById("head_content1").style.color = "black";
 				document.getElementById("head_content2").style.color = "black";
-			}else{
+			}else if(head_img_index == 2){
 				document.getElementById("head_content1").innerHTML = "늦은 밤, 당신에게";
 				document.getElementById("head_content2").innerHTML = "꼭 필요한 은행";
+
+				document.getElementById("head_content1").style.color = "white";
+				document.getElementById("head_content2").style.color = "white";
+			}else{
+				document.getElementById("head_content1").innerHTML = "강아지에 의한";
+				document.getElementById("head_content2").innerHTML = "강아지를 위한 적금";
 
 				document.getElementById("head_content1").style.color = "white";
 				document.getElementById("head_content2").style.color = "white";
