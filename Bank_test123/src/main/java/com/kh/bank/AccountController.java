@@ -301,44 +301,7 @@ public class AccountController {
 	    }
 	}
 	
-	@Transactional
-	@RequestMapping("/remittance.do")
-	public String remittance(String account_number, String target_account_number, int deal_money){
-		//user_id 접속한 사람의 id / account_number 내가 송금한 계좌번호 / deal_money 송금할 금액
-		
-		
-		System.out.println(account_number+"/"+target_account_number);	
-		AccountVO user = account_dao.accountnum_selectOne(account_number); // userid의 계좌상세정보를 조회
-		AccountVO target = account_dao.accountnum_selectOne(target_account_number);//내가 송금할 계좌번호의 계좌 상세정보를 조회
-		
-		int usermoney = user.getNow_money() - deal_money; //user의 계좌에서 빠져나간만큼의 금액을 빼줌
-		int targetmoney = target.getNow_money() + deal_money;//상대 계좌의 송금받은 만큼의 금액을 더함
-		
-		//계산한 금액을 계좌 상세보기 VO에 넣어줌 
-		user.setNow_money(usermoney);
-		target.setNow_money(targetmoney);
-		//그 금액을 각각 유저계좌와 상대계좌 db에 업데이트로 갱신함
-		account_dao.updateremittance(user);
-		account_dao.updateremittance(target);
-		
-		
-		// 접속한 사람의 계좌주의 이름과 상대 계좌주의 이름을 얻기위해 uservo로 조회함  
-		UserVO myusername = account_dao.user_selectOne(user.getUser_id());
-		UserVO targetusername = account_dao.user_selectOne(target.getUser_id()); 
-		
-		//거래내역 정보를 detail_vo에 담음
-		AccountdetailVO detail_vo = new AccountdetailVO();
-		detail_vo.setAccount_number(user.getAccount_number());
-		detail_vo.setUser_name(myusername.getUser_name());//조회한 유저 이름을 저장
-		detail_vo.setDepo_username(targetusername.getUser_name());//조회한 상대 계좌주의 이름을 저장
-		detail_vo.setDepo_account(target.getAccount_number());
-		detail_vo.setDeal_money(deal_money);
-		System.out.println(myusername.getUser_name()+"/"+targetusername.getUser_name());
-		//거래내역을 담은 vo를 insert해줌
-		account_dao.insertremittance(detail_vo);
-		
-		return "redirect:account_info.do?account_number="+user.getAccount_number();
-	}
+	
 	@RequestMapping("delete_form.do")
 	public String delete_form(Model model, String account_number) {
 		AccountVO vo = account_dao.accountnum_selectOne(account_number);

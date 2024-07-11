@@ -261,7 +261,6 @@
 	</div>
 
 
-	환율조회
 	<div id="rate_body">
 		<div id="rate_calculate" style="width: 400px; height: 600px; border: 1px solid;">
 			<!-- <select id="cur_unit_selected" onchange="cur_unit_selected();">
