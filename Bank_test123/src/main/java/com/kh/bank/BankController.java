@@ -54,17 +54,24 @@ public class BankController {
 		this.rate_dao = rate_dao;
 	}
 
-	@RequestMapping("list.do")
-	public String list(Model model) throws IOException {
+	@RequestMapping(value="/list.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<Map<String, Object>> list(Model model) throws IOException {
+		List<Map<String, Object>> rate_data = new ArrayList<Map<String,Object>>();
+		
+	
+		// 금일 데이터 있는지 확인 후 추가 ----------------------------
 		LocalDate date = LocalDate.now();
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String formattedDate = date.format(fommat_date);
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);
-
+		
+		
+		System.out.println("list_ok.size() : " + list_ok.size());
 		if (list_ok.size() == 0) {
 			BankService bank = new BankService();
 			List<RateVO> list = bank.bank_serv(formattedDate);
-
+			
 			if (list.get(0).getCur_nm() == null || list.get(0).getCur_nm().isEmpty()) {
 				int res = rate_dao.no_insert(list.get(0));
 			} else {
@@ -73,10 +80,101 @@ public class BankController {
 				}
 			}
 		}
+		
+		String period = request.getParameter("period");
+		System.out.println("period : "+period);
+		String cur_unit_select = request.getParameter("cur_unit_select");
+		System.out.println("cur_unit_select : "+cur_unit_select);
+		
+		LocalDate first_date = null; // 수정: 날짜 설정 변경;
+		LocalDate last_date = LocalDate.now();
+		
+		
+		if(period.isEmpty() || period == "" || period.equals("1개월")) {
+			// 현재 날짜 가져오기
+			first_date = last_date.minusMonths(1); // 수정: 날짜 설정 변경
+			System.out.println("1");
+			
+		}else if(period.equals("3개월")){
+			first_date = last_date.minusMonths(3); // 수정: 날짜 설정 변경
+			System.out.println("2");
+		}else if(period.equals("6개월")){
+			first_date = last_date.minusMonths(6); // 수정: 날짜 설정 변경
+			System.out.println("3");
+		}else if(period.equals("1년")){
+			first_date = last_date.minusYears(1); // 수정: 날짜 설정 변경
+			System.out.println("4");
+		}else {
+			System.out.println("5");
+		}
+		
+		String format_first_Date = first_date.format(fommat_date);
+		String format_last_Date = last_date.format(fommat_date);
 
-		List<RateVO> selectlist = rate_dao.selectList();
-		model.addAttribute("list", selectlist);
-		return Common.Bank.VIEW_PATH + "bank_list.jsp";
+		
+		// 조회할 나라 배열
+		String[] cur_unit_box = { "CHF", "CNH", "DKK", "EUR", "GBP", "HKD", "IDR(100)", "JPY(100)", "KWD", "MYR", "NOK",
+				"NZD", "SAR", "SEK", "SGD", "THB", "USD" };
+		List<String> cur_unit = new ArrayList<String>();
+		if(cur_unit_select.isEmpty() || cur_unit_select == "" || cur_unit_select.equals("all") ) {
+			System.out.println("--------------");
+			for(String str : cur_unit_box) {
+				cur_unit.add(str);
+			}
+		}else {
+			System.out.println("================");
+			cur_unit.add(cur_unit_select);
+		}
+		Map<String, Object> db_data = new HashMap<String, Object>();
+		db_data.put("first_day", format_first_Date);
+		db_data.put("last_day", format_last_Date);
+		
+		System.out.println("5 asdajshdvahsgdv : " + cur_unit.size());
+		for(int i = 0; i < cur_unit.size(); i++) {
+			Map<String, Object> rate_list_data = new HashMap<String, Object>();
+			
+			db_data.put("CUR_UNIT", cur_unit.get(i));
+			
+			// first_day에서 last_day 사이의 cur_unit 데이터를 조회
+			List<RateVO> rate_list_cur = rate_dao.select_chart(db_data);
+			
+			
+			// 최대 최소 구하기
+			double max_data = Double.parseDouble(rate_list_cur.get(0).getTtb().replace(",", ""));
+			double min_data = Double.parseDouble(rate_list_cur.get(0).getTtb().replace(",", ""));
+
+			for (RateVO data : rate_list_cur) { // , 있으면 계산 안돼서 제거해주고 형변환했어요
+				Double data_ttb = Double.parseDouble(data.getTtb().replace(",", ""));
+				Double data_tts = Double.parseDouble(data.getTts().replace(",", ""));
+				if (max_data < data_ttb) {
+					max_data = data_ttb;
+				}
+
+				if (max_data < data_tts) {
+					max_data = data_tts;
+				}
+
+				if (min_data > data_ttb) {
+					min_data = data_ttb;
+				}
+
+				if (min_data > data_tts) {
+					min_data = data_tts;
+				}
+			}
+			
+			// cur_unit과 max, min 값 담기
+			rate_list_data.put("cur_unit", cur_unit.get(i));
+			rate_list_data.put("max_data", max_data);
+			rate_list_data.put("min_data", min_data);
+			// 조회된 rateVO 객체 리스트 담기
+			rate_list_data.put("rateVO_data", rate_list_cur);
+			
+			
+			rate_data.add(rate_list_data);
+		}
+		
+		return rate_data;
 	}
 
 	// 메인 화면
@@ -433,4 +531,40 @@ public class BankController {
 		}
 	}
 
+	@RequestMapping("/user_id_update.do")
+	@ResponseBody
+	public String user_id_update( UserVO vo ) {
+		int res = user_dao.update_user_active(vo);
+		
+		if (res > 0) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
+	
+	@RequestMapping("/user_pwd_update.do")
+	@ResponseBody
+	public String user_pwd_update( UserVO vo ) {
+		vo.setUser_pwd(Common.SecurePwd.encodePwd(vo.getUser_pwd()));
+		int res = user_dao.user_pwd_update(vo);
+		
+		if (res > 0) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
+	
+	@RequestMapping("/user_tel_update.do")
+	@ResponseBody
+	public String user_tel_update( UserVO vo ) {
+		int res = user_dao.user_tel_update(vo);
+		
+		if (res > 0) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
 }

@@ -175,6 +175,7 @@
 	        
 	    });
 	 	
+	 	
 	 	// 검색 결과 중 하나를 선택했을 경우
 	 	function change_searchinfo( account_number) {
 			console.log(account_number);
@@ -212,6 +213,28 @@
 				search_now_money.innerHTML = search_data.account_result.now_money;
 				search_account_color.style.background = search_data.account_result.account_color;
 				
+				// 함수 호출 값 변경
+				let ch_user_name  = document.getElementById("change_user_name");
+				let ch_user_pwd  = document.getElementById("change_user_pwd");
+				let ch_user_tel  = document.getElementById("change_user_tel");
+				let ch_account_pwd  = document.getElementById("change_account_pwd");
+				let ch_account_color  = document.getElementById("change_account_color");
+				
+				ch_user_name.onclick = function() {
+					change_user_name(); // 함수 호출 문법
+				};
+				ch_user_pwd.onclick = function() {
+					change_user_pwd(); // 함수 호출 문법
+				};
+				ch_user_tel.onclick = function() {
+					change_user_tel(); // 함수 호출 문법
+				};
+				ch_account_pwd.onclick = function() {
+					change_account_pwd(); // 함수 호출 문법
+				};
+				ch_account_color.onclick = function() {
+					change_account_color(); // 함수 호출 문법
+				};
 			 })
 		     .catch(error => {
 			     console.error('처리 중 오류 발생', error);
@@ -222,6 +245,284 @@
 			// 검색이 완료되었으니 검색 박스 none
 			let search_result = document.getElementById("search_result");
 			search_result.style.display = "none";
+		}
+	 	
+	 	
+	 	let update_ok = "no";
+	 	
+	 	function change_ok(f) {
+	 		let change_key = f.change_info.placeholder;
+			let change_data = f.change_info.value;
+	 		let user_id = document.getElementById("search_user_id").innerHTML;
+	 		let account_number = document.getElementById("search_account").innerHTML;
+	 		let change_form_warn_msg = document.getElementById("change_color_msg");
+			
+			let param;
+			let url;	
+			let onlynumber;
+			
+			console.log(change_data);
+			
+			if(change_key == '변경할 이름을 입력해 주세요'){
+				/* 
+				^: 문자열의 시작을 나타냅니다.
+				[\p{L}]: 유니코드 문자 클래스(\p{L})를 사용하여 모든 문자를 포함합니다. 이는 영어, 한글, 스페인어 등 다양한 언어의 문자를 포함합니다.
+				*: 0개 이상의 앞의 패턴(문자)이 등장할 수 있음을 나타냅니다.
+				$: 문자열의 끝을 나타냅니다. */
+				
+				onlynumber = /^[a-zA-Z가-힣]*$/;
+				
+				if(!onlynumber.test(change_data)){
+					change_form_warn_msg.innerHTML = "유효한 이름이 아닙니다.";
+					change_form_warn_msg.style.color = "red";
+					update_ok = "no";
+					return;
+				}
+				change_form_warn_msg.innerHTML = "유효한 이름 입니다.";
+				change_form_warn_msg.style.color = "green";
+				update_ok = "yes";
+				
+			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요'){
+				onlynumber =/^[a-zA-Z0-9]{8,18}$/;
+				
+				if(!onlynumber.test(change_data)){
+					change_form_warn_msg.innerHTML = "비밀번호는 영문자, 숫자 8~18자리입니다.";
+					change_form_warn_msg.style.color = "red";
+					update_ok = "no";
+					return;
+				}
+				change_form_warn_msg.innerHTML = "사용 가능한 비밀번호 입니다.";
+				change_form_warn_msg.style.color = "green";
+				update_ok = "yes";
+			}else if(change_key == '새로운 전화번호를 입력해 주세요'){
+				onlynumber = /^[0-9]{11}$/;
+
+				if(!onlynumber.test(change_data)){
+					change_form_warn_msg.innerHTML = "유효한 전화번호가 아닙니다.";
+					change_form_warn_msg.style.color = "red";
+					update_ok = "no";
+					return;
+				}else{
+					param = "user_id="+user_id + "&user_tel="+change_data;
+					url ="modify_ins_tel.do";
+		
+					sendRequest(url, param, function() {
+						user_tel_update__before_ok( account_number, change_data, user_id );
+			           }, "post");
+				}
+			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요'){
+				onlynumber = /^[0-9]{4}$/;
+
+				if(!onlynumber.test(change_data)){
+					change_form_warn_msg.innerHTML = "비밀번호는 숫자 4자리입니다.";
+					change_form_warn_msg.style.color = "red";
+					update_ok = "no";
+					return;
+				}
+				change_form_warn_msg.innerHTML = "사용 가능한 비밀번호 입니다.";
+				change_form_warn_msg.style.color = "green";
+				update_ok = "yes";
+			}
+		}
+	 	
+	 	
+	 	function user_tel_update__before_ok(account_number, user_tel, user_id) {
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				
+				let change_form_warn_msg = document.getElementById("change_color_msg");
+				
+				let data = xhr.responseText;
+				console.log(data);
+				
+				let json = ( new Function('return '+data) )();
+				
+				if( json[0].result == 'clear' ){
+					change_form_warn_msg.innerHTML = "사용 가능한 전화번호 입니다.";
+					change_form_warn_msg.style.color = "green";
+					update_ok = "yes";
+					
+				}else{
+					change_form_warn_msg.innerHTML = "전화번호가 중복됩니다.";
+					change_form_warn_msg.style.color = "red";
+					update_ok = "no";
+					return;
+				}
+				
+			}
+		}
+			
+	 	
+	 	
+	 	function change_user_name() {
+	 		document.getElementById("change_color").style.display = "none";
+	 		document.getElementById("change_color_msg").innerHTML = "";
+
+	 		let change_info = document.getElementById("change_info");
+	 		let change_send = document.getElementById("change_send");
+	 		change_info.value = "";
+	 		change_info.placeholder = "변경할 이름을 입력해 주세요";
+	 		change_info.style.display = "block";
+	 		change_send.style.display = "block";
+		}
+	 	
+	 	function change_user_pwd() {
+	 		document.getElementById("change_color").style.display = "none";
+	 		document.getElementById("change_color_msg").innerHTML = "";
+
+	 		let change_info = document.getElementById("change_info");
+	 		let change_send = document.getElementById("change_send");
+	 		change_info.value = "";
+	 		change_info.placeholder = "계정에 사용할 새로운 비밀번호를 입력해 주세요";
+	 		change_info.style.display = "block";
+	 		change_send.style.display = "block";
+		}
+	 	
+	 	function change_user_tel() {
+	 		document.getElementById("change_color").style.display = "none";
+	 		document.getElementById("change_color_msg").innerHTML = "";
+
+	 		let change_info = document.getElementById("change_info");
+	 		let change_send = document.getElementById("change_send");
+	 		change_info.value = "";
+	 		change_info.placeholder = "새로운 전화번호를 입력해 주세요";
+	 		change_info.style.display = "block";
+	 		change_send.style.display = "block";
+		}
+	 	
+	 	function change_account_pwd() {
+	 		document.getElementById("change_color").style.display = "none";
+	 		document.getElementById("change_color_msg").style.display = "";
+
+	 		let change_info = document.getElementById("change_info");
+	 		let change_send = document.getElementById("change_send");
+	 		change_info.value = "";
+	 		change_info.placeholder = "계좌에 사용할 새로운 비밀번호를 입력해 주세요";
+	 		change_info.style.display = "block";
+	 		change_send.style.display = "block";
+		}
+	 	
+	 	function change_account_color() {
+	 		document.getElementById("change_info").style.display = "none";
+	 		
+	 		let change_color = document.getElementById("change_color");
+	 		let change_color_msg = document.getElementById("change_color_msg");
+	 		let change_send = document.getElementById("change_send");
+	 		
+	 		change_color_msg.innerHTML = "변경할 색상을 입력해 주세요";
+	 		change_info.value = "";
+	 		change_color_msg.style.display = "block";
+	 		change_color.style.display = "block";
+	 		change_send.style.display = "block";
+	 		
+	 		let color_mini_list = document.querySelectorAll('.color_mini');
+	 		if (color_mini_list.length > 0) {
+	 			return;
+	 		}
+	 		
+	 	// 색상 리스트	
+			let color_list = ["#ff5145", "#ff763b", "#ffad33", "#ffd736", "#d0ff36", "#a8ff2e", "#68ff1c",
+				"#52f760", "#63ffa4", "#63ffce", "#73fffa", "#73d7ff", "#73b7ff", "#73a2ff", "#737eff", 
+				"#3d4f82", "#2c344a", "#1b202e",
+				"#b473ff", "#d773ff", "#c95df5", "#f55df2"];
+			
+			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
+			for(let i = 0; i < color_list.length; i++){
+				let color_mini = document.createElement("div");
+				color_mini.className = "color_mini";
+				color_mini.id = color_list[i];
+				color_mini.style.width = "15px";
+				color_mini.style.height = "30px";
+				color_mini.style.float = "left";
+				color_mini.style.background = color_list[i];
+				color_mini.style.flex = "1";
+				color_mini.onclick = function() {
+					color_choice(color_list[i]);
+				};
+				change_color.appendChild(color_mini);
+			}//for------------
+	 		
+		}
+	 	
+	 	
+	 	function color_choice(color) {
+			let search_account_color = document.getElementById("search_account_color");
+			let change_color = document.getElementById("change_color");
+			
+			// 색상별 통장 색 변경
+			search_account_color.style.background = color;
+			change_color.value = color;
+		}// color_choice----------
+	 	
+	 	function change_user_info(f) {
+			
+			let change_key = f.change_info.placeholder;
+			let change_data = f.change_info.value;
+	 		let user_id = document.getElementById("search_user_id").innerHTML;
+	 		let account_number = document.getElementById("search_account").innerHTML;
+			let change_color = document.getElementById("change_color").value;
+			update_ok
+			let param;
+			let url;	
+			
+			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && change_data == 'yes'){
+				param = "user_id="+user_id + "&user_name="+change_data;
+				url ="user_id_update.do";
+				
+				sendRequest(url, param, function() {
+					update_user_info( account_number );
+		           }, "post");
+				
+			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+				param = "user_id="+user_id + "&user_pwd="+change_data;
+				url ="user_pwd_update.do";
+
+				sendRequest(url, param, function() {
+					update_user_info( account_number );
+		           }, "post");
+				
+			}else if(change_key == '새로운 전화번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+				param = "user_id="+user_id + "&user_tel="+change_data;
+				url ="user_tel_update.do";
+
+				sendRequest(url, param, function() {
+					update_user_info( account_number );
+		           }, "post");
+
+			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+				param = "account_number="+account_number + "&account_pwd="+change_color;
+				url ="account_pwd_update.do";
+
+				sendRequest(url, param, function() {
+					update_user_info( account_number );
+		           }, "post");
+			
+			}else if(change_info.style.display != "block"){
+				console.log(change_color);
+				param = "account_number="+account_number + "&account_color="+change_color;
+				url ="account_color_update.do";
+
+				sendRequest(url, param, function() {
+					update_user_info( account_number );
+		           }, "post");
+			}
+		}
+	 	
+		function update_user_info( account_number ) {
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				
+				//"[{'result':'yes'}]"
+				let data = xhr.responseText;
+				console.log(data);
+				
+				let json = ( new Function('return '+data) )();
+				
+				if( json[0].result == 'clear' ){
+					change_searchinfo( account_number);
+				}else{
+					alert("진행 실패");
+				}
+				
+			}
 		}
 	 	
 	 	// 계좌 검색으로 사용자 정보 조회 
@@ -278,16 +579,79 @@
 		// 1초간격으로 자동으로 change_head_img()함수를 호출한다
 		setInterval("change_head_img()", 3000);
 	 	
+		// 사용자 비활성화 여부 변경
+		function change_user_name_unknown(unknown_ok) {
+			let user_id = document.getElementById("search_user_id").innerHTML;
+			let account_number = document.getElementById("search_account").innerHTML;
+			
+			let param;
+			let url;
+			
+			if(unknown_ok == 'no'){
+				param = "user_id="+user_id;
+				url ="user_remove.do";
+			}else{
+				let user_name = prompt("변경할 이름을 입력하여 주십시오.");
+				
+				if(user_name == null){
+					return;
+				}
+				param = "user_id="+user_id + "&user_name="+user_name;
+				url ="user_name_open.do";
+				
+			}
+			
+			sendRequest(url, param, function() {
+				change_user_name_unknownFn( account_number );
+	           }, "post");
+		}
+		
+		function change_user_name_unknownFn( account_number ) {
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				
+				//"[{'result':'yes'}]"
+				let data = xhr.responseText;
+				console.log(data);
+				
+				let json = ( new Function('return '+data) )();
+				
+				if( json[0].result == 'clear' ){
+					change_searchinfo( account_number);
+				}else{
+					alert("진행 실패");
+				}
+				
+			}
+		}
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			document.querySelectorAll('.no_scroll').forEach(function(element) {
+			    element.addEventListener('click', function(event) {
+			        event.preventDefault(); // 기본 이벤트 방지
+			        console.log("================");
+	
+			        // 현재 스크롤 위치 저장
+			        var scrollY = window.scrollY || window.pageYOffset;
+	
+			        // body에 lock-scroll 클래스 추가
+			        document.body.classList.add('lock-scroll');
+	
+			        // 스크롤 위치를 고정
+			        window.scrollTo(0, scrollY);
+			    });
+			});
+		});
 	</script>
 	
 	</head>
 
 	<body>
 		<div id="container">
-
 			<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 			</div>
+			
+
 			
 			<div id="head_img"> <!-- 임시 -->
 				<img id="head_img_img" src="/bank/resources/img/은행대표이미지1.jpg">
@@ -399,7 +763,7 @@
 							<h4 id="search_user_account_position">계좌 번호 : <span id="search_account"> </span></h4>
 							<h4 id="search_tel_position">전화 번호 : <span id="search_tel"> </span></h4>
 							<h4 id="search_now_money_position">현재 잔액 : <span id="search_now_money"> </span> \</h4>
-							<h4 id="search_account_color_position">통장 색상 : <div id="search_account_color"></div></h4>
+							<h4 id="search_account_color_position">통장 색상 : <span id="search_account_color"></span></h4>
 						</div>
 						
 						<div class="bankbook_back" style="background: black;"></div>
@@ -414,23 +778,29 @@
 							
 						<div class="update_user">
 							<h4>계정 상태 관리</h4>
-							<div>계정 활성화</div>
-							<div>계정 비활성화</div>
+							<a href="#" onclick="change_user_name_unknown('yes')" class="no_scroll">계정 활성화</a>
+							<a href="#" onclick="change_user_name_unknown('no')" class="no_scroll">계정 비활성화</a>
 						</div>
 						<div class="update_userinfo">
 							<h4>계정 정보 수정 및 변경</h4>
-							<div>계정 이름 변경</div>
-							<div>아이디 찾기</div>
-							<div>계정 비밀번호 변경</div>
-							<div>전화번호 찾기</div>
-							<div>전화번호 변경</div>
+							<a href="#" id="change_user_name" class="no_scroll">계정 이름 변경</a>
+							<a href="#" id="change_user_pwd" class="no_scroll">계정 비밀번호 변경</a>
+							<a href="#" id="change_user_tel" class="no_scroll">전화번호 변경</a>
 						</div>
 						
 						<div id="update_userinfo">
 							<h4>계좌 정보 수정 및 변경</h4>
-							<div>계좌 비밀번호 변경</div>
-							<div>계좌 색상 변경</div>
+							<a href="#" id="change_account_pwd" class="no_scroll">계좌 비밀번호 변경</a>
+							<a href="#" id="change_account_color" class="no_scroll">계좌 색상 변경</a>
 						</div>
+
+						<form id="change_form" style="width: 700px; height: 60px; margin-top: 20px;">
+							<span id="change_color_msg" style="width: 600px; height: 30px;"></span>
+							<div id="change_color" style="width: 500px; height: 30px; display: none;"></div>
+							<input name="change_info" id="change_info" oninput="change_ok(this.form);" style="width: 350px; height: 25px; display: none;">
+							<input type="button" id="change_send" value="진행" onclick="change_user_info(this.form);" style="display: none; height: 28px;">
+							<input type="hidden" id="change_color" style="display: none;">
+						</form>
 					</div>
 						
 				</div>

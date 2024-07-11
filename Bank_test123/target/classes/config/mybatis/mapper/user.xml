@@ -42,6 +42,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="user_info_update" parameterType="user">
 		update user_info set user_pwd=#{user_pwd}, user_tel=#{user_tel} where user_id=#{user_id}    
     </update>
+    
+    <update id="update_user_active" parameterType="user">
+    	update user_info set user_name=#{user_name} where user_id=#{user_id}
+    </update>
+    
+    <update id="user_pwd_update" parameterType="user">
+    	update user_info set user_pwd=#{user_pwd} where user_id=#{user_id}
+    </update>
+    
+    <update id="user_tel_update" parameterType="user">
+    	update user_info set user_tel=#{user_tel} where user_id=#{user_id}
+    </update>
+    
 </mapper>
 
 

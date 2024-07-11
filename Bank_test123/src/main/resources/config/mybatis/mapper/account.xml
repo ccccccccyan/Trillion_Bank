@@ -88,6 +88,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update ACCOUNT_LIST set account_lockcnt = #{account_lockcnt} where account_number = #{account_number}
 	</update>
 	
+	<update id="account_pwd_update" parameterType="account">
+		update ACCOUNT_LIST set account_pwd = #{account_pwd} where account_number = #{account_number}
+	</update>
+
+	<update id="account_color_update" parameterType="account">
+		update ACCOUNT_LIST set account_color = #{account_color} where account_number = #{account_number}
+	</update>
 	
 </mapper>
 

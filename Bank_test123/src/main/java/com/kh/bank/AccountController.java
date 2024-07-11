@@ -151,6 +151,19 @@ public class AccountController {
 		return "[{'result':'fail'}]";
 	}
 	
+	// 회원 활성화 -----------------------------
+	@RequestMapping("/user_name_open.do")
+	@ResponseBody
+	public String user_name_open(UserVO vo) {
+		// 사용자명 unknown으로 변경
+		int res = user_dao.update_user_active(vo);
+		
+		if(res > 0 ) {
+			return "[{'result':'clear'}]";
+		}
+		return "[{'result':'fail'}]";
+	}
+	
 	// 계좌 추가 폼 --------------------------------------------------
 	@RequestMapping("/account_insert_form.do")
 	public String account_insert_form(Model model) {
@@ -527,6 +540,31 @@ public class AccountController {
 	@RequestMapping("vision.do")
 	public String vision() {
 		return Common.Header.VIEW_PATH_HD + "vision.jsp";
+	}
+	
+	@RequestMapping("/account_pwd_update.do")
+	@ResponseBody
+	public String account_pwd_update(AccountVO vo) {
+		vo.setAccount_pwd(Common.SecurePwd.encodePwd(vo.getAccount_pwd()));
+		int res = account_dao.account_pwd_update(vo);
+		
+		if (res > 0) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
+	
+	@RequestMapping("/account_color_update.do")
+	@ResponseBody
+	public String account_color_update(AccountVO vo) {
+		int res = account_dao.account_color_update(vo);
+		
+		if (res > 0) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
 	}
 
 }

@@ -65,4 +65,18 @@ public class UserDAO {
 		return res;
 	}
 
+	public int update_user_active(UserVO vo) {
+		int res = sqlSession.update("u.update_user_active", vo);
+		return res;
+	}
+	
+	public int user_pwd_update(UserVO vo) {
+		int res = sqlSession.update("u.user_pwd_update", vo);
+		return res;
+	}
+	
+	public int user_tel_update(UserVO vo) {
+		int res = sqlSession.update("u.user_tel_update", vo);
+		return res;
+	}
 }

@@ -76,4 +76,13 @@ public class AccountDAO {
 		List<AccountVO> search_account_unmber = sqlSession.selectList("search_userinfo_account", search_account_number);
 		return search_account_unmber;
 	}
+	
+	public int account_pwd_update(AccountVO vo) {
+		int res = sqlSession.update("ac.account_pwd_update", vo);
+		return res;
+	}
+	public int account_color_update(AccountVO vo) {
+		int res = sqlSession.update("ac.account_color_update", vo);
+		return res;
+	}
 }
