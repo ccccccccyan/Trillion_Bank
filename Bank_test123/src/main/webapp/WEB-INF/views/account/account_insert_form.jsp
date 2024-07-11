@@ -29,9 +29,9 @@
 		</div>
 
 		<div class="account_box">
+			<h2 style="margin-top: 170px; margin-left: 190px;">은행 선택</h2>
 			<!-- 은행 아이콘 div -->
-			<div id="bank_box">
-				<h2>은행 선택</h2>
+			<div id="bank_box" style="margin-top: 20px;">
 			</div>
 
 			<!-- 색상 선택 div -->
@@ -63,7 +63,7 @@
 						<div class="isnert_pwd_form">
 							<input name="account_pwd" maxlength="4"
 								oninput="send_check(this.form);" id="account_pwd"
-								placeholder="숫자 4자리"> 비밀 번호 <input type="button"
+								placeholder="숫자 4자리"> <span style="color: black;">비밀 번호</span> <input type="button"
 								value="추가" id="send_button" disabled="disabled"
 								onclick="account_insert(this.form);"> <br> <span
 								id="pwd_warn_msg" style="color: red"></span>

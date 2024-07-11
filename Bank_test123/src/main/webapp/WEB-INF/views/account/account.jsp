@@ -209,6 +209,13 @@
 				search_bank_name.innerHTML = search_data.account_result.bank_name;
 				search_bank_name_position.style.background = "url('/bank/resources/img/"+ search_data.account_result.bank_name +".png') no-repeat right";
 				search_bank_name_position.style.backgroundSize = "26px";
+				
+				if(search_data.account_result.bank_name == '카카오뱅크'){
+					search_bank_name_position.style.width = "105px";
+				}else{
+					search_bank_name_position.style.width = "75px";
+				}
+				
 				search_user_id.innerHTML = search_data.account_result.user_id;
 				search_now_money.innerHTML = search_data.account_result.now_money;
 				search_account_color.style.background = search_data.account_result.account_color;
@@ -391,7 +398,7 @@
 	 	
 	 	function change_account_pwd() {
 	 		document.getElementById("change_color").style.display = "none";
-	 		document.getElementById("change_color_msg").style.display = "";
+	 		document.getElementById("change_color_msg").innerHTML = "";
 
 	 		let change_info = document.getElementById("change_info");
 	 		let change_send = document.getElementById("change_send");
@@ -455,16 +462,22 @@
 	 	
 	 	function change_user_info(f) {
 			
+			console.log("왤까?");
+			
 			let change_key = f.change_info.placeholder;
 			let change_data = f.change_info.value;
 	 		let user_id = document.getElementById("search_user_id").innerHTML;
 	 		let account_number = document.getElementById("search_account").innerHTML;
 			let change_color = document.getElementById("change_color").value;
-			update_ok
 			let param;
 			let url;	
+			console.log("change_key?"+change_key);
+			console.log("change_data?"+change_data);
+			console.log("user_id?"+user_id);
+			console.log("account_number?"+account_number);
+			console.log("change_color?"+change_color);
 			
-			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_name="+change_data;
 				url ="user_id_update.do";
 				
@@ -472,7 +485,7 @@
 					update_user_info( account_number );
 		           }, "post");
 				
-			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_pwd="+change_data;
 				url ="user_pwd_update.do";
 
@@ -480,7 +493,7 @@
 					update_user_info( account_number );
 		           }, "post");
 				
-			}else if(change_key == '새로운 전화번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			}else if(change_key == '새로운 전화번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_tel="+change_data;
 				url ="user_tel_update.do";
 
@@ -488,8 +501,8 @@
 					update_user_info( account_number );
 		           }, "post");
 
-			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
-				param = "account_number="+account_number + "&account_pwd="+change_color;
+			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
+				param = "account_number="+account_number + "&account_pwd="+change_data;
 				url ="account_pwd_update.do";
 
 				sendRequest(url, param, function() {
@@ -517,9 +530,18 @@
 				let json = ( new Function('return '+data) )();
 				
 				if( json[0].result == 'clear' ){
-					change_searchinfo( account_number);
+			 		document.getElementById("change_color").style.display = "none";
+			 		document.getElementById("change_color_msg").innerHTML = "수정이 완료되었습니다.";
+		 			document.getElementById("change_info").style.display = "none";
+	 				document.getElementById("change_send").style.display = "none";
+
+	 				change_searchinfo( account_number);
+					
 				}else{
-					alert("진행 실패");
+			 		document.getElementById("change_color").style.display = "none";
+			 		document.getElementById("change_color_msg").innerHTML = "수정에 실패하였습니다.";
+		 			document.getElementById("change_info").style.display = "none";
+	 				document.getElementById("change_send").style.display = "none";
 				}
 				
 			}
@@ -556,7 +578,7 @@
 		let head_img_path = "/bank/resources/img/은행대표이미지";
 		function change_head_img(){
 			head_img_index++;
-			if(head_img_index > 2){
+			if(head_img_index > 3){
 				head_img_index = 1;
 			}
 			document.getElementById("head_img_img").src = head_img_path + head_img_index + ".jpg";
@@ -567,9 +589,15 @@
 
 				document.getElementById("head_content1").style.color = "black";
 				document.getElementById("head_content2").style.color = "black";
-			}else{
+			}else if(head_img_index == 2){
 				document.getElementById("head_content1").innerHTML = "늦은 밤, 당신에게";
 				document.getElementById("head_content2").innerHTML = "꼭 필요한 은행";
+
+				document.getElementById("head_content1").style.color = "white";
+				document.getElementById("head_content2").style.color = "white";
+			}else{
+				document.getElementById("head_content1").innerHTML = "강아지에 의한";
+				document.getElementById("head_content2").innerHTML = "강아지를 위한 적금";
 
 				document.getElementById("head_content1").style.color = "white";
 				document.getElementById("head_content2").style.color = "white";

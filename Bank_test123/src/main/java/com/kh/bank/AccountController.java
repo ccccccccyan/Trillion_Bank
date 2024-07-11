@@ -566,5 +566,25 @@ public class AccountController {
 			return "[{'result':'fail'}]";
 		}
 	}
-
+	
+	@RequestMapping("chart_ojh.do")
+	public String chart_ojh() {
+		return Common.Header.VIEW_PATH_HD + "schedule_ojh.jsp";
+	}
+	@RequestMapping("chart_ksy.do")
+	public String chart_ksy() {
+		return Common.Header.VIEW_PATH_HD + "schedule_ksy.jsp";
+	}
+	@RequestMapping("chart_mkj.do")
+	public String chart_mkj() {
+		return Common.Header.VIEW_PATH_HD + "schedule_mkj.jsp";
+	}
+	@RequestMapping("chart_kjh.do")
+	public String chart_kjh() {
+		return Common.Header.VIEW_PATH_HD + "schedule_kjh.jsp";
+	}
+	@RequestMapping("chart_all.do")
+	public String chart_all() {
+		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
+	}
 }

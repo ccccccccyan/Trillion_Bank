@@ -4,25 +4,55 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>여러 개의 마커와 선택 기능</title>
-    <style>
+    <title>찾아오시는길</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+       
+        #map-container {
+            width: 80%;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
         #map {
-            width: 600px;
+            width: 80%;
             height: 600px;
-            margin: 0 auto;
-            margin-bottom: 20px;
+            margin: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
         }
         #controls {
             text-align: center;
             margin-bottom: 20px;
         }
         select {
-            padding: 8px;
+            padding: 10px;
+            margin-top: 60px;
+            margin-right:30px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 60%;
+            max-width: 300px;
+        }
+        option {
             font-size: 16px;
         }
     </style>
 </head>
 <body>
+	<div id="header">
+		<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+	</div>
+	
     <div id="controls">
         <label for="locationSelect">지점 선택:</label>
         <select id="locationSelect">
