@@ -130,9 +130,9 @@ strong {
 </style>
 </head>
 <body>
-	<div id="header">
-		<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
-	</div>
+		<div id="header">
+			<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+		</div>
 	<div class="container">
 		<h1>일조 은행 채용공고</h1>
 		<p style="font-size: 25px; font-weight: bold;">일조 = trillion = 1,000,000,000,000달러 = 부자 ,

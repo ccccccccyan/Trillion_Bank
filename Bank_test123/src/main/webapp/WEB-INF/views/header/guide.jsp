@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>여러 개의 마커와 선택 기능</title>
+    <title>찾아오시는길</title>
      <style>
         body {
             font-family: Arial, sans-serif;

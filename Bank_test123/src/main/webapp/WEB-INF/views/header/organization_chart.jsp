@@ -212,7 +212,7 @@ i#crown{
 				<div class="person-container">
 					<div class='y-line2'></div>
 					<i class='bx bxs-circle'></i>
-					<div class="person_box">
+					<div class="person_box" onclick="location.href='chart_ojh.do'">
 						<i class='bx bxs-circle' id="white"></i>
 						<i class='bx bx-crown' id="crown"></i>
 						<div class="person" id="ojh">
@@ -227,7 +227,7 @@ i#crown{
 				<div class="person-container">
 					<div class='y-line2'></div>
 					<i class='bx bxs-circle'></i>
-					<div class="person_box">
+					<div class="person_box" onclick="location.href='chart_ksy.do'">
 						<i class='bx bxs-circle' id="white"></i>
 						<div class="person" id="ksy">
 							<br>일조은행 역삼점
@@ -241,9 +241,9 @@ i#crown{
 				<div class="person-container">
 					<div class='y-line2'></div>
 					<i class='bx bxs-circle'></i>
-					<div class="person_box">
+					<div class="person_box" onclick="location.href='chart_mkj.do'">
 						<i class='bx bxs-circle' id="white"></i>
-						<div class="person" id="jmk">
+						<div class="person" id="jmk" >
 							<br>일조은행 인천점
 						</div>
 						<i class='bx bxs-user' id="user"></i>
@@ -255,9 +255,9 @@ i#crown{
 				<div class="person-container">
 					<div class='y-line2'></div>
 					<i class='bx bxs-circle'></i>
-					<div class="person_box">
+					<div class="person_box" onclick="location.href='chart_kjh.do'">
 						<i class='bx bxs-circle' id="white"></i>
-						<div class="person" id="kjh">
+						<div class="person" id="kjh" >
 							<br>일조은행 배곧점
 						</div>
 						<i class='bx bxs-user' id="user"></i>
