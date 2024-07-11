@@ -209,6 +209,13 @@
 				search_bank_name.innerHTML = search_data.account_result.bank_name;
 				search_bank_name_position.style.background = "url('/bank/resources/img/"+ search_data.account_result.bank_name +".png') no-repeat right";
 				search_bank_name_position.style.backgroundSize = "26px";
+				
+				if(search_data.account_result.bank_name == '카카오뱅크'){
+					search_bank_name_position.style.width = "105px";
+				}else{
+					search_bank_name_position.style.width = "75px";
+				}
+				
 				search_user_id.innerHTML = search_data.account_result.user_id;
 				search_now_money.innerHTML = search_data.account_result.now_money;
 				search_account_color.style.background = search_data.account_result.account_color;
@@ -455,16 +462,22 @@
 	 	
 	 	function change_user_info(f) {
 			
+			console.log("왤까?");
+			
 			let change_key = f.change_info.placeholder;
 			let change_data = f.change_info.value;
 	 		let user_id = document.getElementById("search_user_id").innerHTML;
 	 		let account_number = document.getElementById("search_account").innerHTML;
 			let change_color = document.getElementById("change_color").value;
-			update_ok
 			let param;
 			let url;	
+			console.log("change_key?"+change_key);
+			console.log("change_data?"+change_data);
+			console.log("user_id?"+user_id);
+			console.log("account_number?"+account_number);
+			console.log("change_color?"+change_color);
 			
-			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_name="+change_data;
 				url ="user_id_update.do";
 				
@@ -472,7 +485,7 @@
 					update_user_info( account_number );
 		           }, "post");
 				
-			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_pwd="+change_data;
 				url ="user_pwd_update.do";
 
@@ -480,7 +493,7 @@
 					update_user_info( account_number );
 		           }, "post");
 				
-			}else if(change_key == '새로운 전화번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			}else if(change_key == '새로운 전화번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_tel="+change_data;
 				url ="user_tel_update.do";
 
@@ -488,7 +501,7 @@
 					update_user_info( account_number );
 		           }, "post");
 
-			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && change_data == 'yes'){
+			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "account_number="+account_number + "&account_pwd="+change_color;
 				url ="account_pwd_update.do";
 
