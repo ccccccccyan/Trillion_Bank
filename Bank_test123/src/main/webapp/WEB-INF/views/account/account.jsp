@@ -685,23 +685,6 @@
 				<img id="head_img_img" src="/bank/resources/img/은행대표이미지1.jpg">
 				<h1 id="head_content"> <span id="head_content1">꾸준히 키워나가는</span> <span id="head_content2"> 미래의 가능성 </span> </h1>
 			</div>
-			
-				<!-- 로그인 여부 -->
-				<h2 class="seeMyid">
-					<c:if test="${ empty user_id }">
-						비회원입니다.
-					</c:if>
-				
-					<c:if test="${not empty user_id && empty manager }">
-						${user_id} 님
-					</c:if>
-
-					<c:if test="${not empty user_id && not empty manager }">
-						${user_id} 님 <br> 
-						( 관리자 )
-					</c:if>
-				
-				</h2>
 				
 			<div class="account_content">
 				<!-- 계좌 리스트 박스 -->		
@@ -710,7 +693,7 @@
 					<div id="account_container" class="mySwiper">
 						<div id="account_slide" class="swiper-wrapper" >
 							<c:forEach var="vo" items="${account_list}" >
-								<div class="bankbook_body swiper-slide" onclick="send('${vo.account_number}');">
+								<div class="swiper-slide" onclick="send('${vo.account_number}');">
 								
 									<c:choose>
 									    <c:when test="${vo.account_color eq '#1b202e'}">

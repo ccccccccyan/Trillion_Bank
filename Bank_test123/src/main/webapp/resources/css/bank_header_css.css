@@ -15,10 +15,17 @@
 						/* background-color: #252863;  */
 						width: 100%;
 						height: 140px;
-						/* position: relative; */
 						z-index: 1;
 						border: 1px solid;
 						}
+		
+		.seeMyid{
+				color:white;
+				position: absolute;
+				width: 220px;
+				left: 1570px;
+				top: 30px;
+				z-index: 100;}
 		
 		#header_container #header_icon img{position: absolute;
 									width: 400px;

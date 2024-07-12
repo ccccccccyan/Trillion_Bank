@@ -45,6 +45,22 @@
 
 		</div>
 
+						<!-- 로그인 여부 -->
+				<h2 class="seeMyid">
+					<c:if test="${ empty user_id }">
+						비회원입니다.
+					</c:if>
+				
+					<c:if test="${not empty user_id && empty manager }">
+						${user_id} 님
+					</c:if>
+
+					<c:if test="${not empty user_id && not empty manager }">
+						${user_id} 님 <br> 
+						( 관리자 )
+					</c:if>
+				</h2>
+
 		<div id="header_container">
 
 			<div id="header_icon" onclick="location.href='account_list.do'">
@@ -66,9 +82,9 @@
 							안내</div>
 						<ul id="sideMenu2">
 							<li class="sideMenu"><a href="ceo_greeting.do">CEO인사말</a></li>
-							<li class="sideMenu"><a href="vision.do">비전</a></li>
 							<li class="sideMenu"><a href="organization_chart.do">조직도</a></li>
 							<li class="sideMenu"><a href="guide.do">영업점 안내</a></li>
+							<li class="sideMenu"><a href="product.do">금융 상품</a></li>
 						</ul>
 					</li>
 

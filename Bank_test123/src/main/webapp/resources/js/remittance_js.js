@@ -167,7 +167,7 @@ let check_remittance = "no";
 			        let account_input_pwd_warn_msg = document.getElementById("account_input_pwd_warn_msg");
 			        let send_button = document.getElementById("send_button");
 			        if (json[0].account_lockcnt == '5') {
-		                alert("계좌 비빌번호 5회 실패! 일조뱅크에 문의해주세요.");
+		                alert("계좌 비빌번호 5회 실패! 일조은행에 문의해주세요.");
 		                location.href = "account_list.do";
 		            }
 			        
@@ -209,6 +209,7 @@ let check_remittance = "no";
             document.getElementById("confirmform").style.top = "700px";
             document.getElementById("blockall").style.display = "none";
             document.getElementById("passwordInput").style.display = "none";
+            document.getElementById("passwordForm").reset();
             
 		}
 		function allcancel(){
@@ -220,6 +221,7 @@ let check_remittance = "no";
             document.getElementById("remittance_form").style.top = "700px";
             document.getElementById("form1").reset();
             document.getElementById("passwordForm").reset();
+            location.reload(true); //페이지 새로고침 캐시 무시
   		}
 		function sendlist(fff) {
 			let account_number = fff.account_number.value;
