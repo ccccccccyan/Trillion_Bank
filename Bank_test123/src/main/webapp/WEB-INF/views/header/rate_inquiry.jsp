@@ -33,7 +33,7 @@
 		let tts_option = [];
 		let ttb_select;
 		let tts_select;
-		let cur_unit_select;
+		let cur_unit_select = [];
 		
 		
 		function call_fetch(period, cur_nm_select) {
@@ -60,7 +60,7 @@
 	                let ttb_list = [];
 	                let tts_list = [];
 	                let rate_date_list = [];
-	                
+
 	                
 	                // data.forEach( data_info => ) 이건 for문과 비슷하다. data를 for문을 돌리는데, 해당 data명을 data_info로 명명해주는 것과 비슷하다.
 	                // for(String data+info : data) 같은 느낌
@@ -73,8 +73,6 @@
 		                max.push(parseFloat(day_map_list.max_data));
 		            	min.push(parseFloat(day_map_list.min_data));
 		            	
-		            	cur_unit_select = [];
-		            	cur_unit_select.push(day_map_list.cur_nm);
 		            	
 	            	   	day_map_list.rateVO_data.forEach( rateVO=> {
 		            		ttb.push(parseFloat(rateVO.ttb.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
@@ -214,7 +212,11 @@
 		
 		window.onload = function () {
 			let cur_nm_selected = document.getElementById("cur_nm_selected");
-	
+			
+			cur_unit_select = [ "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
+				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" ];
+			
+			console.log("dasdkjasbdjas bashdbajsbhj : " + cur_unit_select);
 			
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
@@ -243,14 +245,24 @@
 			let cur_nm_selected = document.getElementById("cur_nm_selected").value;
 			let period = document.getElementById("period_select").value;
 			cur_nm_select = cur_nm_selected;
+			console.log("어ㅏ어낭 : "+cur_unit_select +" == "+ cur_nm_selected);
 			
 			for(let i = 0; i < cur_unit_select.length; i++){
 				if(cur_unit_select[i] == cur_nm_selected){
+					console.log(cur_unit_select[i] +" == "+ cur_nm_selected);
 					call_fetch(period, cur_nm_select);
 					break;
 				}
 			}
 			
+		}
+		
+		function rate_before_change() {
+			document.getElementById("rate_cal_select_before_msg").innerHTML = document.getElementById("rate_cal_select_before").value;
+		}
+		
+		function rate_after_change() {
+			document.getElementById("rate_cal_select_after_msg").innerHTML = document.getElementById("rate_cal_select_after").value;
 		}
 		
 	</script>
@@ -284,12 +296,23 @@
 			width: 1500px;
 		}
 		
-		.rate_cal_box{margin-left: 10px;
+		.rate_cal_box{margin-left: 40px;
 					margin-top: 40px;}
 		
 		.rate_cal{width: 300px;
-					height: 30px;
-					margin-bottom: 10px;}
+					height: 25px;}
+					
+		.rate_cal_select{width: 150px;
+						height: 27px;
+						margin-bottom: 5px;}
+						
+		.equals_icon{
+					width: 30px;
+					height: 10px;
+					color: gray;
+					font-size: 30px;
+					margin: 0 0 20px 110px;
+		}							
 	</style>
 </head>
 
@@ -302,14 +325,26 @@
 	<div id="rate_body">
 		<div id="rate_calculate" style="width: 400px; height: 600px; border: 1px solid;">
 			<div class="rate_cal_box">
-				<select id="rate_cal_select_before" onchange="">
-				</select>
-				<input type ="text" name ="goMoney" id="rate_cal_before" class="rate_cal">
+				<h3>환율 계산하기</h3>
+				<select id="rate_cal_select_before" class="rate_cal_select" onchange="rate_before_change();"></select> 보내실 때
+				<input type ="text" name ="goMoney" id="rate_cal_before" class="rate_cal"> <br> 
+				<span id="rate_cal_select_before_msg" style="color: gray;">인도네시아 루피아</span> 
+				<h1 class="equals_icon">=</h1>
+				
 				<br>
-				<select id="rate_cal_select_after" onchange="">
-				</select>
-				<input type ="text" name ="leaveMoney" id="rate_cal_after" class="rate_cal">
+				<select id="rate_cal_select_after" class="rate_cal_select" onchange="rate_after_change();"></select> 받으실 때
+				<input type ="text" name ="leaveMoney" id="rate_cal_after" class="rate_cal"> <br> 
+				<span id="rate_cal_select_after_msg" style="color: gray;">인도네시아 루피아</span>
 			</div>
+			
+			<hr style="margin-top: 30px;">
+			<hr style="margin-top: 10px;">
+			
+			<div id="rate_account_list">
+				<h3 style="margin-left: 40px;">나의 구매 목록</h3>
+				
+			</div>
+			
 		</div>
 		
 		<div class="rate_box">
