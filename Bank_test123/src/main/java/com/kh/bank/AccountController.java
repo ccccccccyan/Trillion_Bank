@@ -504,6 +504,10 @@ public class AccountController {
 	public String vision() {
 		return Common.Header.VIEW_PATH_HD + "vision.jsp";
 	}
+	@RequestMapping("product.do")
+	public String product() {
+		return Common.Account.VIEW_PATH_AC + "product.jsp";
+	}
 	
 	@RequestMapping("/account_pwd_update.do")
 	@ResponseBody

@@ -84,6 +84,7 @@
 							<li class="sideMenu"><a href="ceo_greeting.do">CEO인사말</a></li>
 							<li class="sideMenu"><a href="organization_chart.do">조직도</a></li>
 							<li class="sideMenu"><a href="guide.do">영업점 안내</a></li>
+							<li class="sideMenu"><a href="product.do">금융 상품</a></li>
 						</ul>
 					</li>
 
