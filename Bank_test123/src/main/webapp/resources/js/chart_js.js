@@ -9,7 +9,7 @@
 			// api 경로 연결처럼 해당 mapping 주소에 연결해서 데이터를 받아오는거랑 비슷한 느낌
 			// 즉, chart_view.do 에서 반환하는 데이터를 가져온다.
 	        
-	        fetch("chart_view.do") 
+	        fetch("list.do") 
 	        	// 가져온 데이터를 json 객체로 반환
 	            .then(response => {
 	            	console.log(response);
@@ -24,7 +24,7 @@
 		        	/*================================================================================================
 		        	data 형태는 array 형태를 가지고 있으며, 각 리스트 index는 한 나라의 데이터 묶음으로 구성되어 있다. data[0]의 나라 데이터는 다음과 같이 출력된다.
 		        	-------------------------------------------------------------------------
-		        	cur_unit : "CHF"
+		        	cur_nm : "CHF"
 					max_data : 1577.17
 					min_data : 1474.42
 					rateVO_data	: Array(24)
@@ -36,8 +36,8 @@
 		        	=================================================================================================
 		        	*/
 		        	
-		        	// cur_unit과 max, min은 바로 뽑아낼 수 있다.
-	                let cur_unit = []; 
+		        	// cur_nm과 max, min은 바로 뽑아낼 수 있다.
+	                let cur_nm = []; 
 	                let max = [];
 	                let min = [];
 
@@ -53,7 +53,7 @@
 		                let ttb = [];
 		                let tts = [];
 						
-	            	    cur_unit.push(day_map_list.cur_unit);
+	            	    cur_nm.push(day_map_list.cur_nm);
 		                max.push(parseFloat(day_map_list.max_data));
 		            	min.push(parseFloat(day_map_list.min_data));
 	            	   
@@ -69,9 +69,9 @@
 	               });
 	                
 	               // 차트 그리기 함수 호출
-	               show_chart(cur_unit[0], rate_date_list[0], ttb_list[0], tts_list[0], max[0], min[0]);
+	               show_chart(cur_nm[0], rate_date_list[0], ttb_list[0], tts_list[0], max[0], min[0]);
 	               // 특정 시간마다 차트 업데이트 해주는 함수 호출
-	               updataChartData(cur_unit, rate_date_list, ttb_list, tts_list, max, min);
+	               updataChartData(cur_nm, rate_date_list, ttb_list, tts_list, max, min);
 	            })
 	            // 에러 발생 시 호출
 	            .catch(error => {
@@ -80,7 +80,7 @@
 	 }); 
 		
 	// 그래프 그리는 함수
-	function show_chart(cur_unit, rate_date, ttb, tts, max , min) {
+	function show_chart(cur_nm, rate_date, ttb, tts, max , min) {
 	    // 캔버스 요소 가져오기
 	    var ctx = document.getElementById('myChart').getContext('2d');
 					
@@ -92,14 +92,14 @@
 	        data: {
 	            labels: rate_date, // 가로(행) 데이터
 	            datasets: [{
-	                label: 'ttb', 
+	                label: 'ttb ( 받으실 때 )', 
 	                data: ttb, // 세로(열) 데이터
 	                backgroundColor: 'rgba(49, 140, 114, 0.3)',
 	                borderColor:'rgba(49, 140, 114, 1)',
 	                fill: true, // 아래 영역을 채우기 활성화
 	                borderWidth: 1
 	            },{
-	                label: 'tts',
+	                label: 'tts ( 보내실 때 )',
 	                data: tts, // 세로(열) 데이터
 	                backgroundColor: 'rgba(219, 214, 53, 0.3)',
 	                borderColor:'rgba(219, 214, 53, 1)',
@@ -126,7 +126,7 @@
 	            plugins: {
 	                title: {
 	                    display: true, // 제목 표시 여부
-	                    text: cur_unit  // cur_unit 명
+	                    text: cur_nm  // cur_nm 명
 	                } 
 	            }
 	        }
@@ -138,7 +138,7 @@
 	        myChart.data.datasets[1].data = tts;
 	        myChart.options.scales.y.min = min;
 	        myChart.options.scales.y.max = max;
-	        myChart.options.plugins.title.text = cur_unit;
+	        myChart.options.plugins.title.text = cur_nm;
 	        myChart.update();
 		}
 	}
@@ -146,19 +146,19 @@
 	// 함수 호출 객체 선언
 	let intervaled;
 	// 데이터 변화에 따른 index 선언
-	let cur_unit_index = 1;
+	let cur_nm_index = 1;
 	
 	// 그래프 업데이트 함수
-	function updataChartData(cur_unit, rate_date_list, ttb_list, tts_list, max, min) {
+	function updataChartData(cur_nm, rate_date_list, ttb_list, tts_list, max, min) {
 		intervaled = setInterval(function() {
 			// 보여지는 그래프 데이터가 마지막 index 데이터가 될 경우 index을 0으로 만들어서 무한으로 돌도록 한다.
-			if( cur_unit_index == cur_unit.length){
-				cur_unit_index = 0;
+			if( cur_nm_index == cur_nm.length){
+				cur_nm_index = 0;
 			}
 			
 		   // 다음 데이터를 그래프에 업데이트 해준다.
-	       show_chart(cur_unit[cur_unit_index], rate_date_list[cur_unit_index], ttb_list[cur_unit_index], tts_list[cur_unit_index], max[cur_unit_index], min[cur_unit_index]);
-			cur_unit_index++;
+	       show_chart(cur_nm[cur_nm_index], rate_date_list[cur_nm_index], ttb_list[cur_nm_index], tts_list[cur_nm_index], max[cur_nm_index], min[cur_nm_index]);
+			cur_nm_index++;
 		}, 4000);
 	}  
 	 

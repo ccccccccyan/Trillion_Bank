@@ -83,14 +83,14 @@ public class BankController {
 		
 		String period = request.getParameter("period");
 		System.out.println("period : "+period);
-		String cur_unit_select = request.getParameter("cur_unit_select");
-		System.out.println("cur_unit_select : "+cur_unit_select);
+		String cur_nm_select = request.getParameter("cur_nm_select");
+		System.out.println("cur_nm_select : "+cur_nm_select);
 		
 		LocalDate first_date = null; // 수정: 날짜 설정 변경;
 		LocalDate last_date = LocalDate.now();
 		
 		
-		if(period.isEmpty() || period == "" || period.equals("1개월")) {
+		if(period == null || period == "" || period.equals("1개월")) {
 			// 현재 날짜 가져오기
 			first_date = last_date.minusMonths(1); // 수정: 날짜 설정 변경
 			System.out.println("1");
@@ -113,31 +113,33 @@ public class BankController {
 
 		
 		// 조회할 나라 배열
-		String[] cur_unit_box = { "CHF", "CNH", "DKK", "EUR", "GBP", "HKD", "IDR(100)", "JPY(100)", "KWD", "MYR", "NOK",
-				"NZD", "SAR", "SEK", "SGD", "THB", "USD" };
-		List<String> cur_unit = new ArrayList<String>();
-		if(cur_unit_select.isEmpty() || cur_unit_select == "" || cur_unit_select.equals("all") ) {
+		// 조회할 나라 배열
+		String[] cur_nm_box = { "인도네시아 루피아", "일본 옌", "한국 원", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
+				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" };
+		List<String> cur_nm = new ArrayList<String>();
+		if(cur_nm_select == null || cur_nm_select == "" || cur_nm_select.equals("all") ) {
 			System.out.println("--------------");
-			for(String str : cur_unit_box) {
-				cur_unit.add(str);
+			for(String str : cur_nm_box) {
+				cur_nm.add(str);
 			}
 		}else {
 			System.out.println("================");
-			cur_unit.add(cur_unit_select);
+			cur_nm.add(cur_nm_select);
 		}
 		Map<String, Object> db_data = new HashMap<String, Object>();
 		db_data.put("first_day", format_first_Date);
 		db_data.put("last_day", format_last_Date);
 		
-		System.out.println("5 asdajshdvahsgdv : " + cur_unit.size());
-		for(int i = 0; i < cur_unit.size(); i++) {
+		System.out.println("5 asdajshdvahsgdv : " + cur_nm.size());
+		for(int i = 0; i < cur_nm.size(); i++) {
 			Map<String, Object> rate_list_data = new HashMap<String, Object>();
 			
-			db_data.put("CUR_UNIT", cur_unit.get(i));
+			db_data.put("cur_nm", cur_nm.get(i));
 			
-			// first_day에서 last_day 사이의 cur_unit 데이터를 조회
+			// first_day에서 last_day 사이의 cur_nm 데이터를 조회
 			List<RateVO> rate_list_cur = rate_dao.select_chart(db_data);
 			
+			System.out.println(" rate_list_cur : " +rate_list_cur.get(0).getTtb().replace(",", ""));
 			
 			// 최대 최소 구하기
 			double max_data = Double.parseDouble(rate_list_cur.get(0).getTtb().replace(",", ""));
@@ -163,8 +165,8 @@ public class BankController {
 				}
 			}
 			
-			// cur_unit과 max, min 값 담기
-			rate_list_data.put("cur_unit", cur_unit.get(i));
+			// cur_nm과 max, min 값 담기
+			rate_list_data.put("cur_nm", cur_nm.get(i));
 			rate_list_data.put("max_data", max_data);
 			rate_list_data.put("min_data", min_data);
 			// 조회된 rateVO 객체 리스트 담기
@@ -426,21 +428,21 @@ public class BankController {
 		String format_last_Date = last_date.format(fommat_date);
 
 		// 조회할 나라 배열
-		String[] CUR_UNIT = { "CHF", "CNH", "DKK", "EUR", "GBP", "HKD", "IDR(100)", "JPY(100)", "KWD", "MYR", "NOK",
+		String[] cur_nm = { "CHF", "CNH", "DKK", "EUR", "GBP", "HKD", "IDR(100)", "JPY(100)", "KWD", "MYR", "NOK",
 				"NZD", "SAR", "SEK", "SGD", "THB", "USD" };
 
 		// 반환할 리스트 생성
 		List<Map<String, Object>> day_map_list = new ArrayList<Map<String, Object>>();
 
-		for (int i = 0; i < CUR_UNIT.length; i++) {
+		for (int i = 0; i < cur_nm.length; i++) {
 			// 리스트에 조회한 데이터를 담을 map 변수
 			Map<String, Object> day_map_data = new HashMap<String, Object>();
 			// 나라별 데이터를 조회할 map 변수
 			Map<String, Object> day_map = new HashMap<String, Object>();
 			day_map.put("first_day", format_first_Date);
 			day_map.put("last_day", format_last_Date);
-			day_map.put("CUR_UNIT", CUR_UNIT[i]);
-			// first_day에서 last_day 사이의 cur_unit 데이터를 조회
+			day_map.put("cur_nm", cur_nm[i]);
+			// first_day에서 last_day 사이의 cur_nm 데이터를 조회
 			List<RateVO> dataList = rate_dao.select_chart(day_map);
 
 			// 최대 최소 구하기
@@ -467,8 +469,8 @@ public class BankController {
 				}
 			}
 
-			// cur_unit과 max, min 값 담기
-			day_map_data.put("cur_unit", CUR_UNIT[i]);
+			// cur_nm과 max, min 값 담기
+			day_map_data.put("cur_nm", cur_nm[i]);
 			day_map_data.put("max_data", max_data);
 			day_map_data.put("min_data", min_data);
 			// 조회된 rateVO 객체 리스트 담기

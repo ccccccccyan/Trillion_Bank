@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 		<!-- first_day에서 last_day 사이의 cur_unit 데이터를 조회 -> 그래프 사용 용도 -->
 	<select id="day_list" parameterType="java.util.Map" resultType="rate">
-		select * from RATE where CUR_UNIT=#{CUR_UNIT} and rate_date between #{first_day} and #{last_day} order by rate_date
+		select * from RATE where cur_nm=#{cur_nm} and rate_date between #{first_day} and #{last_day} order by rate_date
 	</select>
 	
 	

@@ -110,7 +110,7 @@
 			<table border="1" width="700" align="center">
 				<caption>환율 게시판</caption>
 				
-					<tr>
+					<tr class="header_color_same">
 						<td align="center" width="10%">번호</td>
 						<td align="center" width="20%">작성자</td>
 						<td align="center">제목</td>
