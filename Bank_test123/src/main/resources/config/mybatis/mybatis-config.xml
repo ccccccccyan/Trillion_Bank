@@ -17,6 +17,7 @@
 		<typeAlias type="vo.RateboardVO" alias="rateboard"/>  
 		<typeAlias type="vo.RateVO" alias="rate"/>  
 		<typeAlias type="vo.UserVO" alias="user"/>  
+		<typeAlias type="vo.ProductVO" alias="product"/>
 	</typeAliases>
 	
 	<mappers>
