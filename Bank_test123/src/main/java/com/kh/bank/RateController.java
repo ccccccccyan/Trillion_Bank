@@ -96,8 +96,6 @@ public class RateController {
 				Common.Rate.BLOCKLIST,
 				Common.Rate.BLOCKPAGE);
 		
-		System.out.println(list.get(0).getR_board_idx());
-		
 		// list객체 바인딩 및 포워딩
 		model.addAttribute("list", list);
 		model.addAttribute("pageMenu", pageMenu); // 리스트 보내는 김에 페이지 메뉴도 같이 보냄.
@@ -109,7 +107,6 @@ public class RateController {
 	@RequestMapping("/r_view.do")
 	public String view(Model model, int r_board_idx) {
 		// view.do?r_board_idx=21 <- 21번 글을 상세보기
-		System.out.println(r_board_idx + ".....");
 		// 상세보기를 위한 게시글 조회
 		RateboardVO vo = rateb_dao.selectOne(r_board_idx);
 
@@ -126,10 +123,34 @@ public class RateController {
 	// 새 글 등록
 	@RequestMapping("/r_insert.do")
 	public String insert(RateboardVO vo) {
+		// 비밀번호 암호화를 위한 클래스 호출
+		String encodenPwd = Common.Rate.encodePwd(vo.getPwd());
+		vo.setPwd(encodenPwd); // 암호화된 비밀번호로 vo 객체 갱신
+		
 		rateb_dao.insert(vo);
 		return "redirect:r_list.do";
 	}
 
+	//수정을 위한 비밀번호 확인
+	@RequestMapping("/check_password.do")
+	@ResponseBody
+	public String modify_chk(RateboardVO vo) {
+
+		//이걸로 입력한 비밀번호랑 원본 비밀번호랑 비교함.
+		boolean isValid = Common.Rate.decodePwd(vo, rateb_dao);
+
+		if( isValid ) {
+			//비밀번호가 일치함. 수정하는 폼으로 이동. rate_modify.jsp로 이동?
+			String resIdx = 
+					String.format( "[{'result':'clear', 'r_board_idx':'%d'}]", vo.getR_board_idx() );
+			return resIdx;
+		}else {
+			//비밀번호 불일치
+			return "[{'result':'no'}]";
+		}
+
+	}
+	
 	// 수정
 	@RequestMapping("/r_board_modify.do")
 	public String board_modify(int r_board_idx, Model model) {
@@ -143,36 +164,44 @@ public class RateController {
 	@RequestMapping("/rate_update.do") // ("/modify_fin.do")<-였다.
 	@ResponseBody
 	public String modify_fin(RateboardVO vo) {
-		int res = rateb_dao.modify(vo);
-	    if (res > 0) {
-	        return "yes";
-	    } else {
-	        return "fail"; // 실패 시 원래 페이지로
-	    }
-		
-	    //아래는 원래 있던 코드, 위가 gpt가 알려준 코드
-//		rateb_dao.update(vo);
-//		return "redirect:list.do";
+
+		//비밀번호 암호화
+		String encodePwd = Common.Rate.encodePwd(vo.getPwd());
+		vo.setPwd(encodePwd);
+		System.out.println("fdfdsfdsfdsds : " + encodePwd);
+		int res = rateb_dao.update(vo);
+
+		if(res > 0) {
+			return "[{\"result\":\"clear\"}]";
+		}else {
+			return "[{\"result\":\"fail\"}]";
+		}
+
 	}
 
 	// 글 삭제
 	@RequestMapping("/r_del.do")
 	@ResponseBody //이걸 넣어주어야 돌아간다.
-	public String del(int r_board_idx) {
-		System.out.println("edjfksld");
-		comment_dao.rbooard_comm_del(r_board_idx);
-		
-		//update, delete, insert 같은 애들은 int로 받는다고 하니 int (이게 무슨 말인지 알겠으면 따로 주석 추가 부탁드립니다)
-		int res = rateb_dao.del_update(r_board_idx);
-		
-		String result = "no";
-		if (res > 0) {
-			result = "yes";
+	public String del(RateboardVO vo) {
+
+		boolean isValid = Common.Rate.decodePwd(vo, rateb_dao);
+		if( isValid ) {
+			//실제 삭제
+			int res_del = rateb_dao.delete(vo.getR_board_idx());
+
+			if( res_del > 0 ) {
+				//삭제 성공
+				return "[{'result':'clear'}]";
+			}else {
+				//삭제 실패
+				return "[{'result':'fail'}]";
+			}
+
+		}else {
+			//비밀번호가 일치하지 않는다면
+			return "[{'result':'no'}]";
 		}
 
-		String resultStr = String.format("[{'result':'%s'}]", result);
-
-		return resultStr;
 	}
 
 	/* 위의 것들은 게시글 자체에 대한 것, 아래의 것들은 댓글에 대한 것 */
@@ -181,8 +210,6 @@ public class RateController {
 	@RequestMapping("/r_comment_insert.do")
 	@ResponseBody
 	public String comment_insert(CommentVO vo) {
-		System.out.println(vo.getComm_pwd() + " / " + vo.getContent() + " / " + vo.getName() + " / " + vo.getR_board_idx());
-		
 		int res = comment_dao.comment_insert(vo);
 
 		String result = "no";
@@ -213,15 +240,9 @@ public class RateController {
 		map.put("r_board_idx", r_board_idx); //이 부분 다시 생각하기. idx가 맞나??
 		map.put("start", start);
 		map.put("end", end);
-		System.out.println(start + "     start");
-		System.out.println(end + "     end");
-		System.out.println(r_board_idx + "     r_board_idx");
 
 		List<CommentVO> list = comment_dao.selectList(map);
 		int row_total = comment_dao.getRowTotal(map);
-		
-		System.out.println(list + "     aaaaaaaaa");
-		System.out.println(row_total + "     dasfbahsfbjh bfsa");
 		
 		// 페이지 메뉴
 		String pageMenu = Paging.getPaging("r_comment_list.do", nowPage, row_total, 
@@ -247,8 +268,6 @@ public class RateController {
 		
 		int res = comment_dao.comm_del(c_board_idx);
 		//c_board_idx를 보내줄거임. 잘지우면 1, 실패는 0
-
-		System.out.println(Integer.parseInt(request.getParameter("c_board_idx")));
 
 		String result = "no";
 		if (res > 0) {

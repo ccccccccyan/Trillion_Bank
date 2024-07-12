@@ -84,20 +84,20 @@
 			<input type="hidden" name="page" value="${ param.page }">
 			
 			<table border="1" width="700" align="center">
-				<caption>:::Q&A 답변 작성:::</caption>
+				<caption>Q&A 답변 작성</caption>
 				
 				<tr>
-					<td>제목</td>
+					<td class="color_same">제목</td>
 					<td><input name="subject" size="50"></td>
 				</tr>
 				
 				<tr>
-					<th>작성자</th>
+					<td class="color_same">작성자</td>
 					<td><input name="user_id" size="50"></td>
 				</tr>
 				
 				<tr>
-					<td>내용</td>
+					<td class="color_same">내용</td>
 					<td>
 						<textarea rows="10" cols="80"
 								  style="resize: none;"
@@ -106,7 +106,7 @@
 				</tr>
 				
 				<tr>
-					<td>
+					<td colspan="2" align="right">
 						<input type="button" value="등록" onclick="send(this.form);">
 						<input type="button" value="취소" onclick="history.go(-1);">
 					</td>

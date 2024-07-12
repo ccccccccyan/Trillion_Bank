@@ -110,10 +110,11 @@
 			<table border="1" width="700" align="center">
 				<caption>환율 게시판</caption>
 				
-					<tr>
+					<tr class="header_color_same">
 						<td align="center" width="10%">번호</td>
 						<td align="center" width="20%">작성자</td>
 						<td align="center">제목</td>
+						<td align="center">작성일</td>
 					</tr>
 					
 				<c:forEach var="vo" items="${ list }">
@@ -124,16 +125,17 @@
 						<td class="type_subject">
 							<a href="r_view.do?r_board_idx=${ vo.r_board_idx }">${ vo.subject }</a>
 						</td><!-- 환율 게시판 제목 -->
+						<td class="type_regdate">${ vo.regdate }</td>
 					</tr>
 					
 				</c:forEach>
 				
 				<tr>
-					<td colspan="3" align="center">${ pageMenu }</td>
+					<td colspan="4" align="center">${ pageMenu }</td>
 				</tr>
 				
 				<tr>
-				<td colspan="3" align="center">
+				<td colspan="4" align="center">
 					
 					<select id="search">
 						<option value="all">전체보기</option>
@@ -149,7 +151,7 @@
 			</tr>
 				
 				<tr>
-					<td colspan="3" align="right">
+					<td colspan="4" align="right">
 						<input type="button" value="등록"
 						onclick="location.href='rate_write.do'">
 					</td>

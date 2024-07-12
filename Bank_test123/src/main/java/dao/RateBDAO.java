@@ -49,7 +49,10 @@ public class RateBDAO {
 	
 	
 	//게시글 삭제
-	public int del_update(int r_board_idx) {
+	public int delete(int r_board_idx) {
+		//자식 레코드 먼저 삭제하기
+		sqlSession.delete("rb.rate_n_comm_del", r_board_idx);
+		
 		int res = sqlSession.delete("rb.rate_del_upd", r_board_idx);
 		return res;
 	}
@@ -60,6 +63,13 @@ public class RateBDAO {
 		return res;
 	}
 	
+	//비밀번호 일치 확인
+	public RateboardVO Check(int r_board_idx) {
+		RateboardVO vo = sqlSession.selectOne("rb.rate_one", r_board_idx);
+		return vo;
+	}
+	
+	//환율 게시판 최신순 10개 조회
 	public List<RateboardVO> selectRank_List(){
 		List<RateboardVO> list = sqlSession.selectList("rb.select_list_rank");
 		return list;

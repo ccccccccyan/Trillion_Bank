@@ -1,8 +1,8 @@
 package vo;
 
 public class RateboardVO {
-	private int r_board_idx ,comm_cnt;
-	private String subject, name, content, pwd;
+	private int r_board_idx, comm_cnt;
+	private String subject, name, content, pwd, regdate;
 	
 	public int getR_board_idx() {
 		return r_board_idx;
@@ -39,6 +39,12 @@ public class RateboardVO {
 	}
 	public void setComm_cnt(int comm_cnt) {
 		this.comm_cnt = comm_cnt;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
 	}
 	
 }

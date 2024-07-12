@@ -21,7 +21,7 @@ public class RateBoardService {
 		comment_dao.deleteCommentsByBoardIdx(r_board_idx);
 		
 		//게시글 삭제
-		rateb_dao.del_update(r_board_idx);
+		rateb_dao.delete(r_board_idx);
 	}
 	
 }

@@ -51,13 +51,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{subject},
             #{name},
             #{content},
-            #{pwd}
+            #{pwd},
+            sysdate
         )
     </insert>
     
     <!-- 글 수정하기 -->
     <update id="rate_update" parameterType="rateboard">
-        update RATE_BOARD set subject=#{subject}, name=#{name}, content=#{content}
+        update RATE_BOARD set subject=#{subject}, name=#{name}, content=#{content}, pwd=#{pwd}
         where r_board_idx=#{r_board_idx}
     </update>
     
@@ -66,7 +67,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from RATE_BOARD where r_board_idx=#{r_board_idx}
     </delete>
     
-    	<!-- 환율 게시판 최신순 10개 조회 -->
+    <!-- 부모 삭제하기 전에 모든 자식 삭제함. -->
+    <!-- 게시글 삭제하기 전에 댓글 삭제함. -->
+    <delete id="rate_n_comm_del" parameterType="int">
+    	delete from RATE_BOARDCOMMENT where r_board_idx = #{r_board_idx}
+    </delete>
+    
+    <!-- 환율 게시판 최신순 10개 조회 -->
 	<select id="select_list_rank" resultType="rateboard">
 		select * from ( select rank() over(order by r_board_idx DESC) no, r.*from rate_board r)
 		where no BETWEEN 1 and 10
