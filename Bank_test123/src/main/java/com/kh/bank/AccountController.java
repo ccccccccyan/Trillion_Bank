@@ -385,7 +385,7 @@ public class AccountController {
 
 	    return Common.Account.VIEW_PATH_AC + "search_account_list.jsp";
 	}
-
+	
 	
 	// 계좌 번호로 사용자 정보 조회
 	@RequestMapping("/search_userinfo_account.do")
