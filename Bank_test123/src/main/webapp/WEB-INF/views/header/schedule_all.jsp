@@ -32,7 +32,7 @@ h1 {
     font-size: 40px;
 }
 
-h2 {
+h2.custom {
     text-align: left;
     margin-left: 10px;
     color: #353535;
@@ -104,9 +104,9 @@ i{
     </div>
     <div class="container">
     	<h1><i class='bx bx-map-alt'></i>연혁</h1>
-        <h2>일조은행이 걸어온 길</h2>
+        <h2 class="custom">일조은행이 걸어온 길</h2>
         <br>
-        <h2>일조은행이 디딘 첫걸음부터 지금까지의 발걸음을 담았습니다</h2>
+        <h2 class="custom">일조은행이 디딘 첫걸음부터 지금까지의 발걸음을 담았습니다</h2>
         <ul class="timeline">
             <li class="timeline-item">
                 <h3>2024</h3>

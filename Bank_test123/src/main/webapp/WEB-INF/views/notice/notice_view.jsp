@@ -54,13 +54,31 @@
 				margin-bottom: 25px; /* 아래 여백 설정 */
 				font-size: 1.5em; /* 적절한 폰트 크기 */
 				font-weight: bold; /* 굵은 글꼴 */
-				color: #23212B;
+				color: #23212B; /* 글자색 설정 */
 			}
 			
 			.color_same{
 				background-color: #23212B; /*제목, 작성자, 내용 비번이 있는 행의 배경색 */
 				color: #fff; /*제목, 작성자, 내용 비번의 글씨 색깔*/
+				width: 80px; /* 각 셀의 너비 고정 */
 			}
+			
+			pre {
+	            white-space: pre-wrap; /* 줄 바꿈 처리 */
+	            word-wrap: break-word; /* 긴 단어 처리 */
+	            overflow: auto; /* 넘침 처리 */
+	            max-width: 100%; /* 최대 너비 설정 */
+	            max-height: 200px; /* 최대 높이 설정 (적절한 값으로 조정) */
+	            padding: 5px; /* 패딩 설정 */
+        	}
+        	
+        	.content-font {
+		        font-family: inherit; /* 부모 요소의 폰트를 상속받음 */
+		        white-space: pre-wrap; /* 줄바꿈과 공백을 유지 */
+		        word-wrap: break-word; /* 긴 단어 줄바꿈 */
+		        margin: 0; /* pre 태그의 기본 마진 제거 */
+		    }
+		    
 		</style>
 		
 		<script>
@@ -105,13 +123,13 @@
 				
 				<tr>
 					<td class="color_same">내용</td>
-					<td><pre>${ vo.content }</pre></td>
+					<td><pre class="content-font">${ vo.content }</pre></td>
 				</tr>
 				
 				
 				<tr>
 					<td colspan="2" align="right">
-						<input type="button" value="목록으로" onclick="history.go(-1);">
+						<input type="button" value="목록으로" onclick="location.href='n_list.do?page=${param.page}&search=${param.search}&$search_text=${param.search_text}'">
 						
 						<!-- 주석 해제해주세요~ -->
 						<c:if test="${sessionScope.manager eq 'Y'}">

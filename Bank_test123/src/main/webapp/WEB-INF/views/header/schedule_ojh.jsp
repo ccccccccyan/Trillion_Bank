@@ -32,7 +32,7 @@ h1 {
     font-size: 40px;
 }
 
-h2 {
+h2.custom {
     text-align: left;
     margin-left: 10px;
     color: #353535;
@@ -104,9 +104,9 @@ i{
     </div>
     <div class="container">
     	<h1>CEO</h1>
-        <h2>오종하</h2>
+        <h2 class="custom">오종하</h2>
         <br>
-        <h2>CEO가 되기까지</h2>
+        <h2 class="custom">CEO가 되기까지</h2>
         <ul class="timeline">
             <li class="timeline-item">
                 <h3>2024</h3>

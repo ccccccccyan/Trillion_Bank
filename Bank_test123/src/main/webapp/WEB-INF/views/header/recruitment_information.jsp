@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일조 은행 채용공고</title>
+
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -23,7 +25,7 @@ body {
 	border-radius: 10px;
 }
 
-h1, h2, h3 {
+h1, h2.custom, h3 {
 	color: #2c3e50;
 	margin: 0;
 }
@@ -34,7 +36,7 @@ h1 {
 	font-size: 2.5em;
 }
 
-h2 {
+h2.custom {
 	border-bottom: 2px solid #2c3e50;
 	padding-bottom: 10px;
 	margin-bottom: 20px;
@@ -138,7 +140,7 @@ strong {
 		<p style="font-size: 25px; font-weight: bold;">일조 = trillion = 1,000,000,000,000달러 = 부자 ,
 			 여러분들의 지원에 우리는 부자가 됩니다. 껄껄</p>
 
-		<h2>채용 포지션</h2>
+		<h2 class="custom">채용 포지션</h2>
 
 		<table>
 			<thead>
@@ -171,14 +173,14 @@ strong {
 			</tbody>
 		</table>
 
-		<h2>지원 방법</h2>
+		<h2 class="custom">지원 방법</h2>
 
 		<div class="apply-method">
 			<p><strong>제출 서류:</strong> 이력서 및 자기소개서, 자격증 사본, 포트폴리오 (해당 시)</p>
 			<p><strong>제출 방법:</strong> <br>이메일 접수: tb@hrd.com<br>우편 접수: 서울특별시 강남구 테헤란로 123, 일조 은행 인사팀</p>
 		</div>
 
-		<h2>채용 절차</h2>
+		<h2 class="custom">채용 절차</h2>
 
 		<div class="process">
 			<p>1. 서류 전형</p>
@@ -186,7 +188,7 @@ strong {
 			<p>3. 최종 합격 발표</p>
 		</div>
 
-		<h2>임직원 복리후생</h2>
+		<h2 class="custom">임직원 복리후생</h2>
 
 		<div class="benefits">
 		<table>
@@ -249,13 +251,13 @@ strong {
 		</table>
 		</div>
 
-		<h2>회사 소개</h2>
+		<h2 class="custom">회사 소개</h2>
 
 		<div class="company-info">
 			<p>일조 은행은 혁신과 신뢰를 바탕으로 고객에게 최고의 금융 서비스를 제공하는 국내 최고의 금융 기관입니다. 다양한 분야에서 활약하고 있는 인재들과 함께 더 큰 미래를 만들어가고 있습니다.</p>
 		</div>
 
-		<h2>문의사항</h2>
+		<h2 class="custom">문의사항</h2>
 
 		<div class="contact">
 			<p><strong>전화:</strong> 02-1234-5678</p>

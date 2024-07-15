@@ -122,14 +122,15 @@
 					<td class="type_q_board_idx" align="center">${ vo.q_board_idx }</td><!-- qna 게시판 일련번호 -->
 					<c:forEach begin="1" end="${ vo.depth }">&nbsp; <!-- 띄어쓰기 --></c:forEach>
 					
-					<td class="type_subject">
+					<td class="type_user_id" align="center">${ vo.user_id }</td><!-- 작성자(질문자) 아이디 -->
+					
+					<td class="type_subject" align="center">
 					<!-- 댓글 기호(ㄴ) 표시 (관리자가 답변시 ㄴ) -->
 					<c:if test="${ vo.depth ne 0 }">ㄴ</c:if>
 						<a href="q_view.do?q_board_idx=${ vo.q_board_idx }">${ vo.subject }</a>
 					</td><!-- qna 게시판 제목(질문하는 제목) -->
 					
-					<td class="type_user_id">${ vo.user_id }</td><!-- 작성자(질문자) 아이디 -->
-					<td class="type_regdate">${ vo.regdate }</td>
+					<td class="type_regdate" align="center">${ vo.regdate }</td>
 					
 				</tr>
 				
@@ -157,16 +158,14 @@
 				</td>
 			</tr>
 			
+			<c:if test="${ not empty user_id }">
 			<tr>
 				<td colspan="4" align="right">
-					<c:if test="${ not empty user_id }">
 						<input type="button" value="등록"
 							onclick="location.href='qna_write.do'">
-					</c:if>
-					
-				
 				</td>
 			</tr>
+			</c:if>
 			
 		</table>
 	</body>

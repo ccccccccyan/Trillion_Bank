@@ -69,13 +69,19 @@
 				white-space: pre-wrap; /* 공백과 줄바꿈을 유지하면서 줄바꿈 */
 				word-wrap: break-word; /* 긴 단어 줄바꿈 */
 				margin: 0; /* pre 태그의 기본 마진 제거 */
-				overflow: scroll;
 			}
 			
 			.color_same{
 				background-color: #23212B; /*제목, 작성자, 내용 비번이 있는 행의 배경색 */
 				color: #fff; /*제목, 작성자, 내용 비번의 글씨 색깔*/
 			}
+			
+			.content-font {
+		        font-family: inherit; /* 부모 요소의 폰트를 상속받음 */
+		        white-space: pre-wrap; /* 줄바꿈과 공백을 유지 */
+		        word-wrap: break-word; /* 긴 단어 줄바꿈 */
+		        margin: 0; /* pre 태그의 기본 마진 제거 */
+		    }
 		
 		</style>
 		
@@ -151,11 +157,11 @@
 				
 				<tr>
 					<td class="color_same">내용</td>
-					<td>${ vo.content }</td>
+					<td><pre class="content-font">${ vo.content }</pre></td>
 				</tr>
 				
 				<tr>
-					<td colspan="2">
+					<td colspan="2" align="right">
 						<!-- 목록으로 -->
 						<input type="button" value="목록으로"
 							   onclick="location.href='q_list.do?page=${param.page}&search=${param.search}&$search_text=${param.search_text}'"> <!-- 'history.go(-1); 해도 ㄱㅊ' -->
