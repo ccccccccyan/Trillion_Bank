@@ -24,7 +24,6 @@ import common.Common;
 import dao.RateDAO;
 import dao.UserDAO;
 import service.BankService;
-import service.SmsService;
 import vo.RateVO;
 import vo.UserVO;
 
@@ -62,7 +61,8 @@ public class BankController {
 		
 	
 		// 금일 데이터 있는지 확인 후 추가 ----------------------------
-		LocalDate date = LocalDate.now();
+//		LocalDate date = LocalDate.now();
+		LocalDate date = LocalDate.of(2024, 7, 15);
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String formattedDate = date.format(fommat_date);
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);
@@ -83,9 +83,7 @@ public class BankController {
 		}
 		
 		String period = request.getParameter("period");
-		System.out.println("period : "+period);
 		String cur_nm_select = request.getParameter("cur_nm_select");
-		System.out.println("cur_nm_select : "+cur_nm_select);
 		
 		LocalDate first_date = null; // 수정: 날짜 설정 변경;
 		LocalDate last_date = LocalDate.now();
@@ -94,44 +92,32 @@ public class BankController {
 		if(period == null || period == "" || period.equals("1개월")) {
 			// 현재 날짜 가져오기
 			first_date = last_date.minusMonths(1); // 수정: 날짜 설정 변경
-			System.out.println("1");
-			
 		}else if(period.equals("3개월")){
 			first_date = last_date.minusMonths(3); // 수정: 날짜 설정 변경
-			System.out.println("2");
 		}else if(period.equals("6개월")){
 			first_date = last_date.minusMonths(6); // 수정: 날짜 설정 변경
-			System.out.println("3");
 		}else if(period.equals("1년")){
 			first_date = last_date.minusYears(1); // 수정: 날짜 설정 변경
-			System.out.println("4");
-		}else {
-			System.out.println("5");
 		}
 		
 		String format_first_Date = first_date.format(fommat_date);
 		String format_last_Date = last_date.format(fommat_date);
-
 		
-		// 조회할 나라 배열
 		// 조회할 나라 배열
 		String[] cur_nm_box = { "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
 				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" };
 		List<String> cur_nm = new ArrayList<String>();
 		if(cur_nm_select == null || cur_nm_select == "" || cur_nm_select.equals("all") ) {
-			System.out.println("--------------");
 			for(String str : cur_nm_box) {
 				cur_nm.add(str);
 			}
 		}else {
-			System.out.println("================");
 			cur_nm.add(cur_nm_select);
 		}
 		Map<String, Object> db_data = new HashMap<String, Object>();
 		db_data.put("first_day", format_first_Date);
 		db_data.put("last_day", format_last_Date);
 		
-		System.out.println("5 asdajshdvahsgdv : " + cur_nm.size());
 		for(int i = 0; i < cur_nm.size(); i++) {
 			Map<String, Object> rate_list_data = new HashMap<String, Object>();
 			
@@ -139,8 +125,6 @@ public class BankController {
 			
 			// first_day에서 last_day 사이의 cur_nm 데이터를 조회
 			List<RateVO> rate_list_cur = rate_dao.select_chart(db_data);
-			
-			System.out.println(" rate_list_cur : " +rate_list_cur.get(0).getTtb().replace(",", ""));
 			
 			// 최대 최소 구하기
 			double max_data = Double.parseDouble(rate_list_cur.get(0).getTtb().replace(",", ""));
@@ -172,7 +156,6 @@ public class BankController {
 			rate_list_data.put("min_data", min_data);
 			// 조회된 rateVO 객체 리스트 담기
 			rate_list_data.put("rateVO_data", rate_list_cur);
-			
 			
 			rate_data.add(rate_list_data);
 		}
@@ -581,7 +564,6 @@ public class BankController {
         System.out.println("인증 번호: " + sixNumber);
         
 //		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
-//		sms.push_smsService("01032652508", user_tel);		
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}

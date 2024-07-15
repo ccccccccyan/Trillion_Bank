@@ -27,6 +27,7 @@ import dao.UserDAO;
 import service.SmsService;
 import vo.AccountVO;
 import vo.AccountdetailVO;
+import vo.Foreign_exchangeVO;
 import vo.NoticeVO;
 import vo.QnaVO;
 import vo.RateboardVO;
@@ -466,7 +467,15 @@ public class AccountController {
 	}
 
 	@RequestMapping("rate_inquiry.do")
-	public String rate_inquiry() {
+	public String rate_inquiry(Model model) {
+		// session에 user_id 데이터 저장 여부 확인
+		String session_user_id = (String) session.getAttribute("user_id");
+		String manager = (String) session.getAttribute("manager");
+	
+		if(session_user_id != null && manager == null) {
+			List<Foreign_exchangeVO> exchange_list = account_dao.select_exchange(session_user_id);
+			model.addAttribute("exchange_list", exchange_list);
+		}
 		return Common.Header.VIEW_PATH_HD + "rate_inquiry.jsp";
 	}
 

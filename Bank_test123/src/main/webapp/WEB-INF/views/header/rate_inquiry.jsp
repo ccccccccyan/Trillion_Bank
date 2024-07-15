@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -38,29 +40,36 @@
 		
 		function rate_ttb_tts_data() {
 			cur_unit_select = [ "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
-				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러"];
+				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" , "한국 원"];
+			
+			console.log("로그");
+			console.log(ttb_option + " / " + tts_option);
 			
 			let	cur_nm_selected = document.getElementById("cur_nm_selected");
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
 			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
 			for(let i = 0; i < cur_unit_select.length; i++){
-				
-				let cur_nm_mini = document.createElement("option");
-				cur_nm_mini.value = cur_unit_select[i];
-				cur_nm_mini.innerHTML = cur_unit_select[i];
-				cur_nm_selected.appendChild(cur_nm_mini);
+				if(i != cur_unit_select.length-1){
+					let cur_nm_mini = document.createElement("option");
+					cur_nm_mini.value = cur_unit_select[i];
+					cur_nm_mini.innerHTML = cur_unit_select[i];
+					cur_nm_selected.appendChild(cur_nm_mini);
+				}
 				
 				let rate_cal_before_mini = document.createElement("option");
 				rate_cal_before_mini.value = tts_option[i]; // 보내실때
 				rate_cal_before_mini.innerHTML = cur_unit_select[i];
+				rate_cal_before_mini.className = "cur_unit_select"+i;
 				rate_cal_select_before.appendChild(rate_cal_before_mini);
 				
 				let rate_cal_after_mini = document.createElement("option");
-				rate_cal_after_mini.value = ttb_option[i]; // 받으실때
+				rate_cal_after_mini.value = tts_option[i]; // 받으실때
 				rate_cal_after_mini.innerHTML = cur_unit_select[i];
+				rate_cal_after_mini.className = "cur_unit_select"+i;
 				rate_cal_select_after.appendChild(rate_cal_after_mini);
 			}//for------------
+			
 		}
 		
 		
@@ -118,16 +127,19 @@
 	                   rate_date_list.push(rate_date)
 	               });
 	               
+	                ttb_option.push(0);
+	                tts_option.push(0);
+		            	
 	                console.log(" 값 들어옴");
 	                console.log(ttb_option + " / " + tts_option);
 	                
-	                rate_ttb_tts_data();
 	                
 	               // 차트 그리기 함수 호출
 	               show_chart(cur_nm[0], rate_date_list[0], ttb_list[0], tts_list[0], max[0], min[0]);
 	               // 특정 시간마다 차트 업데이트 해주는 함수 호출
 	               
 	               if(cur_nm.length > 1){
+		               rate_ttb_tts_data();
 		               updataChartData(cur_nm, rate_date_list, ttb_list, tts_list, max, min);
 	               }
 	            })
@@ -286,8 +298,11 @@
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
 			
+			// let rate_before = tts_option[rate_cal_select_before.selectedIndex] - ttb_option[rate_cal_select_before.selectedIndex];
+			// rate_before /= 2;
+			// rate_before_value = rate_before_value - rate_before;
+			
 			f.leaveMoney.value = (rate_before_value * rate_cal_select_before.value) / rate_cal_select_after.value;
-			console.log("걀 : " + f.leaveMoney.value);
 			
 		}
 		
@@ -297,10 +312,37 @@
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
 			
+			// let rate_after = tts_option[rate_cal_select_after.selectedIndex] - ttb_option[rate_cal_select_after.selectedIndex];
+			// rate_after /= 2;
+			// rate_after_value = rate_after_value - rate_after;
+			
 			f.goMoney.value = (rate_after_value * rate_cal_select_after.value) / rate_cal_select_before.value; 
-			console.log("걀 : " + f.leaveMoney.value);
 		}
 		
+		function ttb_tts_change(f) {
+			let ttb_tts_select = document.getElementById("ttb_tts_select").value;
+			
+			let goMoney = f.goMoney.value;
+			let leaveMoney = f.leaveMoney.value;
+			
+			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
+			for(let i = 0; i < cur_unit_select.length; i++){
+					let rate_cal_select = document.querySelectorAll(".cur_unit_select" + i);
+			
+				rate_cal_select.forEach((option, j) => {
+			        if (ttb_tts_select == 'ttb') {
+			            option.value = ttb_option[i];
+			        } else {
+			            option.value = tts_option[i];
+			            }
+			     });
+			}//for------------
+			rate_before_change(f);
+			rate_after_change(f);
+			
+			f.goMoney.value = goMoney;
+			tts_count(f)
+		}
 	</script>
 
 	<style>
@@ -348,7 +390,8 @@
 					color: gray;
 					font-size: 30px;
 					margin: 0 0 20px 110px;
-		}							
+		}
+		.rate_select_header{display: flex; }							
 	</style>
 </head>
 
@@ -362,14 +405,21 @@
 		<div id="rate_calculate" style="width: 400px; height: 600px; border: 1px solid;">
 			<form>
 			<div class="rate_cal_box">
-				<h3>환율 계산하기</h3>
-				<select id="rate_cal_select_before" class="rate_cal_select" onchange="rate_before_change(this.form);"></select> 보내실 때
+				<div class="rate_select_header">
+					<h3>환율 계산하기</h3> 
+					<select id="ttb_tts_select" onchange="ttb_tts_change(this.form);" style="margin-left: 75px; margin-top:20px; height: 30px;">
+						<option value="tts">살때(보내실때)</option>
+						<option value="ttb">팔때(받으실때)</option>
+					</select>
+				</div>
+				
+				<select id="rate_cal_select_before" class="rate_cal_select" onchange="rate_before_change(this.form);"></select> 
 				<input type ="text" name ="goMoney" id="rate_cal_before" class="rate_cal" oninput="tts_count(this.form);"> <br> 
 				<span id="rate_cal_select_before_msg" style="color: gray;">인도네시아 루피아</span> 
 				<h1 class="equals_icon">=</h1>
 				
 				<br>
-				<select id="rate_cal_select_after" class="rate_cal_select" onchange="rate_after_change(this.form);"></select> 받으실 때
+				<select id="rate_cal_select_after" class="rate_cal_select" onchange="rate_after_change(this.form);"></select> 
 				<input type ="text" name ="leaveMoney" id="rate_cal_after" class="rate_cal" oninput="ttb_count(this.form);"> <br> 
 				<span id="rate_cal_select_after_msg" style="color: gray;">인도네시아 루피아</span>
 			</div>
@@ -378,10 +428,27 @@
 			<hr style="margin-top: 30px;">
 			<hr style="margin-top: 10px;">
 			
-			<div id="rate_account_list">
-				<h3 style="margin-left: 40px;">나의 구매 목록</h3>
-				
-			</div>
+			
+			<c:if test="${ not empty user_id && empty manager }">
+				<div id="rate_account_list" style="position: relative;">
+					<h3 style="margin-left: 40px;">나의 외환 목록</h3>
+					<input type="button" value="환전하기" onclick="exchange_account();" style="position: absolute; top: 0px; right: 30px; width: 170px; height: 30px;">
+					
+					<div style="height: auto; overflow: scroll; width: 396px; height: 170px;">
+					<c:forEach var="vo" items="${exchange_list}">
+						<div style="border: 1px solid; width: 240px; height: 60px; margin-left: 15px; margin-bottom: 10px; position: relative;">
+							<h4 style="border: 1px solid; margin: 5px;">${vo.foregin_type}</h4>
+							<h3 style="margin: 5px 5px 5px 50px; ">${vo.exchange_money}</h3>
+						
+							<input type="button" value="추가 환전하기" onclick="plus_exchange();" style="position: absolute; top: 0px; right: -110px;">
+							<input type="button" value="원화로 환전" onclick="back_exchange();" style="position: absolute; top: 33px; right: -110px;">
+						</div>
+					
+					</c:forEach>
+					</div>
+					
+				</div>
+			</c:if>
 			
 		</div>
 		

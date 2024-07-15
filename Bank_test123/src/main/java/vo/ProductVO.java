@@ -1,9 +1,9 @@
 package vo;
 
 public class ProductVO {
-	private int productaccount_idx, products_deal_money, saving_money;
+	private int productaccount_idx, saving_money;
     private String account_productname, account_number, products_period, products_date, endproducts_date;
-    private double products_rate, products_tax;
+    private double products_rate, products_tax ,products_deal_money;
 
     public int getProductaccount_idx() {
 		return productaccount_idx;
@@ -11,10 +11,10 @@ public class ProductVO {
 	public void setProductaccount_idx(int productaccount_idx) {
 		this.productaccount_idx = productaccount_idx;
 	}
-	public int getProducts_deal_money() {
+	public double getProducts_deal_money() {
 		return products_deal_money;
 	}
-	public void setProducts_deal_money(int products_deal_money) {
+	public void setProducts_deal_money(double products_deal_money) {
 		this.products_deal_money = products_deal_money;
 	}
 	public int getSaving_money() {
