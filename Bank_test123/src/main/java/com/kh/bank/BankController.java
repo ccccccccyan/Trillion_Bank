@@ -24,7 +24,6 @@ import common.Common;
 import dao.RateDAO;
 import dao.UserDAO;
 import service.BankService;
-import service.SmsService;
 import vo.RateVO;
 import vo.UserVO;
 
@@ -62,7 +61,8 @@ public class BankController {
 		
 	
 		// 금일 데이터 있는지 확인 후 추가 ----------------------------
-		LocalDate date = LocalDate.now();
+//		LocalDate date = LocalDate.now();
+		LocalDate date = LocalDate.of(2024, 7, 15);
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String formattedDate = date.format(fommat_date);
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);
@@ -94,24 +94,20 @@ public class BankController {
 		if(period == null || period == "" || period.equals("1개월")) {
 			// 현재 날짜 가져오기
 			first_date = last_date.minusMonths(1); // 수정: 날짜 설정 변경
-			System.out.println("1");
 			
 		}else if(period.equals("3개월")){
 			first_date = last_date.minusMonths(3); // 수정: 날짜 설정 변경
-			System.out.println("2");
 		}else if(period.equals("6개월")){
 			first_date = last_date.minusMonths(6); // 수정: 날짜 설정 변경
-			System.out.println("3");
 		}else if(period.equals("1년")){
 			first_date = last_date.minusYears(1); // 수정: 날짜 설정 변경
-			System.out.println("4");
-		}else {
-			System.out.println("5");
 		}
 		
 		String format_first_Date = first_date.format(fommat_date);
 		String format_last_Date = last_date.format(fommat_date);
-
+		
+		System.out.println("format_first_Date : "+format_first_Date);
+		System.out.println("format_last_Date : "+format_last_Date);
 		
 		// 조회할 나라 배열
 		// 조회할 나라 배열
@@ -581,7 +577,6 @@ public class BankController {
         System.out.println("인증 번호: " + sixNumber);
         
 //		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
-//		sms.push_smsService("01032652508", user_tel);		
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}
