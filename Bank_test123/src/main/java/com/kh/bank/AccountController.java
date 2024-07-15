@@ -119,7 +119,7 @@ public class AccountController {
 		
 		
 //		SmsService sms = new SmsService();
-//		sms.push_smsService("010-3265-2508", "010-7157-4841");
+//		sms.push_smsService("01032652508", "01055773032");
 		
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 //		return Common.Account.VIEW_PATH_AC + "openpage.jsp"; 

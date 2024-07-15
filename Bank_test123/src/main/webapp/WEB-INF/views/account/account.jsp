@@ -669,19 +669,33 @@
 			    });
 			});
 		});
+		
+		function user_self_check_ok() {
+			let user_check_background = document.getElementById("user_check_background");
+			user_check_background.style.display = "block";
+		
+		}
+		
+		function close_user_self(f) {
+			f.reset();					
+			let user_check_background = document.getElementById("user_check_background");
+			user_check_background.style.display = "none";
+		}
 	</script>
 	
 	</head>
 
 	<body>
 		<div id="container">
+			<div id="user_check_background" style="display: none;">
+				<jsp:include page="/WEB-INF/views/account/userchange_check.jsp"></jsp:include>
+			</div>
+
 			<div id="header">
 				<jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 			</div>
 			
-
-			
-			<div id="head_img"> <!-- 임시 -->
+			<div id="head_img"> 
 				<img id="head_img_img" src="/bank/resources/img/은행대표이미지1.jpg">
 				<h1 id="head_content"> <span id="head_content1">꾸준히 키워나가는</span> <span id="head_content2"> 미래의 가능성 </span> </h1>
 			</div>
@@ -755,9 +769,11 @@
 					</div>
 				</div>
 				
+
 				<!-- 관리자에게만 보이는 통장 검색 기능 -->
 				<div id="account_manager">
 					<h2><span id="search_username">사용자</span>님 통장 관리</h2> 
+					
 					
 					<div id="search_user_account">
 						계좌 검색 
@@ -804,6 +820,8 @@
 							<a href="#" id="change_account_pwd" class="no_scroll">계좌 비밀번호 변경</a>
 							<a href="#" id="change_account_color" class="no_scroll">계좌 색상 변경</a>
 						</div>
+
+						<input type="button" value="본인인증" onclick="user_self_check_ok();">
 
 						<form id="change_form" style="width: 700px; height: 60px; margin-top: 20px;">
 							<span id="change_color_msg" style="width: 600px; height: 30px;"></span>

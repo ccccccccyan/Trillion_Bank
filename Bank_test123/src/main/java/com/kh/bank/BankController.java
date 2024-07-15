@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +24,7 @@ import common.Common;
 import dao.RateDAO;
 import dao.UserDAO;
 import service.BankService;
+import service.SmsService;
 import vo.RateVO;
 import vo.UserVO;
 
@@ -569,4 +570,21 @@ public class BankController {
 			return "[{'result':'fail'}]";
 		}
 	}
+
+	@RequestMapping("/user_self_check.do")
+	@ResponseBody
+	public String user_self_check( String user_tel ) {
+		System.out.println("user_tel : " + user_tel);
+		
+        // 100000 이상 999999 이하의 6자리 숫자 생성
+        int sixNumber = new Random().nextInt(900000) + 100000;
+        System.out.println("인증 번호: " + sixNumber);
+        
+//		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
+//		sms.push_smsService("01032652508", user_tel);		
+		
+		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
+	}
+	
+	
 }

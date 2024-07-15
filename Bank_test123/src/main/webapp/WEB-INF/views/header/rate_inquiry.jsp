@@ -18,6 +18,13 @@
 		// 전역 변수로 myChart 정의
 		let myChart;  
 		
+		// 할당 변수들
+		let ttb_option = [];
+		let tts_option = [];
+		let ttb_select;
+		let tts_select;
+		let cur_unit_select = [];
+		
 		// json 데이터 가공 함수
 		document.addEventListener("DOMContentLoaded", function() {
 				// fetch는 ajax처럼 비동기 행위며 json 형태의 데이터를 받아올 때 주로 사용한다.
@@ -26,14 +33,35 @@
 				let period = document.getElementById("period_select").value;
 				let cur_nm_selected = document.getElementById("cur_nm_selected").value;
 				call_fetch(period, cur_nm_selected);
-		     
+				
 		 }); 
 		
-		let ttb_option = [];
-		let tts_option = [];
-		let ttb_select;
-		let tts_select;
-		let cur_unit_select = [];
+		function rate_ttb_tts_data() {
+			cur_unit_select = [ "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
+				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러"];
+			
+			let	cur_nm_selected = document.getElementById("cur_nm_selected");
+			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
+			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
+			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
+			for(let i = 0; i < cur_unit_select.length; i++){
+				
+				let cur_nm_mini = document.createElement("option");
+				cur_nm_mini.value = cur_unit_select[i];
+				cur_nm_mini.innerHTML = cur_unit_select[i];
+				cur_nm_selected.appendChild(cur_nm_mini);
+				
+				let rate_cal_before_mini = document.createElement("option");
+				rate_cal_before_mini.value = tts_option[i]; // 보내실때
+				rate_cal_before_mini.innerHTML = cur_unit_select[i];
+				rate_cal_select_before.appendChild(rate_cal_before_mini);
+				
+				let rate_cal_after_mini = document.createElement("option");
+				rate_cal_after_mini.value = ttb_option[i]; // 받으실때
+				rate_cal_after_mini.innerHTML = cur_unit_select[i];
+				rate_cal_select_after.appendChild(rate_cal_after_mini);
+			}//for------------
+		}
 		
 		
 		function call_fetch(period, cur_nm_select) {
@@ -61,6 +89,9 @@
 	                let tts_list = [];
 	                let rate_date_list = [];
 
+	                // 환율 데이터 초기화
+	                ttb_option = [];
+	                tts_option = [];
 	                
 	                // data.forEach( data_info => ) 이건 for문과 비슷하다. data를 for문을 돌리는데, 해당 data명을 data_info로 명명해주는 것과 비슷하다.
 	                // for(String data+info : data) 같은 느낌
@@ -73,17 +104,24 @@
 		                max.push(parseFloat(day_map_list.max_data));
 		            	min.push(parseFloat(day_map_list.min_data));
 		            	
+		                ttb_option.push(day_map_list.rateVO_data[day_map_list.rateVO_data.length -1].ttb.replace(',', ''));
+		                tts_option.push(day_map_list.rateVO_data[day_map_list.rateVO_data.length -1].tts.replace(',', ''));
 		            	
 	            	   	day_map_list.rateVO_data.forEach( rateVO=> {
 		            		ttb.push(parseFloat(rateVO.ttb.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
 	                        tts.push(parseFloat(rateVO.tts.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
 		                   	rate_date.push(rateVO.rate_date);
-	            	    });
+	            	   	});
 	            	   
 	            	   ttb_list.push(ttb); 
 	                   tts_list.push(tts);
 	                   rate_date_list.push(rate_date)
 	               });
+	               
+	                console.log(" 값 들어옴");
+	                console.log(ttb_option + " / " + tts_option);
+	                
+	                rate_ttb_tts_data();
 	                
 	               // 차트 그리기 함수 호출
 	               show_chart(cur_nm[0], rate_date_list[0], ttb_list[0], tts_list[0], max[0], min[0]);
@@ -210,37 +248,8 @@
 			
 		}
 		
-		window.onload = function () {
-			let cur_nm_selected = document.getElementById("cur_nm_selected");
-			
-			cur_unit_select = [ "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
-				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" ];
-			
-			console.log("dasdkjasbdjas bashdbajsbhj : " + cur_unit_select);
-			
-			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
-			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
-			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
-			for(let i = 0; i < cur_unit_select.length; i++){
-				let cur_nm_mini = document.createElement("option");
-				cur_nm_mini.value = cur_unit_select[i];
-				cur_nm_mini.innerHTML = cur_unit_select[i];
-				cur_nm_selected.appendChild(cur_nm_mini);
-				
-				let rate_cal_before_mini = document.createElement("option");
-				rate_cal_before_mini.value = cur_unit_select[i];
-				rate_cal_before_mini.innerHTML = cur_unit_select[i];
-				rate_cal_select_before.appendChild(rate_cal_before_mini);
-				
-				let rate_cal_after_mini = document.createElement("option");
-				rate_cal_after_mini.value = cur_unit_select[i];
-				rate_cal_after_mini.innerHTML = cur_unit_select[i];
-				rate_cal_select_after.appendChild(rate_cal_after_mini);
-			}//for------------
-		}
 		
-		
-		function cur_nm_selected() {
+		function cur_nm_selectedFn() {
 			clearInterval(intervaled); // setInterval 작업 멈추기
 			let cur_nm_selected = document.getElementById("cur_nm_selected").value;
 			let period = document.getElementById("period_select").value;
@@ -257,12 +266,39 @@
 			
 		}
 		
-		function rate_before_change() {
+		function rate_before_change(f) {
+			f.goMoney.value = "";
+			f.leaveMoney.value = "";
+			
 			document.getElementById("rate_cal_select_before_msg").innerHTML = document.getElementById("rate_cal_select_before").value;
 		}
 		
-		function rate_after_change() {
+		function rate_after_change(f) {
+			f.goMoney.value = "";
+			f.leaveMoney.value = "";
+
 			document.getElementById("rate_cal_select_after_msg").innerHTML = document.getElementById("rate_cal_select_after").value;
+		}
+		
+		function tts_count(f) {
+			let rate_before_value = f.goMoney.value;
+			
+			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
+			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
+			
+			f.leaveMoney.value = (rate_before_value * rate_cal_select_before.value) / rate_cal_select_after.value;
+			console.log("걀 : " + f.leaveMoney.value);
+			
+		}
+		
+		function ttb_count(f) {
+			let rate_after_value = f.leaveMoney.value;
+
+			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
+			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
+			
+			f.goMoney.value = (rate_after_value * rate_cal_select_after.value) / rate_cal_select_before.value; 
+			console.log("걀 : " + f.leaveMoney.value);
 		}
 		
 	</script>
@@ -324,18 +360,20 @@
 
 	<div id="rate_body">
 		<div id="rate_calculate" style="width: 400px; height: 600px; border: 1px solid;">
+			<form>
 			<div class="rate_cal_box">
 				<h3>환율 계산하기</h3>
-				<select id="rate_cal_select_before" class="rate_cal_select" onchange="rate_before_change();"></select> 보내실 때
-				<input type ="text" name ="goMoney" id="rate_cal_before" class="rate_cal"> <br> 
+				<select id="rate_cal_select_before" class="rate_cal_select" onchange="rate_before_change(this.form);"></select> 보내실 때
+				<input type ="text" name ="goMoney" id="rate_cal_before" class="rate_cal" oninput="tts_count(this.form);"> <br> 
 				<span id="rate_cal_select_before_msg" style="color: gray;">인도네시아 루피아</span> 
 				<h1 class="equals_icon">=</h1>
 				
 				<br>
-				<select id="rate_cal_select_after" class="rate_cal_select" onchange="rate_after_change();"></select> 받으실 때
-				<input type ="text" name ="leaveMoney" id="rate_cal_after" class="rate_cal"> <br> 
+				<select id="rate_cal_select_after" class="rate_cal_select" onchange="rate_after_change(this.form);"></select> 받으실 때
+				<input type ="text" name ="leaveMoney" id="rate_cal_after" class="rate_cal" oninput="ttb_count(this.form);"> <br> 
 				<span id="rate_cal_select_after_msg" style="color: gray;">인도네시아 루피아</span>
 			</div>
+			</form>
 			
 			<hr style="margin-top: 30px;">
 			<hr style="margin-top: 10px;">
@@ -354,7 +392,7 @@
 				<div onclick="rate_search('6개월')" id="sixmonth">6개월</div>
 				<div onclick="rate_search('1년')" id="oneyear">1년</div>
 			
-				<select id="cur_nm_selected" onchange="cur_nm_selected();">
+				<select id="cur_nm_selected" onchange="cur_nm_selectedFn();">
 					<option value="all">전체</option>
 				</select>
 			</div>
