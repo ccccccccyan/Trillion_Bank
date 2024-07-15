@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -38,7 +40,7 @@
 		
 		function rate_ttb_tts_data() {
 			cur_unit_select = [ "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
-				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러"];
+				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" , "한국 원"];
 			
 			console.log("로그");
 			console.log(ttb_option + " / " + tts_option);
@@ -48,11 +50,12 @@
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
 			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
 			for(let i = 0; i < cur_unit_select.length; i++){
-				
-				let cur_nm_mini = document.createElement("option");
-				cur_nm_mini.value = cur_unit_select[i];
-				cur_nm_mini.innerHTML = cur_unit_select[i];
-				cur_nm_selected.appendChild(cur_nm_mini);
+				if(i != cur_unit_select.length-1){
+					let cur_nm_mini = document.createElement("option");
+					cur_nm_mini.value = cur_unit_select[i];
+					cur_nm_mini.innerHTML = cur_unit_select[i];
+					cur_nm_selected.appendChild(cur_nm_mini);
+				}
 				
 				let rate_cal_before_mini = document.createElement("option");
 				rate_cal_before_mini.value = tts_option[i]; // 보내실때
@@ -66,6 +69,7 @@
 				rate_cal_after_mini.className = "cur_unit_select"+i;
 				rate_cal_select_after.appendChild(rate_cal_after_mini);
 			}//for------------
+			
 		}
 		
 		
@@ -123,6 +127,9 @@
 	                   rate_date_list.push(rate_date)
 	               });
 	               
+	                ttb_option.push(0);
+	                tts_option.push(0);
+		            	
 	                console.log(" 값 들어옴");
 	                console.log(ttb_option + " / " + tts_option);
 	                
@@ -421,10 +428,27 @@
 			<hr style="margin-top: 30px;">
 			<hr style="margin-top: 10px;">
 			
-			<div id="rate_account_list">
-				<h3 style="margin-left: 40px;">나의 구매 목록</h3>
-				
-			</div>
+			
+			<c:if test="${ not empty user_id && empty manager }">
+				<div id="rate_account_list" style="position: relative;">
+					<h3 style="margin-left: 40px;">나의 외환 목록</h3>
+					<input type="button" value="환전하기" onclick="exchange_account();" style="position: absolute; top: 0px; right: 30px; width: 170px; height: 30px;">
+					
+					<div style="height: auto; overflow: scroll; width: 396px; height: 170px;">
+					<c:forEach var="vo" items="${exchange_list}">
+						<div style="border: 1px solid; width: 240px; height: 60px; margin-left: 15px; margin-bottom: 10px; position: relative;">
+							<h4 style="border: 1px solid; margin: 5px;">${vo.foregin_type}</h4>
+							<h3 style="margin: 5px 5px 5px 50px; ">${vo.exchange_money}</h3>
+						
+							<input type="button" value="추가 환전하기" onclick="plus_exchange();" style="position: absolute; top: 0px; right: -110px;">
+							<input type="button" value="원화로 환전" onclick="back_exchange();" style="position: absolute; top: 33px; right: -110px;">
+						</div>
+					
+					</c:forEach>
+					</div>
+					
+				</div>
+			</c:if>
 			
 		</div>
 		

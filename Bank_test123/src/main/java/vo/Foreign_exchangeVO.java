@@ -2,7 +2,7 @@ package vo;
 
 public class Foreign_exchangeVO {
 	private int fgn_exchange_idx;
-    private String user_id;
+    private String user_id, foregin_type;
     private double exchange_money;
     
 	public int getFgn_exchange_idx() {
@@ -22,6 +22,12 @@ public class Foreign_exchangeVO {
 	}
 	public void setExchange_money(double exchange_money) {
 		this.exchange_money = exchange_money;
+	}
+	public String getForegin_type() {
+		return foregin_type;
+	}
+	public void setForegin_type(String foregin_type) {
+		this.foregin_type = foregin_type;
 	}
 
 }

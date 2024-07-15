@@ -18,6 +18,7 @@
 		<typeAlias type="vo.RateVO" alias="rate"/>  
 		<typeAlias type="vo.UserVO" alias="user"/>  
 		<typeAlias type="vo.ProductVO" alias="product"/>
+		<typeAlias type="vo.Foreign_exchangeVO" alias="exchange"/>
 	</typeAliases>
 	
 	<mappers>
