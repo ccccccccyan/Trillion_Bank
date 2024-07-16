@@ -474,6 +474,9 @@ public class AccountController {
 	
 		if(session_user_id != null && manager == null) {
 			List<Foreign_exchangeVO> exchange_list = account_dao.select_exchange(session_user_id);
+			// 저장된 user_id의 계좌 리스트를 조회한다.
+			List<AccountVO> account_list = account_dao.selectList(session_user_id);
+			model.addAttribute("account_list", account_list);
 			model.addAttribute("exchange_list", exchange_list);
 		}
 		return Common.Header.VIEW_PATH_HD + "rate_inquiry.jsp";
@@ -565,19 +568,49 @@ public class AccountController {
 	}
 	
 	
+	@Transactional
 	@RequestMapping("exchange_account_insert.do")
-	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
+	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type, String exchange_choice_pwd) {
 		System.out.println("exchange_frommoney :" + exchange_frommoney);
 		System.out.println("exchange_tomoney :" + exchange_tomoney);
 		System.out.println("exchange_choice_account :" + exchange_choice_account);
 		System.out.println("exchange_choice_type :" + exchange_choice_type);
+		System.out.println("exchange_choice_pwd :" + exchange_choice_pwd);
 		
-		AccountVO vo = account_dao.accountnum_selectOne(exchange_choice_account);
+		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
 		
-		vo.setNow_money(vo.getNow_money() - exchange_frommoney);
+		accountvo.setNow_money(accountvo.getNow_money() - exchange_frommoney);
 		
-		int res = account_dao.updateremittance(vo);
+		int res = account_dao.updateremittance(accountvo);
 		
+		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		
+		AccountdetailVO account_datailvo = new AccountdetailVO();
+		account_datailvo.setAccount_number(exchange_choice_account);
+		account_datailvo.setUser_name(uservo.getUser_name());
+		account_datailvo.setDepo_username(exchange_choice_type+" 환전");
+		account_datailvo.setDepo_account("1111-0000");
+		account_datailvo.setDeal_money(exchange_frommoney);
+		
+		account_dao.insertremittance(account_datailvo);
+		
+
+		Foreign_exchangeVO exchangevo = new Foreign_exchangeVO();
+		exchangevo.setUser_id(uservo.getUser_id());
+		exchangevo.setExchange_money(exchange_tomoney);
+		exchangevo.setForegin_type(exchange_choice_type);
+		exchangevo.setExchange_pwd(Common.SecurePwd.encodePwd(exchange_choice_pwd));
+		
+		Foreign_exchangeVO already_exchange = account_dao.exchange_selectone(exchangevo);
+	
+		
+		if(already_exchange == null){
+			
+			account_dao.exchangeinsert(exchangevo);
+		}else {
+			already_exchange.setExchange_money(already_exchange.getExchange_money()+exchange_tomoney);
+			account_dao.exchange_update_sametype(already_exchange);
+		}
 		
 		return "redirect:rate_inquiry.do";
 	}

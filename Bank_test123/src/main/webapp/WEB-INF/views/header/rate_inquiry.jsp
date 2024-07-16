@@ -490,7 +490,7 @@
 				let json = ( new Function('return '+data) )();
 				
 				if( json[0].result == 'clear' ){
-					alert("성공");
+					f.exchange_choice_pwd.value = prompt("사용할 비밀번호를 입력해주세요");
 					
 					f.action = "exchange_account_insert.do";
 					f.method = "post";
@@ -616,6 +616,7 @@
 
 				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
 				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
+				<input name="exchange_choice_pwd" type="hidden" id="exchange_choice_pwd"> 
 				
 				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" style="position: absolute; top: 55px; right: 34px;"></select> 
 				

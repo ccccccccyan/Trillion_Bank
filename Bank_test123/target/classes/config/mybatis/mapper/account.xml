@@ -101,18 +101,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from foreign_exchange where user_id = #{user_id}
 	</select>
 	
+	<select id="exchange_selectone" resultType="exchange" parameterType="exchange">
+		select * from foreign_exchange where user_id = #{user_id} and foregin_type=#{foregin_type}
+	</select>
 	
 	<insert id="exchange_insert" parameterType="exchange">
 		insert into foreign_exchange values(
 			seq_exchange_idx.nextVal,
-			#{account_number},
-			#{user_name},
-			#{depo_username},
-			#{depo_account},
-			#{deal_money},
-			sysdate
+			#{user_id},
+			#{exchange_money},
+			#{foregin_type},
+			#{exchange_pwd}
 		)
 	</insert>
+	
+	<update id="exchange_updateSametype" parameterType="exchange">
+		update foreign_exchange set exchange_money = #{exchange_money} where fgn_exchange_idx = #{fgn_exchange_idx}
+	</update>
 	
 </mapper>
 

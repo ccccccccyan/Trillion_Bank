@@ -92,4 +92,19 @@ public class AccountDAO {
 		List<Foreign_exchangeVO> exchange_list = sqlSession.selectList("ac.select_exchange_list", user_id);
 		return exchange_list;
 	}
+	
+	public int exchangeinsert(Foreign_exchangeVO vo) {
+		int res = sqlSession.insert("ac.exchange_insert", vo);
+		return res;
+	}
+	
+	public Foreign_exchangeVO exchange_selectone(Foreign_exchangeVO vo) {
+		Foreign_exchangeVO res_vo = sqlSession.selectOne("ac.exchange_selectone", vo);
+		return res_vo;
+	}
+	
+	public int exchange_update_sametype(Foreign_exchangeVO vo) {
+		int res = sqlSession.update("ac.exchange_updateSametype", vo);
+		return res;
+	}
 }
