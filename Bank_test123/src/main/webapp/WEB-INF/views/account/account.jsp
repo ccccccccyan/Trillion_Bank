@@ -5,7 +5,7 @@
 	<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Insert title here</title>
+	<title>일조은행</title>
 	
 	
 	<!-- Ajax사용을 위한 js파일 -->

@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>qna_view.jsp</title>
+		<title>Q&A 상세보기</title>
 		
 		<style>
 			body {

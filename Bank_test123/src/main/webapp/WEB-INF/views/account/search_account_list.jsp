@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>이체 내역 조회</title>
 <link rel="stylesheet" type="text/css"
    href="/bank/resources/css/bank_header_css.css">
 

@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>qna_reply.jsp</title>
+		<title>Q&A 답변하기</title>
 		
 		<style>
 			table {

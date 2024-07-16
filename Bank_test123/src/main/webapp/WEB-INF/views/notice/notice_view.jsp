@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>notice_view.jsp</title>
+		<title>공지사항 상세보기</title>
 		
 		<style>
 			table {

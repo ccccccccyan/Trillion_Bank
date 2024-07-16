@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>notice_write.jsp</title>
+		<title>공지사항 작성</title>
 		
 		<script>
 			function send(f){

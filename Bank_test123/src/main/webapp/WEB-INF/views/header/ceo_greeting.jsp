@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>ceo_greeting.jsp</title>
+		<title>CEO 인사</title>
 		
 		<style>
 		

@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>terms.jsp 이용약관</title>
+		<title>이용약관</title>
 		
 		<style>
 		

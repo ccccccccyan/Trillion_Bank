@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>찾아오시는길</title>
+    <title>찾아오시는 길</title>
      <style>
         body {
             font-family: Arial, sans-serif;

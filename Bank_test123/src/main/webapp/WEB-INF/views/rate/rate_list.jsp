@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_list.jsp</title>
+		<title>환율 게시판</title>
 		
 		<style>
 			table {

@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>송금 및 이체</title>
 		<link rel="stylesheet" type="text/css" href="/bank/resources/css/bank_header.css">
 		<script src="/bank/resources/js/httpRequest.js"></script>
 		<!-- account_insert_form.jsp script 코드 -->

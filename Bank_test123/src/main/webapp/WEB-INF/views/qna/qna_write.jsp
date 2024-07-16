@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>qna_write.jsp</title>
+		<title>Q&A 작성하기</title>
 		
 		<script>
 			function send(f){
