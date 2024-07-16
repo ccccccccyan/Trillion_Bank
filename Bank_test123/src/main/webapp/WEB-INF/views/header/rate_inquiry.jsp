@@ -458,7 +458,7 @@
 			}else{
 				f.exchange_frommoney.value = Math.round((f.exchange_tomoney.value * exchange_type_option.value).toFixed(3));
 			}
-			
+			///dkasdkasjdskj
 		}
 		
 		function exchange_money_reset(f) {
