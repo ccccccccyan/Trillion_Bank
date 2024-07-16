@@ -61,8 +61,8 @@ public class BankController {
 		
 	
 		// 금일 데이터 있는지 확인 후 추가 ----------------------------
-//		LocalDate date = LocalDate.now();
-		LocalDate date = LocalDate.of(2024, 7, 15);
+		LocalDate date = LocalDate.now();
+//		LocalDate date = LocalDate.of(2024, 7, 15);
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String formattedDate = date.format(fommat_date);
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);

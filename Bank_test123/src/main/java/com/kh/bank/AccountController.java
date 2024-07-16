@@ -474,6 +474,9 @@ public class AccountController {
 	
 		if(session_user_id != null && manager == null) {
 			List<Foreign_exchangeVO> exchange_list = account_dao.select_exchange(session_user_id);
+			// 저장된 user_id의 계좌 리스트를 조회한다.
+			List<AccountVO> account_list = account_dao.selectList(session_user_id);
+			model.addAttribute("account_list", account_list);
 			model.addAttribute("exchange_list", exchange_list);
 		}
 		return Common.Header.VIEW_PATH_HD + "rate_inquiry.jsp";
@@ -563,4 +566,23 @@ public class AccountController {
 	public String chart_all() {
 		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
 	}
+	
+	
+	@RequestMapping("exchange_account_insert.do")
+	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
+		System.out.println("exchange_frommoney :" + exchange_frommoney);
+		System.out.println("exchange_tomoney :" + exchange_tomoney);
+		System.out.println("exchange_choice_account :" + exchange_choice_account);
+		System.out.println("exchange_choice_type :" + exchange_choice_type);
+		
+		AccountVO vo = account_dao.accountnum_selectOne(exchange_choice_account);
+		
+		vo.setNow_money(vo.getNow_money() - exchange_frommoney);
+		
+		int res = account_dao.updateremittance(vo);
+		
+		
+		return "redirect:rate_inquiry.do";
+	}
+	
 }

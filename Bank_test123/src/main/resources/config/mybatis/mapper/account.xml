@@ -101,6 +101,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from foreign_exchange where user_id = #{user_id}
 	</select>
 	
+	
+	<insert id="exchange_insert" parameterType="exchange">
+		insert into foreign_exchange values(
+			seq_exchange_idx.nextVal,
+			#{account_number},
+			#{user_name},
+			#{depo_username},
+			#{depo_account},
+			#{deal_money},
+			sysdate
+		)
+	</insert>
+	
 </mapper>
 
 

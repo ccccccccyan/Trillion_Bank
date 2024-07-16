@@ -10,6 +10,10 @@
 <!-- header 용 script와 css -->
 <script src="/bank/resources/js/bank_header_js.js"></script>
 
+<!-- Ajax사용을 위한 js파일 -->
+<script src="/bank/resources/js/httpRequest.js"></script>
+	
+
 <!-- chart.js 설정 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
@@ -48,6 +52,8 @@
 			let	cur_nm_selected = document.getElementById("cur_nm_selected");
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
+			let exchange_money_type = document.getElementById("exchange_money_type");
+			
 			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
 			for(let i = 0; i < cur_unit_select.length; i++){
 				if(i != cur_unit_select.length-1){
@@ -68,8 +74,14 @@
 				rate_cal_after_mini.innerHTML = cur_unit_select[i];
 				rate_cal_after_mini.className = "cur_unit_select"+i;
 				rate_cal_select_after.appendChild(rate_cal_after_mini);
+				
+				if(i != cur_unit_select.length -1){
+					let exchange_money_type_mini = document.createElement("option");
+					exchange_money_type_mini.value = tts_option[i]; // 받으실때
+					exchange_money_type_mini.innerHTML = cur_unit_select[i];
+					exchange_money_type.appendChild(exchange_money_type_mini);
+				}
 			}//for------------
-			
 		}
 		
 		
@@ -252,8 +264,6 @@
 			
 			document.getElementById("period_select").value = rate_search_data;
 			let cur_nm_selected = document.getElementById("cur_nm_selected").value;
-			console.log("아아아아아ㅏㅇ악");
-			console.log(cur_nm_selected);
 			clearInterval(intervaled); // setInterval 작업 멈추기
 			
 			call_fetch(rate_search_data, cur_nm_selected);
@@ -266,7 +276,6 @@
 			let cur_nm_selected = document.getElementById("cur_nm_selected").value;
 			let period = document.getElementById("period_select").value;
 			cur_nm_select = cur_nm_selected;
-			console.log("어ㅏ어낭 : "+cur_unit_select +" == "+ cur_nm_selected);
 			
 			for(let i = 0; i < cur_unit_select.length; i++){
 				if(cur_unit_select[i] == cur_nm_selected){
@@ -302,8 +311,34 @@
 			// rate_before /= 2;
 			// rate_before_value = rate_before_value - rate_before;
 			
-			f.leaveMoney.value = (rate_before_value * rate_cal_select_before.value) / rate_cal_select_after.value;
+			rate_before_option = rate_cal_select_before.options[rate_cal_select_before.selectedIndex];
+			rate_after_option = rate_cal_select_after.options[rate_cal_select_after.selectedIndex];
 			
+			if(rate_before_option.innerHTML == rate_after_option.innerHTML){
+				f.leaveMoney.value = rate_before_value;
+
+			}else if(rate_before_option.innerHTML == '한국 원' && rate_after_option.innerHTML != '한국 원' && rate_after_option.innerHTML != '인도네시아 루피아' && rate_after_option.innerHTML != '일본 옌' ){
+				f.leaveMoney.value = (rate_before_value / rate_cal_select_after.value).toFixed(3);
+		
+			}else if(rate_before_option.innerHTML == '한국 원' && rate_after_option.innerHTML != '한국 원' && ( rate_after_option.innerHTML == '인도네시아 루피아' || rate_after_option.innerHTML == '일본 옌')){
+				f.leaveMoney.value = (rate_before_value / rate_cal_select_after.value * 100).toFixed(3);
+
+			}else if(rate_before_option.innerHTML != '한국 원' && rate_after_option.innerHTML == '한국 원'  && rate_before_option.innerHTML != '인도네시아 루피아' && rate_before_option.innerHTML != '일본 옌'){
+				f.leaveMoney.value = (rate_before_value * rate_cal_select_before.value).toFixed(3);
+
+			}else if(rate_before_option.innerHTML != '한국 원' && rate_after_option.innerHTML == '한국 원'  && ( rate_before_option.innerHTML == '인도네시아 루피아' || rate_before_option.innerHTML == '일본 옌')){
+				f.leaveMoney.value = (rate_before_value * rate_cal_select_before.value / 100).toFixed(3);
+
+			}else if(rate_before_option.innerHTML == '인도네시아 루피아' || rate_after_option.innerHTML != '인도네시아 루피아' || rate_before_option.innerHTML == '일본 옌' || rate_after_option.innerHTML != '일본 옌'){
+				f.leaveMoney.value = ((rate_before_value * rate_cal_select_before.value) / rate_cal_select_after.value / 100).toFixed(3);
+			
+			}else if(rate_before_option.innerHTML != '인도네시아 루피아' || rate_after_option.innerHTML == '인도네시아 루피아' || rate_before_option.innerHTML != '일본 옌' || rate_after_option.innerHTML == '일본 옌'){
+				f.leaveMoney.value = ((rate_before_value * rate_cal_select_before.value) / rate_cal_select_after.value * 100).toFixed(3);
+			
+			}else{
+				f.leaveMoney.value = ((rate_before_value * rate_cal_select_before.value) / rate_cal_select_after.value).toFixed(3);
+				
+			}
 		}
 		
 		function ttb_count(f) {
@@ -316,7 +351,34 @@
 			// rate_after /= 2;
 			// rate_after_value = rate_after_value - rate_after;
 			
-			f.goMoney.value = (rate_after_value * rate_cal_select_after.value) / rate_cal_select_before.value; 
+			rate_before_option = rate_cal_select_before.options[rate_cal_select_before.selectedIndex];
+			rate_after_option = rate_cal_select_after.options[rate_cal_select_after.selectedIndex];
+			
+			if(rate_before_option.innerHTML == rate_after_option.innerHTML ){
+				f.goMoney.value = rate_after_value;
+				
+			}else if(rate_before_option.innerHTML == '한국 원' && rate_after_option.innerHTML != '한국 원'  && rate_after_option.innerHTML != '인도네시아 루피아' && rate_after_option.innerHTML != '일본 옌' ){
+				f.goMoney.value = (rate_after_value * rate_cal_select_after.value).toFixed(3);
+				
+			}else if(rate_before_option.innerHTML == '한국 원' && rate_after_option.innerHTML != '한국 원'  && ( rate_after_option.innerHTML == '인도네시아 루피아' || rate_after_option.innerHTML == '일본 옌') ){
+				f.goMoney.value = (rate_after_value * rate_cal_select_after.value / 100 ).toFixed(3);
+				
+			}else if(rate_before_option.innerHTML != '한국 원' && rate_after_option.innerHTML == '한국 원' && rate_before_option.innerHTML != '인도네시아 루피아' && rate_before_option.innerHTML != '일본 옌'){
+				f.goMoney.value = (rate_after_value / rate_cal_select_before.value).toFixed(3);
+
+			}else if(rate_before_option.innerHTML != '한국 원' && rate_after_option.innerHTML == '한국 원' && ( rate_before_option.innerHTML == '인도네시아 루피아' || rate_before_option.innerHTML == '일본 옌')){
+				f.goMoney.value = (rate_after_value / rate_cal_select_before.value * 100).toFixed(3);
+				
+			}else if(rate_before_option.innerHTML == '인도네시아 루피아' || rate_after_option.innerHTML != '인도네시아 루피아' || rate_before_option.innerHTML == '일본 옌' || rate_after_option.innerHTML != '일본 옌'){
+				f.goMoney.value = ((rate_after_value * rate_cal_select_after.value) / rate_cal_select_before.value * 100).toFixed(3);
+				
+			}else if(rate_before_option.innerHTML != '인도네시아 루피아' || rate_after_option.innerHTML == '인도네시아 루피아' || rate_before_option.innerHTML != '일본 옌' || rate_after_option.innerHTML == '일본 옌'){
+				f.goMoney.value = ((rate_after_value * rate_cal_select_after.value) / rate_cal_select_before.value / 100).toFixed(3); 
+				
+			}else{
+				f.goMoney.value = ((rate_after_value * rate_cal_select_after.value) / rate_cal_select_before.value).toFixed(3); 
+			}
+			
 		}
 		
 		function ttb_tts_change(f) {
@@ -342,6 +404,103 @@
 			
 			f.goMoney.value = goMoney;
 			tts_count(f)
+		}
+		
+		function choice_user_account(f) {
+				let user_account_warn_msg = document.getElementById("user_account_warn_msg");
+				let user_account_list = document.getElementById("user_account_list").value;
+				let exchange_choice_account = document.getElementById("exchange_choice_account");
+				let exchange_money_button = document.getElementById("exchange_money_button");
+			
+			if( user_account_list == 'no'){	
+				user_account_warn_msg.innerHTML = "계좌를 선택해주세요";
+				user_account_warn_msg.style.color = "red";
+				exchange_money_button.disabled = true;
+				exchange_choice_account.value = "";
+				
+			}else if(user_account_list == 5){
+				user_account_warn_msg.innerHTML = "해당 계좌는 사용이 불가합니다.";
+				user_account_warn_msg.style.color = "red";
+				exchange_money_button.disabled = true;
+				exchange_choice_account.value = "";
+			}else{
+				user_account_warn_msg.innerHTML = "";
+				exchange_money_button.disabled = false;
+				exchange_choice_account.value = user_account_list;
+			}
+			
+			f.exchange_tomoney.value = "";
+			f.exchange_frommoney.value = "";
+		}
+		
+		
+		function exchange_formmoney_input(f) {
+			let exchange_money_type = document.getElementById("exchange_money_type");
+			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
+			
+			if(exchange_type_option.innerHTML == '인도네시아 루피아' || exchange_type_option.innerHTML == '일본 옌' ){
+				f.exchange_tomoney.value = Math.round((f.exchange_frommoney.value / exchange_type_option.value * 100).toFixed(3));
+
+			}else{
+				f.exchange_tomoney.value = Math.round((f.exchange_frommoney.value / exchange_type_option.value).toFixed(3));
+			}
+			
+			
+		}
+		
+		function exchange_tomoney_input(f) {
+			let exchange_money_type = document.getElementById("exchange_money_type");
+			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
+			
+			if(exchange_type_option.innerHTML == '인도네시아 루피아' || exchange_type_option.innerHTML == '일본 옌' ){
+				f.exchange_frommoney.value = Math.round((f.exchange_tomoney.value * exchange_type_option.value / 100).toFixed(3));
+
+			}else{
+				f.exchange_frommoney.value = Math.round((f.exchange_tomoney.value * exchange_type_option.value).toFixed(3));
+			}
+			
+		}
+		
+		function exchange_money_reset(f) {
+			let exchange_money_type = document.getElementById("exchange_money_type");
+			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
+			console.log("exchange_type_option" + exchange_type_option.innerHTML);
+			f.exchange_choice_type.value = exchange_type_option.innerHTML;
+			f.exchange_tomoney.value = "";
+			f.exchange_frommoney.value = "";
+		}
+		
+		function exchange_account(f) {
+			
+			param = "account_pwd="+f.user_chack_account_pwd.value + "&account_number="+f.exchange_choice_account.value;
+			url ="del_accountpwd_chk.do";
+			
+			sendRequest(url, param, function() {
+				exchange_accountFn( f );
+	           }, "post");
+		}
+		
+		function exchange_accountFn( f ) {
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				
+				//"[{'result':'yes'}]"
+				let data = xhr.responseText;
+				console.log(data);
+				
+				let json = ( new Function('return '+data) )();
+				
+				if( json[0].result == 'clear' ){
+					alert("성공");
+					
+					f.action = "exchange_account_insert.do";
+					f.method = "post";
+					f.submit();
+					
+				}else{
+					alert("진행 실패");
+				}
+				
+			}
 		}
 	</script>
 
@@ -391,7 +550,9 @@
 					font-size: 30px;
 					margin: 0 0 20px 110px;
 		}
-		.rate_select_header{display: flex; }							
+		.rate_select_header{display: flex;
+							position: absolute;
+							top: 160px; }							
 	</style>
 </head>
 
@@ -402,9 +563,11 @@
 
 
 	<div id="rate_body">
-		<div id="rate_calculate" style="width: 400px; height: 600px; border: 1px solid;">
+		<div id="rate_calculate" style="width: 400px; height: 655px; border: 1px solid;">
 			<form>
 			<div class="rate_cal_box">
+			
+			
 				<div class="rate_select_header">
 					<h3>환율 계산하기</h3> 
 					<select id="ttb_tts_select" onchange="ttb_tts_change(this.form);" style="margin-left: 75px; margin-top:20px; height: 30px;">
@@ -425,14 +588,46 @@
 			</div>
 			</form>
 			
-			<hr style="margin-top: 30px;">
-			<hr style="margin-top: 10px;">
+
+			<form id="exchange_form" style="position: absolute; margin-top: 20px; border: 1px solid; width: 397px; height: 155px;">
+				<h3 style="margin: 10px 40px 10px;">환전하기</h3>
+				
+				
+				<select id="user_account_list" onchange="choice_user_account(this.form)" style="position: absolute; top: 15px; width: 220px; margin-left: 138px; border: 1px solid; background: white; z-index: 400;">
+					<option value="no"> 계좌목록</option>
+					<c:forEach var="vo" items="${account_list}">
+							<c:if test="${ vo.account_lockcnt ne 5 }">
+								<option value="${vo.account_number}">${vo.account_number} (${vo.bank_name}) 
+								</option>
+							</c:if>						
+							<c:if test="${ vo.account_lockcnt eq 5 }">
+								<option value="${vo.account_lockcnt}">${vo.account_number} (${vo.bank_name}) 
+									 | 사용불가 
+								</option>
+							</c:if>						
+					</c:forEach>
+				</select>
+				<span id="user_account_warn_msg" style="position: absolute; top: 33px; width: 310px; margin-left: 138px; font-size: 13px;"></span>
+				
+				
+				<input name="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);" style="margin-left: 40px; width: 123px; margin-top: 30px;"> 
+				<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px">
+				<input name="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);" style="margin-left: 40px; width: 123px; margin-top: 30px;"> 
+
+				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
+				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
+				
+				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" style="position: absolute; top: 55px; right: 34px;"></select> 
+				
+				<input name="user_chack_account_pwd" placeholder="계좌 비밀번호" style="margin-left: 150px; width: 90px; margin-top: 15px;"> 				
+				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" style="position: absolute; top: 110px; right: 50px; width: 90px; height: 25px;">
+				
+			</form>			
 			
 			
 			<c:if test="${ not empty user_id && empty manager }">
-				<div id="rate_account_list" style="position: relative;">
+				<div id="rate_account_list" style="position: absolute; top: 600px;">
 					<h3 style="margin-left: 40px;">나의 외환 목록</h3>
-					<input type="button" value="환전하기" onclick="exchange_account();" style="position: absolute; top: 0px; right: 30px; width: 170px; height: 30px;">
 					
 					<div style="height: auto; overflow: scroll; width: 396px; height: 170px;">
 					<c:forEach var="vo" items="${exchange_list}">
@@ -440,7 +635,6 @@
 							<h4 style="border: 1px solid; margin: 5px;">${vo.foregin_type}</h4>
 							<h3 style="margin: 5px 5px 5px 50px; ">${vo.exchange_money}</h3>
 						
-							<input type="button" value="추가 환전하기" onclick="plus_exchange();" style="position: absolute; top: 0px; right: -110px;">
 							<input type="button" value="원화로 환전" onclick="back_exchange();" style="position: absolute; top: 33px; right: -110px;">
 						</div>
 					
