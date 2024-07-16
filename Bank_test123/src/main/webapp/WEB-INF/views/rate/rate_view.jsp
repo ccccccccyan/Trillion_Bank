@@ -301,9 +301,9 @@
 	        }
 	        
 	        #comment_disp {
-            width: 700px;
-            margin: auto;
-        }
+	            width: 700px;
+	            margin: auto;
+        	}
 		
 		</style>
 		

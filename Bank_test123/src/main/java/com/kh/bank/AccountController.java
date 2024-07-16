@@ -563,4 +563,10 @@ public class AccountController {
 	public String chart_all() {
 		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
 	}
+	
+	//이용약관
+	@RequestMapping("terms.do")
+	public String terms() {
+		return Common.Header.VIEW_PATH_HD + "terms.jsp";
+	}
 }

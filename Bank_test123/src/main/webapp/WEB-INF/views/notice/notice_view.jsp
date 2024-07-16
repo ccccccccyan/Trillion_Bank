@@ -66,10 +66,8 @@
 			pre {
 	            white-space: pre-wrap; /* 줄 바꿈 처리 */
 	            word-wrap: break-word; /* 긴 단어 처리 */
-	            overflow: auto; /* 넘침 처리 */
-	            max-width: 100%; /* 최대 너비 설정 */
-	            max-height: 200px; /* 최대 높이 설정 (적절한 값으로 조정) */
-	            padding: 5px; /* 패딩 설정 */
+	            margin: 0;
+	            overflow: visible;
         	}
         	
         	.content-font {

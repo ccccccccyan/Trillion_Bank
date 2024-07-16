@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+/* styles.css */
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: #23212B;
+    padding: 20px;
+    border-top: 1px solid #444;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+    color: #e0e0e0; /* 밝은 텍스트 색상 */
+}
+
+.footer-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #ffffff; /* 제목은 더 밝은 색상으로 */
+}
+
+.footer-section p, .footer-section a {
+    font-size: 14px;
+    color: #c0c0c0; /* 본문 및 링크 텍스트 색상 */
+}
+
+.footer-section a {
+    text-decoration: none;
+    color: #4da6ff; /* 링크 색상 */
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}

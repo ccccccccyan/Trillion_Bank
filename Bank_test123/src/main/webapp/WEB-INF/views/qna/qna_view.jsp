@@ -68,12 +68,14 @@
 			pre {
 				white-space: pre-wrap; /* 공백과 줄바꿈을 유지하면서 줄바꿈 */
 				word-wrap: break-word; /* 긴 단어 줄바꿈 */
-				margin: 0; /* pre 태그의 기본 마진 제거 */
+				margin: 0;
+				overflow: visible;
 			}
 			
 			.color_same{
 				background-color: #23212B; /*제목, 작성자, 내용 비번이 있는 행의 배경색 */
 				color: #fff; /*제목, 작성자, 내용 비번의 글씨 색깔*/
+				width: 80px; /* 각 셀의 너비 고정 */
 			}
 			
 			.content-font {

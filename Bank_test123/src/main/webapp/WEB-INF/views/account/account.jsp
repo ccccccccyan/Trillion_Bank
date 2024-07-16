@@ -881,7 +881,9 @@
 				
 				
 				<!-- 하단 footer -->
-				<div id="footer"></div>			
+				<div id="footer">
+					<jsp:include page="/WEB-INF/views/footer_header.jsp"></jsp:include>
+				</div>
 		</div>
 	</body>
 </html>
