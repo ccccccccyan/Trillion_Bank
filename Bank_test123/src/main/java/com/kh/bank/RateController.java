@@ -168,7 +168,6 @@ public class RateController {
 		//비밀번호 암호화
 		String encodePwd = Common.Rate.encodePwd(vo.getPwd());
 		vo.setPwd(encodePwd);
-		System.out.println("fdfdsfdsfdsds : " + encodePwd);
 		int res = rateb_dao.update(vo);
 
 		if(res > 0) {

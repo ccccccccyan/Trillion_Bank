@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>개인 정보 수정</title>
 		
 		<style type="text/css">
 			#user_check_box{width: 100%;

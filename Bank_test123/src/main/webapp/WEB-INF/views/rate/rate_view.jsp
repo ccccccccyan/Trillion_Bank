@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_view.jsp</title>
+		<title>환율 게시글 상세보기</title>
 		
 		<script src="/bank/resources/js/httpRequest.js"></script>
 		
@@ -301,9 +301,9 @@
 	        }
 	        
 	        #comment_disp {
-            width: 700px;
-            margin: auto;
-        }
+	            width: 700px;
+	            margin: auto;
+        	}
 		
 		</style>
 		

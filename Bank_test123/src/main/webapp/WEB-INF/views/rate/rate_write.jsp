@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_write.jsp</title>
+		<title>환율 게시글 작성</title>
 		
 		<style>
 			table {

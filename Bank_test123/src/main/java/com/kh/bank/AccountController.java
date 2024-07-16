@@ -474,9 +474,6 @@ public class AccountController {
 	
 		if(session_user_id != null && manager == null) {
 			List<Foreign_exchangeVO> exchange_list = account_dao.select_exchange(session_user_id);
-			// 저장된 user_id의 계좌 리스트를 조회한다.
-			List<AccountVO> account_list = account_dao.selectList(session_user_id);
-			model.addAttribute("account_list", account_list);
 			model.addAttribute("exchange_list", exchange_list);
 		}
 		return Common.Header.VIEW_PATH_HD + "rate_inquiry.jsp";
@@ -585,4 +582,12 @@ public class AccountController {
 		return "redirect:rate_inquiry.do";
 	}
 	
+	
+	//이용약관
+	@RequestMapping("terms.do")
+	public String terms() {
+		return Common.Header.VIEW_PATH_HD + "terms.jsp";
+	}
+	
+
 }

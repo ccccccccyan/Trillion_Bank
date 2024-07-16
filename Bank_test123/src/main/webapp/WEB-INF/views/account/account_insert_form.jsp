@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>계좌 개설하기</title>
 
 <!-- Ajax사용을 위한 js파일 -->
 <script src="/bank/resources/js/httpRequest.js"></script>

@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_modify.jsp</title>
+		<title>환율 게시글 수정</title>
 		
 		<script src="/bank/resources/js/httpRequest.js"></script>
 		

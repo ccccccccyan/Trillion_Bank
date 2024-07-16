@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>qna_list.jsp</title>
+		<title>Q&A 목록</title>
 		
 		<style>
 			table {
