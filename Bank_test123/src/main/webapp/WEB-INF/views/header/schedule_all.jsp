@@ -11,7 +11,7 @@
 <style>
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
@@ -120,7 +120,7 @@ i{
             <li class="timeline-item">
                 <h3>2020</h3>
                 <p>ㆍ11월 - 일조은행 굿즈 출시
-                <p>ㆍ11월 - 회원수 3000만 달성</p></p>
+                <p>ㆍ11월 - 회원수 3000만 달성</p>
                 <p>ㆍ10월 - 다음일조은행 합병</p>
                 <p>ㆍ02월 - 일조은행 배곧점 오픈</p>
             </li>
