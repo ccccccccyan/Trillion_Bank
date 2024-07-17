@@ -119,6 +119,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update foreign_exchange set exchange_money = #{exchange_money} where fgn_exchange_idx = #{fgn_exchange_idx}
 	</update>
 	
+	<delete id="exchange_del_type" parameterType="exchange">
+		delete from foreign_exchange where fgn_exchange_idx = #{fgn_exchange_idx}
+	</delete>
+	
 </mapper>
 
 

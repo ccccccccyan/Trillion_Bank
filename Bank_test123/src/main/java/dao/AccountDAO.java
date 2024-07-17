@@ -107,4 +107,8 @@ public class AccountDAO {
 		int res = sqlSession.update("ac.exchange_updateSametype", vo);
 		return res;
 	}
+	public int exchange_del_type(Foreign_exchangeVO vo) {
+		int res = sqlSession.delete("ac.exchange_del_type", vo);
+		return res;
+	}
 }
