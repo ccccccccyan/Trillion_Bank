@@ -701,14 +701,14 @@
 	<div id="exchange_back_all"></div>
 
 	<div id="rate_body">
-		<div id="rate_calculate" style="width: 400px; height: 655px; border: 1px solid;">
+		<div id="rate_calculate" >
 			<form>
 			<div class="rate_cal_box">
 			
 			
 				<div class="rate_select_header">
 					<h3>환율 계산하기</h3> 
-					<select id="ttb_tts_select" onchange="ttb_tts_change(this.form);" style="margin-left: 75px; margin-top:20px; height: 30px;">
+					<select id="ttb_tts_select" onchange="ttb_tts_change(this.form);" >
 						<option value="tts">살때(보내실때)</option>
 						<option value="ttb">팔때(받으실때)</option>
 					</select>
@@ -727,12 +727,13 @@
 			</form>
 			
 
-			<form id="exchange_form" style="position: absolute; margin-top: 20px; border: 1px solid; width: 397px; height: 155px; background: white; ">
-				<img src="/bank/resources/img/원화환전.png" id="exchange_user_type_icon" onclick="back_exchange();" style="width: 20px; height: 20px; position: absolute; top: 13px; left: 5px; cursor: pointer;">
-				<h3 style="margin: 10px 30px 10px; width: 200px;" id="exchange_money_header">원화 환전하기</h3>
+			<c:if test="${ not empty user_id && empty manager }">                     
+			<form id="exchange_form" >
+				<img src="/bank/resources/img/원화환전.png" id="exchange_user_type_icon" onclick="back_exchange();" >
+				<h3 id="exchange_money_header">원화 환전하기</h3>
 				
 				
-				<select id="user_account_list" onchange="choice_user_account(this.form)" style="position: absolute; top: 15px; width: 220px; margin-left: 158px; border: 1px solid; background: white; z-index: 400;">
+				<select id="user_account_list" onchange="choice_user_account(this.form)" >
 					<option value="no"> 계좌목록</option>
 					<c:forEach var="vo" items="${account_list}">
 							<c:if test="${ vo.account_lockcnt ne 5 }">
@@ -746,37 +747,36 @@
 							</c:if>						
 					</c:forEach>
 				</select>
-				<span id="user_account_warn_msg" style="position: absolute; top: 33px; width: 310px; margin-left: 138px; font-size: 13px;"></span>
+				<span id="user_account_warn_msg" ></span>
 				
-				<select id="user_exchange_list" onchange="choice_user_exchange_type(this.form)" style="position: absolute; top: 55px; width: 160px; margin-left: 10px; border: 1px solid; background: white; z-index: 400; display: none">
+				<select id="user_exchange_list" onchange="choice_user_exchange_type(this.form)" >
 					<option value="no"> 외화목록</option>
 					<c:forEach var="vo" items="${exchange_list}">
 								<option value="${vo.exchange_money}">${vo.foregin_type}</option>
 					</c:forEach>
 				</select>
 				
-				<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);" style="width: 123px; position: absolute; top: 77px; left: 30px;"> 
+				<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);"> 
 				<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px">
-				<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);" style=" width: 123px;  position: absolute; top: 77px; left: 225px;"> 
+				<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);"> 
 
 				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
 				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
 				
-				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" style="position: absolute; top: 55px; right: 34px;"></select> 
+				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" ></select> 
 				
-				<input name="user_chack_account_pwd" placeholder="계좌 비밀번호" style="width: 90px; position: absolute; left: 150px; top: 113px;"> 				
-				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" style="position: absolute; top: 110px; right: 50px; width: 90px; height: 25px;">
+				<input name="user_chack_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" > 				
+				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" >
 				
 			</form>			
 			
 			
-			<c:if test="${ not empty user_id && empty manager }">
-				<div id="rate_account_list" style="position: absolute; top: 600px;">
+				<div id="rate_account_list" >
 					<h3 style="margin-left: 30px;">나의 외환 목록</h3>
 					
-					<div style="height: auto; overflow: scroll; width: 396px; height: 170px;">
+					<div id="my_exchange_type_list" >
 					<c:forEach var="vo" items="${exchange_list}">
-						<div style="border: 1px solid; width: 240px; height: 60px; margin-left: 15px; margin-bottom: 10px; position: relative;">
+						<div class="my_exchange_type_mini" >
 							<h4 style="border: 1px solid; margin: 5px;">${vo.foregin_type}</h4>
 							<h3 style="margin: 5px 5px 5px 50px; ">${vo.exchange_money}</h3>
 						
