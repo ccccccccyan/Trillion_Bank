@@ -82,11 +82,12 @@
 				let manager = "${manager}"; 
 				if(user_id != null && user_id !='' && manager != 'Y'){
 					let exchange_money_type = document.getElementById("exchange_money_type");
-				
+					console.log("?>A?SDA?SD?ASD?");				
 					if(i != cur_unit_select.length -1 ){
 						let exchange_money_type_mini = document.createElement("option");
 						exchange_money_type_mini.value = tts_option[i]; // 받으실때
 						exchange_money_type_mini.innerHTML = cur_unit_select[i];
+						console.log(exchange_money_type_mini.innerHTML);				
 						exchange_money_type.appendChild(exchange_money_type_mini);
 					}
 				}
@@ -629,6 +630,8 @@
 		
 		let exchange_to_kr = "no";
 		function back_exchange() {
+			console.log("아아아아아");
+			
 			exchange_to_kr = "yes";
 			
 			document.getElementById("exchange_user_type_icon").src = "/bank/resources/img/외화환전.png";
@@ -639,6 +642,7 @@
 			document.getElementById("exchange_money_header").innerHTML = "외화 환전하기";
 			document.getElementById("exchange_money_type").style.zIndex = "-1";
 			let user_exchange_list = document.getElementById("user_exchange_list").style.display = "block";
+			console.log("아아아아213123아");
 		
 			document.getElementById("exchange_frommoney").style.left = "225px";
 			document.getElementById("exchange_frommoney").placeholder = "환전받으실 금액";
@@ -924,7 +928,7 @@
 		.last_day_rate_now{margin-top: 20px;
 							font-size: 17px;}			
 							
-		.last_day_type_icon{width: 40px; height: 40px; position: absolute; top: 445px; margin-left: 290px}																					
+		.last_day_type_icon{width: 40px; height: 40px; position: absolute; top: 405px; margin-left: 290px}																					
 		
 		.last_day_rate_last{margin-left: 30px;
 							font-weight: bold;}
@@ -1013,50 +1017,6 @@
 				<span id="userPwd_msg" style="font-size: 13px; position: relative; left: 30px; bottom: 10px;"></span>
 				
 			</form>			
-
-				<form id="exchange_form" >
-					<img src="/bank/resources/img/원화환전.png" id="exchange_user_type_icon" onclick="back_exchange();" >
-					<h3 id="exchange_money_header">원화 환전하기</h3>
-					
-					
-					<select id="user_account_list" onchange="choice_user_account(this.form)" >
-						<option value="no"> 계좌목록</option>
-						<c:forEach var="vo" items="${account_list}">
-								<c:if test="${ vo.account_lockcnt ne 5 }">
-									<option value="${vo.account_number}">${vo.account_number} (${vo.bank_name}) 
-									</option>
-								</c:if>						
-								<c:if test="${ vo.account_lockcnt eq 5 }">
-									<option value="${vo.account_lockcnt}">${vo.account_number} (${vo.bank_name}) 
-										 | 사용불가 
-									</option>
-								</c:if>						
-						</c:forEach>
-					</select>
-					<span id="user_account_warn_msg" ></span>
-					
-					<select id="user_exchange_list" onchange="choice_user_exchange_type(this.form)" >
-						<option value="no"> 외화목록</option>
-						<c:forEach var="vo" items="${exchange_list}">
-									<option value="${vo.exchange_money}">${vo.foregin_type}</option>
-						</c:forEach>
-					</select>
-					
-					<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);"> 
-					<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px">
-					<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);"> 
-	
-					<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
-					<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
-					
-					<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" ></select> 
-					
-					<input name="user_chack_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" > 				
-					<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" >
-					
-				</form>			
-
-			
 			
 				<div id="rate_account_list" >
 					<h3 style="margin-left: 30px;">나의 외환 목록</h3>
