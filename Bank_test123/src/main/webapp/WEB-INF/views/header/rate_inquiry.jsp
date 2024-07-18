@@ -31,6 +31,9 @@
 		let tts_select;
 		let cur_unit_select = [];
 		
+		// 전일 대비
+		let tts_option_last_day = [];
+		
 		// json 데이터 가공 함수
 		document.addEventListener("DOMContentLoaded", function() {
 				// fetch는 ajax처럼 비동기 행위며 json 형태의 데이터를 받아올 때 주로 사용한다.
@@ -39,6 +42,7 @@
 				let period = document.getElementById("period_select").value;
 				let cur_nm_selected = document.getElementById("cur_nm_selected").value;
 				call_fetch(period, cur_nm_selected);
+				
 				
 		 }); 
 		
@@ -52,7 +56,6 @@
 			let	cur_nm_selected = document.getElementById("cur_nm_selected");
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
-			let exchange_money_type = document.getElementById("exchange_money_type");
 			
 			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
 			for(let i = 0; i < cur_unit_select.length; i++){
@@ -75,13 +78,26 @@
 				rate_cal_after_mini.className = "cur_unit_select"+i;
 				rate_cal_select_after.appendChild(rate_cal_after_mini);
 				
-				if(i != cur_unit_select.length -1){
-					let exchange_money_type_mini = document.createElement("option");
-					exchange_money_type_mini.value = tts_option[i]; // 받으실때
-					exchange_money_type_mini.innerHTML = cur_unit_select[i];
-					exchange_money_type.appendChild(exchange_money_type_mini);
+				let user_id = "${user_id}"; 
+				let manager = "${manager}"; 
+				if(user_id != null && user_id !='' && manager != 'Y'){
+					let exchange_money_type = document.getElementById("exchange_money_type");
+				
+					if(i != cur_unit_select.length -1 ){
+						let exchange_money_type_mini = document.createElement("option");
+						exchange_money_type_mini.value = tts_option[i]; // 받으실때
+						exchange_money_type_mini.innerHTML = cur_unit_select[i];
+						exchange_money_type.appendChild(exchange_money_type_mini);
+					}
 				}
 			}//for------------
+
+			let user_id = "${user_id}"; 
+			let manager = "${manager}"; 
+			
+			if(user_id == null || user_id == '' || manager == 'Y'){
+				compared_to_last_day();
+			}
 		}
 		
 		
@@ -114,6 +130,8 @@
 	                ttb_option = [];
 	                tts_option = [];
 	                
+	                tts_option_last_day = [];
+	                
 	                // data.forEach( data_info => ) 이건 for문과 비슷하다. data를 for문을 돌리는데, 해당 data명을 data_info로 명명해주는 것과 비슷하다.
 	                // for(String data+info : data) 같은 느낌
 	                data.forEach(day_map_list =>{
@@ -127,11 +145,12 @@
 		            	
 		                ttb_option.push(day_map_list.rateVO_data[day_map_list.rateVO_data.length -1].ttb.replace(',', ''));
 		                tts_option.push(day_map_list.rateVO_data[day_map_list.rateVO_data.length -1].tts.replace(',', ''));
-		            	
+		                tts_option_last_day.push(day_map_list.rateVO_data[day_map_list.rateVO_data.length -2].tts.replace(',', ''));
+		                
 	            	   	day_map_list.rateVO_data.forEach( rateVO=> {
 		            		ttb.push(parseFloat(rateVO.ttb.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
 	                        tts.push(parseFloat(rateVO.tts.replace(',', ''))); // 쉼표 제거 후 숫자로 변환
-		                   	rate_date.push(rateVO.rate_date);
+	                        rate_date.push(rateVO.rate_date);
 	            	   	});
 	            	   
 	            	   ttb_list.push(ttb); 
@@ -644,6 +663,7 @@
 			
 		}
 		
+
 		// user_check_account_pwd 유저의 계좌 비밀번호 체크 oninput
 		function UserChkAcntPwd(f){
 			let userPwd = f.user_check_account_pwd.value;
@@ -667,9 +687,82 @@
 		}
 		
 		
+
+		function compared_to_last_day() {
+			let compared_to_last_day_rate = document.getElementById("compared_to_last_day_rate");
+						console.log("aaaa : " + cur_unit_select);
+			
+			let show_rate_Compared = ["일본 옌", "미국 달러", "유로", "영국 파운드", "홍콩 달러"];
+			
+			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
+			for(let i = 0; i < cur_unit_select.length; i++){
+				
+				for(let j = 0; j < show_rate_Compared.length; j++){
+					if(show_rate_Compared[j] == cur_unit_select[i]){
+						console.log("asdasd");
+						console.log(show_rate_Compared[j]);
+						let compared_to_last_day_type = document.createElement("div");
+						compared_to_last_day_type.className = "last_day_compared";
+						
+						let compared_to_last_day_type_name = document.createElement("h5");
+						compared_to_last_day_type_name.className = "last_day_type_name";
+						compared_to_last_day_type_name.innerHTML = show_rate_Compared[j];
+						
+						let compared_to_last_day_type_now = document.createElement("h6");
+						compared_to_last_day_type_now.className = "last_day_rate_now";
+						compared_to_last_day_type_now.innerHTML = tts_option[i];
+	
+						let compared_to_last_day_type_last = document.createElement("h6");
+						compared_to_last_day_type_last.className = "last_day_rate_last";
+						
+						console.log(" : " + tts_option[i] +" - "+ tts_option_last_day[i]);
+						let compared = tts_option[i] - tts_option_last_day[i];
+						console.log("compared : " + compared);
+						let compared_to_Arrow = document.createElement("h6");
+						compared_to_Arrow.className = "last_day_arrow";
+
+						if(compared > 0){
+							compared_to_last_day_type_last.style.color = "red";
+							compared_to_Arrow.innerHTML = "↗";
+							compared_to_Arrow.style.color = "red";
+						}else if(compared < 0){
+							compared_to_last_day_type_last.style.color = "blue";
+							compared = compared * (-1);
+							compared_to_Arrow.innerHTML = "↘";
+							compared_to_Arrow.style.color = "blue";
+							
+						}else{
+							compared_to_Arrow.innerHTML = "→";
+							
+						}
+						
+						compared_to_last_day_type_last.innerHTML = compared.toFixed(3);;
+						
+						
+						compared_to_last_day_type.appendChild(compared_to_last_day_type_name);
+						compared_to_last_day_type.appendChild(compared_to_last_day_type_now);
+						
+						compared_to_last_day_type.appendChild(compared_to_last_day_type_last);
+						compared_to_last_day_type.appendChild(compared_to_Arrow);
+
+						compared_to_last_day_rate.appendChild(compared_to_last_day_type);
+					}
+				}
+				
+			}//for------------
+			
+		}		
+
 	</script>
 
 	<style>
+	
+		body {margin: 0; padding: 0;
+			background-color: #f4f4f4;
+		}
+	
+		
+	
 		#rate_search_period{
 							width: 800px;
 							height: 40px;
@@ -719,9 +812,11 @@
 							position: absolute;
 							top: 160px; }	
 							
-		#rate_calculate{width: 400px;
-						 height: 655px;
-						 border: 1px solid;}		
+		#rate_calculate{width: 396px;
+						 height: 661px;
+						 background: white;
+						 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+						 }		
 						 
 		#ttb_tts_select{margin-left: 75px;
 					 margin-top:20px;
@@ -729,10 +824,12 @@
 					 
 		#exchange_form{position: absolute;
 					 margin-top: 20px;
-					 border: 1px solid;
 					 width: 397px;
 					 height: 155px; 
-					 background: white;}
+					 background: white;
+					 border-bottom: 1px solid #e6e6e6;
+					 border-top: 1px solid #e6e6e6;
+					 }
 		
 		#exchange_money_header{margin: 10px 30px 10px;
 							   width: 200px;}	
@@ -762,7 +859,6 @@
 							top: 55px; 
 							width: 160px; 
 							margin-left: 10px; 
-							border: 1px solid; 
 							background: white; 
 							z-index: 400; 
 							display: none}
@@ -795,9 +891,43 @@
 		#rate_account_list{position: absolute; 
 							top: 600px;}			
 		
-		#my_exchange_type_list{height: auto; overflow: scroll; width: 396px; height: 170px;}	
+		#my_exchange_type_list{height: auto; 
+							width: 396px; 
+							height: 170px;
+							overflow-y: scroll;
+							margin-bottom: 10px;
+							}	
 		
-		.my_exchange_type_mini{border: 1px solid; width: 240px; height: 60px; margin-left: 15px; margin-bottom: 10px; position: relative;}							
+		.my_exchange_type_mini{border: 1px solid; 
+							width: 240px; 
+							height: 60px; 
+							margin-left: 15px; 
+							margin-bottom: 10px; 
+							position: relative;}		
+		
+		#Compared_to_last_day_rate{border: 1px solid;
+									width: 330px;
+									height: 380px;
+									padding-left: 40px;
+									}		
+									
+		.last_day_compared{display: flex; 
+							width: 300px;
+							height: 50px;
+							margin-bottom: 10px;
+							margin-left: 40px;
+							background: #ededed;}
+								
+		.last_day_type_name{margin: 10px 10px 0; 
+						}
+		
+		.last_day_rate_now{margin-top: 20px;
+							font-size: 17px;}			
+							
+		.last_day_type_icon{width: 40px; height: 40px; position: absolute; top: 445px; margin-left: 290px}																					
+		
+		.last_day_rate_last{margin-left: 30px;
+							font-weight: bold;}
 	</style>
 </head>
 
@@ -838,6 +968,7 @@
 			
 
 			<c:if test="${ not empty user_id && empty manager }">                     
+
 			<form id="exchange_form" >
 				<img src="/bank/resources/img/원화환전.png" id="exchange_user_type_icon" onclick="back_exchange();" >
 				<h3 id="exchange_money_header">원화 환전하기</h3>
@@ -882,6 +1013,49 @@
 				<span id="userPwd_msg" style="font-size: 13px; position: relative; left: 30px; bottom: 10px;"></span>
 				
 			</form>			
+
+				<form id="exchange_form" >
+					<img src="/bank/resources/img/원화환전.png" id="exchange_user_type_icon" onclick="back_exchange();" >
+					<h3 id="exchange_money_header">원화 환전하기</h3>
+					
+					
+					<select id="user_account_list" onchange="choice_user_account(this.form)" >
+						<option value="no"> 계좌목록</option>
+						<c:forEach var="vo" items="${account_list}">
+								<c:if test="${ vo.account_lockcnt ne 5 }">
+									<option value="${vo.account_number}">${vo.account_number} (${vo.bank_name}) 
+									</option>
+								</c:if>						
+								<c:if test="${ vo.account_lockcnt eq 5 }">
+									<option value="${vo.account_lockcnt}">${vo.account_number} (${vo.bank_name}) 
+										 | 사용불가 
+									</option>
+								</c:if>						
+						</c:forEach>
+					</select>
+					<span id="user_account_warn_msg" ></span>
+					
+					<select id="user_exchange_list" onchange="choice_user_exchange_type(this.form)" >
+						<option value="no"> 외화목록</option>
+						<c:forEach var="vo" items="${exchange_list}">
+									<option value="${vo.exchange_money}">${vo.foregin_type}</option>
+						</c:forEach>
+					</select>
+					
+					<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);"> 
+					<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px">
+					<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);"> 
+	
+					<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
+					<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
+					
+					<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" ></select> 
+					
+					<input name="user_chack_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" > 				
+					<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" >
+					
+				</form>			
+
 			
 			
 				<div id="rate_account_list" >
@@ -900,8 +1074,17 @@
 					
 				</div>
 			</c:if>
-			
+
+			<c:if test="${ empty user_id || not empty manager }">                     
+				<div id="compared_to_last_day_rate">
+					<h3 style="width: 160px; margin-left: 40px;">전일 대비 환율</h3>
+					<img class="last_day_type_icon" src="/bank/resources/img/주식아이콘.png">
+				</div>
+			</c:if>
 		</div>
+		
+		
+		
 		
 		<div class="rate_box">
 			<div id="rate_search_period" >
@@ -910,7 +1093,7 @@
 				<div onclick="rate_search('6개월')" id="sixmonth">6개월</div>
 				<div onclick="rate_search('1년')" id="oneyear">1년</div>
 			
-				<select id="cur_nm_selected" onchange="cur_nm_selectedFn();">
+				<select id="cur_nm_selected" onchange="cur_nm_selectedFn();" style="height: 30px;">
 					<option value="all">전체</option>
 				</select>
 			</div>
