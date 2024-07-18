@@ -291,28 +291,44 @@
 			f.goMoney.value = "";
 			f.leaveMoney.value = "";
 			
-			document.getElementById("rate_cal_select_before_msg").innerHTML = document.getElementById("rate_cal_select_before").value;
+			//document.getElementById("rate_cal_select_before_msg").innerHTML = document.getElementById("rate_cal_select_before").value;
 		}
 		
 		function rate_after_change(f) {
 			f.goMoney.value = "";
 			f.leaveMoney.value = "";
 
-			document.getElementById("rate_cal_select_after_msg").innerHTML = document.getElementById("rate_cal_select_after").value;
+			//document.getElementById("rate_cal_select_after_msg").innerHTML = document.getElementById("rate_cal_select_after").value;
 		}
 		
 		function tts_count(f) {
 			let rate_before_value = f.goMoney.value;
 			
-			let onlynumber = /^[0-9]$/;
+			let check_value = "no"; //입력한 값이 유효한지 아닌지
+			
+			// 숫자 여러 개를 허용하는 정규표현식
+			let onlynumber = /^[0-9]+$/;
 			let rate_before_value_msg = document.getElementById("rate_before_value_msg");
+			
+			// goMoney input 칸이 비어있을 경우 leaveMoney input 칸의 값을 지우고 함수를 종료
+			if (!rate_before_value) {
+				f.leaveMoney.value = "";
+				rate_before_value_msg.innerHTML = "";
+				return;
+			}
 			
 			//환율 계산하기 (1번 input 칸)
 			if( !onlynumber.test(rate_before_value) ){
 				rate_before_value_msg.innerHTML = "숫자만 입력해주시기 바랍니다.";
 				rate_before_value_msg.style.color = "red";
+				check_value = "no";
 				return;
 			}
+			
+			// 조건에 맞으면 경고 메세지를 지움.
+			rate_before_value_msg.innerHTML = "";
+			check_value = "yes";
+			
 			
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
@@ -354,6 +370,32 @@
 		function ttb_count(f) {
 			let rate_after_value = f.leaveMoney.value;
 
+			let check_value = "no"; //입력한 값이 유효한지 아닌지
+			
+			// 숫자 여러 개를 허용하는 정규표현식
+			let onlynumber = /^[0-9]+$/; //만약 /^[0-9]$/; 이면 숫자 딱 하나만! 허용한다는 말임.
+			let rate_after_value_msg = document.getElementById("rate_after_value_msg");
+			
+			// goMoney input 칸이 비어있을 경우 leaveMoney input 칸의 값을 지우고 함수를 종료
+			if (!rate_after_value) {
+				f.goMoney.value = "";
+				rate_after_value_msg.innerHTML = "";
+				return;
+			}
+			
+			//환율 계산하기 (2번 input 칸)
+			if( !onlynumber.test(rate_after_value) ){
+				rate_after_value_msg.innerHTML = "숫자만 입력해주시기 바랍니다!!";
+				rate_after_value_msg.style.color = "red";
+				check_value = "no";
+				return;
+			}
+			
+			// 조건에 맞으면 경고 메세지를 지움.
+			rate_after_value_msg.innerHTML = "";
+			check_value = "yes";
+			
+			
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
 			
@@ -443,11 +485,32 @@
 			f.exchange_frommoney.value = "";
 		}
 		
-		
+		//환전하실 금액
 		function exchange_formmoney_input(f) {
 			let exchange_money_type = document.getElementById("exchange_money_type");
 			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
 			
+			let exchange_frommoney = f.exchange_frommoney.value;
+			let onlynumber = /^[0-9]+$/;
+			let exchange_frommoney_msg = document.getElementById("exchange_frommoney_msg");
+			
+			// 입력 값이 비어있을 경우
+			if (!exchange_frommoney) {
+				f.exchange_tomoney.value = "";
+				exchange_frommoney_msg.innerHTML = "";
+				return;
+			}
+			
+			// 숫자만 입력하도록 유효성 검사
+			if (!onlynumber.test(exchange_frommoney)) {
+				exchange_frommoney_msg.innerHTML = "숫자만 입력해주세요.";
+				exchange_frommoney_msg.style.color = "red";
+				return;
+			}
+			
+			exchange_frommoney_msg.innerHTML = "";
+			
+			// 예외 환전 계산
 			if(exchange_type_option.innerHTML == '인도네시아 루피아' || exchange_type_option.innerHTML == '일본 옌' ){
 				f.exchange_tomoney.value = Math.round((f.exchange_frommoney.value / exchange_type_option.value * 100).toFixed(3));
 
@@ -455,20 +518,41 @@
 				f.exchange_tomoney.value = Math.round((f.exchange_frommoney.value / exchange_type_option.value).toFixed(3));
 			}
 			
-			
 		}
 		
+		//환전받으실 금액
 		function exchange_tomoney_input(f) {
 			let exchange_money_type = document.getElementById("exchange_money_type");
 			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
 			
+			let exchange_tomoney = f.exchange_tomoney.value;
+			let onlynumber = /^[0-9]+$/;
+			let exchange_tomoney_msg = document.getElementById("exchange_tomoney_msg");
+			
+			// 입력 값이 비어있을 경우
+			if (!exchange_tomoney) {
+				f.exchange_frommoney.value = "";
+				exchange_tomoney_msg.innerHTML = "";
+				return;
+			}
+			
+			// 숫자만 입력하도록 유효성 검사
+			if (!onlynumber.test(exchange_tomoney)) {
+				exchange_tomoney_msg.innerHTML = "숫자만 입력해주세요.";
+				exchange_tomoney_msg.style.color = "red";
+				return;
+			}
+			
+			exchange_frommoney_msg.innerHTML = "";
+			
+			// 예외 환전 계산
 			if(exchange_type_option.innerHTML == '인도네시아 루피아' || exchange_type_option.innerHTML == '일본 옌' ){
 				f.exchange_frommoney.value = Math.round((f.exchange_tomoney.value * exchange_type_option.value / 100).toFixed(3));
 
 			}else{
 				f.exchange_frommoney.value = Math.round((f.exchange_tomoney.value * exchange_type_option.value).toFixed(3));
 			}
-			///dkasdkasjdskj
+			
 		}
 		
 		function exchange_money_reset(f) {
@@ -482,7 +566,7 @@
 		
 		function exchange_account(f) {
 			
-			let param = "account_pwd="+f.user_chack_account_pwd.value + "&account_number="+f.exchange_choice_account.value;
+			let param = "account_pwd="+f.user_check_account_pwd.value + "&account_number="+f.exchange_choice_account.value;
 			let url ="del_accountpwd_chk.do";
 			
 			sendRequest(url, param, function() {
@@ -559,6 +643,30 @@
 			}
 			
 		}
+		
+		// user_check_account_pwd 유저의 계좌 비밀번호 체크 oninput
+		function UserChkAcntPwd(f){
+			let userPwd = f.user_check_account_pwd.value;
+
+			let check_value = "no"; //입력한 값이 유효한지 아닌지
+			
+			// 숫자 여러 개를 허용하는 정규표현식
+			let onlynumber = /^[0-9]+$/; //만약 /^[0-9]$/; 이면 숫자 딱 하나만! 허용한다는 말임.
+			let userPwd_msg = document.getElementById("userPwd_msg");
+			
+			if( !onlynumber.test(userPwd) ){
+				userPwd_msg.innerHTML = "숫자만 입력!!!";
+				userPwd_msg.style.color = "red";
+				check_value = "no";
+				return;
+			}
+			
+			// 조건에 맞으면 경고 메세지를 지움.
+			userPwd_msg.innerHTML = "";
+			check_value = "yes";
+		}
+		
+		
 	</script>
 
 	<style>
@@ -716,13 +824,15 @@
 				
 				<select id="rate_cal_select_before" class="rate_cal_select" onchange="rate_before_change(this.form);"></select> 
 				<input type ="text" name ="goMoney" id="rate_cal_before" class="rate_cal" oninput="tts_count(this.form);"> <br> 
-				<span id="rate_cal_select_before_msg" style="color: gray;">인도네시아 루피아</span> 
+				<!-- <span id="rate_cal_select_before_msg" style="color: gray;">인도네시아 루피아</span> <br> -->
+				<span id="rate_before_value_msg"></span> 
 				<h1 class="equals_icon">=</h1>
 				
 				<br>
 				<select id="rate_cal_select_after" class="rate_cal_select" onchange="rate_after_change(this.form);"></select> 
 				<input type ="text" name ="leaveMoney" id="rate_cal_after" class="rate_cal" oninput="ttb_count(this.form);"> <br> 
-				<span id="rate_cal_select_after_msg" style="color: gray;">인도네시아 루피아</span>
+				<!-- <span id="rate_cal_select_after_msg" style="color: gray;">인도네시아 루피아</span> <br> -->
+				<span id="rate_after_value_msg"></span>
 			</div>
 			</form>
 			
@@ -756,17 +866,20 @@
 					</c:forEach>
 				</select>
 				
-				<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);"> 
+				<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);">
+				<span id="exchange_frommoney_msg" style="font-size: 13px; position: relative; left: 30px;"></span>
 				<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px">
-				<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);"> 
+				<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);">
+				<span id="exchange_tomoney_msg" style="font-size: 13px; position: relative; left: 30px;"></span>
 
 				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
 				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
 				
 				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" ></select> 
 				
-				<input name="user_chack_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" > 				
+				<input name="user_check_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" maxlength="4" oninput="UserChkAcntPwd(this.form);"> 				
 				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" >
+				<span id="userPwd_msg" style="font-size: 13px; position: relative; left: 30px; bottom: 10px;"></span>
 				
 			</form>			
 			
