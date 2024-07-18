@@ -609,7 +609,87 @@
 		}
 		.rate_select_header{display: flex;
 							position: absolute;
-							top: 160px; }							
+							top: 160px; }	
+							
+		#rate_calculate{width: 400px;
+						 height: 655px;
+						 border: 1px solid;}		
+						 
+		#ttb_tts_select{margin-left: 75px;
+					 margin-top:20px;
+					 height: 30px;}
+					 
+		#exchange_form{position: absolute;
+					 margin-top: 20px;
+					 border: 1px solid;
+					 width: 397px;
+					 height: 155px; 
+					 background: white;}
+		
+		#exchange_money_header{margin: 10px 30px 10px;
+							   width: 200px;}	
+		
+		#exchange_user_type_icon{width: 20px; 
+								height: 20px; 
+								position: absolute; 
+								top: 13px; 
+								left: 5px; 
+								cursor: pointer;}
+		
+		#user_account_list{position: absolute; 
+							top: 15px; 
+							width: 220px; 
+							margin-left: 158px; 
+							border: 1px solid; 
+							background: white; 
+							z-index: 400;}	
+		
+		#user_account_warn_msg{position: absolute; 
+								top: 33px; 
+								width: 310px; 
+								margin-left: 138px; 
+								font-size: 13px;}	
+								
+		#user_exchange_list{position: absolute; 
+							top: 55px; 
+							width: 160px; 
+							margin-left: 10px; 
+							border: 1px solid; 
+							background: white; 
+							z-index: 400; 
+							display: none}
+		
+		#exchange_frommoney{width: 123px; 
+							position: absolute; 
+							top: 77px; 
+							left: 30px;}
+																										   		 				 
+		#exchange_tomoney{width: 123px; 
+						 position: absolute; 
+						 top: 77px; 
+						 left: 225px;}	
+		
+		#exchange_money_type{position: absolute; 
+							top: 55px; 
+							right: 34px;}	
+		
+		#user_check_account_pwd{width: 90px; 
+								position: absolute; 
+								left: 150px; 
+								top: 113px;}	
+															 																		   		 				 
+		#exchange_money_button{position: absolute; 
+								top: 110px; 
+								right: 50px; 
+								width: 90px; 
+								height: 25px;}
+								
+		#rate_account_list{position: absolute; 
+							top: 600px;}			
+		
+		#my_exchange_type_list{height: auto; overflow: scroll; width: 396px; height: 170px;}	
+		
+		.my_exchange_type_mini{border: 1px solid; width: 240px; height: 60px; margin-left: 15px; margin-bottom: 10px; position: relative;}							
 	</style>
 </head>
 
