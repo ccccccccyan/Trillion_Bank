@@ -110,8 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			seq_exchange_idx.nextVal,
 			#{user_id},
 			#{exchange_money},
-			#{foregin_type},
-			#{exchange_pwd}
+			#{foregin_type}
 		)
 	</insert>
 	

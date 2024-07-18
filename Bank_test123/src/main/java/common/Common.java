@@ -126,29 +126,5 @@ public static class Notice{ //클래스 안의 클래스. 내부 클래스
 
 	}
 	
-	public static class Secure_exchangePwd {
-		// 비밀번호 비교 메서드
-		public static boolean decodePwd(Foreign_exchangeVO vo, AccountDAO account_dao) {
-			boolean isValid = false; // 암호 일치 여부 확인
-			
-			Foreign_exchangeVO resultVO = account_dao.exchange_selectone(vo);
-			
-			if (resultVO != null) {
-				// 입력한 비밀번호와 DB의 암호화된 비밀번호가 일치하면 isValid가 true가 된다.
-				try {
-					System.out.println("입력된 비밀번호: " + vo.getExchange_pwd());
-					System.out.println("DB의 암호화된 비밀번호: " + resultVO.getExchange_pwd());
-					isValid = BCrypt.checkpw(vo.getExchange_pwd(), resultVO.getExchange_pwd());
-				} catch (Exception e) {
-					// 예외 처리
-					System.out.println("오류 발생:");
-					e.printStackTrace();
-				}
-			}
-			
-			System.out.println("isValid : " + isValid);
-			return isValid;
-		}
-		
-	}
+	
 }

@@ -462,7 +462,6 @@
 		}
 		
 		function exchange_money_reset(f) {
-			console.log("????");
 			let exchange_money_type = document.getElementById("exchange_money_type");
 			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
 			console.log("exchange_type_option1111" + exchange_type_option.innerHTML);
@@ -477,11 +476,11 @@
 			let url ="del_accountpwd_chk.do";
 			
 			sendRequest(url, param, function() {
-				exchange_already_check( f );
+				exchange_accountFn( f );
 	           }, "post");
 		}
 		
-		function exchange_already_check( f ) {
+		function exchange_accountFn( f ) {
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				console.log(f.exchange_choice_type.value);
 				//"[{'result':'yes'}]"
@@ -492,12 +491,9 @@
 				
 				if( json[0].result == 'clear' && exchange_to_kr == 'no' ){
 					
-					let param = "foregin_type="+f.exchange_choice_type.value;
-					let url ="exchange_already_type_chk.do";
-					
-					sendRequest(url, param, function() {
-						exchange_accountFn( f );
-			           }, "post");
+					f.action = "exchange_account_insert.do";
+					f.method = "post";
+					f.submit();
 					
 				}else if( json[0].result == 'clear' && exchange_to_kr == 'yes' ){
 				
@@ -516,31 +512,7 @@
 			}
 		}
 		
-		function exchange_accountFn( f ) {
-			if( xhr.readyState == 4 && xhr.status == 200 ){
-				
-				//"[{'result':'yes'}]"
-				let data = xhr.responseText;
-				console.log(data);
-				
-				let json = ( new Function('return '+data) )();
-				
-				if( json[0].result == 'no' ){
-					f.exchange_choice_pwd.value = prompt("사용할 비밀번호를 입력해주세요");
-					
-					f.action = "exchange_account_insert.do";
-					f.method = "post";
-					f.submit();
-					
-				}else{
-					f.action = "exchange_account_insert.do";
-					f.method = "post";
-					f.submit();
 
-				}
-				
-			}
-		}
 		
 		let exchange_to_kr = "no";
 		function back_exchange() {
@@ -699,7 +671,6 @@
 
 				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
 				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
-				<input name="exchange_choice_pwd" type="hidden" id="exchange_choice_pwd"> 
 				
 				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" style="position: absolute; top: 55px; right: 34px;"></select> 
 				
@@ -719,7 +690,6 @@
 							<h4 style="border: 1px solid; margin: 5px;">${vo.foregin_type}</h4>
 							<h3 style="margin: 5px 5px 5px 50px; ">${vo.exchange_money}</h3>
 						
-							<input type="button" value="원화로 환전" onclick="back_exchange('${vo.fgn_exchange_idx}', '${vo.foregin_type}', '${vo.exchange_money}');" style="position: absolute; top: 33px; right: -110px;">
 						</div>
 					
 					</c:forEach>

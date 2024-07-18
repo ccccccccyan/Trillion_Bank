@@ -567,27 +567,11 @@ public class AccountController {
 		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
 	}
 	
-	@RequestMapping("exchange_already_type_chk.do")
-	@ResponseBody
-	public String exchange_already_type_chk(String foregin_type) {
-		
-		Foreign_exchangeVO vo = new Foreign_exchangeVO();
-		
-		vo.setForegin_type(foregin_type);
-		vo.setUser_id((String) session.getAttribute("user_id"));
-		
-		Foreign_exchangeVO already_exchange = account_dao.exchange_selectone(vo);
-	
-		if (already_exchange == null) {
-			return "[{'result':'no'}]";
-		} else {
-			return "[{'result':'yes'}]";
-		}
-	}
+
 	
 	@Transactional
 	@RequestMapping("exchange_account_insert.do")
-	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type, String exchange_choice_pwd) {
+	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
 		
 		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
 		
@@ -611,7 +595,6 @@ public class AccountController {
 		exchangevo.setUser_id(uservo.getUser_id());
 		exchangevo.setExchange_money(exchange_tomoney);
 		exchangevo.setForegin_type(exchange_choice_type);
-		exchangevo.setExchange_pwd(Common.SecurePwd.encodePwd(exchange_choice_pwd));
 		
 		Foreign_exchangeVO already_exchange = account_dao.exchange_selectone(exchangevo);
 	
@@ -635,12 +618,7 @@ public class AccountController {
 	
 	@Transactional
 	@RequestMapping("exchange_back_money.do")
-	public String exchange_back_money(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type,  String exchange_choice_pwd) {
-		System.out.println("exchange_frommoney : " + exchange_frommoney);
-		System.out.println("exchange_tomoney : " + exchange_tomoney);
-		System.out.println("exchange_choice_account : " + exchange_choice_account);
-		System.out.println("exchange_choice_type : " + exchange_choice_type);
-
+	public String exchange_back_money(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
 		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
 		
 		accountvo.setNow_money(accountvo.getNow_money() + exchange_tomoney);

@@ -2,15 +2,9 @@ package vo;
 
 public class Foreign_exchangeVO {
 	private int fgn_exchange_idx;
-    private String user_id, foregin_type, exchange_pwd;
+    private String user_id, foregin_type;
     private double exchange_money;
 
-	public String getExchange_pwd() {
-		return exchange_pwd;
-	}
-	public void setExchange_pwd(String exchange_pwd) {
-		this.exchange_pwd = exchange_pwd;
-	}
 	public int getFgn_exchange_idx() {
 		return fgn_exchange_idx;
 	}
