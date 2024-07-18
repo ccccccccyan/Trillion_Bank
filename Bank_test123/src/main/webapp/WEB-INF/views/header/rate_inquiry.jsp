@@ -304,6 +304,16 @@
 		function tts_count(f) {
 			let rate_before_value = f.goMoney.value;
 			
+			let onlynumber = /^[0-9]$/;
+			let rate_before_value_msg = document.getElementById("rate_before_value_msg");
+			
+			//환율 계산하기 (1번 input 칸)
+			if( !onlynumber.test(rate_before_value) ){
+				rate_before_value_msg.innerHTML = "숫자만 입력해주시기 바랍니다.";
+				rate_before_value_msg.style.color = "red";
+				return;
+			}
+			
 			let rate_cal_select_before = document.getElementById("rate_cal_select_before");
 			let rate_cal_select_after = document.getElementById("rate_cal_select_after");
 			
@@ -661,7 +671,7 @@
 				<select id="user_exchange_list" onchange="choice_user_exchange_type(this.form)" style="position: absolute; top: 55px; width: 160px; margin-left: 10px; border: 1px solid; background: white; z-index: 400; display: none">
 					<option value="no"> 외화목록</option>
 					<c:forEach var="vo" items="${exchange_list}">
-								<option value="${vo.fgn_exchange_idx}">${vo.foregin_type}</option>
+								<option value="${vo.exchange_money}">${vo.foregin_type}</option>
 					</c:forEach>
 				</select>
 				
