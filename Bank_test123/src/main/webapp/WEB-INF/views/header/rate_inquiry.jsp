@@ -82,17 +82,21 @@
 				let manager = "${manager}"; 
 				if(user_id != null && user_id !='' && manager != 'Y'){
 					let exchange_money_type = document.getElementById("exchange_money_type");
-					console.log("?>A?SDA?SD?ASD?");				
 					if(i != cur_unit_select.length -1 ){
+						console.log(cur_unit_select[i] + "asdasdas");
 						let exchange_money_type_mini = document.createElement("option");
 						exchange_money_type_mini.value = tts_option[i]; // 받으실때
 						exchange_money_type_mini.innerHTML = cur_unit_select[i];
-						console.log(exchange_money_type_mini.innerHTML);				
 						exchange_money_type.appendChild(exchange_money_type_mini);
+					}else{
+						exchange_money_type.value = tts_option[0];
+						console.log(exchange_money_type.value + "12312");
 					}
 				}
 			}//for------------
 
+			
+			
 			let user_id = "${user_id}"; 
 			let manager = "${manager}"; 
 			
@@ -842,7 +846,7 @@
 							
 		#rate_calculate{width: 396px;
 						 height: 661px;
-						 background: white;
+						 background: #fcfcfc;
 						 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 						 }		
 						 
@@ -852,7 +856,7 @@
 					 
 		#exchange_form{position: absolute;
 					 margin-top: 20px;
-					 width: 397px;
+					 width: 395px;
 					 height: 155px; 
 					 background: white;
 					 border-bottom: 1px solid #e6e6e6;
@@ -1037,7 +1041,7 @@
 				<select id="exchange_money_type" onchange="exchange_money_reset(this.form);" ></select> 
 				
 				<input name="user_check_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" maxlength="4" oninput="UserChkAcntPwd(this.form);" type="password"> 				
-				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button">
+				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" disabled="disabled">
 				<span id="userPwd_msg" style="font-size: 13px; position: relative; left: 30px; bottom: 10px;"></span>
 				
 			</form>			

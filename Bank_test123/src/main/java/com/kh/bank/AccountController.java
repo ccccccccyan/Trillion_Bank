@@ -118,12 +118,7 @@ public class AccountController {
 		List<QnaVO> qna_list = qna_dao.selectRank_List();
 		model.addAttribute("qna_list", qna_list);
 		
-		
-//		SmsService sms = new SmsService();
-//		sms.push_smsService("01032652508", "01055773032");
-		
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
-//		return Common.Account.VIEW_PATH_AC + "openpage.jsp"; 
 	}
 	
 	
