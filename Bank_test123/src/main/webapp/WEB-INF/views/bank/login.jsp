@@ -219,7 +219,7 @@ body {
 
 </head>
 <body>
-	<img src="/bank/resources/img/일조은행아이콘.png" alt="Trillion Bank Logo"
+	<img src="/bank/resources/img/일조은행아이콘.png" alt="Trillion Bank Logo" onclick="location.href='account_list.do'"
 		class="logo">
 	<div class="login-container">
 		<h2>로그인</h2>

@@ -60,6 +60,10 @@ body {
 	float :left;
 	width: calc(100% - 70px);
 }
+.signup-container input[type="text"].check_tel{
+	float :left;
+	width: calc(100% - 160px);
+}
 
 .signup-container input[type="button"].inline-button {
 	margin-left:10px;
@@ -67,6 +71,14 @@ body {
 	cursor: pointer;
 	transition: background-color 0.3s;
 	width: calc(30% - 70px);
+}
+
+.signup-container input[type="button"].inline-button-tel {
+	margin-left:10px;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	width: calc(30% - 50px);
 }
 
 .signup-container input[type="button"]:hover {
@@ -97,6 +109,10 @@ body {
 	left: 37px;
 	top: 37px;
 	cursor: pointer;
+}
+
+.span{
+	text-align: left;
 }
 </style>
 
@@ -159,7 +175,16 @@ body {
     }
 </script>
 <script>
+	let sixnumber = 0;
+	let isTelVerified = false; // 전화번호 인증 여부를 체크하는 변수
+	let intervaled_user_self;
+
 	function send(f) {
+		 if (!isTelVerified) {
+             alert("전화번호 인증을 완료해 주세요.");
+             return;
+         }
+		
 		let user_name = f.user_name.value;
 		let user_id = f.user_id.value;
 		let user_pwd = f.user_pwd.value;
@@ -347,11 +372,60 @@ body {
 
 			if (json[0].result == 'clear') {
 				alert("가입가능한 전화번호입니다.");
+				document.getElementById("tel_verify_btn").disabled = false;
 			} else {
 				alert("해당 전화번호는 회원가입이 완료된 번호입니다.");
 			}
 		}
 	}
+
+	function check_user_self(f) {
+			param = "user_tel="+f.user_tel.value;
+			url ="user_self_check.do";
+		
+			sendRequest(url, param, check_user_selfOK, "post");	
+	}	
+	function check_user_selfOK() {
+		if( xhr.readyState == 4 && xhr.status == 200 ){
+			
+			//"[{'result':'yes'}]"
+			let data = xhr.responseText;
+			console.log(data);
+			
+			let json = ( new Function('return '+data) )();
+			
+			if( json[0].result == 'clear' ){
+				sixnumber =json[0].sixNumber;
+				console.log("sixnumber : "+sixnumber);
+			}else{
+				alert("진행 실패");
+			}
+			
+		}
+	}
+	
+	
+	function check_user_sixnumber(f) {
+		if(sixnumber == 0){
+			alert("인증번호를 발송해주십시오");
+			return;
+		}else if(f.user_number.value != sixnumber){
+			alert("인증번호를 불일치");
+			return;
+
+		}else if(f.user_number.value == sixnumber){
+				alert("인증완료.");
+				
+				clearInterval(intervaled_user_self);
+				sixnumber = 0;
+				
+				isTelVerified = true; // 인증 완료 상태로 설정
+                document.querySelector('input[type="button"][value="회원가입"]').disabled = false;
+                document.querySelector('input[type="button"][value="관리자 회원가입"]').disabled = false;
+		}
+	}
+	
+	
 </script>
 </head>
 <body>
@@ -365,8 +439,11 @@ body {
 				<input type="button" value="확인" class="inline-button" onclick="check_id(this.form)">
 				<input type="password" name="user_pwd" placeholder="영어 + 숫자의 8~16자리의 비밀번호" maxlength="16" required><br> 
 				<input type="password" name="user_pwd_check" placeholder="비밀번호 확인" maxlength="16" required><br>
-				<input type="text" name="user_tel" class="check" placeholder="전화번호 '-'을 제외한 11자리" maxlength="11" required>
-				<input type="button" value="확인" class="inline-button" onclick="check_tel(this.form)"> <br> 
+				<input type="text" name="user_tel" class="check_tel" placeholder="전화번호 '-'을 제외한 11자리" maxlength="11" required>
+				<input type="button" value="중복확인" class="inline-button-tel" onclick="check_tel(this.form);">
+				<input type="button" value="인증" disabled="disabled" id="tel_verify_btn" class="inline-button" onclick="check_user_self(this.form);"> <br> 
+				<input type="text" name="user_number" id="check_user_number" class="check" placeholder="인증번호를 입력해주십시오." maxlength="6" required>
+				<input type="button" value="확인" id="check_user_number_button" class="inline-button" onclick="check_user_sixnumber(this.form);"> <br> 
 				<input type="text" id="sample4_postcode" class="check" placeholder="우편번호">
 				<input type="button" onclick="DaumPostcode_api()" class="inline-button" value="찾기"><br>
 				<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
@@ -374,8 +451,8 @@ body {
 				<span id="guide" style="color: #999; display: none"></span> 
 				<input type="text" id="user_addr" placeholder="상세주소"> 
 				<input type="text" id="sample4_extraAddress" placeholder="참고항목"><br>
-				<input type="button" value="회원가입" onclick="send(this.form)">
-				<input type="button" value="관리자 회원가입" onclick="send2(this.form)">
+				<input type="button" value="회원가입"  onclick="send(this.form)">
+				<input type="button" value="관리자 회원가입"  onclick="send2(this.form)">
 			</div>
 		</form>
 	</div>
