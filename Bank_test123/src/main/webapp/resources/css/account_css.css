@@ -87,7 +87,7 @@
 						left: 132px;
 						display: none;
 						font-size: 14px;
-						z-index: 7
+						z-index: 200;
 						}
 		.search_content{padding: 5px;
 						cursor: pointer;
@@ -409,7 +409,7 @@
  					text-shadow: 1px 2px 10px white;	
 			}		
 	
-		
+	#user_self_check_button:hover{background-color: red;}
 /* account_inset_form.jsp --------------------------------------------------- */	
 	h1{
 		height: 100px;}

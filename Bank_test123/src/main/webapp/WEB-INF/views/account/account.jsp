@@ -73,6 +73,8 @@
 	 	
 	 	// 계좌 검색으로 사용자 정보 조회
 	 	function search_userinfo(event) {
+	 		document.getElementById("user_self_check_box").style.display = "block";
+	 		
 			let search_account_number = event.target.value;
 	 		let search_worn_msg = document.getElementById("search_worn_msg");
 	 		let search_result = document.getElementById("search_result");
@@ -252,6 +254,8 @@
 			// 검색이 완료되었으니 검색 박스 none
 			let search_result = document.getElementById("search_result");
 			search_result.style.display = "none";
+			document.getElementById("user_self_check_button").disabled = false;
+			
 		}
 	 	
 	 	
@@ -677,7 +681,12 @@
 		}
 		
 		function close_user_self(f) {
-			f.reset();					
+			f.reset();		
+			clearInterval(intervaled_user_self);
+			sixnumber = 0;
+			user_check_timer_min = 2;
+			user_check_timer_sec = 30;
+			document.getElementById("user_check_timer_msg").innerHTML = "";
 			let user_check_background = document.getElementById("user_check_background");
 			user_check_background.style.display = "none";
 		}
@@ -779,7 +788,7 @@
 						계좌 검색 
 						<input id="search_account_number" name="search_account_number" oninput="search_userinfo(event);" placeholder="계좌 번호 검색하기"> ▼ 
 						<br> <span id="search_worn_msg"></span>
-						<div id="search_result"></div>
+						<div id="search_result" ></div>
 					</div>
 											
 					<div class="account_slide" >
@@ -820,8 +829,7 @@
 							<a href="#" id="change_account_pwd" class="no_scroll">계좌 비밀번호 변경</a>
 							<a href="#" id="change_account_color" class="no_scroll">계좌 색상 변경</a>
 						</div>
-
-						<input type="button" value="본인인증" onclick="user_self_check_ok();">
+						
 
 						<form id="change_form" style="width: 700px; height: 60px; margin-top: 20px;">
 							<span id="change_color_msg" style="width: 600px; height: 30px;"></span>
@@ -832,6 +840,10 @@
 						</form>
 					</div>
 						
+					<div id="user_self_check_box" style=" width: 610px; height: 440px;  border-radius: 20px; background: #b5b5b5; opacity: 0.9; position: absolute; top:150px; left:650px; z-index: 100;">
+						<h3 style="margin: 200px auto 30px; width: 440px; ">사용자 정보 수정을 위해 본인인증이 필요합니다.</h3>
+						<input type="button" id="user_self_check_button" value="본인인증" onclick="user_self_check_ok();" disabled="disabled" style="margin-left: 200px; width: 200px; height: 35px; font-size: 20px; background-color: #1f2021; color: white; cursor: pointer;">
+					</div>
 				</div>
 				
 				<!-- 환율 그래프, 환율 게시판 박스 -->		

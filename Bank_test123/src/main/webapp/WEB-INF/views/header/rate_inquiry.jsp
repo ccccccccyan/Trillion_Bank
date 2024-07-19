@@ -628,6 +628,7 @@
 					f.submit();
 
 				}else{
+
 					alert("비밀번호가 일치하지 않습니다.");
 					
 					//account_pwd = 아래의 pwd, account_number = 계좌번호. (hidden으로 넣어지는 것이다.)
@@ -635,12 +636,14 @@
 					let url ="exchange_pwd_lockcnt.do";
 					
 					sendRequest(url, param, exchange_pwd_lockcnt, "post");
+
 					
 				}
 				
 			}
 		}
 		
+
 		//환전하기에서 비밀번호 5번 틀린 것 제한
 		function exchange_pwd_lockcnt(){
 			if( xhr.readyState == 4 && xhr.status == 200 ){
@@ -656,6 +659,7 @@
 			}
 		}
 		
+
 
 		
 		let exchange_to_kr = "no";

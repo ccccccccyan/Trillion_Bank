@@ -24,6 +24,7 @@ import common.Common;
 import dao.RateDAO;
 import dao.UserDAO;
 import service.BankService;
+import service.SmsService;
 import vo.RateVO;
 import vo.UserVO;
 
@@ -563,10 +564,24 @@ public class BankController {
         int sixNumber = new Random().nextInt(900000) + 100000;
         System.out.println("인증 번호: " + sixNumber);
         
-//		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
+		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}
 	
 	
+	@RequestMapping("/user_tel_check.do")
+	@ResponseBody
+	public String user_tel_check( String user_tel, String search_user_id ) {
+		
+		System.out.println("user_tel : " + user_tel);
+		System.out.println("search_user_id : " + search_user_id);
+		UserVO vo = user_dao.check(search_user_id);
+		
+		if (vo.getUser_tel().equals(user_tel)) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
 }
