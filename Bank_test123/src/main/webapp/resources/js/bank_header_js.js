@@ -42,16 +42,23 @@
 			sideMenu.style.display = "block";
 		}// sideMenu_open---------------------------
  
- 
+ 		function user_pwd_check_open() {
+			document.getElementById("user_info_update_pwd_check").style.display = "block";
+		}
+		
  		function user_info_check(user_id) {
-			let user_pwd = prompt("비밀번호를 입력하세요");
+				let user_pwd = document.getElementById("user_info_check_pwd").value;
 				    
-			if (user_pwd !== null) { // 사용자가 입력을 취소하지 않은 경우
+			if (user_pwd != null && user_pwd != '') { // 사용자가 입력을 취소하지 않은 경우
 			
 				let url = "user_infocheck.do";
 				let param = "user_id="+user_id + "&user_pwd="+user_pwd;
 				
 				sendRequest(url, param, user_infoFn, "post");
+			}else{
+				document.getElementById("user_pwd_check_warn_msg").innerHTML = "비밀번호를 입력해주세요";
+				document.getElementById("user_pwd_check_warn_msg").style.color = "red";
+			
 			}
 		}
 			
@@ -65,7 +72,7 @@
 				if(json[0].result == 'clear' ){
 					location.href="user_info_modify_form.do";
 				}else{
-					alert("비밀번호 불일치.");
+					document.getElementById("user_pwd_check_warn_msg").innerHTML = "비밀번호 불일치.";
 				}
 				
 			}
@@ -84,6 +91,7 @@
 		}
 		
 		function close_settings() {
+			document.getElementById("user_info_update_pwd_check").style.display = "none";
 			let setting_category = document.getElementById("setting_category");
 			setting_category.style.display = "none";
 		}

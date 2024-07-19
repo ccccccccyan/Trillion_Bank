@@ -508,8 +508,17 @@ public class BankController {
 	@RequestMapping("modify_ins_user.do")
 	@ResponseBody
 	public String modify_ins_user(UserVO vo) {
-		vo.setUser_pwd(Common.SecurePwd.encodePwd(vo.getUser_pwd()));
-		int res = user_dao.update_info(vo);
+		UserVO db_user = user_dao.check_id(vo.getUser_id());
+		
+		int res;
+		
+		if(vo.getUser_pwd().equals(db_user.getUser_pwd())) {
+			res = user_dao.update_info(vo);
+			
+		}else {
+			vo.setUser_pwd(Common.SecurePwd.encodePwd(vo.getUser_pwd()));
+			res = user_dao.update_info(vo);
+		}
 
 		if (res > 0) {
 			return "[{'result':'clear'}]";
@@ -564,7 +573,7 @@ public class BankController {
         int sixNumber = new Random().nextInt(900000) + 100000;
         System.out.println("인증 번호: " + sixNumber);
         
-		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
+	//	SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}

@@ -162,9 +162,6 @@
 	                ttb_option.push(0);
 	                tts_option.push(0);
 		            	
-	                console.log(" 값 들어옴");
-	                console.log(ttb_option + " / " + tts_option);
-	                
 	                
 	               // 차트 그리기 함수 호출
 	               show_chart(cur_nm[0], rate_date_list[0], ttb_list[0], tts_list[0], max[0], min[0]);
@@ -480,17 +477,18 @@
 		
 		function choice_user_account(f) {
 				let user_account_warn_msg = document.getElementById("user_account_warn_msg");
-				let user_account_list = document.getElementById("user_account_list").value;
+				let user_account_list = document.getElementById("user_account_list");
+				let user_account = user_account_list.options[user_account_list.selectedIndex].innerHTML.split(" ");
 				let exchange_choice_account = document.getElementById("exchange_choice_account");
 				let exchange_money_button = document.getElementById("exchange_money_button");
 			
-			if( user_account_list == 'no'){	
+			if( user_account_list.value == 'no'){	
 				user_account_warn_msg.innerHTML = "계좌를 선택해주세요";
 				user_account_warn_msg.style.color = "red";
 				exchange_money_button.disabled = true;
 				exchange_choice_account.value = "";
 				
-			}else if(user_account_list == 5){
+			}else if(user_account_list.value == 'lockcnt'){
 				user_account_warn_msg.innerHTML = "해당 계좌는 사용이 불가합니다.";
 				user_account_warn_msg.style.color = "red";
 				exchange_money_button.disabled = true;
@@ -498,7 +496,7 @@
 			}else{
 				user_account_warn_msg.innerHTML = "";
 				exchange_money_button.disabled = false;
-				exchange_choice_account.value = user_account_list;
+				exchange_choice_account.value = user_account[0];
 			}
 			
 			f.exchange_tomoney.value = "";
@@ -578,7 +576,6 @@
 		function exchange_money_reset(f) {
 			let exchange_money_type = document.getElementById("exchange_money_type");
 			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
-			console.log("exchange_type_option1111" + exchange_type_option.innerHTML);
 			f.exchange_choice_type.value = exchange_type_option.innerHTML;
 			f.exchange_tomoney.value = "";
 			f.exchange_frommoney.value = "";
@@ -586,12 +583,16 @@
 		
 		//환전하기 버튼을 클릭
 		function exchange_account(f) {
-			console.log(document.getElementById("user_exchange_list").value);
-				if( document.getElementById("user_exchange_list").value - f.exchange_tomoney.value < 0 ){
-					alert("환전하시려는 금액이 현재 가지고 있는 외화보다 부족합니다.");
-					return;
-				}
-				
+			if( document.getElementById("user_exchange_list").value - f.exchange_tomoney.value < 0 ){
+				alert("환전하시려는 금액이 현재 가지고 있는 외화보다 부족합니다.");
+				return;
+			}
+			
+			if( document.getElementById("user_account_list").value - f.exchange_frommoney.value < 0 ){
+				alert("환전하시려는 금액이 현재 가지고 있는 원화보다 부족합니다.");
+				return;
+			}
+			
 			//account_pwd = 아래의 pwd, account_number = 계좌번호. (hidden으로 넣어지는 것이다.)
 			let param = "account_pwd="+f.user_check_account_pwd.value + "&account_number="+f.exchange_choice_account.value;
 			let url ="del_accountpwd_chk.do";
@@ -603,7 +604,6 @@
 		
 		function exchange_accountFn( f ) {
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				console.log(f.exchange_choice_type.value);
 				//"[{'result':'yes'}]"
 				let data = xhr.responseText;
 				
@@ -647,10 +647,7 @@
 		//환전하기에서 비밀번호 5번 틀린 것 제한
 		function exchange_pwd_lockcnt(){
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				console.log(f.exchange_choice_type.value);
-				//"[{'result':'yes'}]"
 				let data = xhr.responseText;
-				
 				let json = ( new Function('return '+data) )();
 				
 				if( json[0].result == 'clear' ){
@@ -659,12 +656,8 @@
 			}
 		}
 		
-
-
-		
 		let exchange_to_kr = "no";
 		function back_exchange() {
-			
 			exchange_to_kr = "yes";
 			
 			document.getElementById("exchange_user_type_icon").src = "/bank/resources/img/외화환전.png";
@@ -786,7 +779,6 @@
 				}
 				
 			}//for------------
-			
 		}		
 
 	</script>
@@ -1014,11 +1006,11 @@
 					<option value="no"> 계좌목록</option>
 					<c:forEach var="vo" items="${account_list}">
 							<c:if test="${ vo.account_lockcnt ne 5 }">
-								<option value="${vo.account_number}">${vo.account_number} (${vo.bank_name}) 
+								<option value="${vo.now_money}">${vo.account_number} (${vo.bank_name}) 
 								</option>
 							</c:if>						
 							<c:if test="${ vo.account_lockcnt eq 5 }">
-								<option value="${vo.account_lockcnt}">${vo.account_number} (${vo.bank_name}) 
+								<option value="lockcnt">${vo.account_number} (${vo.bank_name}) 
 									 | 사용불가 
 								</option>
 							</c:if>						

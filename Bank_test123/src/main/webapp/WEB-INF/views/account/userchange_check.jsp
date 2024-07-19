@@ -66,19 +66,22 @@
 
 				let json = ( new Function('return '+data) )();
 				
-				if( json[0].result == 'clear' ){
+					if( json[0].result == 'clear' ){
+						
+						param = "user_tel="+f.user_tel.value;
+						url ="user_self_check.do";
 					
-					param = "user_tel="+f.user_tel.value;
-					url ="user_self_check.do";
-				
-					sendRequest(url, param, check_user_selfOK, "post");
-				}else{
-					alert("전화번호 불일치");
-				}
+						sendRequest(url, param, check_user_selfOK, "post");
+					}else{
+						document.getElementById("check_user_tel_msg").innerHTML = "전화번호 불일치";
+						document.getElementById("check_user_tel_msg").style.color = "red";
+					}
 				}
 			}	
+			
 			let sixnumber = 0;
 			let intervaled_user_self;
+			
 			function check_user_selfOK() {
 				if( xhr.readyState == 4 && xhr.status == 200 ){
 					
@@ -127,14 +130,15 @@
 			
 			function check_user_sixnumber(f) {
 				if(sixnumber == 0){
-					alert("인증번호를 발송해주십시오");
+					document.getElementById("check_user_number_msg").style.color = "red";
+					document.getElementById("check_user_number_msg").innerHTML = "인증번호를 발송해주십시오";
 					return;
 				}else if(f.user_number.value != sixnumber){
-					alert("인증번호를 불일치");
+					document.getElementById("check_user_number_msg").style.color = "red";
+					document.getElementById("check_user_number_msg").innerHTML = "인증번호를 불일치";
 					return;
 
 				}else if(f.user_number.value == sixnumber){
-						alert("인증완료.");
 						document.getElementById("user_self_check_box").style.display = "none";
 						document.getElementById("user_check_background").style.display = "none";
 						
@@ -155,13 +159,13 @@
 				if(!onlynumber.test(f.user_number.value)){
 					document.getElementById("check_user_number_msg").innerHTML = "유효한 형식의 인증번호는 숫자 6자리 입니다.";
 					document.getElementById("check_user_number_msg").style.color = "red";
-					f.check_user_number_button.disabled = false;
+					f.check_user_number_button.disabled = true;
 					return;
 				}
 				
 				document.getElementById("check_user_number_msg").innerHTML = "발송받은 인증번호를 입력하여 주십시오.";
 				document.getElementById("check_user_number_msg").style.color = "gray";
-				f.check_user_number_button.disabled = true;
+				f.check_user_number_button.disabled = false;
 			}
 			
 			function again_user_tel(f) {

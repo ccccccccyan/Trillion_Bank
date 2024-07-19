@@ -73,6 +73,10 @@
 	 	
 	 	// 계좌 검색으로 사용자 정보 조회
 	 	function search_userinfo(event) {
+	 		document.getElementById("change_info").style.display = "none";
+	 		document.getElementById("change_color_msg").style.display = "none";
+	 		document.getElementById("change_send").style.display = "none";
+	 		document.getElementById("change_color").style.display = "none";
 	 		document.getElementById("user_self_check_box").style.display = "block";
 	 		
 			let search_account_number = event.target.value;
@@ -475,11 +479,6 @@
 			let change_color = document.getElementById("change_color").value;
 			let param;
 			let url;	
-			console.log("change_key?"+change_key);
-			console.log("change_data?"+change_data);
-			console.log("user_id?"+user_id);
-			console.log("account_number?"+account_number);
-			console.log("change_color?"+change_color);
 			
 			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_name="+change_data;
