@@ -584,8 +584,15 @@
 			f.exchange_frommoney.value = "";
 		}
 		
+		//환전하기 버튼을 클릭
 		function exchange_account(f) {
-			
+			console.log(document.getElementById("user_exchange_list").value);
+				if( document.getElementById("user_exchange_list").value - f.exchange_tomoney.value < 0 ){
+					alert("환전하시려는 금액이 현재 가지고 있는 외화보다 부족합니다.");
+					return;
+				}
+				
+			//account_pwd = 아래의 pwd, account_number = 계좌번호. (hidden으로 넣어지는 것이다.)
 			let param = "account_pwd="+f.user_check_account_pwd.value + "&account_number="+f.exchange_choice_account.value;
 			let url ="del_accountpwd_chk.do";
 			
@@ -599,30 +606,53 @@
 				console.log(f.exchange_choice_type.value);
 				//"[{'result':'yes'}]"
 				let data = xhr.responseText;
-				alert(data);
 				
 				let json = ( new Function('return '+data) )();
 				
+				//원화 -> 외화
 				if( json[0].result == 'clear' && exchange_to_kr == 'no' ){
 					
-					f.action = "exchange_account_insert.do";
+					f.action = "exchange_account_insert.do"; //계좌에 추가
 					f.method = "post";
 					f.submit();
 					
+				//외화 -> 원화
 				}else if( json[0].result == 'clear' && exchange_to_kr == 'yes' ){
 				
 					let swap_box = f.exchange_tomoney.value;
 					f.exchange_tomoney.value = f.exchange_frommoney.value;
 					f.exchange_frommoney.value = swap_box;
 					
-					f.action = "exchange_back_money.do";
+					f.action = "exchange_back_money.do"; //계좌에 돈을 돌려놓음
 					f.method = "post";
 					f.submit();
 
 				}else{
-					alert("진행 실패");
+					alert("비밀번호가 일치하지 않습니다.");
+					
+					//account_pwd = 아래의 pwd, account_number = 계좌번호. (hidden으로 넣어지는 것이다.)
+					let param = "account_number="+f.exchange_choice_account.value;
+					let url ="exchange_pwd_lockcnt.do";
+					
+					sendRequest(url, param, exchange_pwd_lockcnt, "post");
+					
 				}
 				
+			}
+		}
+		
+		//환전하기에서 비밀번호 5번 틀린 것 제한
+		function exchange_pwd_lockcnt(){
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				console.log(f.exchange_choice_type.value);
+				//"[{'result':'yes'}]"
+				let data = xhr.responseText;
+				
+				let json = ( new Function('return '+data) )();
+				
+				if( json[0].result == 'clear' ){
+					location.href = "rate_inquiry.do";
+				}
 			}
 		}
 		
@@ -630,7 +660,6 @@
 		
 		let exchange_to_kr = "no";
 		function back_exchange() {
-			console.log("아아아아아");
 			
 			exchange_to_kr = "yes";
 			
@@ -642,7 +671,6 @@
 			document.getElementById("exchange_money_header").innerHTML = "외화 환전하기";
 			document.getElementById("exchange_money_type").style.zIndex = "-1";
 			let user_exchange_list = document.getElementById("user_exchange_list").style.display = "block";
-			console.log("아아아아213123아");
 		
 			document.getElementById("exchange_frommoney").style.left = "225px";
 			document.getElementById("exchange_frommoney").placeholder = "환전받으실 금액";
@@ -691,7 +719,7 @@
 		}
 		
 		
-
+		//전일대비 (비회원, 관리자만 보여주기)
 		function compared_to_last_day() {
 			let compared_to_last_day_rate = document.getElementById("compared_to_last_day_rate");
 						console.log("aaaa : " + cur_unit_select);
@@ -1010,10 +1038,10 @@
 				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
 				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
 				
-				<select id="exchange_money_type" class="" onchange="exchange_money_reset(this.form);" ></select> 
+				<select id="exchange_money_type" onchange="exchange_money_reset(this.form);" ></select> 
 				
-				<input name="user_check_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" maxlength="4" oninput="UserChkAcntPwd(this.form);"> 				
-				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" >
+				<input name="user_check_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" maxlength="4" oninput="UserChkAcntPwd(this.form);" type="password"> 				
+				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button">
 				<span id="userPwd_msg" style="font-size: 13px; position: relative; left: 30px; bottom: 10px;"></span>
 				
 			</form>			

@@ -653,4 +653,22 @@ public class AccountController {
 		
 		return "redirect:rate_inquiry.do";
 	}
+	
+	@RequestMapping("exchange_pwd_lockcnt.do")
+	@ResponseBody
+	public String exchange_pwd_lockcnt(String account_number) {
+		
+		AccountVO vo = account_dao.accountnum_selectOne(account_number);
+		
+		vo.setAccount_lockcnt(vo.getAccount_lockcnt() + 1);
+		
+		int res = account_dao.lockcnt_update(vo);
+		
+		if (res > 0) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
+	
 }
