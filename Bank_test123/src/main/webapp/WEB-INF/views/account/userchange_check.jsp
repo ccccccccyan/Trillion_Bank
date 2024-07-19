@@ -32,12 +32,12 @@
 							margin: 10px;
 							font-size: 16px;}	
 														
-			#check_user_tel{width: 350px;
+			#check_user_tel{width: 250px;
 							height: 20px;
 							margin: 10px;
 							font-size: 16px;}
 							
-			#check_user_number{width: 350px;
+			#check_user_number{width: 250px;
 							height: 20px;
 							margin: 10px;
 							font-size: 16px;}												
@@ -89,6 +89,7 @@
 					let json = ( new Function('return '+data) )();
 					
 					if( json[0].result == 'clear' ){
+						document.getElementById("user_tel_check_button").value="재전송"; 
 						
 						sixnumber =json[0].sixNumber;
 						console.log("sixnumber : "+sixnumber);
@@ -149,14 +150,33 @@
 			}
 			
 			function check_user_number_length(f) {
-				if(f.user_number.value.length == 6){
+				
+				let onlynumber = /^[0-9]{6}$/;
+				if(!onlynumber.test(f.user_number.value)){
+					document.getElementById("check_user_number_msg").innerHTML = "유효한 형식의 인증번호는 숫자 6자리 입니다.";
+					document.getElementById("check_user_number_msg").style.color = "red";
 					f.check_user_number_button.disabled = false;
-				}else{
-					f.check_user_number_button.disabled = true;
+					return;
 				}
+				
+				document.getElementById("check_user_number_msg").innerHTML = "발송받은 인증번호를 입력하여 주십시오.";
+				document.getElementById("check_user_number_msg").style.color = "gray";
+				f.check_user_number_button.disabled = true;
 			}
 			
 			function again_user_tel(f) {
+				
+				let onlynumber = /^[0-9]{11}$/;
+				if(!onlynumber.test(f.user_tel.value)){
+					document.getElementById("check_user_tel_msg").innerHTML = "유효한 형식의 전화 번호는 숫자 11자리 입니다.";
+					document.getElementById("check_user_tel_msg").style.color = "red";
+					return;
+				}
+				
+				document.getElementById("check_user_tel_msg").innerHTML = "계정에 등록되어 있는 전화번호를 입력하여 주십시오";
+				document.getElementById("check_user_tel_msg").style.color = "gray";
+				
+				document.getElementById("user_tel_check_button").value="인증하기"; 
 				document.getElementById("user_check_timer_msg").innerHTML = "";
 				clearInterval(intervaled_user_self);
 				sixnumber = 0;
@@ -170,23 +190,22 @@
 	<body>
 		<div id="user_check_box"></div>
 		
-			<form id="user_check_form">
-				<h3>본인인증 진행중...</h3>
-				<label for="check_user_tel">전화번호 : </label> <br>
-				<input name="user_tel" id="check_user_tel" oninput="again_user_tel(this.form);"> <br>
-				<span>계정에 등록되어 있는 전화번호를 입력하여 주십시오</span> <br>
-				<input type="button" value="인증하기" onclick="check_user_self(this.form);">
+			<form id="user_check_form" >
+				<h3 style="margin: 10px auto; width: 160px;">본인인증 진행중...</h3>
+				<label for="check_user_tel" style="margin-left: 20px;">전화번호 : </label> 
+				<input name="user_tel" id="check_user_tel" oninput="again_user_tel(this.form);" style="margin-left: 20px;"> 
+				<input type="button" id="user_tel_check_button" value="인증하기" onclick="check_user_self(this.form);" style="background: #0F67B1; color: white; cursor: pointer;"> <br>
+				<span id="check_user_tel_msg" style="margin-left: 30px; color: gray">계정에 등록되어 있는 전화번호를 입력하여 주십시오</span> <br>
 				<br>
 				
-				<label for="check_user_number">인증번호 : </label> <br>
-				<input name="user_number" id="check_user_number" oninput="check_user_number_length(this.form);" placeholder="숫자 6자리"> <br>
-				<span>발송받은 인증번호를 입력하여 주십시오</span> <br>
-				<input type="button" value="재전송" onclick="check_user_self(this.form);">
-				<input type="button" id="check_user_number_button" value="인증번호 확인" disabled="disabled" onclick="check_user_sixnumber(this.form);">
-				<span id="user_check_timer_msg">인증번호 시간 안내</span>
+				<label for="check_user_number" style="margin-left: 20px;">인증번호 : </label> 
+				<input name="user_number" id="check_user_number" oninput="check_user_number_length(this.form);" placeholder="숫자 6자리" style="margin-left: 20px;"> 
+				<input type="button" id="check_user_number_button" value="인증번호 확인" disabled="disabled" onclick="check_user_sixnumber(this.form);" style="background: #0F67B1; color: white; cursor: pointer;">
+				<span id="check_user_number_msg" style="margin-left: 30px; color: gray">발송받은 인증번호를 입력하여 주십시오.</span> <br>
+				<span id="user_check_timer_msg" style="margin-left: 30px;"></span>
 				
 				<br>
-				<input type="button" value="취소" onclick="close_user_self(this.form);">
+				<input type="button" value="취소" onclick="close_user_self(this.form);" style="margin: 10px 100px; width: 300px; height: 30px; background: black; color: white; cursor: pointer;">
 				
 			</form>
 	</body>

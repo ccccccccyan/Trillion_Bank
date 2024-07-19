@@ -686,9 +686,15 @@
 			sixnumber = 0;
 			user_check_timer_min = 2;
 			user_check_timer_sec = 30;
+			document.getElementById("user_tel_check_button").value="인증하기"; 
 			document.getElementById("user_check_timer_msg").innerHTML = "";
+			
+			document.getElementById("check_user_tel_msg").innerHTML = "계정에 등록되어 있는 전화번호를 입력하여 주십시오";
+			document.getElementById("check_user_tel_msg").style.color = "gray";
+			
 			let user_check_background = document.getElementById("user_check_background");
 			user_check_background.style.display = "none";
+			
 		}
 	</script>
 	
