@@ -621,11 +621,31 @@
 
 				}else{
 					alert("진행 실패");
+					
+					let param = "&account_number="+f.exchange_choice_account.value;
+					let url ="exchange_pwd_lockcnt.do";
+					
+					sendRequest(url, param,	exchange_pwd_lockcnt, "post");
+					
 				}
 				
 			}
 		}
 		
+		function exchange_pwd_lockcnt() {
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				console.log(f.exchange_choice_type.value);
+				//"[{'result':'yes'}]"
+				let data = xhr.responseText;
+				alert(data);
+				
+				let json = ( new Function('return '+data) )();
+				
+				if( json[0].result == 'clear'){
+					location.href = 'rate_inquiry.do';
+				}
+			}
+		}
 
 		
 		let exchange_to_kr = "no";
