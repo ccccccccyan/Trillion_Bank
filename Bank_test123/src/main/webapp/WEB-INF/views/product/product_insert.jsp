@@ -7,16 +7,16 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
      <style>
-        body {
+         body {
            display: flex;
            justify-content: center;
            align-items: center;
-           height: 70vh;
+           height: 100vh;
            margin: 0;
            font-family: Arial, sans-serif;
            background-color: #f0f0f0;
         }
-        #container {
+        #container, #form-container {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -35,7 +35,7 @@
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
+         .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
@@ -47,28 +47,9 @@
             overflow-y: auto;
             white-space: pre-line;
         }
-        .agree-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 520px;
-        }
-        .agree-button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        #form-container {
-        	position: absolute;
-        	top: 230px;
-        
-            width: 500px;
-            display: none;
-        }
         .options-tax {
             display: flex;
+            justify-content: space-between;
         }
         .option {
             text-align: center;
@@ -76,8 +57,9 @@
             border: 1px solid #ccc;
             cursor: pointer;
             position: relative;
-            width: 100px;
-            margin: 20px;
+            width: 30%;
+            margin: 10px 0;
+            border-radius: 5px;
         }
         .option:hover {
             background-color: #f0f0f0;
@@ -93,7 +75,7 @@
         }
         .tooltiptext {
             visibility: hidden;
- 			width: 290px;                 
+            width: 290px;
             background-color: #555;
             color: #fff;
             text-align: center;
@@ -102,8 +84,8 @@
             position: absolute;
             z-index: 1;
             bottom: 125%;
-            left: 25%;
-            margin-left: -60px;
+            left: 50%;
+            margin-left: -145px;
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -117,16 +99,53 @@
             border-style: solid;
             border-color: #555 transparent transparent transparent;
         }
-        .detail-tax {
-        	background: #555;
-        	border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
+        .option:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        h4 {
+            margin-bottom: 10px;
+        }
+        select, input[type="text"], input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="password"]{
+        	width: 497px;
+        	padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .agree-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        #limit_money, #rate_viewtable {
+            display: none;
+        }
+        #
+        #detail-tax {
+            cursor: pointer;
+            color: #007bff;
+        }
+        #account_nowmoney{
+        	color: gray;
         }
     </style>
- 
- 
-    <script>
+ 	<script>
         const terms = {
             1: '<h2>예금거래 기본약관</h2><h3>제1장 총칙</h3><h3>&nbsp제1조 (목적)</h3>본 약관은 일조은행(이하 "본 은행"이라 한다)과 고객 간의 예금 거래에 관한 제반 사항을 규정함으로써, 거래의 명확성 및 투명성을 확보함을 목적으로 한다.<h3>&nbsp제2조 (용어의 정의)</h3>"예금"이라 함은 고객이 본 은행에 금전을 예치하고 본 은행이 이를 수취하는 것을 말한다.\n"고객"이라 함은 본 은행과 예금 거래를 하는 개인 또는 법인을 말한다.\n"본 은행"이라 함은 본 약관에 따라 예금 거래를 수행하는 금융기관을 말한다.<h3>&nbsp제3조 (약관의 효력 및 변경)</h3>본 약관은 본 은행과 고객 간의 예금 거래에 적용된다.\n본 은행은 필요한 경우 본 약관을 변경할 수 있으며, 변경된 약관은 본 은행의 영업점 및 인터넷 홈페이지에 게시함으로써 효력이 발생한다.고객이 변경된 약관에 동의하지 않는 경우, 고객은 예금을 해지할 수 있다.<h3>제2장 예금의 개설 및 관리</h3><h3>&nbsp제4조 (예금의 개설)</h3>예금을 개설하고자 하는 고객은 본 은행이 정한 절차에 따라 계좌 개설 신청서를 제출하여야 한다.\n본 은행은 필요 시 고객에게 신원 확인을 위한 서류를 요구할 수 있다.<h3>&nbsp제5조 (예금의 관리)</h3>고객은 본 은행의 지시에 따라 예금을 관리하여야 하며, 예금의 입출금 및 잔액 조회는 본 은행이 정한 방법에 따른다.\n본 은행은 고객의 예금을 안전하게 관리할 의무가 있으며, 고객의 요청에 따라 예금 관련 정보를 제공한다.<h3>제3장 예금의 입금 및 출금</h3><h3>&nbsp제6조 (입금)</h3>고객은 본 은행이 정한 방법에 따라 예금을 입금할 수 있다.\n입금된 금액은 본 은행이 확인한 시점부터 예금으로 인정된다.<h3>&nbsp제7조 (출금)</h3>고객은 본 은행이 정한 방법에 따라 예금을 출금할 수 있다.\n본 은행은 고객의 신원 확인을 위해 출금 시 필요한 서류를 요구할 수 있다.<h3>제4장 예금의 해지 및 정산</h3><h3>&nbsp제8조 (예금의 해지)</h3>고객은 본 은행이 정한 절차에 따라 예금을 해지할 수 있다.\n예금 해지 시 본 은행은 고객에게 예금 잔액을 지급한다.<h3>&nbsp제9조 (예금의 정산)</h3>예금이 해지된 경우, 본 은행은 해지일까지의 이자를 포함한 예금 잔액을 고객에게 지급한다.\n본 은행은 예금 해지 시 발생하는 수수료를 공제할 수 있다.<h3>제5장 기타</h3>\n<h3>&nbsp제10조 (면책사항)</h3>\n본 은행은 천재지변, 전쟁, 테러, 정부의 명령 등 불가항력적인 사유로 인한 예금 거래의 지연 또는 불이행에 대해 책임지지 않는다.<h3>&nbsp제11조 (분쟁 해결)</h3>\n본 은행과 고객 간의 예금 거래로 인한 분쟁은 본 은행의 본점 소재지를 관할하는 법원을 제1심 관할 법원으로 한다.',
             2: '<h2>제1장: 예금의 종류</h2><h3>제1조 (예금의 정의)</h3>\n일조은행은 다양한 종류의 예금을 제공합니다. 예금이란 고객이 일조은행에 자금을 예치하고 이를 일정 기간 동안 보관하며, 그에 따른 금융서비스를 제공받을 수 있는 금융상품을 말합니다.<h3>제2조 (예금의 종류)</h3>예금의 종류는 다음과 같습니다.가. 보통예금: 일조은행에 예치한 금액을 언제든지 인출할 수 있는 예금으로, 일반적인 금융거래에 사용됩니다.나. 적금: 정기적으로 일정 금액을 예치하고 이에 대해 정해진 기간 동안 일정한 이자를 지급받을 수 있는 예금으로, 장기적인 금융 계획에 유리합니다.다. 예적금: 일정 기간 동안 예치한 금액에 대해 미리 약정된 금리를 적용받는 예금으로, 안정적인 이자 수익을 추구하는 고객에게 적합합니다.<h3>제3조 (예금의 이자율)</h3>\n예금의 종류에 따라 적용되는 이자율은 일조은행의 정책에 따라 다를 수 있으며, 고객은 이를 언제든지 확인할 수 있습니다.<h3>제4조 (예금의 인출 및 해지)</h3>예금의 인출 및 해지는 일조은행의 영업점에서 신분증을 제시하여 가능합니다. 단, 일부 예금 상품에는 일정 기간 후에 해지할 수 있는 조건이 존재할 수 있습니다.<h3>제2장: 예금의 운용</h3><h3>제5조 (예금의 운용)</h3>예금의 운용은 고객의 요구에 따라 다양한 금융서비스를 제공합니다. 예금에 대한 잔액 조회, 이체, 자동이체 등의 서비스를 무료로 제공합니다.<h3>제6조 (예금의 보호)</h3>\n일조은행은 금융감독원의 지침에 따라 예금을 보호하고 있으며, 법적으로 정해진 보호대상에 포함됩니다.<h3>제3장: 기타</h3><h3>제7조 (약관의 변경)</h3>\n일조은행은 필요한 경우 본 약관을 변경할 수 있으며, 변경 사항은 고객에게 사전에 공지합니다.<h3>제8조 (분쟁의 해결)</h3>예금거래에 관한 분쟁이 발생할 경우, 일조은행과 고객은 상호 협의하여 원만히 해결하도록 합니다. 해결이 어려운 경우, 관련 법령과 일조은행의 내부규정에 따라 해결합니다.',
@@ -203,12 +222,10 @@
         	 
              if (element) {
                  element.classList.toggle('active');
-             } else {
-                 console.error('Element not found: ' + optionId);
              }
         	
              // 'tax-favored' 또는 'non-taxable' 옵션을 클릭할 때 limit_money를 보이게 함
-             if (optionId === 'tax-favored' || optionId === 'non-taxable') {
+             if (optionId == 'tax-favored' || optionId == 'non-taxable') {
                  document.getElementById('limit_money').style.display = 'block';
              } else {
                  document.getElementById('limit_money').style.display = 'none';
@@ -251,7 +268,7 @@
 
             // 예시: 선택된 계좌의 정보를 출력
             let account_nowmoney = document.getElementById("account_nowmoney");
-            account_nowmoney.innerHTML = "현재 잔액: " + nowMoney;
+            account_nowmoney.innerHTML = "현재 잔액: " + nowMoney + "원";
                     
         }
         function rate_view() {
@@ -262,8 +279,44 @@
                 table.style.display = "none"; // 테이블 요소를 숨기도록 설정
             }
 		}
+        function insert_product(f) {
+        	let taxFavored = document.getElementById('tax-favored').classList.contains('active');
+            let taxable = document.getElementById('taxable').classList.contains('active');
+            let nonTaxable = document.getElementById('non-taxable').classList.contains('active');
+            let now_money = f.accountSelect.value;
+            let input_Pwd = f.input_pwd.value;
+            let productPeriod = f.product_period.value;
+            let inputDealMoney = f.input_deal_money.value;
+            let maturity = f.maturity.value;
+			let tax_type = "";
+			let selectElement = document.getElementById('accountSelect');
+            // 선택된 option 요소를 가져옵니다.
+            let selectedOption = selectElement.options[selectElement.selectedIndex];
+            // 선택된 option의 id 속성을 가져옵니다.
+            let selectedAccountNumber = selectedOption.id;
+        	
+            if(taxFavored){
+            	tax_type = "세금우대";
+            }else if(taxable){
+            	tax_type = "과세";
+            }else{
+            	tax_type = "비과세";
+            }
+            
+            
+            
+            // 예시: 폼 값 출력
+            console.log("tax_type: " + tax_type);
+            
+            console.log("now_money: " + now_money);
+            console.log("Password: " + input_Pwd);
+            console.log("Product Period: " + productPeriod);
+            console.log("Deal Money: " + inputDealMoney);
+            console.log("Maturity: " + maturity);
+            console.log("account_number: " + selectedAccountNumber);
+		}
         
-    </script>
+    </script>	
 </head>
 <body>
 	
@@ -293,10 +346,10 @@
             <input type="checkbox" class="term-check" id="term6" onclick="updateAgreeButton()"> 확인 [필수] <button onclick="showTerm(6)">보기</button>
         </div>
         <br><br>
-        <button id="agreeButton" class="agree-button" disabled onclick="showForm()">동의</button>
+        <input type="button" value="동의" id="agreeButton" class="agree-button" disabled onclick="showForm()">
     </div>
 
-    <div id="form-container">
+    <div id="form-container" style="display: none">
         <form>
             <h4>세금우대한도 조회 및 설정</h4>
             <div class="options options-tax">
@@ -333,12 +386,13 @@
             <select id="accountSelect" onchange="showAccountDetails()">
                 <option value="">계좌를 선택하세요</option>
                 <c:forEach var="vo" items="${list}">
-                    <option value="${vo.now_money}">
+                    <option value="${vo.now_money}" id="${vo.account_number}">
                         ${vo.bank_name} ${vo.account_number}
                     </option>
                 </c:forEach>
-            </select>
+            </select>     
                 <div id="account_nowmoney"></div>
+                
                 <h4>출금계좌 비밀번호</h4>
                 <input type="password" name="input_pwd" maxlength="4" placeholder="숫자 4자리 입력">
                 <h4>계약일자</h4>
@@ -387,12 +441,12 @@
                 <h4>계약금액</h4>
                 <input name="input_deal_money" placeholder="금액 입력(숫자입력)">원
                 <h4>만기시 자동해지 설정</h4>
-                <input type="radio" id="no-auto-maturity" name="maturity" value="no-auto-maturity">
+                <input type="radio" id="no-auto-maturity" name="maturity" value="자동해지설정안함">
 			    <label for="no-auto-maturity">설정안함</label>
 			    
-			    <input type="radio" id="auto-maturity" name="maturity" value="auto-maturity">
+			    <input type="radio" id="auto-maturity" name="maturity" value="자동해지설정">
 			    <label for="auto-maturity">설정</label><br>
-                
+                <input type="button" value="가입하기" onclick="insert_product(this.form);">
         </form>
     </div>
 
