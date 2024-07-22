@@ -26,8 +26,8 @@ public class UserDAO {
 	}
 
 	// 아이디로 회원정보 찾기
-	public UserVO check_id(String user_id) {
-		UserVO vo = sqlSession.selectOne("u.select_one", user_id);
+	public UserVO check_id(String user_tel) {
+		UserVO vo = sqlSession.selectOne("u.select_one_2", user_tel);
 		return vo;
 	}
 
