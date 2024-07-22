@@ -83,7 +83,7 @@ body {
 <title>비밀번호 변경</title>
 <script>
 		function send(f) {
-			let user_id = f.user_id.value;
+			let user_tel = f.user_tel.value;
 			let user_pwd = f.user_pwd.value;
 			let user_pwd_check = f.user_pwd_check.value;
 			
@@ -94,7 +94,7 @@ body {
 				alert("8~16자의 비밀번호를 입력하여주십시오.");
 				return;
 			}else {
-				location.href = "change_pwd_final.do?user_id=" + user_id + "&user_pwd=" + user_pwd;
+				location.href = "change_pwd_final.do?user_tel=" + user_tel + "&user_pwd=" + user_pwd;
 				alert("비밀번호 변경완료!")
 			}
 			
@@ -117,7 +117,7 @@ body {
 	<div class="search">
 		<h2>FIND PASSWORD</h2>
 		<form name="f">
-			<input type="hidden" name="user_id" value="${user_id}"> <input
+			<input type="hidden" name="user_tel" value="${user_tel}"> <input
 				type="password" name="user_pwd" placeholder="변경할 비밀번호를 입력하여주십시오"><br>
 			<input type="password" name="user_pwd_check" placeholder="비밀번호 확인"><br>
 			<input type="button" value="비밀번호 변경" onclick="send(this.form)">
