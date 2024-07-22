@@ -567,12 +567,7 @@ public class AccountController {
 	@Transactional
 	@RequestMapping("exchange_account_insert.do")
 	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
-		System.out.println("exchange_frommoney : " + exchange_frommoney);
-		System.out.println("exchange_tomoney : " + exchange_tomoney);
-		System.out.println("exchange_choice_account : " + exchange_choice_account);
-		System.out.println("exchange_choice_type : " + exchange_choice_type);
 		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
-		
 		accountvo.setNow_money(accountvo.getNow_money() - exchange_frommoney);
 		
 		int res = account_dao.updateremittance(accountvo);
@@ -587,7 +582,6 @@ public class AccountController {
 		account_datailvo.setDeal_money(exchange_frommoney);
 		
 		account_dao.insertremittance(account_datailvo);
-		
 
 		Foreign_exchangeVO exchangevo = new Foreign_exchangeVO();
 		exchangevo.setUser_id(uservo.getUser_id());
@@ -595,8 +589,6 @@ public class AccountController {
 		exchangevo.setForegin_type(exchange_choice_type);
 		
 		Foreign_exchangeVO already_exchange = account_dao.exchange_selectone(exchangevo);
-	
-		
 		if(already_exchange == null){
 			account_dao.exchangeinsert(exchangevo);
 		}else {
