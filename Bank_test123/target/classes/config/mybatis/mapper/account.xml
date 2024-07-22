@@ -96,6 +96,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update ACCOUNT_LIST set account_color = #{account_color} where account_number = #{account_number}
 	</update>
 	
+	<select id="bankname_list" resultType="account" parameterType="java.util.Map">
+		select * from account_list where user_id = #{user_id} and bank_name = #{bank_name}
+	</select>
+	
+	<select id="user_productlist" resultType="product" parameterType="String">
+		select * from deposit_products where user_id = #{user_id}
+	</select>
+	
 </mapper>
 
 

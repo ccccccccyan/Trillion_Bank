@@ -28,6 +28,7 @@ import service.SmsService;
 import vo.AccountVO;
 import vo.AccountdetailVO;
 import vo.NoticeVO;
+import vo.ProductVO;
 import vo.QnaVO;
 import vo.RateboardVO;
 import vo.UserVO;
@@ -506,7 +507,49 @@ public class AccountController {
 	}
 	@RequestMapping("product.do")
 	public String product() {
-		return Common.Account.VIEW_PATH_AC + "product.jsp";
+		return Common.Product.VIEW_PATH_PR + "product.jsp";
+	}
+	
+	@RequestMapping("regular_deposit.do")
+	public String deposit(int idx) {
+		if(idx == 1) {
+		return Common.Product.VIEW_PATH_PR + "regular_deposit.jsp";
+		}else {
+			return Common.Product.VIEW_PATH_PR + "regular_deposit2.jsp";
+		}
+	}
+	@RequestMapping("product_insert.do")
+	public String p_insert(Model model) {
+		if(session.getAttribute("user_id") == null) {
+			return Common.Product.VIEW_PATH_PR + "no_user.jsp";
+		}
+		
+		String user_id = (String)session.getAttribute("user_id");
+		String bankname = "일조";
+		int limit_money = 30000000;
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("user_id", user_id);
+		map.put("bank_name", bankname);
+		List<AccountVO> list = account_dao.bankname_List(map);
+		
+		List<ProductVO> plist = account_dao.user_productList(user_id);
+		
+		if(plist == null || plist.isEmpty()) {
+			model.addAttribute("limit_money", limit_money);
+		}else {
+			for(int i = 0; i < plist.size(); i++) {
+				limit_money -= plist.get(i).getSaving_money();
+			}
+			model.addAttribute("limit_money", limit_money);
+		} 	
+		
+		if(list == null || list.isEmpty() ) {
+			return Common.Product.VIEW_PATH_PR + "no_bank.jsp";
+		}else {
+			model.addAttribute("list", list);
+			return Common.Product.VIEW_PATH_PR + "product_insert.jsp";
+		}
 	}
 	
 	@RequestMapping("/account_pwd_update.do")

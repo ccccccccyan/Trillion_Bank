@@ -581,7 +581,6 @@ public class BankController {
         System.out.println("인증 번호: " + sixNumber);
         
 //		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
-//		sms.push_smsService("01032652508", user_tel);		
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import common.Common;
 import vo.AccountVO;
 import vo.AccountdetailVO;
+import vo.ProductVO;
 import vo.RateVO;
 import vo.UserVO;
 
@@ -43,6 +44,12 @@ public class AccountDAO {
 		return res;	
 	}
 	
+	public List<ProductVO> user_productList(String user_id){
+		List<ProductVO> list = sqlSession.selectList("ac.user_productlist", user_id);
+		return list;
+	}
+	
+	
 	public UserVO user_selectOne(String user_id) {
 		UserVO vo = sqlSession.selectOne("ac.user_info", user_id);
 		return vo;
@@ -69,6 +76,11 @@ public class AccountDAO {
 	public List<AccountdetailVO> search_detailaccountlist(Map<String, Object> map){
 		List<AccountdetailVO> searchaccount_list = sqlSession.selectList("ac.searchdetailaccount_list", map);
 		return searchaccount_list;
+	}
+	
+	public List<AccountVO> bankname_List(Map<String, String> map){
+		List<AccountVO> bankname_list = sqlSession.selectList("ac.bankname_list", map);
+		return bankname_list;
 	}
 	
 	// 해당 숫자를 포함하는 계좌 번호 추가

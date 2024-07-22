@@ -24,6 +24,10 @@ public class Common {
 	public static class Header {
 		public static final String VIEW_PATH_HD = "/WEB-INF/views/header/";
 	}
+	public static class Product {
+		public static final String VIEW_PATH_PR = "/WEB-INF/views/product/";
+	}
+	
 	
 public static class Notice{ //클래스 안의 클래스. 내부 클래스
 		
