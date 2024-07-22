@@ -604,6 +604,17 @@ public class AccountController {
 		return "redirect:rate_inquiry.do";
 	}
 	
+	//자주묻는질문
+	@RequestMapping("faq.do")
+	public String faq() {
+		return Common.Header.VIEW_PATH_HD + "faq.jsp";
+	}
+
+	//개인정보 처리방침
+	@RequestMapping("privacy.do")
+	public String privacy() {
+		return Common.Header.VIEW_PATH_HD + "privacy.jsp";
+	}
 	
 	//이용약관
 	@RequestMapping("terms.do")

@@ -2,10 +2,16 @@ package vo;
 
 public class ProductVO {
 	private int productaccount_idx, saving_money;
-    private String account_productname, account_number, products_period, products_date, endproducts_date;
+    private String user_id, account_productname, account_number, products_period, products_date, endproducts_date;
     private double products_rate, products_tax ,products_deal_money;
 
-    public int getProductaccount_idx() {
+    public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public int getProductaccount_idx() {
 		return productaccount_idx;
 	}
 	public void setProductaccount_idx(int productaccount_idx) {
