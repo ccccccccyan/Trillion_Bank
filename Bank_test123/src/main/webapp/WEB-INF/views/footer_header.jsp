@@ -22,13 +22,14 @@
   
 		  <div class="footer-section footer-locations">
 		    <h3>지점 및 ATM 위치</h3>
-		    <a href="/locations">지점 찾기</a> | <a href="/atm">ATM 위치 찾기</a>
+		    <a href="guide.do">지점 찾기</a> | <a href="guide.do">ATM 위치 찾기</a>
 		  </div>
 		  
 		  <div class="footer-section footer-hours">
 		    <h3>영업 시간</h3>
-		    <p>월-금: 9:00 - 18:00</p>
-		    <p>토-일: 휴무</p>
+		    <p>월-금 : 9:00 - 18:00</p>
+		    <p>토-일 : 휴무</p>
+		    <p>점검 시간 : 23:50~00:30</p>
 		  </div>
 		  
 		  <div class="footer-section footer-social">
@@ -38,12 +39,12 @@
 		  
 		  <div class="footer-section footer-service">
 		    <h3>고객 서비스</h3>
-		    <a href="/faq">자주 묻는 질문</a> | <a href="/support">온라인 상담</a> | <a href="/chatbot">챗봇</a>
+		    <a href="faq.do">자주 묻는 질문</a> | <a href="/support">온라인 상담</a> | <a href="/chatbot">챗봇</a>
 		  </div>
 		  
 		  <div class="footer-section footer-security">
 		    <h3>정보 보호 및 보안</h3>
-		    <a href="/privacy">개인정보 처리방침</a> | <a href="/security">보안 공지사항</a>
+		    <a href="privacy.do">개인정보 처리방침</a> | <a href="/security">보안 공지사항</a>
 		  </div>
 		  
 		  <div class="footer-section footer-legal">
