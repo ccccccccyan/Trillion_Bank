@@ -174,12 +174,14 @@
 				if(!onlynumber.test(f.user_tel.value)){
 					document.getElementById("check_user_tel_msg").innerHTML = "유효한 형식의 전화 번호는 숫자 11자리 입니다.";
 					document.getElementById("check_user_tel_msg").style.color = "red";
+					f.user_tel_check_button.disabled = true;
 					return;
 				}
 				
 				// 인증번호 폼 초기화
 				document.getElementById("check_user_tel_msg").innerHTML = "계정에 등록되어 있는 전화번호를 입력하여 주십시오";
 				document.getElementById("check_user_tel_msg").style.color = "gray";
+				f.user_tel_check_button.disabled = false;
 				
 				document.getElementById("user_tel_check_button").value="인증하기"; 
 				document.getElementById("user_check_timer_msg").innerHTML = "";
@@ -198,7 +200,7 @@
 				<h3 style="margin: 10px auto; width: 160px;">본인인증 진행중...</h3>
 				<label for="check_user_tel" style="margin-left: 20px;">전화번호 : </label> 
 				<input name="user_tel" id="check_user_tel" oninput="again_user_tel(this.form);" style="margin-left: 20px;"> 
-				<input type="button" id="user_tel_check_button" value="인증하기" onclick="check_user_self(this.form);" style="background: #0F67B1; color: white; cursor: pointer;"> <br>
+				<input type="button" id="user_tel_check_button" value="인증하기" onclick="check_user_self(this.form);" disabled="disabled" style="background: #0F67B1; color: white; cursor: pointer;"> <br>
 				<span id="check_user_tel_msg" style="margin-left: 30px; color: gray">계정에 등록되어 있는 전화번호를 입력하여 주십시오</span> <br>
 				<br>
 				

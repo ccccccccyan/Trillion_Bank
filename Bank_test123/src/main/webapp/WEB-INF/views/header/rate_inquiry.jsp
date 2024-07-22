@@ -91,6 +91,8 @@
 					}else{
 						exchange_money_type.value = tts_option[0];
 						console.log(exchange_money_type.value + "12312");
+						document.getElementById("exchange_choice_type").value = exchange_money_type.options[0].innerHTML;
+						console.log(document.getElementById("exchange_choice_type").value + "-----------");
 					}
 				}
 			}//for------------
@@ -107,7 +109,10 @@
 		
 		
 		function call_fetch(period, cur_nm_select) {
-			  
+			 
+			console.log("period " + period);
+			console.log("cur_nm_select " + cur_nm_select);
+			
 	        fetch("list.do?period=" + period + "&cur_nm_select="+cur_nm_select) 
 	        	// 가져온 데이터를 json 객체로 반환
 	            .then(response => {
@@ -294,17 +299,12 @@
 		
 		function cur_nm_selectedFn() {
 			clearInterval(intervaled); // setInterval 작업 멈추기
-			let cur_nm_selected = document.getElementById("cur_nm_selected").value;
+			let cur_nm_selected = document.getElementById("cur_nm_selected");
+
+			let selectedType = cur_nm_selected.options[cur_nm_selected.selectedIndex].value; 
 			let period = document.getElementById("period_select").value;
-			cur_nm_select = cur_nm_selected;
 			
-			for(let i = 0; i < cur_unit_select.length; i++){
-				if(cur_unit_select[i] == cur_nm_selected){
-					console.log(cur_unit_select[i] +" == "+ cur_nm_selected);
-					call_fetch(period, cur_nm_select);
-					break;
-				}
-			}
+			call_fetch(period, selectedType);
 			
 		}
 		
@@ -484,42 +484,44 @@
 				let user_account_list = document.getElementById("user_account_list");
 				let user_account = user_account_list.options[user_account_list.selectedIndex].innerHTML.split(" ");
 				let exchange_choice_account = document.getElementById("exchange_choice_account");
-				let exchange_money_button = document.getElementById("exchange_money_button");
 			
 			if( user_account_list.value == 'no'){	
 				user_account_warn_msg.innerHTML = "계좌를 선택해주세요";
 				user_account_warn_msg.style.color = "red";
-				exchange_money_button.disabled = true;
+				f.exchange_money_button.disabled = true;
 				exchange_choice_account.value = "";
 				
 			}else if(user_account_list.value == 'lockcnt'){
 				user_account_warn_msg.innerHTML = "해당 계좌는 사용이 불가합니다.";
 				user_account_warn_msg.style.color = "red";
-				exchange_money_button.disabled = true;
+				f.exchange_money_button.disabled = true;
 				exchange_choice_account.value = "";
+			}else if(f.exchange_frommoney.value != '' && f.exchange_tomoney.value != '' && f.user_check_account_pwd.value != ''){
+				user_account_warn_msg.innerHTML = "";
+				f.exchange_money_button.disabled = false;
+				exchange_choice_account.value = user_account[0];
 			}else{
 				user_account_warn_msg.innerHTML = "";
-				exchange_money_button.disabled = false;
 				exchange_choice_account.value = user_account[0];
 			}
-			
-			f.exchange_tomoney.value = "";
-			f.exchange_frommoney.value = "";
 		}
 		
 		//환전하실 금액
 		function exchange_formmoney_input(f) {
+			let user_account_list = document.getElementById("user_account_list");
 			let exchange_money_type = document.getElementById("exchange_money_type");
 			let exchange_type_option = exchange_money_type.options[exchange_money_type.selectedIndex];
 			
 			let exchange_frommoney = f.exchange_frommoney.value;
 			let onlynumber = /^[0-9]+$/;
+			let exchange_tomoney_msg = document.getElementById("exchange_tomoney_msg");
 			let exchange_frommoney_msg = document.getElementById("exchange_frommoney_msg");
 			
 			// 입력 값이 비어있을 경우
 			if (!exchange_frommoney) {
 				f.exchange_tomoney.value = "";
 				exchange_frommoney_msg.innerHTML = "";
+				f.exchange_money_button.disabled = true;
 				return;
 			}
 			
@@ -527,11 +529,11 @@
 			if (!onlynumber.test(exchange_frommoney)) {
 				exchange_frommoney_msg.innerHTML = "숫자만 입력해주세요.";
 				exchange_frommoney_msg.style.color = "red";
+				f.exchange_money_button.disabled = true;
 				return;
 			}
-			
+			exchange_tomoney_msg.innerHTML = "";
 			exchange_frommoney_msg.innerHTML = "";
-			
 			// 예외 환전 계산
 			if(exchange_type_option.innerHTML == '인도네시아 루피아' || exchange_type_option.innerHTML == '일본 옌' ){
 				f.exchange_tomoney.value = Math.round((f.exchange_frommoney.value / exchange_type_option.value * 100).toFixed(3));
@@ -540,6 +542,9 @@
 				f.exchange_tomoney.value = Math.round((f.exchange_frommoney.value / exchange_type_option.value).toFixed(3));
 			}
 			
+			if(user_account_list.value != 'no' && user_account_list.value != 'lockcnt' && f.user_check_account_pwd.value != ''){
+				f.exchange_money_button.disabled = false;
+			}
 		}
 		
 		//환전받으실 금액
@@ -550,11 +555,13 @@
 			let exchange_tomoney = f.exchange_tomoney.value;
 			let onlynumber = /^[0-9]+$/;
 			let exchange_tomoney_msg = document.getElementById("exchange_tomoney_msg");
+			let exchange_frommoney_msg = document.getElementById("exchange_frommoney_msg");
 			
 			// 입력 값이 비어있을 경우
 			if (!exchange_tomoney) {
 				f.exchange_frommoney.value = "";
 				exchange_tomoney_msg.innerHTML = "";
+				f.exchange_money_button.disabled = true;
 				return;
 			}
 			
@@ -562,9 +569,11 @@
 			if (!onlynumber.test(exchange_tomoney)) {
 				exchange_tomoney_msg.innerHTML = "숫자만 입력해주세요.";
 				exchange_tomoney_msg.style.color = "red";
+				f.exchange_money_button.disabled = true;
 				return;
 			}
 			
+			exchange_tomoney_msg.innerHTML = "";
 			exchange_frommoney_msg.innerHTML = "";
 			
 			// 예외 환전 계산
@@ -573,6 +582,10 @@
 
 			}else{
 				f.exchange_frommoney.value = Math.round((f.exchange_tomoney.value * exchange_type_option.value).toFixed(3));
+			}
+
+			if(user_account_list.value != 'no' && user_account_list.value != 'lockcnt' && f.user_check_account_pwd.value != ''){
+				f.exchange_money_button.disabled = false;
 			}
 			
 		}
@@ -632,8 +645,6 @@
 					f.submit();
 
 				}else{
-
-					alert("비밀번호가 일치하지 않습니다.");
 					
 					//account_pwd = 아래의 pwd, account_number = 계좌번호. (hidden으로 넣어지는 것이다.)
 					let param = "account_number="+f.exchange_choice_account.value;
@@ -654,7 +665,11 @@
 				let data = xhr.responseText;
 				let json = ( new Function('return '+data) )();
 				
-				if( json[0].result == 'clear' ){
+				if( json[0].result == 'clear' && json[0].pwd_lockcnt < 5 ){
+					alert("비밀번호가 일치하지 않습니다. 비밀번호 불일치 횟수 ( "+json[0].pwd_lockcnt+" / 5 )");
+					location.href = "rate_inquiry.do";
+				}else if( json[0].result == 'clear' && json[0].pwd_lockcnt == 5 ){
+					alert("비밀번호가 불일치 5회로 해당 계좌는 사용할 수 없습니다.");
 					location.href = "rate_inquiry.do";
 				}
 			}
@@ -698,20 +713,26 @@
 		
 
 		// user_check_account_pwd 유저의 계좌 비밀번호 체크 oninput
-		function UserChkAcntPwd(f){
+		function userChkAcntPwd(f){
+			let user_account_list = document.getElementById("user_account_list");
 			let userPwd = f.user_check_account_pwd.value;
 
 			let check_value = "no"; //입력한 값이 유효한지 아닌지
 			
 			// 숫자 여러 개를 허용하는 정규표현식
-			let onlynumber = /^[0-9]+$/; //만약 /^[0-9]$/; 이면 숫자 딱 하나만! 허용한다는 말임.
+			let onlynumber = /^[0-9]{4}$/; //만약 /^[0-9]$/; 이면 숫자 딱 하나만! 허용한다는 말임.
 			let userPwd_msg = document.getElementById("userPwd_msg");
 			
-			if( !onlynumber.test(userPwd) ){
-				userPwd_msg.innerHTML = "숫자만 입력!!!";
+			if( !onlynumber.test(userPwd) || userPwd == ''){
+				userPwd_msg.innerHTML = "유효한 비밀번호는 숫자 4자리입니다.";
 				userPwd_msg.style.color = "red";
 				check_value = "no";
+				f.exchange_money_button.disabled = true;
 				return;
+			}
+
+			if(user_account_list.value != 'no' && user_account_list.value != 'lockcnt' && f.exchange_frommoney.value != '' && f.exchange_tomoney.value != ''){
+				f.exchange_money_button.disabled = false;
 			}
 			
 			// 조건에 맞으면 경고 메세지를 지움.
@@ -722,8 +743,15 @@
 		
 		//전일대비 (비회원, 관리자만 보여주기)
 		function compared_to_last_day() {
+			
+			// 이미 전일대비 환율이 배치되어 있을 경우
+	 		let last_day_compared_already = document.querySelectorAll('.last_day_compared');
+	 		if (last_day_compared_already.length > 0) {
+	 			return;
+	 		}
+			
+			
 			let compared_to_last_day_rate = document.getElementById("compared_to_last_day_rate");
-						console.log("aaaa : " + cur_unit_select);
 			
 			let show_rate_Compared = ["일본 옌", "미국 달러", "유로", "영국 파운드", "홍콩 달러"];
 			
@@ -857,7 +885,7 @@
 		#exchange_form{position: absolute;
 					 margin-top: 20px;
 					 width: 395px;
-					 height: 155px; 
+					 height: 185px; 
 					 background: white;
 					 border-bottom: 1px solid #e6e6e6;
 					 border-top: 1px solid #e6e6e6;
@@ -897,26 +925,26 @@
 		
 		#exchange_frommoney{width: 123px; 
 							position: absolute; 
-							top: 77px; 
+							top: 87px; 
 							left: 30px;}
 																										   		 				 
 		#exchange_tomoney{width: 123px; 
 						 position: absolute; 
-						 top: 77px; 
+						 top: 87px; 
 						 left: 225px;}	
 		
 		#exchange_money_type{position: absolute; 
-							top: 55px; 
+							top: 65px; 
 							right: 34px;}	
 		
 		#user_check_account_pwd{width: 90px; 
 								position: absolute; 
-								left: 150px; 
-								top: 113px;}	
+								left: 160px; 
+								top: 133px;}	
 															 																		   		 				 
 		#exchange_money_button{position: absolute; 
-								top: 110px; 
-								right: 50px; 
+								top: 130px; 
+								right: 40px; 
 								width: 90px; 
 								height: 25px;}
 								
@@ -1030,19 +1058,19 @@
 				</select>
 				
 				<input name="exchange_frommoney" id="exchange_frommoney" placeholder="환전하실 금액" oninput="exchange_formmoney_input(this.form);">
-				<span id="exchange_frommoney_msg" style="font-size: 13px; position: relative; left: 30px;"></span>
-				<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px">
+				<span id="exchange_frommoney_msg" style="font-size: 13px; position: absolute; left: 35px; top: 110px;"></span>
+				<img src="/bank/resources/img/exchange.png" style="width: 25px; height: 25px; position: absolute; left: 180px; top: 75px;">
 				<input name="exchange_tomoney" id="exchange_tomoney" placeholder="환전받으실 금액" oninput="exchange_tomoney_input(this.form);">
-				<span id="exchange_tomoney_msg" style="font-size: 13px; position: relative; left: 30px;"></span>
+				<span id="exchange_tomoney_msg" style="font-size: 13px; position: absolute; left: 230px; top: 110px;"></span>
 
 				<input name="exchange_choice_account" type="hidden" id="exchange_choice_account"> 
 				<input name="exchange_choice_type" type="hidden" id="exchange_choice_type"> 
 				
 				<select id="exchange_money_type" onchange="exchange_money_reset(this.form);" ></select> 
 				
-				<input name="user_check_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" maxlength="4" oninput="UserChkAcntPwd(this.form);" type="password"> 				
-				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" disabled="disabled">
-				<span id="userPwd_msg" style="font-size: 13px; position: relative; left: 30px; bottom: 10px;"></span>
+				<input name="user_check_account_pwd" id="user_check_account_pwd" placeholder="계좌 비밀번호" maxlength="4" oninput="userChkAcntPwd(this.form);" type="password"> 				
+				<input type="button" value="환전하기" onclick="exchange_account(this.form);" id="exchange_money_button" name="exchange_money_button" disabled="disabled">
+				<span id="userPwd_msg" style="font-size: 13px; position: absolute; left: 150px; bottom: 10px;"></span>
 				
 			</form>			
 			

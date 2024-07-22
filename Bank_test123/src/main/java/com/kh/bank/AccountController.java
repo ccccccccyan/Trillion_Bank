@@ -567,7 +567,10 @@ public class AccountController {
 	@Transactional
 	@RequestMapping("exchange_account_insert.do")
 	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
-		
+		System.out.println("exchange_frommoney : " + exchange_frommoney);
+		System.out.println("exchange_tomoney : " + exchange_tomoney);
+		System.out.println("exchange_choice_account : " + exchange_choice_account);
+		System.out.println("exchange_choice_type : " + exchange_choice_type);
 		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
 		
 		accountvo.setNow_money(accountvo.getNow_money() - exchange_frommoney);
@@ -660,7 +663,10 @@ public class AccountController {
 		int res = account_dao.lockcnt_update(vo);
 		
 		if (res > 0) {
-			return "[{'result':'clear'}]";
+			//비밀번호가 일치하므로, 삭제 form으로 이동
+			String res_lockcnt = 
+					String.format("[{'result':'clear', 'pwd_lockcnt': '%d'}]", vo.getAccount_lockcnt());
+			return res_lockcnt;
 		} else {
 			return "[{'result':'fail'}]";
 		}

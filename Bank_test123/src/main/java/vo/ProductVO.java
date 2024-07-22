@@ -2,7 +2,7 @@ package vo;
 
 public class ProductVO {
 	private int productaccount_idx, saving_money;
-    private String account_productname, account_number, products_period, products_date, endproducts_date;
+    private String user_id, account_productname, account_number, products_period, products_date, endproducts_date;
     private double products_rate, products_tax ,products_deal_money;
 
     public int getProductaccount_idx() {
