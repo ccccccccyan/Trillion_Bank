@@ -69,7 +69,7 @@ public class BankController {
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);
 		
 		
-		System.out.println("list_ok.size() : " + list_ok.size());
+		
 		if (list_ok.size() == 0) {
 			BankService bank = new BankService();
 			List<RateVO> list = bank.bank_serv(formattedDate);
@@ -188,8 +188,6 @@ public class BankController {
 	public String login_check(UserVO vo, Model model) {
 
 		UserVO X_User = user_dao.check(vo.getUser_id());
-		 System.out.println("입력된 비밀번호: " + vo.getUser_pwd());
-		 System.out.println("저장된 암호화된 비밀번호: " + X_User.getUser_pwd());
 		boolean isValid = Common.Secure_userPwd.decodePwd(vo, user_dao);
 		if (isValid) {
 			if ("unknown".equals(X_User.getUser_name())) {
@@ -348,8 +346,6 @@ public class BankController {
 	@RequestMapping(value = "/search_id2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String search_id2(UserVO vo) {
-		System.out.println(vo.getUser_tel() + " tel");
-		
 		// 중복된 user_id 확인
 		UserVO existingUser = user_dao.check_tel(vo.getUser_tel());
 		if (existingUser == null) {
@@ -387,7 +383,6 @@ public class BankController {
 	// 비밀번호 찾기 후 비밀번호 변경
 	@RequestMapping("/change_pwd.do")
 	public String change_pwd(@RequestParam("user_tel") String user_tel, Model model) {
-		System.out.println(user_tel);
 		model.addAttribute("user_tel", user_tel);
 		return Common.Bank.VIEW_PATH + "change_pwd.jsp";
 	}
@@ -397,7 +392,6 @@ public class BankController {
 	public String change_pwd_final(UserVO vo) {
 		String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
 		vo.setUser_pwd(encode_pwd);
-		System.out.println("암호화 비번1" + encode_pwd);
 		user_dao.update(vo);
 		return "redirect:/login.do";
 	}
@@ -472,7 +466,6 @@ public class BankController {
 	public String user_info_check(UserVO vo, Model model) {
 
 		boolean decode_pwd_check = Common.Secure_userPwd.decodePwd(vo, user_dao);
-		System.out.println("비밀번호 일치 결과 :" + decode_pwd_check);
 
 		if (decode_pwd_check) {
 			return "[{'result':'clear'}]";
@@ -500,7 +493,6 @@ public class BankController {
 		if (db_vo == null) {
 			return "[{'result':'clear'}]";
 		} else if (vo.getUser_id().equals(db_vo.getUser_id()) && !(db_vo == null)) {
-			System.out.println(vo.getUser_id() + " 1 " + db_vo.getUser_id());
 			return "[{'result':'clear'}]";
 		} else {
 			return "[{'result':'fail'}]";
@@ -569,7 +561,6 @@ public class BankController {
 	@RequestMapping("/user_self_check.do")
 	@ResponseBody
 	public String user_self_check( String user_tel ) {
-		System.out.println("user_tel : " + user_tel);
 		
         // 100000 이상 999999 이하의 6자리 숫자 생성
         int sixNumber = new Random().nextInt(900000) + 100000;
@@ -585,8 +576,6 @@ public class BankController {
 	@ResponseBody
 	public String user_tel_check( String user_tel, String search_user_id ) {
 		
-		System.out.println("user_tel : " + user_tel);
-		System.out.println("search_user_id : " + search_user_id);
 		UserVO vo = user_dao.check(search_user_id);
 		
 		if (vo.getUser_tel().equals(user_tel)) {

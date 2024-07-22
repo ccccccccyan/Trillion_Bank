@@ -525,6 +525,15 @@ public class AccountController {
 			return Common.Product.VIEW_PATH_PR + "regular_deposit2.jsp";
 		}
 	}
+	
+	@RequestMapping("installment_savings.do")
+	public String savings(int idx) {
+		if(idx == 1) {
+			return Common.Product.VIEW_PATH_PR + "installment_savings.jsp";
+		}else {
+			return Common.Product.VIEW_PATH_PR + "installment_savings.jsp";
+		}
+	}
 	@RequestMapping("product_insert.do")
 	public String p_insert(Model model) {
 		if(session.getAttribute("user_id") == null) {
