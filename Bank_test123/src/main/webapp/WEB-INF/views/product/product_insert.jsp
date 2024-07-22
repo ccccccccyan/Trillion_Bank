@@ -124,23 +124,18 @@
             background-color: #cccccc;
             cursor: not-allowed;
         }
-        /* 비활성화되지 않은 상태일 때의 호버 효과 */
-		.agree-button:not(:disabled):hover {
-		    background-color: #45a049; /* 호버 시 배경색 변경 */
-		}
         
+        /* 비활성화되지 않은 상태일 때의 호버 효과 */
+      .agree-button:not(:disabled):hover {
+          background-color: #45a049; /* 호버 시 배경색 변경 */
+      }
         
         input[type="button"] {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
         }
-        input[type="button"][name="agreeButton"]:hover {
-    		background-color: #cccccc; /* 호버 시 배경색 변경 */
-		}
-        
-        
-        input[type="button"][name="insert_product"]:hover {
+        input[type="button"]:hover {
             background-color: #45a049;
         }
         #limit_money, #rate_viewtable {

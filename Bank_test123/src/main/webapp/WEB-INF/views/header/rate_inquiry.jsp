@@ -792,7 +792,7 @@
 			</form>
 			
 			<!-- 비회원 또는 관리자가 아닌 사용자에게 보이는 외환 구매 form -->
-			<c:if test="${ not empty user_id && empty manager }">                     
+			<c:if test="${ not empty user_id && empty manager }">                      
 				<form id="exchange_form" >
 					<img src="/bank/resources/img/원화환전.png" id="exchange_user_type_icon" onclick="back_exchange();" >
 					<h3 id="exchange_money_header">원화 환전하기</h3>
