@@ -188,6 +188,8 @@ public class BankController {
 	public String login_check(UserVO vo, Model model) {
 
 		UserVO X_User = user_dao.check(vo.getUser_id());
+		 System.out.println("입력된 비밀번호: " + vo.getUser_pwd());
+		 System.out.println("저장된 암호화된 비밀번호: " + X_User.getUser_pwd());
 		boolean isValid = Common.Secure_userPwd.decodePwd(vo, user_dao);
 		if (isValid) {
 			if ("unknown".equals(X_User.getUser_name())) {
@@ -368,11 +370,11 @@ public class BankController {
 	@RequestMapping(value = "/search_pwd2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String search_pwd2(UserVO vo) {
-		UserVO existingUser = user_dao.check_id(vo.getUser_id());
+		UserVO existingUser = user_dao.check_id(vo.getUser_tel());
 		if (existingUser != null) {
 			try {
-				String res = String.format("[{'result':'clear', 'user_id':'%s', 'user_pwd':'%s'}]",
-						existingUser.getUser_id(), existingUser.getUser_pwd());
+				String res = String.format("[{'result':'clear', 'user_tel':'%s', 'user_pwd':'%s'}]",
+						existingUser.getUser_tel(), existingUser.getUser_pwd());
 				return res;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -384,9 +386,9 @@ public class BankController {
 
 	// 비밀번호 찾기 후 비밀번호 변경
 	@RequestMapping("/change_pwd.do")
-	public String change_pwd(@RequestParam("user_id") String user_id, Model model) {
-		System.out.println(user_id);
-		model.addAttribute("user_id", user_id);
+	public String change_pwd(@RequestParam("user_tel") String user_tel, Model model) {
+		System.out.println(user_tel);
+		model.addAttribute("user_tel", user_tel);
 		return Common.Bank.VIEW_PATH + "change_pwd.jsp";
 	}
 
@@ -395,7 +397,7 @@ public class BankController {
 	public String change_pwd_final(UserVO vo) {
 		String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
 		vo.setUser_pwd(encode_pwd);
-		System.out.println(encode_pwd);
+		System.out.println("암호화 비번1" + encode_pwd);
 		user_dao.update(vo);
 		return "redirect:/login.do";
 	}
