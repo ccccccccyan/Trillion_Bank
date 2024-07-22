@@ -612,10 +612,11 @@ public class AccountController {
 	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
 		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
 		accountvo.setNow_money(accountvo.getNow_money() - exchange_frommoney);
+		account_dao.updateremittance(accountvo);
+		accountvo.setAccount_lockcnt(0);
+		account_dao.lockcnt_update(accountvo);
 		
-		int res = account_dao.updateremittance(accountvo);
-		
-		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		UserVO uservo = user_dao.check((String) session.getAttribute("user_id"));
 		
 		AccountdetailVO account_datailvo = new AccountdetailVO();
 		account_datailvo.setAccount_number(exchange_choice_account);
@@ -666,10 +667,11 @@ public class AccountController {
 		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
 		
 		accountvo.setNow_money(accountvo.getNow_money() + exchange_tomoney);
+		account_dao.updateremittance(accountvo);
+		accountvo.setAccount_lockcnt(0);
+		account_dao.lockcnt_update(accountvo);
 		
-		int res = account_dao.updateremittance(accountvo);
-		
-		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		UserVO uservo = user_dao.check((String) session.getAttribute("user_id"));
 		
 		AccountdetailVO account_datailvo = new AccountdetailVO();
 		account_datailvo.setAccount_number("1111-0000");
@@ -703,7 +705,6 @@ public class AccountController {
 	public String exchange_pwd_lockcnt(String account_number) {
 		
 		AccountVO vo = account_dao.accountnum_selectOne(account_number);
-		
 		vo.setAccount_lockcnt(vo.getAccount_lockcnt() + 1);
 		
 		int res = account_dao.lockcnt_update(vo);

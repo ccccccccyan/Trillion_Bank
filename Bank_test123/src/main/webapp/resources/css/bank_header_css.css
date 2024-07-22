@@ -80,6 +80,7 @@
  					font-weight: 700;
  					transition: height 0.5s ease 0.1s,
  								border 0.2s ease;
+ 					z-index: 1000;
 					}
 		#body li ul li{ padding: 5px; margin: 5px;}
 		#body li ul li a{left: 5px;

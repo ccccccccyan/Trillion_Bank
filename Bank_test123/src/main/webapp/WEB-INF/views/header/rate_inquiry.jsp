@@ -565,6 +565,12 @@
 		
 		//환전하기 버튼을 클릭
 		function exchange_account(f) {
+			
+			if(document.getElementById("user_exchange_list").value == 'no' && exchange_to_kr == 'yes'){
+				alert("환전하실 외화를 선택해 주십시오");
+				return;
+			}
+			
 			if( document.getElementById("user_exchange_list").value - f.exchange_tomoney.value < 0 && exchange_to_kr == 'yes' ){
 				alert("환전하시려는 금액이 현재 가지고 있는 외화보다 부족합니다.");
 				return;
