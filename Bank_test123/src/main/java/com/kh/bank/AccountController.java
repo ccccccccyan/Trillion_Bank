@@ -507,10 +507,6 @@ public class AccountController {
 		return Common.Header.VIEW_PATH_HD + "schedule_mkj.jsp";
 	}
 
-	@RequestMapping("vision.do")
-	public String vision() {
-		return Common.Header.VIEW_PATH_HD + "vision.jsp";
-	}
 	@RequestMapping("product.do")
 	public String product() {
 		return Common.Account.VIEW_PATH_AC + "product.jsp";
@@ -572,7 +568,7 @@ public class AccountController {
 		
 		int res = account_dao.updateremittance(accountvo);
 		
-		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		UserVO uservo = user_dao.check((String) session.getAttribute("user_id"));
 		
 		AccountdetailVO account_datailvo = new AccountdetailVO();
 		account_datailvo.setAccount_number(exchange_choice_account);
@@ -597,6 +593,18 @@ public class AccountController {
 		}
 		
 		return "redirect:rate_inquiry.do";
+	}
+	
+	//보안 공지사항
+	@RequestMapping("security.do")
+	public String security() {
+		return Common.Header.VIEW_PATH_HD + "security.jsp";
+	}
+	
+	//법적고지
+	@RequestMapping("legal.do")
+	public String legal() {
+		return Common.Header.VIEW_PATH_HD + "legal.jsp";
 	}
 	
 	//자주묻는질문
@@ -626,7 +634,7 @@ public class AccountController {
 		
 		int res = account_dao.updateremittance(accountvo);
 		
-		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		UserVO uservo = user_dao.check((String) session.getAttribute("user_id"));
 		
 		AccountdetailVO account_datailvo = new AccountdetailVO();
 		account_datailvo.setAccount_number("1111-0000");

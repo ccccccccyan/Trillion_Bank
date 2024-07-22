@@ -38,45 +38,6 @@
                 margin-top: 30px;
                 margin-bottom: 10px;
             }
-            details {
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                padding: 10px;
-                background-color: #f9f9f9;
-                transition: all 0.3s ease-out;
-                overflow: hidden;
-            }
-            summary {
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease-out;
-            }
-            details p {
-                margin: 0;
-                padding: 0;
-                opacity: 0;
-                max-height: 0;
-                transition: opacity 0.3s ease-out, max-height 0.3s ease-out;
-            }
-            details[open] p {
-                opacity: 1;
-                max-height: 1000px; /* 충분히 큰 값으로 설정하여 전체 내용을 표시 */
-                padding: 10px 0;
-            }
-            details[open] {
-                animation: slideDown 0.3s ease-out;
-            }
-            @keyframes slideDown {
-                from {
-                    max-height: 0;
-                    opacity: 0;
-                }
-                to {
-                    max-height: 1000px;
-                    opacity: 1;
-                }
-            }
             
             .q_question{
 	            display: block;
@@ -95,6 +56,12 @@
 				border: 1px solid #ccc; /* 경계선 추가 */
 				margin: 10px 0; /* 상하에 여백, 좌우에 여백 없음 */
 			}
+			
+			.highlight {
+                color: #1e90ff;
+                font-weight: bold;
+            }
+			
         </style>
         
         <script>
@@ -149,7 +116,7 @@
             <h2>3. 모바일 뱅킹</h2>
             <div class="box">
 			<div class="q_question" onclick="qna_click(this);">▶ Q: 모바일 뱅킹 앱은 어디서 다운로드 받을 수 있나요?</div>
-			<p class="a_answer">ㄴ A: 모바일 뱅킹 앱은 구글 플레이 스토어(Android)나 애플 앱 스토어(iOS)에서 다운로드 받을 수 있습니다. 앱 이름은 [은행명]을 검색하여 다운로드하세요.</p>
+			<p class="a_answer">ㄴ A: 모바일 뱅킹 앱은 구글 플레이 스토어(Android)나 애플 앱 스토어(iOS)에서 다운로드 받을 수 있습니다. 앱 이름은 <span class="highlight">[일조은행(Trillion Bank)]</span>을 검색하여 다운로드하세요.</p>
             </div>
             
             <div class="box">
