@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_list.jsp</title>
+		<title>환율 게시판</title>
 		
 		<style>
 			table {
@@ -121,11 +121,11 @@
 					
 					<tr>
 						<td class="type_r_board_idx" align="center">${ vo.r_board_idx }</td><!-- 환율 게시판 일련번호 -->
-						<td class="type_name">${ vo.name }</td><!-- 작성자 이름 -->
-						<td class="type_subject">
+						<td class="type_name" align="center">${ vo.name }</td><!-- 작성자 이름 -->
+						<td class="type_subject" align="center">
 							<a href="r_view.do?r_board_idx=${ vo.r_board_idx }">${ vo.subject }</a>
 						</td><!-- 환율 게시판 제목 -->
-						<td class="type_regdate">${ vo.regdate }</td>
+						<td class="type_regdate" align="center">${ vo.regdate }</td>
 					</tr>
 					
 				</c:forEach>
@@ -150,13 +150,15 @@
 				</td>
 			</tr>
 				
+			<c:if test="${ not empty user_id }">
 				<tr>
 					<td colspan="4" align="right">
 						<input type="button" value="등록"
 						onclick="location.href='rate_write.do'">
 					</td>
 				</tr>
-				
+			</c:if>
+			
 			</table>
 			
 		</form>

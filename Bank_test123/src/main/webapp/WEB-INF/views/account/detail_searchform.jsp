@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Insert title here</title>
+        <title>검색 폼</title>
         <style>
             /* 기본 스타일 설정 */
             .container {

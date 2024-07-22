@@ -3,8 +3,13 @@ package vo;
 public class ProductVO {
 	private int productaccount_idx, saving_money;
     private String user_id, account_productname, account_number, products_period, products_date, endproducts_date;
+<<<<<<< HEAD
     private double products_rate, products_tax, products_deal_money;
     
+=======
+    private double products_rate, products_tax ,products_deal_money;
+
+>>>>>>> branch 'develop_0712' of https://github.com/ccccccccyan/Trillion_Bank.git
     public String getUser_id() {
 		return user_id;
 	}
@@ -17,7 +22,10 @@ public class ProductVO {
 	public void setProductaccount_idx(int productaccount_idx) {
 		this.productaccount_idx = productaccount_idx;
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> branch 'develop_0712' of https://github.com/ccccccccyan/Trillion_Bank.git
 	public double getProducts_deal_money() {
 		return products_deal_money;
 	}

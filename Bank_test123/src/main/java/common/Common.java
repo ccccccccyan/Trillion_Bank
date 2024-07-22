@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import dao.AccountDAO;
 import dao.UserDAO;
 import vo.AccountVO;
+import vo.Foreign_exchangeVO;
 import vo.UserVO;
 
 public class Common {
@@ -128,4 +129,6 @@ public static class Notice{ //클래스 안의 클래스. 내부 클래스
 		}
 
 	}
+	
+	
 }

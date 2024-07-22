@@ -22,7 +22,7 @@ public class BankService {
 	public List<RateVO> bank_serv(String formattedDate) throws IOException{
 		//open api 주소
 		
-		String urlStr = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=UI42XRvSJrvHgj6549qO2Ci58LRbNeuL&searchdate="+formattedDate+"&data=AP01";
+		String urlStr = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=p8gDvJEBENfaLwZoXuqJaZaKYTdJaNIt&searchdate="+formattedDate+"&data=AP01";
 		
 		//api 링크
 		URL url = new URL(urlStr);

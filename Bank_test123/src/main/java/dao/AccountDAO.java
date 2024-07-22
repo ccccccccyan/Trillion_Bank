@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import common.Common;
 import vo.AccountVO;
 import vo.AccountdetailVO;
+import vo.Foreign_exchangeVO;
 import vo.ProductVO;
 import vo.RateVO;
 import vo.UserVO;
@@ -85,7 +86,7 @@ public class AccountDAO {
 	
 	// 해당 숫자를 포함하는 계좌 번호 추가
 	public List<AccountVO> search_userinfo_account(String search_account_number){
-		List<AccountVO> search_account_unmber = sqlSession.selectList("search_userinfo_account", search_account_number);
+		List<AccountVO> search_account_unmber = sqlSession.selectList("ac.search_userinfo_account", search_account_number);
 		return search_account_unmber;
 	}
 	
@@ -95,6 +96,31 @@ public class AccountDAO {
 	}
 	public int account_color_update(AccountVO vo) {
 		int res = sqlSession.update("ac.account_color_update", vo);
+		return res;
+	}
+	
+	// 외환 계좌 -------------------
+	public List<Foreign_exchangeVO> select_exchange(String user_id){
+		List<Foreign_exchangeVO> exchange_list = sqlSession.selectList("ac.select_exchange_list", user_id);
+		return exchange_list;
+	}
+	
+	public int exchangeinsert(Foreign_exchangeVO vo) {
+		int res = sqlSession.insert("ac.exchange_insert", vo);
+		return res;
+	}
+	
+	public Foreign_exchangeVO exchange_selectone(Foreign_exchangeVO vo) {
+		Foreign_exchangeVO res_vo = sqlSession.selectOne("ac.exchange_selectone", vo);
+		return res_vo;
+	}
+	
+	public int exchange_update_sametype(Foreign_exchangeVO vo) {
+		int res = sqlSession.update("ac.exchange_updateSametype", vo);
+		return res;
+	}
+	public int exchange_del_type(Foreign_exchangeVO vo) {
+		int res = sqlSession.delete("ac.exchange_del_type", vo);
 		return res;
 	}
 }

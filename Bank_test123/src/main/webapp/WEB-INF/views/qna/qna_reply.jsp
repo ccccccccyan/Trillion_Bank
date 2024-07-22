@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>qna_reply.jsp</title>
+		<title>Q&A 답변하기</title>
 		
 		<style>
 			table {
@@ -93,7 +93,7 @@
 				
 				<tr>
 					<td class="color_same">작성자</td>
-					<td><input name="user_id" size="50"></td>
+					<td><input name="user_id" size="50" placeholder="관리자의 아이디를 적어주십시오."></td>
 				</tr>
 				
 				<tr>

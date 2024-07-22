@@ -63,6 +63,7 @@ public class BankController {
 	
 		// 금일 데이터 있는지 확인 후 추가 ----------------------------
 		LocalDate date = LocalDate.now();
+//		LocalDate date = LocalDate.of(2024, 7, 15);
 		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String formattedDate = date.format(fommat_date);
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);
@@ -83,9 +84,7 @@ public class BankController {
 		}
 		
 		String period = request.getParameter("period");
-		System.out.println("period : "+period);
 		String cur_nm_select = request.getParameter("cur_nm_select");
-		System.out.println("cur_nm_select : "+cur_nm_select);
 		
 		LocalDate first_date = null; // 수정: 날짜 설정 변경;
 		LocalDate last_date = LocalDate.now();
@@ -94,44 +93,32 @@ public class BankController {
 		if(period == null || period == "" || period.equals("1개월")) {
 			// 현재 날짜 가져오기
 			first_date = last_date.minusMonths(1); // 수정: 날짜 설정 변경
-			System.out.println("1");
-			
 		}else if(period.equals("3개월")){
 			first_date = last_date.minusMonths(3); // 수정: 날짜 설정 변경
-			System.out.println("2");
 		}else if(period.equals("6개월")){
 			first_date = last_date.minusMonths(6); // 수정: 날짜 설정 변경
-			System.out.println("3");
 		}else if(period.equals("1년")){
 			first_date = last_date.minusYears(1); // 수정: 날짜 설정 변경
-			System.out.println("4");
-		}else {
-			System.out.println("5");
 		}
 		
 		String format_first_Date = first_date.format(fommat_date);
 		String format_last_Date = last_date.format(fommat_date);
-
 		
-		// 조회할 나라 배열
 		// 조회할 나라 배열
 		String[] cur_nm_box = { "인도네시아 루피아", "일본 옌", "쿠웨이트 디나르", "말레이지아 링기트", "노르웨이 크로네", "뉴질랜드 달러", "사우디 리얄", "스웨덴 크로나", "싱가포르 달러",
 				"태국 바트", "미국 달러", "아랍에미리트 디르함", "호주 달러", "바레인 디나르", "브루나이 달러", "캐나다 달러", "스위스 프랑", "위안화", "덴마아크 크로네", "유로", "영국 파운드", "홍콩 달러" };
 		List<String> cur_nm = new ArrayList<String>();
 		if(cur_nm_select == null || cur_nm_select == "" || cur_nm_select.equals("all") ) {
-			System.out.println("--------------");
 			for(String str : cur_nm_box) {
 				cur_nm.add(str);
 			}
 		}else {
-			System.out.println("================");
 			cur_nm.add(cur_nm_select);
 		}
 		Map<String, Object> db_data = new HashMap<String, Object>();
 		db_data.put("first_day", format_first_Date);
 		db_data.put("last_day", format_last_Date);
 		
-		System.out.println("5 asdajshdvahsgdv : " + cur_nm.size());
 		for(int i = 0; i < cur_nm.size(); i++) {
 			Map<String, Object> rate_list_data = new HashMap<String, Object>();
 			
@@ -139,8 +126,6 @@ public class BankController {
 			
 			// first_day에서 last_day 사이의 cur_nm 데이터를 조회
 			List<RateVO> rate_list_cur = rate_dao.select_chart(db_data);
-			
-			System.out.println(" rate_list_cur : " +rate_list_cur.get(0).getTtb().replace(",", ""));
 			
 			// 최대 최소 구하기
 			double max_data = Double.parseDouble(rate_list_cur.get(0).getTtb().replace(",", ""));
@@ -173,7 +158,6 @@ public class BankController {
 			// 조회된 rateVO 객체 리스트 담기
 			rate_list_data.put("rateVO_data", rate_list_cur);
 			
-			
 			rate_data.add(rate_list_data);
 		}
 		
@@ -204,6 +188,8 @@ public class BankController {
 	public String login_check(UserVO vo, Model model) {
 
 		UserVO X_User = user_dao.check(vo.getUser_id());
+		 System.out.println("입력된 비밀번호: " + vo.getUser_pwd());
+		 System.out.println("저장된 암호화된 비밀번호: " + X_User.getUser_pwd());
 		boolean isValid = Common.Secure_userPwd.decodePwd(vo, user_dao);
 		if (isValid) {
 			if ("unknown".equals(X_User.getUser_name())) {
@@ -384,11 +370,11 @@ public class BankController {
 	@RequestMapping(value = "/search_pwd2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String search_pwd2(UserVO vo) {
-		UserVO existingUser = user_dao.check_id(vo.getUser_id());
+		UserVO existingUser = user_dao.check_id(vo.getUser_tel());
 		if (existingUser != null) {
 			try {
-				String res = String.format("[{'result':'clear', 'user_id':'%s', 'user_pwd':'%s'}]",
-						existingUser.getUser_id(), existingUser.getUser_pwd());
+				String res = String.format("[{'result':'clear', 'user_tel':'%s', 'user_pwd':'%s'}]",
+						existingUser.getUser_tel(), existingUser.getUser_pwd());
 				return res;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -400,9 +386,9 @@ public class BankController {
 
 	// 비밀번호 찾기 후 비밀번호 변경
 	@RequestMapping("/change_pwd.do")
-	public String change_pwd(@RequestParam("user_id") String user_id, Model model) {
-		System.out.println(user_id);
-		model.addAttribute("user_id", user_id);
+	public String change_pwd(@RequestParam("user_tel") String user_tel, Model model) {
+		System.out.println(user_tel);
+		model.addAttribute("user_tel", user_tel);
 		return Common.Bank.VIEW_PATH + "change_pwd.jsp";
 	}
 
@@ -411,7 +397,7 @@ public class BankController {
 	public String change_pwd_final(UserVO vo) {
 		String encode_pwd = Common.SecurePwd.encodePwd(vo.getUser_pwd());
 		vo.setUser_pwd(encode_pwd);
-		System.out.println(encode_pwd);
+		System.out.println("암호화 비번1" + encode_pwd);
 		user_dao.update(vo);
 		return "redirect:/login.do";
 	}
@@ -524,8 +510,17 @@ public class BankController {
 	@RequestMapping("modify_ins_user.do")
 	@ResponseBody
 	public String modify_ins_user(UserVO vo) {
-		vo.setUser_pwd(Common.SecurePwd.encodePwd(vo.getUser_pwd()));
-		int res = user_dao.update_info(vo);
+		UserVO db_user = user_dao.check_id(vo.getUser_id());
+		
+		int res;
+		
+		if(vo.getUser_pwd().equals(db_user.getUser_pwd())) {
+			res = user_dao.update_info(vo);
+			
+		}else {
+			vo.setUser_pwd(Common.SecurePwd.encodePwd(vo.getUser_pwd()));
+			res = user_dao.update_info(vo);
+		}
 
 		if (res > 0) {
 			return "[{'result':'clear'}]";
@@ -580,10 +575,24 @@ public class BankController {
         int sixNumber = new Random().nextInt(900000) + 100000;
         System.out.println("인증 번호: " + sixNumber);
         
-//		SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
+	//	SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}
 	
 	
+	@RequestMapping("/user_tel_check.do")
+	@ResponseBody
+	public String user_tel_check( String user_tel, String search_user_id ) {
+		
+		System.out.println("user_tel : " + user_tel);
+		System.out.println("search_user_id : " + search_user_id);
+		UserVO vo = user_dao.check(search_user_id);
+		
+		if (vo.getUser_tel().equals(user_tel)) {
+			return "[{'result':'clear'}]";
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
 }

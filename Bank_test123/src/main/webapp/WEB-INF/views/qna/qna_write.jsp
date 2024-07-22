@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>qna_write.jsp</title>
+		<title>Q&A 작성하기</title>
 		
 		<script>
 			function send(f){
@@ -94,7 +94,7 @@
 		<input type="hidden" id="user_id" name="user_id">
 		
 			<table border="1" width="700" align="center">
-				<caption>:::질문하기:::</caption>
+				<caption>질문하기</caption>
 				
 				<tr>
 					<th class="color_same">제목</th>

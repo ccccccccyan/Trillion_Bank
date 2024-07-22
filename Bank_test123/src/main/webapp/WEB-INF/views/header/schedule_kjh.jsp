@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>연혁</title>
+<title>김지환 임원 연혁</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.7/css/boxicons.min.css">
 <style>
@@ -32,7 +32,7 @@ h1 {
     font-size: 40px;
 }
 
-h2 {
+h2.custom {
     text-align: left;
     margin-left: 10px;
     color: #353535;
@@ -104,9 +104,9 @@ i{
     </div>
     <div class="container">
     	<h1>인턴</h1>
-        <h2>김지환</h2>
+        <h2 class="custom">김지환</h2>
         <br>
-        <h2>일조은행원이 되기까지</h2>
+        <h2 class="custom">일조은행원이 되기까지</h2>
         <ul class="timeline">
             <li class="timeline-item">
                 <h3>2024</h3>

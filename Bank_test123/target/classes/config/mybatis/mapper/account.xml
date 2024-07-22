@@ -96,6 +96,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update ACCOUNT_LIST set account_color = #{account_color} where account_number = #{account_number}
 	</update>
 	
+	<select id="select_exchange_list" resultType="exchange" parameterType="String">
+		select * from foreign_exchange where user_id = #{user_id}
+	</select>
+	
+	<select id="exchange_selectone" resultType="exchange" parameterType="exchange">
+		select * from foreign_exchange where user_id = #{user_id} and foregin_type=#{foregin_type}
+	</select>
+	
+	<insert id="exchange_insert" parameterType="exchange">
+		insert into foreign_exchange values(
+			seq_exchange_idx.nextVal,
+			#{user_id},
+			#{exchange_money},
+			#{foregin_type}
+		)
+	</insert>
+	
+	<update id="exchange_updateSametype" parameterType="exchange">
+		update foreign_exchange set exchange_money = #{exchange_money} where fgn_exchange_idx = #{fgn_exchange_idx}
+	</update>
+	
+	<delete id="exchange_del_type" parameterType="exchange">
+		delete from foreign_exchange where fgn_exchange_idx = #{fgn_exchange_idx}
+	</delete>
+	
 	<select id="bankname_list" resultType="account" parameterType="java.util.Map">
 		select * from account_list where user_id = #{user_id} and bank_name = #{bank_name}
 	</select>

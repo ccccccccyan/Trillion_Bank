@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_write.jsp</title>
+		<title>환율 게시글 작성</title>
 		
 		<style>
 			table {
@@ -141,7 +141,7 @@
 					<th class="color_same">비밀번호</th>
 					<td>
 						<input type="password" name="pwd" size="50"
-							   oninput="pwdSend(this.form);"  maxlength="4">
+							   oninput="pwdSend(this.form);" maxlength="4">
 						<br>
 						<span id="rate_pwd_warn_msg"></span>
 					</td>

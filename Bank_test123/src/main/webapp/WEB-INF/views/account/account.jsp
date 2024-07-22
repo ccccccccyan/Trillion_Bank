@@ -5,7 +5,7 @@
 	<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Insert title here</title>
+	<title>일조은행</title>
 	
 	
 	<!-- Ajax사용을 위한 js파일 -->
@@ -42,12 +42,9 @@
 			}
 			let account_box = document.getElementById("account_box");
 			let account_manager = document.getElementById("account_manager");
-			console.log("sadsad : ");
 			// 계좌 리스트는 user_id가 있을 때만(로그인된 상태일 경우), 보여진다.
 			let user_id = "${user_id}"; 
 			let manager = "${manager}"; 
-			console.log(user_id);
-			console.log(manager);
 			if(user_id == 'null' || user_id ==''){
 				account_box.style.display ="none";
 				account_manager.style.display ="none";
@@ -73,86 +70,84 @@
 	 	
 	 	// 계좌 검색으로 사용자 정보 조회
 	 	function search_userinfo(event) {
+	 		// 이전 수정 폼 초기화 
+	 		document.getElementById("change_info").style.display = "none";
+	 		document.getElementById("change_info").value = "";
+	 		document.getElementById("change_color_msg").innerHTML = "";
+	 		document.getElementById("change_send").style.display = "none";
+	 		document.getElementById("change_color").style.display = "none";
+	 		
+	 		// 본인인증 창 다시 표시
+	 		document.getElementById("user_self_check_box").style.display = "block";
+	 		
+	 		// 검색결과 초기화
 			let search_account_number = event.target.value;
-	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		let search_warn_msg = document.getElementById("search_warn_msg");
 	 		let search_result = document.getElementById("search_result");
 	 		search_result.innerHTML = "";
 			
+	 		// 유효성 체크
 			let onlynumber = /^[0-9]{10,14}$/;
 			if(!onlynumber.test(search_account_number)){
-				search_worn_msg.innerHTML = "유효한 형식의 계좌 번호는 숫자 10 ~ 14자리 입니다.";
-				search_worn_msg.style.color = "red";
+				search_warn_msg.innerHTML = "유효한 형식의 계좌 번호는 숫자 10 ~ 14자리 입니다.";
+				search_warn_msg.style.color = "red";
 				search_result.style.display = "none";
 				return;
 			}
-			search_worn_msg.innerHTML = "";
+			search_warn_msg.innerHTML = "";
 			
 			// 프로미스 객체를 받아온다.
 			search_userinfoFn(search_account_number)
 			 .then(search_data => {
-				console.log("search_data : "+search_data);
-	            
-		 		let account_number = [];
-		 		let bank_name = [];
-		 		let user_id = [];
-		 		let user_tel = [];
-	            let search_print = "";
-			            
+	           // 검색 결과가 없을 경우
 	           if(search_data.search_result == 'no'){
-	   			    search_worn_msg.innerHTML = "검색 결과가 없습니다.";
-				    search_worn_msg.style.color = "gray";
+	   			    search_warn_msg.innerHTML = "검색 결과가 없습니다.";
+				    search_warn_msg.style.color = "gray";
 					search_result.style.display = "none";
 	           		return;
 	           }
-			           
-	           search_data.account_result.forEach(account_data => {
-	       		account_number.push(account_data.account_number);
-	           	bank_name.push(account_data.bank_name);
-	            });
-			            
-	           search_data.userinfo_result.forEach(user_data => {
-	           	user_id.push(user_data.user_id);
-	           	user_tel.push(user_data.user_tel);
-	            });
-			            
-	            for(let i = 0; i < account_number.length; i++){
-		           	search_print += "<div class='search_content' onclick='change_searchinfo("+ account_number[i] +")'>"
-	    	       					+ account_number[i] + "(" + bank_name[i] + ")   "
-			       					+ user_id[i] + "님 (" + user_tel[i] + ")"
-			       					+"</div> " 
-			    }
-				search_result.innerHTML = search_print;
-				search_result.style.display = "block";
+
+			   // 검색 결과가 있을 경우
+	           // 반환 타입은 두 리스트를 담은 map으로 보내지기 때문에 각 리스트에서 따로 값을 받아와야 한다.
+				search_data.account_result.forEach(account_data => {
+					// account_data와 매치되는 userinfo_result 데이터를 찾아서 가져온다
+				    let corresponding_user_data = search_data.userinfo_result.find(user_data => user_data.user_id == account_data.user_id);
+					
+					// 검색 결과 데이터 한줄씩 추가
+					search_result.innerHTML += "<div class='search_content' onclick='change_searchinfo("+ account_data.account_number +")'>"
+								   				+ account_data.account_number + "(" + account_data.bank_name + ") "
+								   				+ corresponding_user_data.user_id + "님 (" + corresponding_user_data.user_tel + ")" + "</div> " 
+				});
+				search_result.style.display = "block"; // 검색 결과 div 표시
 			 })
 		     .catch(error => {
-		     console.error('처리 중 오류 발생', error);
-		     search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
-		     search_worn_msg.style.color = "red";
+			     console.error('처리 중 오류 발생', error);
+			     search_warn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			     search_warn_msg.style.color = "red";
 		     });
-			 
 	 	}
 	 	
 	 	
 	 	// 계좌 검색으로 사용자 정보 조회 
 	 	function search_userinfoFn(search_account_number) {
 	 		let search_result = document.getElementById("search_result");
-	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		let search_warn_msg = document.getElementById("search_warn_msg");
 	 		
 	 		// fetch 앞에 return을 붙이면 해당 함수를 호출했을때 프로미스 객체를 반환받을 수 있다.
 	 		return fetch("search_userinfo_account.do?search_account_number="+search_account_number)
 	 		  .then(response => {
 	           	console.log(response);
 	               if (!response.ok) { // ==> xhr.readyState == 4 && xhr.status == 200
-						search_worn_msg.innerHTML = "서버와 통신 중 문제가 발생했습니다.";
-						search_worn_msg.style.color = "red";
+						search_warn_msg.innerHTML = "서버와 통신 중 문제가 발생했습니다.";
+						search_warn_msg.style.color = "red";
 	                   throw new Error('Network response was not ok');
 	               }
 	               return response.json();
 	           })
 	 		  // 에러 발생 시 호출
 	          .catch(error => {
-   			   search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
-			   search_worn_msg.style.color = "red";
+   			   search_warn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			   search_warn_msg.style.color = "red";
 	           console.error('There was a problem with the fetch operation:', error);
 	          });
 		}
@@ -161,7 +156,7 @@
 	    document.addEventListener('click', function(event) {
 			let search_result = document.getElementById("search_result");
 			let search_account_number = document.getElementById("search_account_number");
-	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		let search_warn_msg = document.getElementById("search_warn_msg");
 	        
 	        // 클릭된 요소가 검색 결과 박스 내부에 있는지 확인
 	        let isClickedInsideSearchBox = search_result.contains(event.target);  // 한 요소가 다른 요소를 포함하는지를 판별 . 즉, 검색 결과 박스 내부에 클릭된 요소가 포함되어 있는지를 판별
@@ -170,16 +165,12 @@
 	        // 검색 결과 박스가 열려 있고, 검색 input 이외의 곳을 클릭한 경우
 	        if (!isClickedInsideSearchBox && !isClickedOnSearchInput && search_result.style.display == 'block') {
 				search_result.style.display = "none";
-				search_worn_msg.innerHTML = "";
+				search_warn_msg.innerHTML = "";
 	        }
-	        
 	    });
-	 	
 	 	
 	 	// 검색 결과 중 하나를 선택했을 경우
 	 	function change_searchinfo( account_number) {
-			console.log(account_number);
-
 			let search_username = document.getElementById("search_username");
 			let search_user_name = document.getElementById("search_user_name");
 			let search_bank_name = document.getElementById("search_bank_name");
@@ -193,8 +184,7 @@
 			// 다시 한번 정보 조회
 			change_searchinfoFn(account_number)
 			 .then(search_data => {
-				console.log(search_data);
-				
+				// 계정 비활성화 여부 
 				if(search_data.userinfo_result.user_name == 'unknown'){
 					search_user_name.innerHTML = " ×";
 				}else{
@@ -204,7 +194,6 @@
 				// 검색 결과 출력
 				search_tel.innerHTML = search_data.userinfo_result.user_tel;
 				search_username.innerHTML = search_data.userinfo_result.user_name;
-				
 				search_account.innerHTML = search_data.account_result.account_number;
 				search_bank_name.innerHTML = search_data.account_result.bank_name;
 				search_bank_name_position.style.background = "url('/bank/resources/img/"+ search_data.account_result.bank_name +".png') no-repeat right";
@@ -219,44 +208,22 @@
 				search_user_id.innerHTML = search_data.account_result.user_id;
 				search_now_money.innerHTML = search_data.account_result.now_money;
 				search_account_color.style.background = search_data.account_result.account_color;
-				
-				// 함수 호출 값 변경
-				let ch_user_name  = document.getElementById("change_user_name");
-				let ch_user_pwd  = document.getElementById("change_user_pwd");
-				let ch_user_tel  = document.getElementById("change_user_tel");
-				let ch_account_pwd  = document.getElementById("change_account_pwd");
-				let ch_account_color  = document.getElementById("change_account_color");
-				
-				ch_user_name.onclick = function() {
-					change_user_name(); // 함수 호출 문법
-				};
-				ch_user_pwd.onclick = function() {
-					change_user_pwd(); // 함수 호출 문법
-				};
-				ch_user_tel.onclick = function() {
-					change_user_tel(); // 함수 호출 문법
-				};
-				ch_account_pwd.onclick = function() {
-					change_account_pwd(); // 함수 호출 문법
-				};
-				ch_account_color.onclick = function() {
-					change_account_color(); // 함수 호출 문법
-				};
 			 })
 		     .catch(error => {
 			     console.error('처리 중 오류 발생', error);
-			     search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
-			     search_worn_msg.style.color = "red";
+			     search_warn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			     search_warn_msg.style.color = "red";
 		     });
 			
 			// 검색이 완료되었으니 검색 박스 none
 			let search_result = document.getElementById("search_result");
 			search_result.style.display = "none";
+			// 본인인증 버튼 활성화
+			document.getElementById("user_self_check_button").disabled = false;
 		}
 	 	
 	 	
 	 	let update_ok = "no";
-	 	
 	 	function change_ok(f) {
 	 		let change_key = f.change_info.placeholder;
 			let change_data = f.change_info.value;
@@ -268,18 +235,11 @@
 			let url;	
 			let onlynumber;
 			
-			console.log(change_data);
-			
+			// 사용자 이름 수정
 			if(change_key == '변경할 이름을 입력해 주세요'){
-				/* 
-				^: 문자열의 시작을 나타냅니다.
-				[\p{L}]: 유니코드 문자 클래스(\p{L})를 사용하여 모든 문자를 포함합니다. 이는 영어, 한글, 스페인어 등 다양한 언어의 문자를 포함합니다.
-				*: 0개 이상의 앞의 패턴(문자)이 등장할 수 있음을 나타냅니다.
-				$: 문자열의 끝을 나타냅니다. */
-				
+				// 유효성 체크				
 				onlynumber = /^[a-zA-Z가-힣]*$/;
-				
-				if(!onlynumber.test(change_data)){
+				if(!onlynumber.test(change_data) || change_data == ''){
 					change_form_warn_msg.innerHTML = "유효한 이름이 아닙니다.";
 					change_form_warn_msg.style.color = "red";
 					update_ok = "no";
@@ -289,10 +249,11 @@
 				change_form_warn_msg.style.color = "green";
 				update_ok = "yes";
 				
+			// 사용자 계정 비밀번호 수정
 			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요'){
 				onlynumber =/^[a-zA-Z0-9]{8,18}$/;
-				
-				if(!onlynumber.test(change_data)){
+				// 유효성 체크				
+				if(!onlynumber.test(change_data) || change_data == ''){
 					change_form_warn_msg.innerHTML = "비밀번호는 영문자, 숫자 8~18자리입니다.";
 					change_form_warn_msg.style.color = "red";
 					update_ok = "no";
@@ -301,15 +262,18 @@
 				change_form_warn_msg.innerHTML = "사용 가능한 비밀번호 입니다.";
 				change_form_warn_msg.style.color = "green";
 				update_ok = "yes";
+
+			// 사용자 계정 전화번호 수정
 			}else if(change_key == '새로운 전화번호를 입력해 주세요'){
 				onlynumber = /^[0-9]{11}$/;
-
-				if(!onlynumber.test(change_data)){
+				// 유효성 체크				
+				if(!onlynumber.test(change_data) || change_data == ''){
 					change_form_warn_msg.innerHTML = "유효한 전화번호가 아닙니다.";
 					change_form_warn_msg.style.color = "red";
 					update_ok = "no";
 					return;
 				}else{
+					// 전화번호 중복 체크
 					param = "user_id="+user_id + "&user_tel="+change_data;
 					url ="modify_ins_tel.do";
 		
@@ -317,10 +281,12 @@
 						user_tel_update__before_ok( account_number, change_data, user_id );
 			           }, "post");
 				}
-			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요'){
-				onlynumber = /^[0-9]{4}$/;
 
-				if(!onlynumber.test(change_data)){
+			// 계좌 비밀번호 수정
+			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요'){
+				// 유효성 체크				
+				onlynumber = /^[0-9]{4}$/;
+				if(!onlynumber.test(change_data) || change_data == ''){
 					change_form_warn_msg.innerHTML = "비밀번호는 숫자 4자리입니다.";
 					change_form_warn_msg.style.color = "red";
 					update_ok = "no";
@@ -333,16 +299,12 @@
 		}
 	 	
 	 	
+		// 전화번호 중복 체크 여부 
 	 	function user_tel_update__before_ok(account_number, user_tel, user_id) {
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				
 				let change_form_warn_msg = document.getElementById("change_color_msg");
-				
 				let data = xhr.responseText;
-				console.log(data);
-				
 				let json = ( new Function('return '+data) )();
-				
 				if( json[0].result == 'clear' ){
 					change_form_warn_msg.innerHTML = "사용 가능한 전화번호 입니다.";
 					change_form_warn_msg.style.color = "green";
@@ -354,83 +316,64 @@
 					update_ok = "no";
 					return;
 				}
-				
 			}
 		}
+		
+		// 사용자 이름, 전화번호 비밀번호, 계좌 비밀번호 변경시 해당 폼 표시
+	 	function change_name_pwd_tel() {
+	 		document.getElementById("change_color").style.display = "none";
+	 		document.getElementById("change_color_msg").innerHTML = "";
 			
+	 		document.getElementById("change_info").value = "";
+	 		document.getElementById("change_info").style.display = "block";
+	 		document.getElementById("change_send").style.display = "block";
+		}
 	 	
-	 	
+		// 사용자 이름 변경 폼 표시
 	 	function change_user_name() {
-	 		document.getElementById("change_color").style.display = "none";
-	 		document.getElementById("change_color_msg").innerHTML = "";
-
-	 		let change_info = document.getElementById("change_info");
-	 		let change_send = document.getElementById("change_send");
-	 		change_info.value = "";
-	 		change_info.placeholder = "변경할 이름을 입력해 주세요";
-	 		change_info.style.display = "block";
-	 		change_send.style.display = "block";
+	 		change_name_pwd_tel();
+	 		document.getElementById("change_info").placeholder = "변경할 이름을 입력해 주세요";
 		}
 	 	
+		// 사용자 비밀번호 변경 폼 표시
 	 	function change_user_pwd() {
-	 		document.getElementById("change_color").style.display = "none";
-	 		document.getElementById("change_color_msg").innerHTML = "";
-
-	 		let change_info = document.getElementById("change_info");
-	 		let change_send = document.getElementById("change_send");
-	 		change_info.value = "";
-	 		change_info.placeholder = "계정에 사용할 새로운 비밀번호를 입력해 주세요";
-	 		change_info.style.display = "block";
-	 		change_send.style.display = "block";
+	 		change_name_pwd_tel();
+	 		document.getElementById("change_info").placeholder = "계정에 사용할 새로운 비밀번호를 입력해 주세요";
 		}
 	 	
+		// 사용자 전화번호 변경 폼 표시
 	 	function change_user_tel() {
-	 		document.getElementById("change_color").style.display = "none";
-	 		document.getElementById("change_color_msg").innerHTML = "";
-
-	 		let change_info = document.getElementById("change_info");
-	 		let change_send = document.getElementById("change_send");
-	 		change_info.value = "";
-	 		change_info.placeholder = "새로운 전화번호를 입력해 주세요";
-	 		change_info.style.display = "block";
-	 		change_send.style.display = "block";
+	 		change_name_pwd_tel();
+	 		document.getElementById("change_info").placeholder = "새로운 전화번호를 입력해 주세요";
 		}
 	 	
+		// 계좌 비밀번호 변경 폼 표시
 	 	function change_account_pwd() {
-	 		document.getElementById("change_color").style.display = "none";
-	 		document.getElementById("change_color_msg").innerHTML = "";
-
-	 		let change_info = document.getElementById("change_info");
-	 		let change_send = document.getElementById("change_send");
-	 		change_info.value = "";
-	 		change_info.placeholder = "계좌에 사용할 새로운 비밀번호를 입력해 주세요";
-	 		change_info.style.display = "block";
-	 		change_send.style.display = "block";
+	 		change_name_pwd_tel();
+	 		document.getElementById("change_info").placeholder = "계좌에 사용할 새로운 비밀번호를 입력해 주세요";
 		}
 	 	
+		// 계좌 색상 변경 폼 표시
 	 	function change_account_color() {
 	 		document.getElementById("change_info").style.display = "none";
+	 		document.getElementById("change_info").value = "";
 	 		
-	 		let change_color = document.getElementById("change_color");
-	 		let change_color_msg = document.getElementById("change_color_msg");
-	 		let change_send = document.getElementById("change_send");
+	 		document.getElementById("change_color_msg").innerHTML = "변경할 색상을 입력해 주세요";
 	 		
-	 		change_color_msg.innerHTML = "변경할 색상을 입력해 주세요";
-	 		change_info.value = "";
-	 		change_color_msg.style.display = "block";
-	 		change_color.style.display = "block";
-	 		change_send.style.display = "block";
+	 		document.getElementById("change_color").style.display = "block";
+	 		document.getElementById("change_color_msg").style.display = "block";
+	 		document.getElementById("change_send").style.display = "block";
 	 		
+	 		// 이미 색상들이 배치되어 있을 경우
 	 		let color_mini_list = document.querySelectorAll('.color_mini');
 	 		if (color_mini_list.length > 0) {
 	 			return;
 	 		}
 	 		
-	 	// 색상 리스트	
+	 		// 색상 리스트	
 			let color_list = ["#ff5145", "#ff763b", "#ffad33", "#ffd736", "#d0ff36", "#a8ff2e", "#68ff1c",
 				"#52f760", "#63ffa4", "#63ffce", "#73fffa", "#73d7ff", "#73b7ff", "#73a2ff", "#737eff", 
-				"#3d4f82", "#2c344a", "#1b202e",
-				"#b473ff", "#d773ff", "#c95df5", "#f55df2"];
+				"#3d4f82", "#2c344a", "#1b202e", "#b473ff", "#d773ff", "#c95df5", "#f55df2"];
 			
 			// 색상 선택 div에 해당 색상과 클릭시 color_choic() 함수에 보내질 색상 데이터를 동적으로 기입한다.
 			for(let i = 0; i < color_list.length; i++){
@@ -445,12 +388,11 @@
 				color_mini.onclick = function() {
 					color_choice(color_list[i]);
 				};
-				change_color.appendChild(color_mini);
+				document.getElementById("change_color").appendChild(color_mini);
 			}//for------------
-	 		
 		}
 	 	
-	 	
+	 	// 통장 색상 선택
 	 	function color_choice(color) {
 			let search_account_color = document.getElementById("search_account_color");
 			let change_color = document.getElementById("change_color");
@@ -460,24 +402,19 @@
 			change_color.value = color;
 		}// color_choice----------
 	 	
+		// 사용자 정보 변경
 	 	function change_user_info(f) {
-			
-			console.log("왤까?");
-			
 			let change_key = f.change_info.placeholder;
 			let change_data = f.change_info.value;
 	 		let user_id = document.getElementById("search_user_id").innerHTML;
 	 		let account_number = document.getElementById("search_account").innerHTML;
 			let change_color = document.getElementById("change_color").value;
+			
 			let param;
 			let url;	
-			console.log("change_key?"+change_key);
-			console.log("change_data?"+change_data);
-			console.log("user_id?"+user_id);
-			console.log("account_number?"+account_number);
-			console.log("change_color?"+change_color);
 			
-			if(change_key == '변경할 이름을 입력해 주세요' && change_data != '' && update_ok == 'yes'){
+			// 이름을 변경할 경우
+			if(change_key == '변경할 이름을 입력해 주세요' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_name="+change_data;
 				url ="user_id_update.do";
 				
@@ -485,7 +422,8 @@
 					update_user_info( account_number );
 		           }, "post");
 				
-			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
+			// 계정 비밀번호를 변경할 경우
+			}else if(change_key == '계정에 사용할 새로운 비밀번호를 입력해 주세요' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_pwd="+change_data;
 				url ="user_pwd_update.do";
 
@@ -493,7 +431,8 @@
 					update_user_info( account_number );
 		           }, "post");
 				
-			}else if(change_key == '새로운 전화번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
+			// 계정 전화번호를 변경할 경우
+			}else if(change_key == '새로운 전화번호를 입력해 주세요' && update_ok == 'yes'){
 				param = "user_id="+user_id + "&user_tel="+change_data;
 				url ="user_tel_update.do";
 
@@ -501,7 +440,8 @@
 					update_user_info( account_number );
 		           }, "post");
 
-			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && change_data != '' && update_ok == 'yes'){
+			// 계좌 전화번호를 변경할 경우
+			}else if(change_key == '계좌에 사용할 새로운 비밀번호를 입력해 주세요' && update_ok == 'yes'){
 				param = "account_number="+account_number + "&account_pwd="+change_data;
 				url ="account_pwd_update.do";
 
@@ -509,8 +449,8 @@
 					update_user_info( account_number );
 		           }, "post");
 			
+			// 계좌 색상을 변경할 경우
 			}else if(change_info.style.display != "block"){
-				console.log(change_color);
 				param = "account_number="+account_number + "&account_color="+change_color;
 				url ="account_color_update.do";
 
@@ -520,88 +460,66 @@
 			}
 		}
 	 	
+		// 사용자 정보 수정 성공 여부
 		function update_user_info( account_number ) {
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				
-				//"[{'result':'yes'}]"
 				let data = xhr.responseText;
-				console.log(data);
-				
 				let json = ( new Function('return '+data) )();
 				
+				// 변경 폼 비활성화
+		 		document.getElementById("change_color").style.display = "none";
+	 			document.getElementById("change_info").style.display = "none";
+ 				document.getElementById("change_send").style.display = "none";
+ 				
 				if( json[0].result == 'clear' ){
-			 		document.getElementById("change_color").style.display = "none";
 			 		document.getElementById("change_color_msg").innerHTML = "수정이 완료되었습니다.";
-		 			document.getElementById("change_info").style.display = "none";
-	 				document.getElementById("change_send").style.display = "none";
-
-	 				change_searchinfo( account_number);
-					
+	 				change_searchinfo( account_number );
 				}else{
-			 		document.getElementById("change_color").style.display = "none";
 			 		document.getElementById("change_color_msg").innerHTML = "수정에 실패하였습니다.";
-		 			document.getElementById("change_info").style.display = "none";
-	 				document.getElementById("change_send").style.display = "none";
 				}
-				
 			}
 		}
 	 	
 	 	// 계좌 검색으로 사용자 정보 조회 
 	 	function change_searchinfoFn(account_number) {
-	 		let search_worn_msg = document.getElementById("search_worn_msg");
+	 		let search_warn_msg = document.getElementById("search_warn_msg");
 	 		
 	 		// fetch 앞에 return을 붙이면 해당 함수를 호출했을때 프로미스 객체를 반환받을 수 있다.
 	 		return fetch("change_searchinfo_account.do?account_number="+account_number)
 	 		  .then(response => {
-	           	console.log(response);
 	               if (!response.ok) { // ==> xhr.readyState == 4 && xhr.status == 200
-						search_worn_msg.innerHTML = "서버와 통신 중 문제가 발생했습니다.";
-						search_worn_msg.style.color = "red";
+						search_warn_msg.innerHTML = "서버와 통신 중 문제가 발생했습니다.";
+						search_warn_msg.style.color = "red";
 	                   throw new Error('Network response was not ok');
 	               }
 	               return response.json();
 	           })
 	 		  // 에러 발생 시 호출
 	          .catch(error => {
-   			   search_worn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
-			   search_worn_msg.style.color = "red";
+   			   search_warn_msg.innerHTML = "통신 중 문제가 발생했습니다.";
+			   search_warn_msg.style.color = "red";
 	           console.error('There was a problem with the fetch operation:', error);
 	          });
 		}
 	 	
-	 	
-	 	
-	 	
-	 	// 임시
 	 	let head_img_index = 1;
 		let head_img_path = "/bank/resources/img/은행대표이미지";
+	 	// 은행 대표이미지 출력
 		function change_head_img(){
 			head_img_index++;
 			if(head_img_index > 3){
 				head_img_index = 1;
 			}
 			document.getElementById("head_img_img").src = head_img_path + head_img_index + ".jpg";
-	
-			if(head_img_index == 1){
-				document.getElementById("head_content1").innerHTML = "꾸준히 키워나가는";
-				document.getElementById("head_content2").innerHTML = "미래의 가능성";
-
-				document.getElementById("head_content1").style.color = "black";
-				document.getElementById("head_content2").style.color = "black";
-			}else if(head_img_index == 2){
-				document.getElementById("head_content1").innerHTML = "늦은 밤, 당신에게";
-				document.getElementById("head_content2").innerHTML = "꼭 필요한 은행";
-
-				document.getElementById("head_content1").style.color = "white";
-				document.getElementById("head_content2").style.color = "white";
-			}else{
-				document.getElementById("head_content1").innerHTML = "강아지에 의한";
-				document.getElementById("head_content2").innerHTML = "강아지를 위한 적금";
-
-				document.getElementById("head_content1").style.color = "white";
-				document.getElementById("head_content2").style.color = "white";
-			}
+			
+			let head_content = [["꾸준히 키워나가는", "미래의 가능성", "black"],
+							  ["늦은 밤, 당신에게", "꼭 필요한 은행", "white"],
+							  ["강아지에 의한", "강아지를 위한 적금", "white"]];
+			
+			document.getElementById("head_content1").innerHTML = head_content[head_img_index-1][0];
+			document.getElementById("head_content2").innerHTML = head_content[head_img_index-1][1];
+			document.getElementById("head_content1").style.color = head_content[head_img_index-1][2];
+			document.getElementById("head_content2").style.color = head_content[head_img_index-1][2];
 		}
 		
 		// 1초간격으로 자동으로 change_head_img()함수를 호출한다
@@ -620,13 +538,12 @@
 				url ="user_remove.do";
 			}else{
 				let user_name = prompt("변경할 이름을 입력하여 주십시오.");
-				
+				// 취소
 				if(user_name == null){
 					return;
 				}
 				param = "user_id="+user_id + "&user_name="+user_name;
 				url ="user_name_open.do";
-				
 			}
 			
 			sendRequest(url, param, function() {
@@ -636,11 +553,7 @@
 		
 		function change_user_name_unknownFn( account_number ) {
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				
-				//"[{'result':'yes'}]"
 				let data = xhr.responseText;
-				console.log(data);
-				
 				let json = ( new Function('return '+data) )();
 				
 				if( json[0].result == 'clear' ){
@@ -648,45 +561,51 @@
 				}else{
 					alert("진행 실패");
 				}
-				
 			}
 		}
 		
+		// 사용자 정보 수정시 화면 상단으로 돌아가지 않고 고정시킨다.
 		document.addEventListener('DOMContentLoaded', function() {
 			document.querySelectorAll('.no_scroll').forEach(function(element) {
 			    element.addEventListener('click', function(event) {
 			        event.preventDefault(); // 기본 이벤트 방지
-			        console.log("================");
-	
 			        // 현재 스크롤 위치 저장
 			        var scrollY = window.scrollY || window.pageYOffset;
-	
 			        // body에 lock-scroll 클래스 추가
 			        document.body.classList.add('lock-scroll');
-	
 			        // 스크롤 위치를 고정
 			        window.scrollTo(0, scrollY);
 			    });
 			});
 		});
 		
+		// 본인인증 완료 여부		
 		function user_self_check_ok() {
 			let user_check_background = document.getElementById("user_check_background");
 			user_check_background.style.display = "block";
-		
 		}
 		
+		// 본인인증 창 닫기		
 		function close_user_self(f) {
-			f.reset();					
-			let user_check_background = document.getElementById("user_check_background");
-			user_check_background.style.display = "none";
+			//본인인증 폼 초기화
+			f.reset();		
+			clearInterval(intervaled_user_self);
+			sixnumber = 0;
+			user_check_timer_min = 2;
+			user_check_timer_sec = 30;
+			document.getElementById("user_tel_check_button").value="인증하기"; 
+			document.getElementById("user_check_timer_msg").innerHTML = "";
+			document.getElementById("check_user_tel_msg").innerHTML = "계정에 등록되어 있는 전화번호를 입력하여 주십시오";
+			document.getElementById("check_user_tel_msg").style.color = "gray";
+			document.getElementById("user_check_background").style.display = "none";
 		}
 	</script>
-	
 	</head>
 
 	<body>
 		<div id="container">
+		
+			<!-- 관리자 화면에서 보여지는 사용자 본인인증 jsp -->
 			<div id="user_check_background" style="display: none;">
 				<jsp:include page="/WEB-INF/views/account/userchange_check.jsp"></jsp:include>
 			</div>
@@ -778,8 +697,8 @@
 					<div id="search_user_account">
 						계좌 검색 
 						<input id="search_account_number" name="search_account_number" oninput="search_userinfo(event);" placeholder="계좌 번호 검색하기"> ▼ 
-						<br> <span id="search_worn_msg"></span>
-						<div id="search_result"></div>
+						<br> <span id="search_warn_msg"></span>
+						<div id="search_result" ></div>
 					</div>
 											
 					<div class="account_slide" >
@@ -810,28 +729,32 @@
 						</div>
 						<div class="update_userinfo">
 							<h4>계정 정보 수정 및 변경</h4>
-							<a href="#" id="change_user_name" class="no_scroll">계정 이름 변경</a>
-							<a href="#" id="change_user_pwd" class="no_scroll">계정 비밀번호 변경</a>
-							<a href="#" id="change_user_tel" class="no_scroll">전화번호 변경</a>
+							<a href="#" id="change_user_name" onclick="change_user_name();" class="no_scroll">계정 이름 변경</a>
+							<a href="#" id="change_user_pwd" onclick="change_user_pwd();" class="no_scroll">계정 비밀번호 변경</a>
+							<a href="#" id="change_user_tel" onclick="change_user_tel();" class="no_scroll">전화번호 변경</a>
 						</div>
 						
 						<div id="update_userinfo">
 							<h4>계좌 정보 수정 및 변경</h4>
-							<a href="#" id="change_account_pwd" class="no_scroll">계좌 비밀번호 변경</a>
-							<a href="#" id="change_account_color" class="no_scroll">계좌 색상 변경</a>
+							<a href="#" id="change_account_pwd" onclick="change_account_pwd();" class="no_scroll">계좌 비밀번호 변경</a>
+							<a href="#" id="change_account_color" onclick="change_account_color();" class="no_scroll">계좌 색상 변경</a>
 						</div>
-
-						<input type="button" value="본인인증" onclick="user_self_check_ok();">
+						
 
 						<form id="change_form" style="width: 700px; height: 60px; margin-top: 20px;">
 							<span id="change_color_msg" style="width: 600px; height: 30px;"></span>
 							<div id="change_color" style="width: 500px; height: 30px; display: none;"></div>
 							<input name="change_info" id="change_info" oninput="change_ok(this.form);" style="width: 350px; height: 25px; display: none;">
-							<input type="button" id="change_send" value="진행" onclick="change_user_info(this.form);" style="display: none; height: 28px;">
+							<input type="button" id="change_send" value="진행" onclick="change_user_info(this.form);" style="display: none; height: 28px; margin-top: -30px; background: black; color: white;">
 							<input type="hidden" id="change_color" style="display: none;">
 						</form>
 					</div>
-						
+					
+					<!-- 본인인증 jsp를 block 해주는 div -->	
+					<div id="user_self_check_box" style=" width: 610px; height: 440px;  border-radius: 20px; background: #b5b5b5; opacity: 0.9; position: absolute; top:150px; left:650px; z-index: 100;">
+						<h3 style="margin: 200px auto 30px; width: 440px; ">사용자 정보 수정을 위해 본인인증이 필요합니다.</h3>
+						<input type="button" id="user_self_check_button" value="본인인증" onclick="user_self_check_ok();" disabled="disabled" style="margin-left: 200px; width: 200px; height: 35px; font-size: 20px; background-color: #1f2021; color: white; cursor: pointer;">
+					</div>
 				</div>
 				
 				<!-- 환율 그래프, 환율 게시판 박스 -->		
@@ -881,7 +804,9 @@
 				
 				
 				<!-- 하단 footer -->
-				<div id="footer"></div>			
+				<div id="footer">
+					<jsp:include page="/WEB-INF/views/footer_header.jsp"></jsp:include>
+				</div>
 		</div>
 	</body>
 </html>

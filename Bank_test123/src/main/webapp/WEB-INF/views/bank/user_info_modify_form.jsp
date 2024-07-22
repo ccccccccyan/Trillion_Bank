@@ -74,6 +74,9 @@ body {
 </style>
 
 <script>
+	let user_tel_check_ok = "yes";
+	let user_pwd_check_ok = "yes";
+
 	// 회원 정보 수정
 	function send(f) {
 		let user_id = f.user_id.value;
@@ -84,11 +87,16 @@ body {
 		if (user_pwd != user_pwd_check) {
 			alert("비밀번호가 일치하지 않습니다.");
 			return;
-		} else if (user_pwd.length < 8 || user_pwd.length > 16) {
+		} else if ((user_pwd.length < 8 || user_pwd.length > 16) && user_pwd_check_ok != 'yes') {
 			alert("8~16자의 비밀번호를 입력하여주십시오.");
 			return;
 		}
 
+		if(user_tel_check_ok == 'no'){
+			alert("전화번호 중복확인이 필요합니다.");
+			return;
+		}
+		
 		let url = "modify_ins_user.do";
 		let param = "user_id=" + user_id + "&user_pwd=" + encodeURIComponent(user_pwd) + "&user_tel=" + user_tel;
 		sendRequest(url, param, resultFn, "post");
@@ -114,6 +122,13 @@ body {
 		let user_tel = f.user_tel.value;
 		let user_id = f.user_id.value;
 		
+		let onlynumber = /^[0-9]{11}$/;
+		if(!onlynumber.test(user_tel)){
+			user_tel_check_ok = "no";
+			alert("유효한 전화번호를 입력해주십시오.");
+			return;
+		}
+		
 		let url = "modify_ins_tel.do";
 		let param = "user_tel=" + user_tel + "&user_id=" + user_id;
 		sendRequest(url, param, result_tel, "post");
@@ -126,8 +141,10 @@ body {
 			let json = (new Function('return ' + data))();
 			if (json[0].result == 'clear') {
 				alert("사용 가능한 전화번호입니다.");
+				user_tel_check_ok = "yes";
 			} else {
 				alert("다른 계정에서 사용 중인 번호입니다.");
+				user_tel_check_ok = "no";
 			}
 		}
 	}// result_tel----------------------------------
@@ -158,6 +175,13 @@ body {
 		}
 	}// user_removeFn----------------------
 	
+	function change_tel_no() {
+		user_tel_check_ok ="no";
+	}
+	
+	function change_pwd_no() {
+		user_pwd_check_ok = "no";
+	}
 </script>
 </head>
 <body>
@@ -167,12 +191,12 @@ body {
 			<div class="id">
 				이름:<input type="text" name="user_name" value="${vo.user_name}" disabled="disabled"><br>
 				ID:<input type="text" name="user_id" value="${vo.user_id}" disabled="disabled"> <br>
-				비밀번호:<input type="password" name="user_pwd" 
-					placeholder="영어 + 숫자의 8~16자리" maxlength="16" required><br>
-				비밀번호 확인:<input type="password" name="user_pwd_check" 
-					placeholder="비밀번호 확인" maxlength="16" required><br>
-				전화번호:<input type="text" name="user_tel"  required> <input
-					type="button" value="중복확인" class="inline-button"
+				비밀번호:<input type="password" name="user_pwd" value="${vo.user_pwd}"
+					placeholder="영어 + 숫자의 8~16자리" maxlength="16" oninput="change_pwd_no();" required><br>
+				비밀번호 확인:<input type="password" name="user_pwd_check" value="${vo.user_pwd}"
+					placeholder="비밀번호 확인" maxlength="16" oninput="change_pwd_no();"  required><br>
+				전화번호:<input type="text" name="user_tel" value="${vo.user_tel}" oninput="change_tel_no();" required> 
+					<input type="button" value="중복확인" class="inline-button"
 					onclick="check_tel(this.form)"><br> 
 			</div>
 			<input type="button" value="수정하기" onclick="send(this.form)">

@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>rate_view.jsp</title>
+		<title>환율 게시글 상세보기</title>
 		
 		<script src="/bank/resources/js/httpRequest.js"></script>
 		
@@ -21,7 +21,7 @@
 				let c_pwd = f.c_pwd.value; //지우려고 입력받은 비밀번호
 					
 				let url = "r_del.do";
-				let param = "r_board_idx=${vo.r_board_idx}" + "&pwd="
+				let param = "r_board_idx=${vo.r_board_idx}&pwd="
 							+ encodeURIComponent(c_pwd);
 				sendRequest(url, param, resultFn, "post"); //resultFn 콜백 메서드
 		        
@@ -50,11 +50,11 @@
 			
 			//현재 글 수정
 			function modify(form){
-				
 				//비밀번호가 일치하면 넘어가도록 함. (비밀번호 틀리면 못넘어가게 함.)
 				let pwd = form.c_pwd.value;
+				
 				let url = "check_password.do";
-				let param = "r_board_idx=${vo.r_board_idx}" + "&pwd="
+				let param = "r_board_idx=${vo.r_board_idx}&pwd="
 						+ encodeURIComponent(pwd);
 				
 				sendRequest(url, param, checkPwdFn, "post");
@@ -131,6 +131,31 @@
 			
 			
 			//==============================
+			
+			//비밀번호 유효성 검사
+			let check_remittance = "no";
+			
+			function pwdSend(f){
+				let rate_pwd = f.comm_pwd.value; // 댓글 작성 시 사용되는 비밀번호
+				let rate_pwd_warn_msg = document.getElementById("rate_pwd_warn_msg");
+				let onlynumberpwd = /^[0-9]{4}$/;
+				let pwdbtn = document.getElementById("pwdbtn");
+				
+				// 비밀번호 유효성 체크
+				if (!onlynumberpwd.test(rate_pwd)) {
+					rate_pwd_warn_msg.innerHTML = "게시글 작성시 비밀번호는 숫자 4자리입니다.";
+					rate_pwd_warn_msg.style.color = "red";
+					pwdbtn.disabled = false;
+					check_remittance = "no";
+					return;
+				}
+				
+				rate_pwd_warn_msg.innerHTML = "";
+				pwdbtn.disabled = false;
+				check_remittance = "yes";
+			} //pwdSend()
+			
+			
 			/* comment 등록 메서드 */
 			function send(f){
 				if (!f.name.value || !f.content.value || !f.comm_pwd.value) {
@@ -138,17 +163,26 @@
 					return;
 				}
 				
-				let url = "r_comment_insert.do";
-				let param = "r_board_idx=${vo.r_board_idx}&name=" + f.name.value
-							+ "&content=" + f.content.value
-							+ "&comm_pwd=" + f.comm_pwd.value; //Ajax로 요청
-				sendRequest(url, param, commFn, "post");
-							 
-				//form태그에 포함되어 있는 모든 입력상자의 값을 초기화
-				//댓글 작성한 뒤에 글이 남아있지 않도록 해주는 장치
-				f.reset();
+				pwdSend(f); // 비밀번호 유효성 검사
+				
+				if(check_remittance == "yes"){
+					let url = "r_comment_insert.do";
+					let param = "r_board_idx=${vo.r_board_idx}&name=" + f.name.value
+								+ "&content=" + f.content.value
+								+ "&comm_pwd=" + f.comm_pwd.value; //Ajax로 요청
+					sendRequest(url, param, commFn, "post");
+					
+					//form태그에 포함되어 있는 모든 입력상자의 값을 초기화
+					//댓글 작성한 뒤에 글이 남아있지 않도록 해주는 장치
+					f.reset();
+					//f.submit();
+				}else{
+					alert("비밀번호를 확인하세요.");
+				}
+				
 				
 			} //send(f)
+			
 			
 			function commFn(){
 				if( xhr.readyState == 4 & xhr.status == 200 ){
@@ -164,16 +198,7 @@
 				}
 			}//commFn()
 			
-			/*코멘트 작성 완료 후, 해당 게시글에 대한 코멘트만 추려내서 가져온 결과*/
-			function comm_list_fn(){
-				if( xhr.readyState == 4 && xhr.status == 200 ){
-					let data = xhr.responseText;
-					
-					document.getElementById("comment_disp").innerHTML = data;
-				}
-			}//comm_list_fn()
 			
-			//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			function comment_list(comm_page){
 				let r_board_idx = ${vo.r_board_idx};
 				
@@ -182,6 +207,16 @@
 				sendRequest(url, param, comm_list_fn, "post");
 				
 			}//comment_list()
+			
+			
+			/*코멘트 작성 완료 후, 해당 게시글에 대한 코멘트만 추려내서 가져온 결과*/
+			function comm_list_fn(){
+				if( xhr.readyState == 4 && xhr.status == 200 ){
+					let data = xhr.responseText;
+					
+					document.getElementById("comment_disp").innerHTML = data;
+				}
+			}//comm_list_fn()
 			
 			
 		</script>
@@ -251,6 +286,24 @@
 				background-color: #23212B; /*제목, 작성자, 내용 비번이 있는 행의 배경색 */
 				color: #fff; /*제목, 작성자, 내용 비번의 글씨 색깔*/
 			}
+			
+			.content-font {
+		        font-family: inherit; /* 부모 요소의 폰트를 상속받음 */
+		        white-space: pre-wrap; /* 줄바꿈과 공백을 유지 */
+		        word-wrap: break-word; /* 긴 단어 줄바꿈 */
+		        margin: 0; /* pre 태그의 기본 마진 제거 */
+		    }
+		    
+		    .comment-box {
+	            text-align: left;
+	            padding: 10px 0;
+	            word-break: break-all;
+	        }
+	        
+	        #comment_disp {
+	            width: 700px;
+	            margin: auto;
+        	}
 		
 		</style>
 		
@@ -281,7 +334,7 @@
 				
 				<tr>
 					<td class="color_same">내용</td>
-					<td><pre>${ vo.content }</pre></td>
+					<td><pre class="content-font">${ vo.content }</pre></td>
 				</tr>
 				
 				<tr>
@@ -296,7 +349,7 @@
 				
 				<tr>
 					<td colspan="2" align="right">
-						<input type="button" value="목록으로" onclick="history.go(-1);">
+						<input type="button" value="목록으로" onclick="location.href='r_list.do?page=${param.page}&search${param.search}&$search_text=${param.search_text}'">
 						<input type="button" value="수정" onclick="modify(this.form);">
 						<input type="button" value="삭제" onclick="del(this.form);">
 						
@@ -313,28 +366,33 @@
 		<form>
 			<table border="1" align="center" width="700">
 				<tr>
-					<th class="color_same">작성자</th><!-- 사용자의 id를 넣을 것인가?? 사용자의 이름?? -->
+					<th class="color_same">작성자</th>
 					<td><input name="name"></td>
 				</tr>
 				
 				<tr>
 					<th class="color_same">댓글을 달 내용</th>
 					<td>
-						<textarea name="content" rows="5" cols="46" style="resize: none;"></textarea>
+						<textarea name="content" rows="5" cols="40" style="resize: none;"></textarea>
 					</td>
 				</tr>
 				
 				<tr>
 					<th class="color_same">비밀번호</th>
-					<td><input type="password" name="comm_pwd" maxlength="4">
+					<td>
+						<input type="password" name="comm_pwd" maxlength="4" id="pwdbtn" oninput="pwdSend(this.form);">
 						<input type="button" value="등록" onclick="send(this.form);">
+						<br>
+						<span id="rate_pwd_warn_msg"></span>
 					</td>
 				</tr>
 			</table>
 		</form>
 		</div>
 		
-		<div id="comment_disp" width="700"> <jsp:include page="/WEB-INF/views/comment/comment_list.jsp"></jsp:include> </div>
+		<div id="comment_disp" width="700">
+			<jsp:include page="/WEB-INF/views/comment/comment_list.jsp"></jsp:include>
+		</div>
 		
 	</body>
 </html>

@@ -27,6 +27,7 @@ import dao.UserDAO;
 import service.SmsService;
 import vo.AccountVO;
 import vo.AccountdetailVO;
+import vo.Foreign_exchangeVO;
 import vo.NoticeVO;
 import vo.ProductVO;
 import vo.QnaVO;
@@ -118,12 +119,7 @@ public class AccountController {
 		List<QnaVO> qna_list = qna_dao.selectRank_List();
 		model.addAttribute("qna_list", qna_list);
 		
-		
-//		SmsService sms = new SmsService();
-//		sms.push_smsService("01032652508", "01055773032");
-		
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
-//		return Common.Account.VIEW_PATH_AC + "openpage.jsp"; 
 	}
 	
 	
@@ -467,7 +463,18 @@ public class AccountController {
 	}
 
 	@RequestMapping("rate_inquiry.do")
-	public String rate_inquiry() {
+	public String rate_inquiry(Model model) {
+		// session에 user_id 데이터 저장 여부 확인
+		String session_user_id = (String) session.getAttribute("user_id");
+		String manager = (String) session.getAttribute("manager");
+	
+		if(session_user_id != null && manager == null) {
+			List<Foreign_exchangeVO> exchange_list = account_dao.select_exchange(session_user_id);
+			// 저장된 user_id의 계좌 리스트를 조회한다.
+			List<AccountVO> account_list = account_dao.selectList(session_user_id);
+			model.addAttribute("account_list", account_list);
+			model.addAttribute("exchange_list", exchange_list);
+		}
 		return Common.Header.VIEW_PATH_HD + "rate_inquiry.jsp";
 	}
 
@@ -597,4 +604,118 @@ public class AccountController {
 	public String chart_all() {
 		return Common.Header.VIEW_PATH_HD + "schedule_all.jsp";
 	}
+	
+
+	
+	@Transactional
+	@RequestMapping("exchange_account_insert.do")
+	public String exchange_account_insert(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
+		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
+		accountvo.setNow_money(accountvo.getNow_money() - exchange_frommoney);
+		
+		int res = account_dao.updateremittance(accountvo);
+		
+		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		
+		AccountdetailVO account_datailvo = new AccountdetailVO();
+		account_datailvo.setAccount_number(exchange_choice_account);
+		account_datailvo.setUser_name(uservo.getUser_name());
+		account_datailvo.setDepo_username(exchange_choice_type+" 환전");
+		account_datailvo.setDepo_account("1111-0000");
+		account_datailvo.setDeal_money(exchange_frommoney);
+		
+		account_dao.insertremittance(account_datailvo);
+
+		Foreign_exchangeVO exchangevo = new Foreign_exchangeVO();
+		exchangevo.setUser_id(uservo.getUser_id());
+		exchangevo.setExchange_money(exchange_tomoney);
+		exchangevo.setForegin_type(exchange_choice_type);
+		
+		Foreign_exchangeVO already_exchange = account_dao.exchange_selectone(exchangevo);
+		if(already_exchange == null){
+			account_dao.exchangeinsert(exchangevo);
+		}else {
+			already_exchange.setExchange_money(already_exchange.getExchange_money()+exchange_tomoney);
+			account_dao.exchange_update_sametype(already_exchange);
+		}
+		
+		return "redirect:rate_inquiry.do";
+	}
+	
+	//자주묻는질문
+	@RequestMapping("faq.do")
+	public String faq() {
+		return Common.Header.VIEW_PATH_HD + "faq.jsp";
+	}
+
+	//개인정보 처리방침
+	@RequestMapping("privacy.do")
+	public String privacy() {
+		return Common.Header.VIEW_PATH_HD + "privacy.jsp";
+	}
+	
+	//이용약관
+	@RequestMapping("terms.do")
+	public String terms() {
+		return Common.Header.VIEW_PATH_HD + "terms.jsp";
+	}
+	
+	@Transactional
+	@RequestMapping("exchange_back_money.do")
+	public String exchange_back_money(int exchange_frommoney, int exchange_tomoney, String exchange_choice_account, String exchange_choice_type) {
+		AccountVO accountvo = account_dao.accountnum_selectOne(exchange_choice_account);
+		
+		accountvo.setNow_money(accountvo.getNow_money() + exchange_tomoney);
+		
+		int res = account_dao.updateremittance(accountvo);
+		
+		UserVO uservo = user_dao.check_id((String) session.getAttribute("user_id"));
+		
+		AccountdetailVO account_datailvo = new AccountdetailVO();
+		account_datailvo.setAccount_number("1111-0000");
+		account_datailvo.setUser_name(exchange_choice_type+" 환전");
+		account_datailvo.setDepo_username(uservo.getUser_name());
+		account_datailvo.setDepo_account(exchange_choice_account);
+		account_datailvo.setDeal_money(exchange_tomoney);
+		
+		account_dao.insertremittance(account_datailvo);
+
+		Foreign_exchangeVO exchangevo = new Foreign_exchangeVO();
+		exchangevo.setUser_id(uservo.getUser_id());
+		exchangevo.setForegin_type(exchange_choice_type);
+		
+		Foreign_exchangeVO tokor_update_exchange = account_dao.exchange_selectone(exchangevo);
+	
+		
+		System.out.println(tokor_update_exchange.getExchange_money()+" - "+exchange_frommoney);
+		tokor_update_exchange.setExchange_money(tokor_update_exchange.getExchange_money()-exchange_frommoney);
+		if(tokor_update_exchange.getExchange_money() == 0) {
+			account_dao.exchange_del_type(tokor_update_exchange);
+		}else {
+			account_dao.exchange_update_sametype(tokor_update_exchange);
+		}
+		
+		return "redirect:rate_inquiry.do";
+	}
+	
+	@RequestMapping("exchange_pwd_lockcnt.do")
+	@ResponseBody
+	public String exchange_pwd_lockcnt(String account_number) {
+		
+		AccountVO vo = account_dao.accountnum_selectOne(account_number);
+		
+		vo.setAccount_lockcnt(vo.getAccount_lockcnt() + 1);
+		
+		int res = account_dao.lockcnt_update(vo);
+		
+		if (res > 0) {
+			//비밀번호가 일치하므로, 삭제 form으로 이동
+			String res_lockcnt = 
+					String.format("[{'result':'clear', 'pwd_lockcnt': '%d'}]", vo.getAccount_lockcnt());
+			return res_lockcnt;
+		} else {
+			return "[{'result':'fail'}]";
+		}
+	}
+	
 }

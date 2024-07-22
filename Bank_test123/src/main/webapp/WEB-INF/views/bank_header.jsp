@@ -27,17 +27,25 @@
 			<div id="set_category">
 
 				<c:if test="${ empty user_id }">
-					<div>
+					<div class="info_menu">
 						<a href="login.do">로그인</a>
 					</div>
-					<div>
+					<div class="info_menu">
 						<a href="signup.do">회원가입</a>
 					</div>
 				</c:if>
 
 				<c:if test="${ not empty user_id }">
-					<div onclick="user_info_check('${user_id}');">개인정보 수정</div>
-					<div>
+					<div id="user_info_update_pwd_check" style=" display:none; position: absolute; z-index: 70; width: 100%; height: 200px; background: white;">
+						<span style=" font-size: 15px; font-weight:bold; position: absolute; top: 30px; left: 10px;">개인정보 수정을 위해서는</span>
+						<span style=" font-size: 15px; font-weight:bold; position: absolute; top: 50px; left: 3px;">비밀번호 확인이 필요합니다.</span>
+						<input type="password" id="user_info_check_pwd" placeholder="비밀번호를 입력해주세요" style="position: absolute; top: 80px; left: 13px;">
+						<span id="user_pwd_check_warn_msg" style="position: absolute; top: 100px; left: 13px;"></span>
+						<input type="button" value="수정하기" onclick="user_info_check('${user_id}');" style=" width: 150px; height: 30px; background: black; color: white; cursor: pointer; position: absolute; top: 130px; left: 25px;"> 
+					
+					</div>
+					<div class="info_menu" onclick="user_pwd_check_open();">개인정보 수정</div>
+					<div class="info_menu">
 						<a href="logout.do">로그아웃</a>
 					</div>
 				</c:if>
