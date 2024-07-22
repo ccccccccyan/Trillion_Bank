@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+body {margin: 0; padding: 0;
+	background-color: #f4f4f4;
+	}
+
+	
+
+#rate_search_period{
+					width: 800px;
+					height: 40px;
+					display: flex;
+					margin: 30px auto;
+					}
+#rate_search_period div{
+						width: 60px;
+						height: 20px;
+						margin-left: 30px;
+						font-size: 15px;
+						text-align: center;
+						font-weight: bold;
+						padding: 5px;
+						border-radius: 10px;
+						cursor: pointer;
+						}						
+#rate_search_period div:hover{background:#dde0ed;
+							}
+																
+.rate_box{vertical-align: middle;
+		margin-left: 100px;}
+
+#rate_body{display: flex; 
+		margin: 30px auto;
+		width: 1500px;
+		}
+		
+.rate_cal_box{margin-left: 40px;
+			margin-top: 40px;}
+		
+.rate_cal{width: 300px;
+		height: 25px;}
+					
+.rate_cal_select{width: 150px;
+				height: 27px;
+				margin-bottom: 5px;}
+						
+.equals_icon{
+			width: 30px;
+			height: 10px;
+			color: gray;
+			font-size: 30px;
+			margin: 0 0 20px 110px;
+}
+.rate_select_header{display: flex;
+					position: absolute;
+					top: 160px; }	
+							
+#rate_calculate{width: 396px;
+				 height: 661px;
+				 background: #fcfcfc;
+				 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+				 }		
+						 
+#ttb_tts_select{margin-left: 75px;
+				 margin-top:20px;
+				 height: 30px;}
+					 
+#exchange_form{position: absolute;
+			 margin-top: 20px;
+			 width: 395px;
+			 height: 185px; 
+			 background: white;
+			 border-bottom: 1px solid #e6e6e6;
+			 border-top: 1px solid #e6e6e6;
+			 }
+		
+#exchange_money_header{margin: 10px 30px 10px;
+					   width: 200px;}	
+	
+#exchange_user_type_icon{width: 20px; 
+						height: 20px; 
+						position: absolute; 
+						top: 13px; 
+						left: 5px; 
+						cursor: pointer;}
+
+#user_account_list{position: absolute; 
+					top: 15px; 
+					width: 220px; 
+					margin-left: 158px; 
+					border: 1px solid; 
+					background: white; 
+					z-index: 400;}	
+
+#user_account_warn_msg{position: absolute; 
+						top: 33px; 
+						width: 310px; 
+						margin-left: 138px; 
+						font-size: 13px;}	
+						
+#user_exchange_list{position: absolute; 
+					top: 55px; 
+					width: 160px; 
+					margin-left: 10px; 
+					background: white; 
+					z-index: 400; 
+					display: none}
+	
+#exchange_frommoney{width: 123px; 
+					position: absolute; 
+					top: 87px; 
+					left: 30px;}
+																								   		 				 
+#exchange_tomoney{width: 123px; 
+				 position: absolute; 
+				 top: 87px; 
+				 left: 225px;}	
+
+#exchange_money_type{position: absolute; 
+					top: 65px; 
+					right: 34px;}	
+
+#user_check_account_pwd{width: 90px; 
+						position: absolute; 
+						left: 160px; 
+						top: 133px;}	
+													 																		   		 				 
+#exchange_money_button{position: absolute; 
+						top: 130px; 
+						right: 40px; 
+						width: 90px; 
+						height: 25px;}
+								
+#rate_account_list{position: absolute; 
+					top: 600px;}			
+	
+#my_exchange_type_list{height: auto; 
+						width: 396px; 
+						height: 170px;
+						overflow-y: scroll;
+						margin-bottom: 10px;
+						}	
+		
+.my_exchange_type_mini{border: 1px solid; 
+						width: 240px; 
+						height: 60px; 
+						margin-left: 15px; 
+						margin-bottom: 10px; 
+						position: relative;}		
+		
+#Compared_to_last_day_rate{border: 1px solid;
+							width: 330px;
+							height: 380px;
+							padding-left: 40px;
+							}		
+							
+.last_day_compared{display: flex; 
+					width: 300px;
+					height: 50px;
+					margin-bottom: 10px;
+					margin-left: 40px;
+					background: #ededed;}
+						
+.last_day_type_name{margin: 10px 10px 0; 
+				}
+
+.last_day_rate_now{margin-top: 20px;
+					font-size: 17px;}			
+					
+.last_day_type_icon{width: 40px; height: 40px; position: absolute; top: -5px; left: 270px;}																					
+
+.last_day_rate_last{margin-left: 30px;
+					font-weight: bold;}
