@@ -653,6 +653,18 @@ public class AccountController {
 	}
 	
 	//자주묻는질문
+	@RequestMapping("security.do")
+	public String security() {
+		return Common.Header.VIEW_PATH_HD + "security.jsp";
+	}
+	
+	//자주묻는질문
+	@RequestMapping("legal.do")
+	public String legal() {
+		return Common.Header.VIEW_PATH_HD + "legal.jsp";
+	}
+	
+	//자주묻는질문
 	@RequestMapping("faq.do")
 	public String faq() {
 		return Common.Header.VIEW_PATH_HD + "faq.jsp";

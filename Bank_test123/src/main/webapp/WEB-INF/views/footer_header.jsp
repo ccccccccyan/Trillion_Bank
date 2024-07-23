@@ -44,12 +44,12 @@
 		  
 		  <div class="footer-section footer-security">
 		    <h3>정보 보호 및 보안</h3>
-		    <a href="privacy.do">개인정보 처리방침</a> | <a href="/security">보안 공지사항</a>
+		    <a href="privacy.do">개인정보 처리방침</a> | <a href="security.do">보안 공지사항</a>
 		  </div>
 		  
 		  <div class="footer-section footer-legal">
 		    <h3>법적 고지 및 약관</h3>
-		    <a href="terms.do">이용 약관</a> | <a href="/legal">법적 고지</a>
+		    <a href="terms.do">이용 약관</a> | <a href="legal.do">법적 고지</a>
 		  </div>
 	</footer>
 
