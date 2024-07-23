@@ -204,6 +204,7 @@
             border-style: solid;
             border-color: #555 transparent transparent transparent;
         }
+        //.
         .option:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
