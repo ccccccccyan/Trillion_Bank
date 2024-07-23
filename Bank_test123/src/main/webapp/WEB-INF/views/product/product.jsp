@@ -71,7 +71,7 @@
     .confirmation {
         position: absolute; /* 절대 위치 설정 */
         top: 50%; /* 상단 기준으로 중앙 정렬 */
-        right: 8px; /* 오른쪽으로 이동 */
+        right: 15px; /* 오른쪽으로 이동 */
         transform: translateY(-50%); /* 세로 중앙 정렬 */
         background-color: #23212b;
         color: white;
