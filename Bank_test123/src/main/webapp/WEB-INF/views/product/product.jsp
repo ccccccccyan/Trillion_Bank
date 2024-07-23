@@ -21,8 +21,18 @@
     #header {
         position: relative; /* 상대 위치 설정 */
         z-index: 1000; /* 헤더의 z-index 값을 크게 설정 */
-        margin-bottom: 20px; /* 헤더와 상품 사이 간격 설정 */
+        margin-bottom: 120px; /* 헤더와 상품 사이 간격 설정 */
     }
+    
+    .container {
+		width: 40%;
+		margin: 20px auto;
+		padding: 20px;
+		padding-top:50px;
+		background-color: #fff;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+		border-radius: 20px;
+	}
     
     .bank-links-container {
         display: flex;
@@ -33,10 +43,12 @@
     .bank-link {
         position: relative; /* 상대 위치 설정 */
         text-decoration: none;
-        padding: 10px;
+        padding: 20px;
         border: 2px solid #c0d9fc;
-        margin-bottom: 15px;
-        width: 400px;
+        border-radius : 10px;
+        margin-bottom: 30px;
+        width: 500px;
+        height: 50px;
         background-color: #ffffff;
     }
     
@@ -59,7 +71,7 @@
     .confirmation {
         position: absolute; /* 절대 위치 설정 */
         top: 50%; /* 상단 기준으로 중앙 정렬 */
-        right: 8px; /* 오른쪽으로 이동 */
+        right: 15px; /* 오른쪽으로 이동 */
         transform: translateY(-50%); /* 세로 중앙 정렬 */
         background-color: #23212b;
         color: white;
@@ -75,7 +87,7 @@
 		<div id="header">
 		    <jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
 		</div>
-		
+		<div class="container">
 		<div class="bank-links-container">
 		    <div class="bank-link" onclick="location.href='regular_deposit.do?idx='+1">
 		        <a href="#">일조은행 my플러스 정기예탁금</a>
@@ -102,6 +114,7 @@
 		        <div class="product-description">매월 일정액을 납입하는 적금</div>
 		    </div>
 		    
+		</div>
 		</div>
 		</body>
 </html>

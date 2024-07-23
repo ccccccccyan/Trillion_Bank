@@ -410,7 +410,7 @@ public class AccountController {
 		search_result_vo.put("account_result", search_account_vo);
 		
 		for(AccountVO account_vo : search_account_vo) {
-			search_user_vo.add(user_dao.check_id(account_vo.getUser_id()));
+			search_user_vo.add(user_dao.check(account_vo.getUser_id()));
 		}
 		search_result_vo.put("userinfo_result", search_user_vo);
 		
@@ -576,6 +576,40 @@ public class AccountController {
 		}
 	}
 	
+	@RequestMapping("product_insert2.do")
+	public String p_insert2(Model model) {
+		if(session.getAttribute("user_id") == null) {
+			return Common.Product.VIEW_PATH_PR + "no_user.jsp";
+		}
+		
+		String user_id = (String)session.getAttribute("user_id");
+		String bankname = "일조";
+		int limit_money = 30000000;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("user_id", user_id);
+		map.put("bank_name", bankname);
+		List<AccountVO> list = account_dao.bankname_List(map);
+		
+		List<ProductVO> plist = account_dao.user_productList(user_id);
+		
+		if(plist == null || plist.isEmpty()) {
+			model.addAttribute("limit_money", limit_money);
+		}else {
+			for(int i = 0; i < plist.size(); i++) {
+				limit_money -= plist.get(i).getSaving_money();
+			}
+			model.addAttribute("limit_money", limit_money);
+		} 	
+		
+		if(list == null || list.isEmpty() ) {
+			return Common.Product.VIEW_PATH_PR + "no_bank.jsp";
+		}else {
+			model.addAttribute("list", list);
+			return Common.Product.VIEW_PATH_PR + "product_insert2.jsp";
+		}
+	}
+	
 	@RequestMapping("/account_pwd_update.do")
 	@ResponseBody
 	public String account_pwd_update(AccountVO vo) {
@@ -658,6 +692,18 @@ public class AccountController {
 		}
 		
 		return "redirect:rate_inquiry.do";
+	}
+	
+	//자주묻는질문
+	@RequestMapping("security.do")
+	public String security() {
+		return Common.Header.VIEW_PATH_HD + "security.jsp";
+	}
+	
+	//자주묻는질문
+	@RequestMapping("legal.do")
+	public String legal() {
+		return Common.Header.VIEW_PATH_HD + "legal.jsp";
 	}
 	
 	//자주묻는질문
