@@ -1,5 +1,5 @@
 package com.kh.bank;
-
+ 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -254,7 +254,7 @@ public class BankController {
 	@RequestMapping(value = "/signup_ins_id.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String signup_ins_id(UserVO vo) {
-		UserVO existingUser = user_dao.check_id(vo.getUser_id());
+		UserVO existingUser = user_dao.check(vo.getUser_id());
 		if (existingUser != null) {
 			return "[{'result':'duplicate'}]";
 		}
@@ -346,7 +346,6 @@ public class BankController {
 	@RequestMapping(value = "/search_id2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String search_id2(UserVO vo) {
-		// 중복된 user_id 확인
 		UserVO existingUser = user_dao.check_tel(vo.getUser_tel());
 		if (existingUser == null) {
 			return "[{'result':'duplicate'}]";
@@ -366,7 +365,7 @@ public class BankController {
 	@RequestMapping(value = "/search_pwd2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String search_pwd2(UserVO vo) {
-		UserVO existingUser = user_dao.check_id(vo.getUser_tel());
+		UserVO existingUser = user_dao.check_tel(vo.getUser_tel());
 		if (existingUser != null) {
 			try {
 				String res = String.format("[{'result':'clear', 'user_tel':'%s', 'user_pwd':'%s'}]",
