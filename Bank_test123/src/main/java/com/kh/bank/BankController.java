@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +31,11 @@ import vo.RateVO;
 import vo.UserVO;
 
 @Controller
+@PropertySource("classpath:config.properties")
 public class BankController {
 
 	@Autowired
 	HttpSession session;
-	
 	
 	@Autowired
 	ServletContext app;
@@ -47,12 +49,21 @@ public class BankController {
 	@Autowired
 	UserDAO user_dao;
 
+	@Value("${bank_api_key}")
+	private String bank_api_key;
+	
+	@Value("${call_phonenumber}")
+	private String call_phonenumber;
+	
+	
 	public BankController() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BankController(RateDAO rate_dao) {
+	public BankController(RateDAO rate_dao, String call_phonenumber, String bank_api_key) {
 		this.rate_dao = rate_dao;
+		this.bank_api_key = bank_api_key;
+		this.call_phonenumber = call_phonenumber;
 	}
 
 	@RequestMapping(value="/list.do", produces = "application/json;charset=UTF-8")
@@ -69,10 +80,9 @@ public class BankController {
 		List<RateVO> list_ok = rate_dao.selectList_ok(formattedDate);
 		
 		
-		
 		if (list_ok.size() == 0) {
 			BankService bank = new BankService();
-			List<RateVO> list = bank.bank_serv(formattedDate);
+			List<RateVO> list = bank.bank_serv(formattedDate, bank_api_key);
 			
 			if (list.get(0).getCur_nm() == null || list.get(0).getCur_nm().isEmpty()) {
 				int res = rate_dao.no_insert(list.get(0));
@@ -566,7 +576,7 @@ public class BankController {
         int sixNumber = new Random().nextInt(900000) + 100000;
         System.out.println("인증 번호: " + sixNumber);
         
-	//	SmsService sms = new SmsService("01032652508", user_tel, sixNumber); // 이거 넣으면 인증 완료
+		SmsService sms = new SmsService(call_phonenumber, user_tel, sixNumber); // 이거 넣으면 인증 완료
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}

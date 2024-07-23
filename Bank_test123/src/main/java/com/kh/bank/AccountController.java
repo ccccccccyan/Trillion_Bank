@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -34,8 +36,12 @@ import vo.QnaVO;
 import vo.RateboardVO;
 import vo.UserVO;
 @Controller
+@PropertySource("classpath:config.properties")
 public class AccountController {
 
+	@Value("${kakao_api_key}")
+	private String kakao_api_key;
+	
 	@Autowired
 	HttpServletRequest request;
 	
@@ -51,12 +57,13 @@ public class AccountController {
 	QnaDAO qna_dao;
 	NoticeDAO notice_dao;
 	
-	public AccountController( AccountDAO account_dao, CommentDAO comment_dao, RateBDAO rateb_dao, QnaDAO qna_dao, NoticeDAO notice_dao) {
+	public AccountController( AccountDAO account_dao, CommentDAO comment_dao, RateBDAO rateb_dao, QnaDAO qna_dao, NoticeDAO notice_dao, String kakao_api_key) {
 		this.account_dao = account_dao;
 		this.comment_dao = comment_dao;
 		this.rateb_dao = rateb_dao;
 		this.qna_dao = qna_dao;
 		this.notice_dao = notice_dao;
+		this.kakao_api_key = kakao_api_key;
 	}
 	
 	
@@ -448,7 +455,8 @@ public class AccountController {
 	}
 
 	@RequestMapping("guide.do")
-	public String guide() {
+	public String guide(Model model) {
+		model.addAttribute("kakao_api_key", kakao_api_key);
 		return Common.Header.VIEW_PATH_HD + "guide.jsp";
 	}
 

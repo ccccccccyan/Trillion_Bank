@@ -25,12 +25,20 @@
 	<!-- Autowired -->
 	<context:annotation-config/>
 	
+	<context:property-placeholder location="classpath:config.properties"/>
+	
 	<!-- 수동으로 Controller클래스 생성 -->	
 	<beans:bean class="com.kh.bank.QnaController">
 		<beans:constructor-arg name="qna_dao" ref="qna_daoBean"/>
 	</beans:bean>
+
+ 
 	<beans:bean class="com.kh.bank.BankController">
 		<beans:constructor-arg name="rate_dao" ref="rate_daoBean"/>
+		<beans:constructor-arg name="bank_api_key"
+				value="${bank_api_key}" /> 
+		<beans:constructor-arg name="call_phonenumber"
+				value="${call_phonenumber}" /> 
 	</beans:bean>
 	
 	<beans:bean class="com.kh.bank.NoticeController">
@@ -49,6 +57,8 @@
 		<beans:constructor-arg ref="rateb_daoBean"/>
 		<beans:constructor-arg ref="qna_daoBean"/>
 		<beans:constructor-arg ref="notice_daoBean"/>
+		<beans:constructor-arg name="kakao_api_key"
+				value="${kakao_api_key}" /> 
 	</beans:bean>
 	
 </beans:beans>

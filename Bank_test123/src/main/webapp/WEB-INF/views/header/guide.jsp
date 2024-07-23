@@ -65,7 +65,7 @@
     </div>
     <div id="map"></div>
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9b5c6d00f11f6f6903347db2830fdc88&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakao_api_key}&libraries=services"></script>
     <script>
         var mapContainer = document.getElementById('map');
         var mapOption = {
