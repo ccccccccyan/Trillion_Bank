@@ -745,7 +745,7 @@
 							<span id="change_color_msg" style="width: 600px; height: 30px;"></span>
 							<div id="change_color" style="width: 500px; height: 30px; display: none;"></div>
 							<input name="change_info" id="change_info" oninput="change_ok(this.form);" style="width: 350px; height: 25px; display: none;">
-							<input type="button" id="change_send" value="진행" onclick="change_user_info(this.form);" style="display: none; height: 28px; margin-top: -30px; background: black; color: white;">
+							<input type="button" id="change_send" value="진행" onclick="change_user_info(this.form);" style="display: none; height: 28px; margin-top: -30px; background: black; color: white; margin-left: 360px;">
 							<input type="hidden" id="change_color" style="display: none;">
 						</form>
 					</div>
