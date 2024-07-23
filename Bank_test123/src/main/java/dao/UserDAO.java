@@ -30,7 +30,7 @@ public class UserDAO {
 			UserVO vo = sqlSession.selectOne("u.select_one_id", user_id);
 			return vo;
 		}
-
+		//d
 	// 전화번호 중복체크 , 전화번호로 회원 정보 찾기
 	public UserVO check_tel(String user_tel) {
 		UserVO vo = sqlSession.selectOne("u.select_tel", user_tel);
