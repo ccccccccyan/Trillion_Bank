@@ -38,45 +38,6 @@
                 margin-top: 30px;
                 margin-bottom: 10px;
             }
-            details {
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                padding: 10px;
-                background-color: #f9f9f9;
-                transition: all 0.3s ease-out;
-                overflow: hidden;
-            }
-            summary {
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease-out;
-            }
-            details p {
-                margin: 0;
-                padding: 0;
-                opacity: 0;
-                max-height: 0;
-                transition: opacity 0.3s ease-out, max-height 0.3s ease-out;
-            }
-            details[open] p {
-                opacity: 1;
-                max-height: 1000px; /* 충분히 큰 값으로 설정하여 전체 내용을 표시 */
-                padding: 10px 0;
-            }
-            details[open] {
-                animation: slideDown 0.3s ease-out;
-            }
-            @keyframes slideDown {
-                from {
-                    max-height: 0;
-                    opacity: 0;
-                }
-                to {
-                    max-height: 1000px;
-                    opacity: 1;
-                }
-            }
             
             .q_question{
 	            display: block;

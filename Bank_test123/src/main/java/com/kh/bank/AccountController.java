@@ -403,7 +403,7 @@ public class AccountController {
 		search_result_vo.put("account_result", search_account_vo);
 		
 		for(AccountVO account_vo : search_account_vo) {
-			search_user_vo.add(user_dao.check_id(account_vo.getUser_id()));
+			search_user_vo.add(user_dao.check(account_vo.getUser_id()));
 		}
 		search_result_vo.put("userinfo_result", search_user_vo);
 		
