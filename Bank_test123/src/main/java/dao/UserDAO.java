@@ -19,29 +19,28 @@ public class UserDAO {
 		this.sqlSession = sqlSession;
 	}
 
-	// 비밀번호 일치 확인
+	// 로그인 시 아이디와 비밀번호 일치 확인 , 기존정보를 user_id를 통해 검색할 때 사용 
 	public UserVO check(String user_id) {
 		UserVO vo = sqlSession.selectOne("u.select_one", user_id);
 		return vo;
 	}
 
 	// 아이디로 회원정보 찾기
-	public UserVO check_id(String user_tel) {
-		UserVO vo = sqlSession.selectOne("u.select_one_2", user_tel);
-		return vo;
-	}
-
-	// 전화번호로 회원 정보 찾기
+		public UserVO check_id(String user_id) {
+			UserVO vo = sqlSession.selectOne("u.select_one_id", user_id);
+			return vo;
+		}
+		//d
+	// 전화번호 중복체크 , 전화번호로 회원 정보 찾기
 	public UserVO check_tel(String user_tel) {
 		UserVO vo = sqlSession.selectOne("u.select_tel", user_tel);
 		return vo;
 	}
 
-	// 왜 만들었는지 저도 모르겠어요
-	public String check_sign(String user_id) {
-		String res = sqlSession.selectOne("u.select_sign", user_id);
-		return res;
-	}
+	/*
+	 * // 왜 만들었는지 저도 모르겠어요 public String check_sign(String user_id) { String res =
+	 * sqlSession.selectOne("u.select_sign", user_id); return res; }
+	 */
 
 	// 회원가입
 	public int insert(UserVO vo) {
@@ -49,7 +48,7 @@ public class UserDAO {
 		return cnt;
 	}
 
-	// 비밀번호 변경
+	// 비밀번호 찾기 시 비밀번호 변경
 	public int update(UserVO vo) {
 		int cnt = sqlSession.insert("u.user_upd", vo);
 		return cnt;
