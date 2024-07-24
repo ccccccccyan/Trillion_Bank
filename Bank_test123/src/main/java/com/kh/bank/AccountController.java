@@ -729,7 +729,7 @@ public class AccountController {
 	@Transactional
 	@RequestMapping(value = "/check_product_pwd2.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String product_account_pwd_chk(AccountVO vo, String account_number, String account_pwd, String deal_money, String tax_type, String product_period, String auto, String product) {
+	public String product_account_pwd_chk(AccountVO vo,String account_number, String account_pwd, String deal_money, String tax_type, String product_period, String auto, String product) {
 		System.out.println("아오 민경시치 ㅡㅡㅡㅡㅡㅡ : " + account_number + tax_type + product_period + auto + deal_money + product);
 
 		// 비밀번호 유효성 검사
@@ -780,24 +780,28 @@ public class AccountController {
 				prMap.put("endproducts_date", nowdate.plusMonths(3));
 				prMap.put("products_rate", 0.00675);
 				periodInMonths = 3;
+				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("6개월")){
 				prMap.put("endproducts_date", nowdate.plusMonths(6));
 				prMap.put("products_rate", 0.0145);
 				periodInMonths = 6;
+				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("12개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(1));
 				prMap.put("products_rate", 0.036);
 				periodInMonths = 12;
+				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("24개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(2));
 				prMap.put("products_rate", 0.036);
 				periodInMonths = 24;
+				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("36개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(3));
 				prMap.put("products_rate", 0.036);
 				periodInMonths = 36;
+				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}
-			prMap.put("products_deal_money", 0);
 			if(tax_type.equals("세금우대")) {
 				prMap.put("products_tax", 0.05);
 			}else if(tax_type.equals("비과세")) {

@@ -204,7 +204,7 @@
             </div>
         </div>
         <br><br>
-        <button class="confirmation" onclick="location.href='product_insert.do'">상품가입</button>
+        <button class="confirmation" onclick="location.href='product_insert2.do'">상품가입</button>
         </div>
          <div class="product-info" onclick="toggleInfo('info')">
             <span>상품정보</span>
