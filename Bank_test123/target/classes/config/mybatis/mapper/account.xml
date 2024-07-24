@@ -154,6 +154,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from DEPOSIT_PRODUCTS where productaccount_idx = #{pd_idx}
 	</select>
 	
+	<select id="select_productlist_fromUserid" resultType="product" parameterType="String">
+	<![CDATA[
+		select 
+			PRODUCTACCOUNT_IDX, 
+			ACCOUNT_PRODUCTNAME, 
+			ACCOUNT_NUMBER, 
+			PRODUCTS_DEAL_MONEY, 
+			SAVING_MONEY, 
+			PRODUCTS_PERIOD, 
+			TO_CHAR(PRODUCTS_DATE, 'YYYY-MM-DD') AS PRODUCTS_DATE, 
+			TO_CHAR(ENDPRODUCTS_DATE, 'YYYY-MM-DD') AS ENDPRODUCTS_DATE, 
+			PRODUCTS_RATE, 
+			PRODUCTS_TAX, 
+			USER_ID, 
+			AUTO
+			from deposit_products where user_id = #{user_id}
+		   ]]>	
+	</select>
+	
 </mapper>
 
 

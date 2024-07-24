@@ -100,7 +100,7 @@ public class AccountController {
 			List<AccountVO> account_list = account_dao.selectList(user_id);
 			model.addAttribute("account_list", account_list);
 
-			List<ProductVO> product_list = account_dao.user_productList(user_id);
+			List<ProductVO> product_list = account_dao.select_productlist_fromUserid(user_id);
 			model.addAttribute("product_list", product_list);
 
 			// session에 저장된 user_id가 있을 경우
@@ -109,7 +109,7 @@ public class AccountController {
 			List<AccountVO> account_list = account_dao.selectList(session_user_id);
 			model.addAttribute("account_list", account_list);
 
-			List<ProductVO> product_list = account_dao.user_productList(session_user_id);
+			List<ProductVO> product_list = account_dao.select_productlist_fromUserid(session_user_id);
 			model.addAttribute("product_list", product_list);
 		}
 

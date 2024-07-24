@@ -706,23 +706,23 @@
 								<div class="swiper-wrapper" >
 								<c:forEach var="vo" items="${product_list}" >
 									<div class="swiper-slide" >
-										    
-												<div class="nowmoney_info">
-												${vo.saving_money }원
-												</div>
-												<div class="account_number_info">
-												${vo.products_deal_money}
-												</div>
-												<div class="bankname_info">
-												${vo.account_productname  }
-												</div>
-												<div class="bankbook_line"></div>
-										
-										<!-- 통장 이미지 -->
-										<div class="bankbook_front" style="background: green;"></div>
-										<div class="bankbook_page1"></div>
-										<div class="bankbook_page2"></div>
-										<div class="bankbook_end" style="background: green;"></div>
+										<div class="card_shape">
+											<div class="card_main_content">
+												<h3 style="position: absolute; top: -120px; right: -40px;">${vo.account_productname}</h3>
+												<h4>현재 금액 : ${vo.saving_money }원</h4>
+											</div>
+											
+											
+											<img src="/bank/resources/img/심.png" class="card_sim" >
+											<img src="/bank/resources/img/개.png" class="card_design" >
+										</div>
+										<div class="card_hidden_content">
+											<h3>${vo.account_productname}</h3>
+											<h5>현재 금액 : ${vo.saving_money }원</h5>
+											<h5>계약 금액 : ${vo.products_deal_money}원</h5>
+											<span class="card_date">${vo.products_date} ~ ${vo.endproducts_date}</span>
+											<h5>연결계좌 : ${vo.account_number}</h5>
+										</div>
 									</div>
 								</c:forEach>
 			

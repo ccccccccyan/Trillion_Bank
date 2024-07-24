@@ -49,6 +49,10 @@ public class AccountDAO {
 		List<ProductVO> list = sqlSession.selectList("ac.user_productlist", user_id);
 		return list;
 	}
+	public List<ProductVO> select_productlist_fromUserid(String user_id){
+		List<ProductVO> list = sqlSession.selectList("ac.select_productlist_fromUserid", user_id);
+		return list;
+	}
 	
 	
 	public UserVO user_selectOne(String user_id) {
