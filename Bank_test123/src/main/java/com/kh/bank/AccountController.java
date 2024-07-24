@@ -86,6 +86,9 @@ public class AccountController {
 			return Common.Account.VIEW_PATH_AC + "account.jsp";  
 		}
 
+		LocalDate date = LocalDate.now();
+		DateTimeFormatter fommat_date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = date.format(fommat_date);
 		// 파라미터로 받아지는 user_id가 있으면서 DB에 해당 user_id가 있을 경우
 		if(user_id != null) {
 			// 해당 user_id의 계정 정보를 조회 
@@ -102,6 +105,13 @@ public class AccountController {
 
 			List<ProductVO> product_list = account_dao.select_productlist_fromUserid(user_id);
 			
+			
+			for(ProductVO vo :product_list) {
+				System.out.println(vo.getEndproducts_date() + " == " +formattedDate );
+				if(formattedDate.equals(vo.getEndproducts_date())) {
+					System.out.println("요를ㄹ");
+				}
+			}
 			model.addAttribute("product_list", product_list);
 
 			// session에 저장된 user_id가 있을 경우
