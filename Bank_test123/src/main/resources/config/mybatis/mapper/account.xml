@@ -46,11 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ACCOUNT_detail values(
 			seq_account_idx.nextVal,
 			#{account_number},
-			#{user_name},
 			#{depo_username},
 			#{depo_account},
 			#{deal_money},
-			sysdate
+			sysdate,
+			#{user_name}
 		)
 	</insert>
 	
@@ -130,20 +130,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="product_insert" parameterType="java.util.Map">
-<!-- 		INSERT INTO DEPOSIT_PRODUCTS (PRODUCTACCOUNT_IDX, ACCOUNT_PRODUCTNAME, ACCOUNT_NUMBER, PRODUCTS_DEAL_MONEY, SAVING_MONEY, PRODUCTS_PERIOD, PRODUCTS_DATE, ENDPRODUCTS_DATE, PRODUCTS_RATE, PRODUCTS_TAX, USER_ID, AUTO)
-			VALUES (
-			seq_productaccount_idx.nextVal,
-			#{account_productname}, 
-			#{account_number}, 
-			#{products_deal_money}, 
-			#{saving_money}, 
-			#{product_period}, 
-			#{products_date}, 
-			#{endproducts_date}, 
-			#{products_rate}, 
-			#{products_tax}, 
-			#{user_id}, 
-			#{auto}) -->
 		INSERT INTO DEPOSIT_PRODUCTS (PRODUCTACCOUNT_IDX, ACCOUNT_PRODUCTNAME, ACCOUNT_NUMBER, PRODUCTS_DEAL_MONEY, SAVING_MONEY, PRODUCTS_PERIOD, PRODUCTS_DATE, ENDPRODUCTS_DATE, PRODUCTS_RATE, PRODUCTS_TAX, USER_ID, AUTO)
 			VALUES (
 			seq_productaccount_idx.nextVal,
@@ -152,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{products_deal_money}, 
 			#{saving_money}, 
 			#{product_period}, 
-			#{products_date}, 
+			sysdate, 
 			#{endproducts_date},
 			#{products_rate}, 
 			#{products_tax}, 
