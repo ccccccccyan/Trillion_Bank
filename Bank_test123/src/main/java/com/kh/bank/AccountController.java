@@ -101,6 +101,7 @@ public class AccountController {
 			model.addAttribute("account_list", account_list);
 
 			List<ProductVO> product_list = account_dao.select_productlist_fromUserid(user_id);
+			
 			model.addAttribute("product_list", product_list);
 
 			// session에 저장된 user_id가 있을 경우

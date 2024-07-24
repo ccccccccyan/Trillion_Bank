@@ -1,13 +1,18 @@
 package vo;
 
 public class ProductVO {
-	private int productaccount_idx, saving_money, products_deal_money;
+	private int productaccount_idx, saving_money, products_deal_money, auto;
     private String user_id, account_productname, account_number, products_period, products_date, endproducts_date;
 
     private double products_rate, products_tax;
     
-
-    public String getUser_id() {
+    public int getAuto() {
+		return auto;
+	}
+	public void setAuto(int auto) {
+		this.auto = auto;
+	}
+	public String getUser_id() {
 		return user_id;
 	}
 	public void setUser_id(String user_id) {
