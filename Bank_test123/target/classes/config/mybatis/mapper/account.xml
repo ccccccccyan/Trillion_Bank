@@ -46,11 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ACCOUNT_detail values(
 			seq_account_idx.nextVal,
 			#{account_number},
-			#{user_name},
 			#{depo_username},
 			#{depo_account},
 			#{deal_money},
-			sysdate
+			sysdate,
+			#{user_name}
 		)
 	</insert>
 	
@@ -138,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{products_deal_money}, 
 			#{saving_money}, 
 			#{product_period}, 
-			#{products_date}, 
+			sysdate, 
 			#{endproducts_date},
 			#{products_rate}, 
 			#{products_tax}, 

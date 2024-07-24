@@ -8,6 +8,7 @@
 		<title>Insert title here</title>
 		<script src="/bank/resources/js/httpRequest.js"></script>
      <style>
+     
          body {
            display: flex;
            justify-content: center;
@@ -308,7 +309,7 @@
             let deal_money = Number(f.input_deal_money.value);
             let auto = f.maturity.value;
 			let tax_type = "";
-			let product = "정기예탁금";
+			let product = "정기적금";
 			let limit_money = Number(f.limit_money.value);
 			let selectElement = document.getElementById('accountSelect');
             // 선택된 option 요소를 가져옵니다.
@@ -412,7 +413,6 @@
     </script>	
 </head>
 <body>
-	
 	<div id="container">
         <div><h2>약관 및 상품설명서</h2></div>
         <div>

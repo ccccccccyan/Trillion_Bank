@@ -544,7 +544,7 @@ public class AccountController {
 		if(idx == 1) {
 			return Common.Product.VIEW_PATH_PR + "installment_savings.jsp";
 		}else {
-			return Common.Product.VIEW_PATH_PR + "installment_savings.jsp";
+			return Common.Product.VIEW_PATH_PR + "installment_savings2.jsp";
 		}
 	}
 	@RequestMapping("product_insert.do")
@@ -770,6 +770,7 @@ public class AccountController {
 			}
 
 			// 계약 시작일
+			
 			prMap.put("products_date", nowdate);
 
 			// 계약 만기일 및 이율 설정
@@ -832,7 +833,7 @@ public class AccountController {
 
 			String resIdx = String.format(
 					"[{'result':'yes', 'pd_idx':'%s'}]",
-					account_number);
+					pd_idx);
 			return resIdx;
 		} else {
 			myaccount.setAccount_lockcnt(myaccount.getAccount_lockcnt() + 1);
@@ -849,7 +850,6 @@ public class AccountController {
 	@RequestMapping("/result_deposit_product.do")
 	public String product_result(Model model, String pd_idx) {
 		ProductVO vo = account_dao.selectone_idx(pd_idx);
-
 		model.addAttribute("vo", vo);
 		return Common.Product.VIEW_PATH_PR + "product_result.jsp";
 	}
