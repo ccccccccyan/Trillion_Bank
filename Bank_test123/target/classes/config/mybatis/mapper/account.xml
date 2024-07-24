@@ -129,6 +129,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from deposit_products where user_id = #{user_id}
 	</select>
 	
+	<insert id="product_insert" parameterType="java.util.Map">
+<!-- 		INSERT INTO DEPOSIT_PRODUCTS (PRODUCTACCOUNT_IDX, ACCOUNT_PRODUCTNAME, ACCOUNT_NUMBER, PRODUCTS_DEAL_MONEY, SAVING_MONEY, PRODUCTS_PERIOD, PRODUCTS_DATE, ENDPRODUCTS_DATE, PRODUCTS_RATE, PRODUCTS_TAX, USER_ID, AUTO)
+			VALUES (
+			seq_productaccount_idx.nextVal,
+			#{account_productname}, 
+			#{account_number}, 
+			#{products_deal_money}, 
+			#{saving_money}, 
+			#{product_period}, 
+			#{products_date}, 
+			#{endproducts_date}, 
+			#{products_rate}, 
+			#{products_tax}, 
+			#{user_id}, 
+			#{auto}) -->
+		INSERT INTO DEPOSIT_PRODUCTS (PRODUCTACCOUNT_IDX, ACCOUNT_PRODUCTNAME, ACCOUNT_NUMBER, PRODUCTS_DEAL_MONEY, SAVING_MONEY, PRODUCTS_PERIOD, PRODUCTS_DATE, ENDPRODUCTS_DATE, PRODUCTS_RATE, PRODUCTS_TAX, USER_ID, AUTO)
+			VALUES (
+			seq_productaccount_idx.nextVal,
+			#{account_productname}, 
+			#{account_number}, 
+			#{products_deal_money}, 
+			#{saving_money}, 
+			#{product_period}, 
+			#{products_date}, 
+			#{endproducts_date},
+			#{products_rate}, 
+			#{products_tax}, 
+			#{user_id}, 
+			#{auto}) 
+	</insert>
+	
+	<select id="account_prselectone" resultType="product" parameterType="java.util.Map">
+		select * from DEPOSIT_PRODUCTS where account_number = #{account_number} and user_id = #{user_id}
+	</select>
+	
+	<select id="selectone_pr_idx" resultType="product" parameterType="String">
+		select * from DEPOSIT_PRODUCTS where productaccount_idx = #{pd_idx}
+	</select>
+	
 </mapper>
 
 
