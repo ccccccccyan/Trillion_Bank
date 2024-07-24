@@ -1,5 +1,7 @@
 package vo;
 
+import java.time.LocalDate;
+
 public class AccountdetailVO {
    private int account_idx, deal_money;
    private String account_number, depo_username, depo_account, bank_date, user_name;
@@ -48,4 +50,6 @@ public class AccountdetailVO {
    public void setBank_date(String bank_date) {
       this.bank_date = bank_date;
    }
+   
 }
+

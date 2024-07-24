@@ -2,6 +2,7 @@ package com.kh.bank;
 
 import java.net.http.HttpRequest;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -606,6 +607,244 @@ public class AccountController {
 			model.addAttribute("list", list);
 			return Common.Product.VIEW_PATH_PR + "product_insert2.jsp";
 		}
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/check_product_pwd.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String product_account_pwd_chk(AccountVO vo, String account_number, String deal_money, String tax_type, String product_period, String auto, String product) {
+		System.out.println("아오 민경시치 ㅡㅡㅡㅡㅡㅡ : " + account_number + tax_type + product_period + auto + deal_money + product);
+	    // 비밀번호 유효성 검사
+	    int dealmoney = Integer.parseInt(deal_money);
+		boolean isValid = Common.SecurePwd.decodePwd(vo, account_dao);
+	    AccountVO myaccount = account_dao.accountnum_selectOne(account_number);
+	    int myaccount_lockcnt = myaccount.getAccount_lockcnt(); 
+	    LocalDate nowdate = LocalDate.now();
+	    Map<String, Object> prMap = new HashMap<String, Object>(); 
+	    String user_id = (String)session.getAttribute("user_id");
+	    UserVO myuser = account_dao.user_selectOne(user_id); 
+	    
+	    if (isValid) {
+	    	AccountVO user = account_dao.accountnum_selectOne(account_number); // userid의 계좌상세정보를 조회
+			
+			
+			int usermoney = user.getNow_money() - dealmoney; //user의 계좌에서 빠져나간만큼의 금액을 빼줌
+			int saving_money = dealmoney;//예금금액을 넣어줌
+			//계산한 금액을 계좌 상세보기 VO에 넣어줌 
+			user.setNow_money(usermoney);
+			//DEPOSIT_PRODUCTS테이블에 인설트할 정보를 담아줌 예금 금액!
+			prMap.put("saving_money", saving_money);
+			
+			//그 금액을 각각 유저계좌와 상대계좌 db에 업데이트로 갱신함
+			account_dao.updateremittance(user);
+			
+			
+			
+			// 접속한 사람의 아이디와 계좌이름과 상품 이름을 productVO에 담아줌  
+			prMap.put("user_id", user_id);
+			prMap.put("account_productname", product);
+			prMap.put("product_period", product_period);
+			prMap.put("account_number", account_number);
+			
+			if(auto.equals("자동해지설정")) {
+				prMap.put("auto", 1);
+			}else {
+				prMap.put("auto", 0);
+			}
+			//계약 시작일
+			prMap.put("products_date", nowdate);
+			//계약 만기일
+			if(product_period.equals("3개월")) {
+				prMap.put("endproducts_date", nowdate.plusMonths(3));
+				prMap.put("products_rate", 0.00675);
+			}else if(product_period.equals("6개월")){
+				prMap.put("endproducts_date", nowdate.plusMonths(6));
+				prMap.put("products_rate", 0.0145);
+			}else if(product_period.equals("12개월")){
+				prMap.put("endproducts_date", nowdate.plusYears(1));
+				prMap.put("products_rate", 0.036);
+			}else if(product_period.equals("24개월")){
+				prMap.put("endproducts_date", nowdate.plusYears(2));
+				prMap.put("products_rate", 0.036);
+			}else if(product_period.equals("36개월")){
+				prMap.put("endproducts_date", nowdate.plusYears(3));
+				prMap.put("products_rate", 0.036);
+			}
+			prMap.put("products_deal_money", 0);
+			if(tax_type.equals("세금우대")) {
+				prMap.put("products_tax", 0.05);
+			}else if(tax_type.equals("비과세")) {
+				prMap.put("products_tax", 0);
+			}else {
+				prMap.put("products_tax", 0.154);
+			}
+			
+			
+			//DEPOSIT_PRODUCTS에 예금 정보를 인설트해줌
+			account_dao.productinsert(prMap);
+			
+			List<ProductVO> oneproduct = account_dao.prselect_list(prMap);
+			
+			int last_deal = oneproduct.size()-1;
+			
+			String pd_idx = String.valueOf(oneproduct.get(last_deal).getProductaccount_idx());
+			
+			
+			
+			//거래내역 정보를 detail_vo에 담음
+			AccountdetailVO detail_vo = new AccountdetailVO();
+			detail_vo.setAccount_number(user.getAccount_number());
+			detail_vo.setUser_name(myuser.getUser_name());//조회한 유저 이름을 저장
+			detail_vo.setDepo_username(oneproduct.get(last_deal).getAccount_productname());//조회한 상대 계좌주의 이름을 저장
+			detail_vo.setDepo_account(pd_idx);
+			detail_vo.setDeal_money(dealmoney);
+		//	System.out.println(myusername.getUser_name()+"/"+targetusername.getUser_name());
+			//거래내역을 담은 vo를 insert해줌
+			account_dao.insertremittance(detail_vo);
+	   
+	    	// 비밀번호가 일치하므로, 수정 form으로 이동
+	        myaccount.setAccount_lockcnt(0);
+	        account_dao.lockcnt_update(myaccount);
+
+	        String resIdx = String.format(
+	            "[{'result':'yes', 'pd_idx':'%s'}]",
+	            detail_vo.getDepo_account());
+	        return resIdx;
+	    } else {
+	        // 비밀번호 불일치
+	        myaccount.setAccount_lockcnt(myaccount.getAccount_lockcnt() + 1);
+
+	        if (myaccount.getAccount_lockcnt() <= 5) {
+	            account_dao.lockcnt_update(myaccount);
+	        }
+	        
+	        String res = String.format("[{'result':'no', 'account_lockcnt':'%d'}]", myaccount.getAccount_lockcnt());
+	        return res;
+	    }
+	    
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/check_product_pwd2.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String product_account_pwd_chk(AccountVO vo, String account_number, String account_pwd, String deal_money, String tax_type, String product_period, String auto, String product) {
+	    System.out.println("아오 민경시치 ㅡㅡㅡㅡㅡㅡ : " + account_number + tax_type + product_period + auto + deal_money + product);
+	    
+	    // 비밀번호 유효성 검사
+	    int dealmoney = Integer.parseInt(deal_money);
+	    boolean isValid = Common.SecurePwd.decodePwd(vo, account_dao);
+	    AccountVO myaccount = account_dao.accountnum_selectOne(account_number);
+	    int myaccount_lockcnt = myaccount.getAccount_lockcnt();
+	    LocalDate nowdate = LocalDate.now();
+	    Map<String, Object> prMap = new HashMap<String, Object>();
+	    String user_id = (String)session.getAttribute("user_id");
+	    UserVO myuser = account_dao.user_selectOne(user_id);
+
+	    if (isValid) {
+	        AccountVO user = account_dao.accountnum_selectOne(account_number); // userid의 계좌상세정보를 조회
+	        int usermoney = user.getNow_money() - dealmoney; // user의 계좌에서 빠져나간만큼의 금액을 빼줌
+	        int saving_money = dealmoney; // 예금금액을 넣어줌
+	        
+	        // 계산한 금액을 계좌 상세보기 VO에 넣어줌
+	        user.setNow_money(usermoney);
+	        
+	        // DEPOSIT_PRODUCTS 테이블에 인설트할 정보를 담아줌 예금 금액!
+	        prMap.put("saving_money", saving_money);
+	        
+	        // 그 금액을 각각 유저계좌와 상대계좌 db에 업데이트로 갱신함
+	        account_dao.updateremittance(user);
+	        
+	        // 접속한 사람의 아이디와 계좌이름과 상품 이름을 productVO에 담아줌
+	        prMap.put("user_id", user_id);
+	        prMap.put("account_productname", product);
+	        prMap.put("product_period", product_period);
+	        prMap.put("account_number", account_number);
+
+	        if (auto.equals("자동해지설정")) {
+	            prMap.put("auto", 1);
+	        } else {
+	            prMap.put("auto", 0);
+	        }
+	        
+	        // 계약 시작일
+	        prMap.put("products_date", nowdate);
+	        
+	        // 계약 만기일 및 이율 설정
+	        int periodInMonths = 0;
+	        double products_rate = 0.0;
+
+	        if(product_period.equals("3개월")) {
+				prMap.put("endproducts_date", nowdate.plusMonths(3));
+				prMap.put("products_rate", 0.00675);
+			}else if(product_period.equals("6개월")){
+				prMap.put("endproducts_date", nowdate.plusMonths(6));
+				prMap.put("products_rate", 0.0145);
+			}else if(product_period.equals("12개월")){
+				prMap.put("endproducts_date", nowdate.plusYears(1));
+				prMap.put("products_rate", 0.036);
+			}else if(product_period.equals("24개월")){
+				prMap.put("endproducts_date", nowdate.plusYears(2));
+				prMap.put("products_rate", 0.036);
+			}else if(product_period.equals("36개월")){
+				prMap.put("endproducts_date", nowdate.plusYears(3));
+				prMap.put("products_rate", 0.036);
+			}
+			prMap.put("products_deal_money", 0);
+			if(tax_type.equals("세금우대")) {
+				prMap.put("products_tax", 0.05);
+			}else if(tax_type.equals("비과세")) {
+				prMap.put("products_tax", 0);
+			}else {
+				prMap.put("products_tax", 0.154);
+			}
+
+	        // DEPOSIT_PRODUCTS에 예금 정보를 인설트해줌
+	        account_dao.productinsert(prMap);
+	        
+	        List<ProductVO> oneproduct = account_dao.prselect_list(prMap);
+			
+			int last_deal = oneproduct.size()-1;
+			
+			String pd_idx = String.valueOf(oneproduct.get(last_deal).getProductaccount_idx());
+			 // 월별로 금액을 나누어 삽입
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        for (int i = 0; i < periodInMonths; i++) {
+	            LocalDate monthlyDepositDate = nowdate.plusMonths(i);
+	            AccountdetailVO detail_vo = new AccountdetailVO();
+	            detail_vo.setAccount_number(user.getAccount_number());
+	            detail_vo.setUser_name(myuser.getUser_name());
+	            detail_vo.setDepo_username(product);
+	            detail_vo.setDepo_account(account_number);
+	            detail_vo.setDeal_money(dealmoney / periodInMonths);
+	            detail_vo.setBank_date(monthlyDepositDate.format(formatter)); // LocalDate를 String으로 변환하여 설정
+	            account_dao.insertremittance(detail_vo);
+	        }
+
+	        myaccount.setAccount_lockcnt(0);
+	        account_dao.lockcnt_update(myaccount);
+
+	        String resIdx = String.format(
+	            "[{'result':'yes', 'pd_idx':'%s'}]",
+	            account_number);
+	        return resIdx;
+	    } else {
+	        myaccount.setAccount_lockcnt(myaccount.getAccount_lockcnt() + 1);
+	        if (myaccount.getAccount_lockcnt() <= 5) {
+	            account_dao.lockcnt_update(myaccount);
+	        }
+	        
+	        String res = String.format("[{'result':'no', 'account_lockcnt':'%d'}]", myaccount.getAccount_lockcnt());
+	        return res;
+	    }
+	}
+
+	
+	@RequestMapping("/result_deposit_product.do")
+	public String product_result(Model model, String pd_idx) {
+		ProductVO vo = account_dao.selectone_idx(pd_idx);
+		
+		model.addAttribute("vo", vo);
+		return Common.Product.VIEW_PATH_PR + "product_result.jsp";
 	}
 	
 	@RequestMapping("/account_pwd_update.do")

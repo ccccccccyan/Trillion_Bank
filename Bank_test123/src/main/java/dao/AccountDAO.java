@@ -123,4 +123,16 @@ public class AccountDAO {
 		int res = sqlSession.delete("ac.exchange_del_type", vo);
 		return res;
 	}
+	public int productinsert(Map<String, Object> map) {
+		int res = sqlSession.insert("ac.product_insert", map);
+		return res;
+	}
+	public List<ProductVO> prselect_list(Map<String, Object> map) {
+		List<ProductVO> prvo = sqlSession.selectList("ac.account_prselectone", map);
+		return prvo;
+	}
+	public ProductVO selectone_idx(String pd_idx) {
+		ProductVO vo = sqlSession.selectOne("ac.selectone_pr_idx", pd_idx);
+		return vo;
+	}
 }
