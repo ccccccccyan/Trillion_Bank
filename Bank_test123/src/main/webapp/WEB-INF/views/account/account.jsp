@@ -599,6 +599,17 @@
 			document.getElementById("check_user_tel_msg").style.color = "gray";
 			document.getElementById("user_check_background").style.display = "none";
 		}
+		
+		function change_toproduct() {
+			document.getElementById("account_container").style.display = "none";
+			document.getElementById("seeMyaccount").style.display = "none";
+			document.getElementById("seeMyproduct").style.display = "block";
+			document.getElementById("product_box").style.display = "block";
+			document.getElementById("change_account_to_product").onclick =  function() {
+		        location.href = 'account_list.do'; 
+		    };
+		}
+		
 	</script>
 	</head>
 
@@ -621,11 +632,12 @@
 				
 			<div class="account_content">
 			
-				
-			
 				<!-- 계좌 리스트 박스 -->		
 				<div class="account_box" id="account_box">
-					<h2 class="seeMyaccount">내 계좌 보기</h2>
+					<img src="/bank/resources/img/원화환전.png" id="change_account_to_product" onclick="change_toproduct();" style="position: absolute; left: 360px; width: 30px; height: 30px; margin-top: 20px; cursor: pointer; z-index: 900;">
+					
+					<h2 class="seeMyaccount" id="seeMyaccount">내 계좌 보기</h2>
+					<h2 class="seeMyproduct" id="seeMyproduct" style="display: none;">내 예적금 보기</h2>
 					<div id="account_container" class="mySwiper">
 						<div id="account_slide" class="swiper-wrapper" >
 							<c:forEach var="vo" items="${account_list}" >
@@ -689,9 +701,41 @@
 					    <div class="swiper-button-prev"></div>
 					    <div class="swiper-pagination"></div>
 					</div>
+					
+						<div class="mySwiper_product" id="product_box" style="display: none;">
+								<div class="swiper-wrapper" >
+								<c:forEach var="vo" items="${product_list}" >
+									<div class="swiper-slide" >
+										    
+												<div class="nowmoney_info">
+												${vo.saving_money }원
+												</div>
+												<div class="account_number_info">
+												${vo.products_deal_money}
+												</div>
+												<div class="bankname_info">
+												${vo.account_productname  }
+												</div>
+												<div class="bankbook_line"></div>
+										
+										<!-- 통장 이미지 -->
+										<div class="bankbook_front" style="background: green;"></div>
+										<div class="bankbook_page1"></div>
+										<div class="bankbook_page2"></div>
+										<div class="bankbook_end" style="background: green;"></div>
+									</div>
+								</c:forEach>
+			
+							</div>
+		
+							<div class="swiper-button-next"></div>
+						    <div class="swiper-button-prev"></div>
+						    <div class="swiper-pagination"></div>
+						</div>
+					
+					
 				</div>
 				
-
 				<!-- 관리자에게만 보이는 통장 검색 기능 -->
 				<div id="account_manager">
 					<h2><span id="search_username">사용자</span>님 통장 관리</h2> 
@@ -763,7 +807,7 @@
 				<!-- 환율 그래프, 환율 게시판 박스 -->		
 				<div id="rate_body">
 						<div id="chart_div">
-						<h2>﻿한달 누적 환율 그래프</h2>
+						<h2 style="margin-left: 30px;">﻿한달 누적 환율 그래프</h2>
 						<canvas id="myChart"></canvas>
 						</div>
 						<div class="seeboard">

@@ -38,11 +38,18 @@
 				margin: 30px 30px 100px;
 				}
 
-		.seeMyaccount{
-						left: 150px;
-						top: 300px;
+		.seeMyaccount{position: absolute;
+						left: 200px;
+						top: 1080px;
 						width: 200px;
+						z-index: 801;
 						
+		}
+		
+		.seeMyproduct{
+			position: absolute;
+			z-index: 2;
+			margin-left: 50px;
 		}
 		
 		#user_check_background{width: 100%;
@@ -215,8 +222,19 @@
 			width: 1400px;
 			height: 450px;
 			padding: 10px;
-			z-index: 1;
+			z-index: 800;
 			overflow: hidden;
+		}
+		
+		.mySwiper_product {position: relative;
+			background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			width: 1400px;
+			height: 450px;
+			padding: 10px;
+			overflow: hidden;
+			top: 0px;
+			z-index: 1;
 		}
 		
 		.swiper-wrapper{

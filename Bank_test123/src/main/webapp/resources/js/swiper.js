@@ -15,4 +15,18 @@
 	            prevEl: ".swiper-button-prev",
 	        },
 		});
+
+		var swiper_product = new Swiper(".mySwiper_product", {
+		    slidesPerView: 3,
+	        centeredSlides: false, // 중앙 정렬 해제
+		    spaceBetween: 30,
+	        pagination: {
+	            el: ".swiper-pagination",
+	            type: "fraction",
+	        },
+	        navigation: {
+	            nextEl: ".swiper-button-next",
+	            prevEl: ".swiper-button-prev",
+	        },
+		});
 	})

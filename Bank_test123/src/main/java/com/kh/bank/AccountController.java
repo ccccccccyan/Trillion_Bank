@@ -96,15 +96,20 @@ public class AccountController {
 			if(vo_ok.getManager().equals("Y")) {
 				session.setAttribute("manager", vo_ok.getManager());
 			}
-			
 			List<AccountVO> account_list = account_dao.selectList(user_id);
 			model.addAttribute("account_list", account_list);
-	
+
+			List<ProductVO> product_list = account_dao.user_productList(user_id);
+			model.addAttribute("product_list", product_list);
+			
 			// session에 저장된 user_id가 있을 경우
 		} else if(session_user_id != null) {
 			// 저장된 user_id의 계좌 리스트를 조회한다.
 			List<AccountVO> account_list = account_dao.selectList(session_user_id);
 			model.addAttribute("account_list", account_list);
+
+			List<ProductVO> product_list = account_dao.user_productList(session_user_id);
+			model.addAttribute("product_list", product_list);
 		}
 		
 		// 환율 게시판 리스트 조회 (최근 10개)
