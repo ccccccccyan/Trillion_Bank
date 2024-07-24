@@ -620,6 +620,9 @@
 			</div>
 				
 			<div class="account_content">
+			
+				
+			
 				<!-- 계좌 리스트 박스 -->		
 				<div class="account_box" id="account_box">
 					<h2 class="seeMyaccount">내 계좌 보기</h2>
