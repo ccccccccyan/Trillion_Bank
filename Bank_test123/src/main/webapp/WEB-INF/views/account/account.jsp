@@ -722,7 +722,14 @@
 											<h5>계약 금액 : ${vo.products_deal_money}원</h5>
 											<span class="card_date">${vo.products_date} ~ ${vo.endproducts_date}</span>
 											<h5>연결계좌 : ${vo.account_number}</h5>
-											<h5>연결계좌 : ${vo.account_number}</h5>
+											
+											<c:if test="${vo.auto eq 1}">
+												<h5>자동해지 : ●</h5>
+											</c:if>
+											<c:if test="${vo.auto eq 0}">
+												<h5>자동해지 : X</h5>
+											</c:if>
+											
 										</div>
 									</div>
 								</c:forEach>
