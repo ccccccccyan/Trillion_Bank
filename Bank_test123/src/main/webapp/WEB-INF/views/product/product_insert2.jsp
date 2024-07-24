@@ -343,7 +343,7 @@
              } else {
                  document.getElementById('limit_money').style.display = 'none';
              }
-        	// 모든 설명을 숨김
+        	// 모든 설명을 숨김1
             document.querySelectorAll('.tooltiptext').forEach(tooltip => {
                 tooltip.style.visibility = 'hidden';
                 tooltip.style.opacity = '0';
@@ -638,7 +638,7 @@
                 <input type="button" id="submit_button" class="submit_button" value="가입하기" disabled="disabled" onclick="insert_product(this.form);">
         </form>
     </div>
-
+	
     <div class="modal" id="modal">
         <div class="modal-content">
             <p id="termContent"></p>
