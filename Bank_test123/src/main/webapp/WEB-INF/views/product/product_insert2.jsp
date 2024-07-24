@@ -9,16 +9,26 @@
 		<script src="/bank/resources/js/httpRequest.js"></script>
      <style>
      
+     	header {
+		    position: fixed;
+		    top: 0;
+		    width: 100%;
+		    z-index: 1000;
+		    padding: 0px 1px;
+		    text-align: center;
+		}
+     
          body {
            display: flex;
-           justify-content: center;
-           align-items: center;
+           justify-content: center; /* 가로 중앙 정렬 */
+   		   align-items: center; /* 세로 중앙 정렬 */
            height: 100vh;
            margin: 0;
+           overflow-x: auto;
            font-family: Arial, sans-serif;
            background-color: #f0f0f0;
         }
-        #container, #form-container {
+        #container {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -26,6 +36,17 @@
             max-width: 520px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        
+        #form-container {
+   			background-color: white;
+		    padding: 20px;
+		    margin-top: 15%;
+		    border-radius: 10px;
+		    width: 80%;
+		    max-width: 520px;
+		    max-height: calc(100vh - 0px);		    
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
         .modal {
             display: none;
             position: fixed;
@@ -74,6 +95,88 @@
             font-size: 0.8em;
             color: red;
             cursor: pointer;
+     	header {
+		    position: fixed;
+		    top: 0;
+		    width: 100%;
+		    z-index: 1000;
+		    padding: 10px;
+		    text-align: center;
+		}
+     
+         body {
+           display: flex;
+           justify-content: center; /* 가로 중앙 정렬 */
+   		   align-items: center; /* 세로 중앙 정렬 */
+           height: 100vh;
+           margin: 0;
+           font-family: Arial, sans-serif;
+           background-color: #f0f0f0;
+        }
+        #container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 520px;
+			max-height:600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        #form-container {
+		    background-color: white;
+		    padding: 20px;
+		    border-radius: 10px;
+		    width: 80%;
+		    max-width: 520px;
+		    max-height: calc(100vh - 60px); /* 헤더 높이를 고려한 최대 높이 */
+		    overflow-y: auto; /* 세로 스크롤 가능 */
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+         .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 800px;
+            width: 800px;
+        }
+        .modal-content p {
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-line;
+        }
+        .options-tax {
+            display: flex;
+            justify-content: space-between;
+        }
+        .option {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            position: relative;
+            width: 30%;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        .option.active {
+            background-color: #007bff;
+            color: white;
+        }
         }
         .tooltiptext {
             visibility: hidden;
@@ -96,14 +199,17 @@
             position: absolute;
             top: 100%;
             left: 50%;
+            z-index: 2000;
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
             border-color: #555 transparent transparent transparent;
         }
+        
         .option:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+            z-index: 2000;
         }
         h4 {
             margin-bottom: 10px;
@@ -126,31 +232,18 @@
             background-color: #cccccc;
             cursor: not-allowed;
         }
-        .submit_button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
         
         /* 비활성화되지 않은 상태일 때의 호버 효과 */
-		.agree-button:not(:disabled):hover {
-		    background-color: #45a049; /* 호버 시 배경색 변경 */
-		}
-        
-        .submit_button:not(:disabled):hover {
-		    background-color: #45a049; /* 호버 시 배경색 변경 */
-		}
+      .agree-button:not(:disabled):hover {
+          background-color: #45a049; /* 호버 시 배경색 변경 */
+      }
         
         input[type="button"] {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
         }
-        input[type="button"][name="agreeButton"]:hover {
-    		background-color: #cccccc; /* 호버 시 배경색 변경 */
-		}
-        
-        
-        input[type="button"][name="insert_product"]:hover {
+        input[type="button"]:hover {
             background-color: #45a049;
         }
         #limit_money, #rate_viewtable {
@@ -413,6 +506,9 @@
     </script>	
 </head>
 <body>
+ <header>
+        <jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
+ </header>
 	<div id="container">
         <div><h2>약관 및 상품설명서</h2></div>
         <div>
