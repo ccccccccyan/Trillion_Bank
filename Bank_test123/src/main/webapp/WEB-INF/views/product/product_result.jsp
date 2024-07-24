@@ -15,6 +15,8 @@
         .product-info {
             background-color: #fff;
             padding: 20px;
+            justify-content: center;
+            align-items: center;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
