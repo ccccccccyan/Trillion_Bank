@@ -488,12 +488,17 @@
 							z-index: 100;
 							right: 65px;
 							width: 170px;
-							top: 30px;
+							height: 300px;
+							top: 10px;
 			}		 		
 			.card_shape:hover + .card_hidden_content{opacity: 1;}
 		
 			.card_date{font-size: 13px;}
-	
+			.need_to_delete{width: 200px;
+							height: 50px;
+							position: absolute;
+							bottom: -10px;
+							left: 30px;}
 /* account_inset_form.jsp --------------------------------------------------- */	
 	h1{
 		height: 100px;}

@@ -2,11 +2,17 @@ package vo;
 
 public class ProductVO {
 	private int productaccount_idx, saving_money, products_deal_money, auto;
-    private String user_id, account_productname, account_number, products_period, products_date, endproducts_date;
+    private String user_id, account_productname, account_number, products_period, products_date, endproducts_date, deadline;
 
     private double products_rate, products_tax;
     
-    public int getAuto() {
+    public String getDeadline() {
+		return deadline;
+	}
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
+	public int getAuto() {
 		return auto;
 	}
 	public void setAuto(int auto) {

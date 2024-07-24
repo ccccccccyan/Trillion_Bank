@@ -46,11 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into ACCOUNT_detail values(
 			seq_account_idx.nextVal,
 			#{account_number},
+			#{user_name},
 			#{depo_username},
 			#{depo_account},
 			#{deal_money},
-			sysdate,
-			#{user_name}
+			sysdate
 		)
 	</insert>
 	
@@ -188,6 +188,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   ]]>	
 	</select>
 	
+	<delete id="delete_product_end" parameterType="int" >
+		delete from deposit_products where PRODUCTACCOUNT_IDX = #{productaccount_idx}
+	</delete>
 </mapper>
 
 

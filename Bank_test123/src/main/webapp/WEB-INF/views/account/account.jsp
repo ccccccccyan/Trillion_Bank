@@ -606,9 +606,16 @@
 			document.getElementById("seeMyproduct").style.display = "block";
 			document.getElementById("product_box").style.display = "block";
 			document.getElementById("change_account_to_product").onclick =  function() {
-		        location.href = 'account_list.do'; 
+		        location.href = 'account_list.do';
 		    };
 		}
+		
+		function user_product_delete(productaccount_idx) {
+	        location.href = 'user_product_delete.do?productaccount_idx='+productaccount_idx;
+		}
+		
+
+		
 		
 	</script>
 	</head>
@@ -725,12 +732,18 @@
 											
 											<c:if test="${vo.auto eq 1}">
 												<h5>자동해지 : ●</h5>
+												
 											</c:if>
 											<c:if test="${vo.auto eq 0}">
 												<h5>자동해지 : X</h5>
 											</c:if>
-											
 										</div>
+										<c:if test="${vo.deadline eq '해지필요'}">
+											<div class="need_to_delete">
+												<h5>기간이 만료되었습니다</h5>
+												<input type="button" value="해지하기" onclick="user_product_delete('${vo.productaccount_idx}');" style="background: black; color: white; cursor: pointer;">
+											</div>
+										</c:if>
 									</div>
 								</c:forEach>
 			

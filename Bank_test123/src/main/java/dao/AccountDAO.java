@@ -139,4 +139,9 @@ public class AccountDAO {
 		ProductVO vo = sqlSession.selectOne("ac.selectone_pr_idx", pd_idx);
 		return vo;
 	}
+	
+	public int delete_product_end(int productaccount_idx) {
+		int res = sqlSession.delete("ac.delete_product_end", productaccount_idx);
+		return res;
+	}
 }

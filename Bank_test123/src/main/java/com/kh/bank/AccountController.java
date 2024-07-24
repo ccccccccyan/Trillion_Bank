@@ -103,13 +103,30 @@ public class AccountController {
 			List<AccountVO> account_list = account_dao.selectList(user_id);
 			model.addAttribute("account_list", account_list);
 
+			List<ProductVO> product = account_dao.select_productlist_fromUserid(user_id);
+			
+			for(ProductVO vo :product) {
+				if(formattedDate.equals(vo.getEndproducts_date()) && vo.getAuto() == 1) {
+					AccountVO user_account = account_dao.check(vo.getAccount_number());
+					user_account.setNow_money(user_account.getNow_money() + vo.getSaving_money());
+					account_dao.updateremittance(user_account);
+					
+					UserVO user = user_dao.check(user_id);
+					
+					AccountdetailVO update_product = new AccountdetailVO();
+					update_product.setDepo_username(user.getUser_name());
+					update_product.setUser_name(vo.getAccount_productname() + " 만료");
+					update_product.setAccount_number("010-111");
+					update_product.setDeal_money(vo.getSaving_money());
+					update_product.setDepo_account(vo.getAccount_number());
+					account_dao.insertremittance(update_product);
+					account_dao.delete_product_end(vo.getProductaccount_idx());
+				}
+			}
 			List<ProductVO> product_list = account_dao.select_productlist_fromUserid(user_id);
-			
-			
 			for(ProductVO vo :product_list) {
-				System.out.println(vo.getEndproducts_date() + " == " +formattedDate );
-				if(formattedDate.equals(vo.getEndproducts_date())) {
-					System.out.println("요를ㄹ");
+				if(formattedDate.compareTo(vo.getEndproducts_date()) >= 0 && vo.getAuto() == 0) { // date1.compareTo(date2) > 0 // date1이 date2보다 이후 날짜
+					vo.setDeadline("해지필요");
 				}
 			}
 			model.addAttribute("product_list", product_list);
@@ -120,7 +137,33 @@ public class AccountController {
 			List<AccountVO> account_list = account_dao.selectList(session_user_id);
 			model.addAttribute("account_list", account_list);
 
+			List<ProductVO> product = account_dao.select_productlist_fromUserid(session_user_id);
+			
+			for(ProductVO vo :product) {
+				if(formattedDate.equals(vo.getEndproducts_date()) && vo.getAuto() == 1) {
+					AccountVO user_account = account_dao.check(vo.getAccount_number());
+					user_account.setNow_money(user_account.getNow_money() + vo.getSaving_money());
+					account_dao.updateremittance(user_account);
+					
+					UserVO user = user_dao.check(session_user_id);
+					
+					AccountdetailVO update_product = new AccountdetailVO();
+					update_product.setDepo_username(user.getUser_name());
+					update_product.setUser_name(vo.getAccount_productname() + " 만료");
+					update_product.setAccount_number("010-111");
+					update_product.setDeal_money(vo.getSaving_money());
+					update_product.setDepo_account(vo.getAccount_number());
+					account_dao.insertremittance(update_product);
+					account_dao.delete_product_end(vo.getProductaccount_idx());
+				}
+			}
+			
 			List<ProductVO> product_list = account_dao.select_productlist_fromUserid(session_user_id);
+			for(ProductVO vo :product_list) {
+				if(formattedDate.compareTo(vo.getEndproducts_date()) >= 0 && vo.getAuto() == 0) { // date1.compareTo(date2) > 0 // date1이 date2보다 이후 날짜
+					vo.setDeadline("해지필요");
+				}
+			}
 			model.addAttribute("product_list", product_list);
 		}
 
@@ -144,6 +187,29 @@ public class AccountController {
 		return Common.Account.VIEW_PATH_AC + "account.jsp"; 
 	}
 
+	@RequestMapping("/user_product_delete.do")
+	public String user_product_delete(String productaccount_idx) {
+		String session_user_id = (String) session.getAttribute("user_id");
+		
+		ProductVO vo = account_dao.selectone_idx(productaccount_idx);
+		
+		AccountVO user_account = account_dao.check(vo.getAccount_number());
+		user_account.setNow_money(user_account.getNow_money() + vo.getSaving_money());
+		account_dao.updateremittance(user_account);
+		
+		UserVO user = user_dao.check(session_user_id);
+		
+		AccountdetailVO update_product = new AccountdetailVO();
+		update_product.setDepo_username(user.getUser_name());
+		update_product.setUser_name(vo.getAccount_productname() + " 만료");
+		update_product.setAccount_number("010-111");
+		update_product.setDeal_money(vo.getSaving_money());
+		update_product.setDepo_account(vo.getAccount_number());
+		account_dao.insertremittance(update_product);
+		account_dao.delete_product_end(vo.getProductaccount_idx());
+		
+		return "redirect:account_list.do";
+	}
 
 	// 메인 페이지에서 로그아웃 -----------------------------------------
 	@RequestMapping("/logout.do")
