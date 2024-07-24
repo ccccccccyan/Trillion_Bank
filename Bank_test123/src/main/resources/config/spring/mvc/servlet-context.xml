@@ -39,6 +39,10 @@
 				value="${bank_api_key}" /> 
 		<beans:constructor-arg name="call_phonenumber"
 				value="${call_phonenumber}" /> 
+		<beans:constructor-arg name="sms_api_key"
+				value="${sms_api_key}" /> 
+		<beans:constructor-arg name="sms_secret_key"
+				value="${sms_secret_key}" /> 
 	</beans:bean>
 	
 	<beans:bean class="com.kh.bank.NoticeController">

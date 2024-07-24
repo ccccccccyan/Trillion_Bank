@@ -31,7 +31,6 @@ import vo.RateVO;
 import vo.UserVO;
 
 @Controller
-@PropertySource("classpath:config.properties")
 public class BankController {
 
 	@Autowired
@@ -49,21 +48,25 @@ public class BankController {
 	@Autowired
 	UserDAO user_dao;
 
-	@Value("${bank_api_key}")
 	private String bank_api_key;
 	
-	@Value("${call_phonenumber}")
 	private String call_phonenumber;
+	
+	private String sms_api_key;
+	
+	private String sms_secret_key;
 	
 	
 	public BankController() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BankController(RateDAO rate_dao, String call_phonenumber, String bank_api_key) {
+	public BankController(RateDAO rate_dao, String call_phonenumber, String bank_api_key, String sms_api_key, String sms_secret_key) {
 		this.rate_dao = rate_dao;
 		this.bank_api_key = bank_api_key;
 		this.call_phonenumber = call_phonenumber;
+		this.sms_api_key = sms_api_key;
+		this.sms_secret_key = sms_secret_key;
 	}
 
 	@RequestMapping(value="/list.do", produces = "application/json;charset=UTF-8")
@@ -575,7 +578,7 @@ public class BankController {
         int sixNumber = new Random().nextInt(900000) + 100000;
         System.out.println("인증 번호: " + sixNumber);
         
-		SmsService sms = new SmsService(call_phonenumber, user_tel, sixNumber); // 이거 넣으면 인증 완료
+		SmsService sms = new SmsService(call_phonenumber, user_tel, sixNumber, sms_api_key, sms_secret_key); // 이거 넣으면 인증 완료
 		
 		return "[{'result':'clear', 'sixNumber': "+sixNumber+"}]";
 	}

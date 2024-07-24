@@ -9,12 +9,12 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 
 public class SmsService {
 
-	public SmsService(String calling_tel, String receipt_tel, int sixNumber) {
+	public SmsService(String calling_tel, String receipt_tel, int sixNumber, String sms_api_key, String sms_secret_key) {
 		/*aaa
 			NurigoApp.INSTANCE.initialize(...) : CoolSMS의 NurigoApp 객체를 사용하여 API 키, API 시크릿 키, API 엔드포인트 URL을 설정하여 초기화
 			DefaultMessageService : CoolSMS에서 제공하는 기본 메시지 서비스 객체
 		 */																	
-		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSJUIBKK52HKLAG", "R43FXXYBBPFUOC0UMELPV9I1ZCEXQVKW", "https://api.coolsms.co.kr"); // api 키, api 시크릿 키, api url
+		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize(sms_api_key, sms_secret_key, "https://api.coolsms.co.kr"); // api 키, api 시크릿 키, api url
 		// Message 패키지가 중복될 경우 net.nurigo.sdk.message.model.Message로 치환하여 주세요
 		
 		/*

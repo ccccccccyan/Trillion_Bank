@@ -36,10 +36,8 @@ import vo.QnaVO;
 import vo.RateboardVO;
 import vo.UserVO;
 @Controller
-@PropertySource("classpath:config.properties")
 public class AccountController {
 
-	@Value("${kakao_api_key}")
 	private String kakao_api_key;
 	
 	@Autowired
