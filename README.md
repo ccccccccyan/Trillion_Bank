@@ -77,6 +77,9 @@
 <hr>
 
 
+PPT로 주요 기능 보기<https://www.miricanvas.com/v/13fjuxm>
+
+
 ### 📌 주요 기능
 
 - 메인 페이지 (Main Page)
