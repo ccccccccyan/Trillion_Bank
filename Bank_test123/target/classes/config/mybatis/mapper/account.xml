@@ -211,6 +211,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from account_detail where depo_account=#{depo_account} and depo_username =#{depo_username}
 	</select>
 	
+	<update id="product_update_saving_money" parameterType="product">
+		update deposit_products set saving_money = #{saving_money} where productaccount_idx = #{productaccount_idx}
+	</update>
 </mapper>
 
 

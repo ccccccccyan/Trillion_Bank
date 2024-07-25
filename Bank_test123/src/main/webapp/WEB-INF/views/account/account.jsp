@@ -762,7 +762,7 @@
 											</c:if>
 										</c:if>
 
-										<c:if test="${vo.account_productname eq '정기예탁금'}">
+										<c:if test="${vo.account_productname eq '청년정기예금' || vo.account_productname eq '정기예탁금'}">
 											<div class="card_shape" style="background: #40a4e3; box-shadow: inset 0 0 10px rgba(56, 162, 255, 0.8);">
 												<div class="card_main_content">
 													<h3 style="position: absolute; top: -120px; right: -40px;">${vo.account_productname}</h3>

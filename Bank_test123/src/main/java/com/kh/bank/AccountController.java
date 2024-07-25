@@ -155,12 +155,9 @@ public class AccountController {
 							if(already_detail == null) {
 								account_dao.updateremittance(user_account);
 								account_dao.insertremittance(update_product);
-								System.out.println("적금 완료");
-							}else {
-								System.out.println("이미 있음");
-								System.out.println(already_detail.getDepo_account());
-								System.out.println(already_detail.getAccount_number());
-								System.out.println(already_detail.getDepo_username());
+								
+								vo.setSaving_money(vo.getSaving_money() + vo.getProducts_deal_money());
+								account_dao.product_update_money(vo);
 							}
 							break;
 						}

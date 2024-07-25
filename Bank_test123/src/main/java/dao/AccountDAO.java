@@ -147,10 +147,12 @@ public class AccountDAO {
 		return res;
 	}
 	
-	
-	
 	public int delete_product_end(int productaccount_idx) {
 		int res = sqlSession.delete("ac.delete_product_end", productaccount_idx);
+		return res;
+	}
+	public int product_update_money(ProductVO vo) {
+		int res = sqlSession.update("ac.product_update_saving_money", vo);
 		return res;
 	}
 }
