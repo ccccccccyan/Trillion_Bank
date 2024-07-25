@@ -59,6 +59,10 @@ public class AccountDAO {
 		UserVO vo = sqlSession.selectOne("ac.user_info", user_id);
 		return vo;
 	}
+	public AccountdetailVO productinsert_beforecheck(AccountdetailVO vo) {
+		AccountdetailVO res_vo = sqlSession.selectOne("ac.product_beforecheck", vo);
+		return res_vo; 
+	}
 	public int insertremittance(AccountdetailVO vo) {
 		int res = sqlSession.insert("ac.detail_insert", vo);
 		return res;
