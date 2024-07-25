@@ -501,7 +501,7 @@
 								position: fixed;
 								z-index: 1500;
 							}				
-							
+		.card_hidden_content h5{ margin: 10px 0 0; }					
 /* account_inset_form.jsp --------------------------------------------------- */	
 	h1{
 		height: 100px;}

@@ -741,10 +741,13 @@
 											<div class="card_hidden_content">
 												<h3>${vo.account_productname}</h3>
 												<h5>현재 금액 : ${vo.saving_money }원</h5>
-												<h5>계약 금액 : ${vo.products_deal_money}원</h5>
-												<h5>만기 금액 : ${vo.products_deal_money}원</h5>
+												<h5>월별적금금액 : ${vo.products_deal_money}원</h5>
+												<h5>만기해지시 : ${vo.end_saving_money}원</h5>
+												<h5>이율 : ${vo.products_rate}%</h5>
+												<h5>세금 : ${vo.products_tax}%</h5>
+												<h5>계약기간</h5>
 												<span class="card_date">${vo.products_date} ~ ${vo.endproducts_date}</span>
-												<h5>연결계좌 : ${vo.account_number}</h5>
+												<h5>연결 계좌 : ${vo.account_number}</h5>
 												
 												<c:if test="${vo.auto eq 1}">
 													<h5>자동해지 : ●</h5>
@@ -762,7 +765,7 @@
 											</c:if>
 										</c:if>
 
-										<c:if test="${vo.account_productname eq '청년정기예금' || vo.account_productname eq '정기예탁금'}">
+										<c:if test="${vo.account_productname eq '청년정기예금' || vo.account_productname eq '정기예금'}">
 											<div class="card_shape" style="background: #40a4e3; box-shadow: inset 0 0 10px rgba(56, 162, 255, 0.8);">
 												<div class="card_main_content">
 													<h3 style="position: absolute; top: -120px; right: -40px;">${vo.account_productname}</h3>
@@ -775,10 +778,13 @@
 											</div>
 											<div class="card_hidden_content">
 												<h3>${vo.account_productname}</h3>
-												<h5>계약 금액 : ${vo.products_deal_money}원</h5>
-												<h5>만기 금액 : ${vo.saving_money}원</h5>
+												<h5>예금 금액 : ${vo.saving_money}원</h5>
+												<h5>만기 해지시 : ${vo.end_saving_money}원</h5>
+												<h5>이율 : ${vo.products_rate}%</h5>
+												<h5>세금 : ${vo.products_tax}%</h5>
+												<h5>계약기간</h5>
 												<span class="card_date">${vo.products_date} ~ ${vo.endproducts_date}</span>
-												<h5>연결계좌 : ${vo.account_number}</h5>
+												<h5>연결 계좌 : ${vo.account_number}</h5>
 												
 												<c:if test="${vo.auto eq 1}">
 													<h5>자동해지 : ●</h5>

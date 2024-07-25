@@ -132,12 +132,13 @@ public class AccountController {
 					account_dao.insertremittance(update_product);
 					account_dao.delete_product_end(vo.getProductaccount_idx());
 
-				}else if(vo.getAccount_productname().equals("정기적금")){
+				}else if(vo.getAccount_productname().contains("적금")){ // 해당 상품이 적금 상품인 경우
 					
 					int period_str = Integer.parseInt( vo.getProducts_period().replace("개월", ""));
 					LocalDate startdate = LocalDate.parse(vo.getProducts_date(), fommat_date);
 					
 					LocalDate period_month = startdate;
+					// 금일 이체해야 하는 상품이 있는지 확인한다.
 					for(int i = 1; i <= period_str; i++) {
 						if(period_month.equals(date)) {
 							AccountVO user_account = account_dao.check(vo.getAccount_number());
@@ -172,6 +173,11 @@ public class AccountController {
 				if(formattedDate.compareTo(vo.getEndproducts_date()) >= 0 && vo.getAuto() == 0) { // date1.compareTo(date2) > 0 // date1이 date2보다 이후 날짜
 					vo.setDeadline("해지필요");
 				}
+				double res_rate = vo.getSaving_money() * vo.getProducts_rate(); // sav * rate 이율 
+				double res_tax =  res_rate * vo.getProducts_tax(); // sav * rate * tax 세금
+				vo.setEnd_saving_money(vo.getSaving_money() + (int) Math.round(res_rate-res_tax));
+				vo.setProducts_rate(vo.getProducts_rate() * 100);
+				vo.setProducts_tax(vo.getProducts_tax() * 100);
 			}
 			model.addAttribute("product_list", product_list);
 		} 
@@ -203,9 +209,6 @@ public class AccountController {
 		
 		ProductVO vo = account_dao.selectone_idx(productaccount_idx);
 		
-		System.out.println("???");
-		System.out.println(vo.getProducts_rate());
-		
 		double res_rate = vo.getSaving_money() * vo.getProducts_rate(); // sav * rate 이율 
 		double res_tax =  res_rate * vo.getProducts_tax(); // sav * rate * tax 세금
 
@@ -225,6 +228,9 @@ public class AccountController {
 		int delete_res = account_dao.delete_product_end(vo.getProductaccount_idx());
 		
 		vo.setSaving_money(vo.getSaving_money() + (int) Math.round(res_rate-res_tax));
+		vo.setProducts_rate(vo.getProducts_rate() * 100);
+		vo.setProducts_tax(vo.getProducts_tax() * 100);
+		
 		if(insert_res > 0 &&  delete_res > 0) {
 			model.addAttribute("product_delete_vo", vo);
 			return Common.Product.VIEW_PATH_PR + "product_deleteFn.jsp"; 

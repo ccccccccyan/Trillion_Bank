@@ -47,8 +47,8 @@
 				<h5> 상품 : ${product_delete_vo.account_productname} </h5>
 				<h5> 연결 계좌 : ${product_delete_vo.account_number} </h5>
 				<h5> 가입기간 : ${product_delete_vo.products_date} ~ ${product_delete_vo.endproducts_date} </h5>
-				<h6> 이율 : ${product_delete_vo.products_rate} / 세금 : ${product_delete_vo.products_tax}</h6>
-				<h5> 만기금액 : ${product_delete_vo.saving_money} </h5>
+				<h6> 이율 : ${product_delete_vo.products_rate}% / 세금 : ${product_delete_vo.products_tax}%</h6>
+				<h5> 만기금액 : ${product_delete_vo.saving_money}원</h5>
 				
 				<input type="button" value="확인" onclick="close_product_delete_result();" style="width: 200px; height: 30px; background: black; color: white; margin-left: 45px; cursor: pointer;">
 				
