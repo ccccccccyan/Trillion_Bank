@@ -13,11 +13,11 @@
             color: #333;
         }
         #container {
-            width: 400px;
+            width: 420px;
             padding: 30px;
             padding-bottom: 90px;
             background-color: #fff;
-            margin: 200px auto;
+            margin: 20px auto;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
@@ -73,14 +73,22 @@
                 <td>${vo.account_number}</td>
             </tr>
             <tr>
-                <td><strong>적금 금액 :</strong></td>
-                <td>${vo.products_deal_money}</td>
+                <td><strong>월별적금금액 :</strong></td>
+                <td>${vo.products_deal_money}원</td>
             </tr>
             <tr>
-                <td><strong>만기 금액 :</strong></td>
-                <td>${vo.end_saving_money}</td>
-            </tr>
+                <td><strong>만기해지시 :</strong></td>
+                <td>${maturitymoney}원</td>
+           </tr>
            
+           <tr>
+                <td><strong>이율 :</strong></td>
+                <td>${res_rate}%</td>
+           </tr>
+            <tr>
+                <td><strong>세금 :</strong></td>
+                <td>${res_tax}%</td>
+            </tr>
             
         </table>
         <input type="button" value="메인페이지로" onclick="location.href='account_list.do'">
