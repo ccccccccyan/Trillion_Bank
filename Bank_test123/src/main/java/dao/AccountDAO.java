@@ -53,7 +53,18 @@ public class AccountDAO {
 		List<ProductVO> list = sqlSession.selectList("ac.select_productlist_fromUserid", user_id);
 		return list;
 	}
-	
+	public ProductVO prselect_list(Map<String, Object> map) {
+		ProductVO prvo = sqlSession.selectOne("ac.account_prselectone", map);
+		return prvo;
+	}
+	public ProductVO selectone_idx(String pd_idx) {
+		ProductVO vo = sqlSession.selectOne("ac.selectone_pr_idx", pd_idx);
+		return vo;
+	}
+	public List<ProductVO> taxlimit_productList(String user_id){
+		List<ProductVO> list = sqlSession.selectList("ac.taxlimit_productlist", user_id);
+		return list;
+	}
 	
 	public UserVO user_selectOne(String user_id) {
 		UserVO vo = sqlSession.selectOne("ac.user_info", user_id);
@@ -131,14 +142,8 @@ public class AccountDAO {
 		int res = sqlSession.insert("ac.product_insert", map);
 		return res;
 	}
-	public List<ProductVO> prselect_list(Map<String, Object> map) {
-		List<ProductVO> prvo = sqlSession.selectList("ac.account_prselectone", map);
-		return prvo;
-	}
-	public ProductVO selectone_idx(String pd_idx) {
-		ProductVO vo = sqlSession.selectOne("ac.selectone_pr_idx", pd_idx);
-		return vo;
-	}
+	
+	
 	
 	public int delete_product_end(int productaccount_idx) {
 		int res = sqlSession.delete("ac.delete_product_end", productaccount_idx);

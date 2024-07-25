@@ -129,8 +129,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from deposit_products where user_id = #{user_id}
 	</select>
 	
+	<select id="taxlimit_productlist" resultType="product" parameterType="String">
+		select * from deposit_products where user_id = #{user_id} and (products_tax = 0.05 or products_tax = 0)
+	</select>
+	
 	<insert id="product_insert" parameterType="java.util.Map">
-		INSERT INTO DEPOSIT_PRODUCTS (PRODUCTACCOUNT_IDX, ACCOUNT_PRODUCTNAME, ACCOUNT_NUMBER, PRODUCTS_DEAL_MONEY, SAVING_MONEY, PRODUCTS_PERIOD, PRODUCTS_DATE, ENDPRODUCTS_DATE, PRODUCTS_RATE, PRODUCTS_TAX, USER_ID, AUTO)
+		INSERT INTO DEPOSIT_PRODUCTS (PRODUCTACCOUNT_IDX, ACCOUNT_PRODUCTNAME, ACCOUNT_NUMBER, PRODUCTS_DEAL_MONEY, SAVING_MONEY, PRODUCTS_PERIOD, PRODUCTS_DATE, ENDPRODUCTS_DATE, PRODUCTS_RATE, PRODUCTS_TAX, USER_ID, AUTO, end_saving_money)
 			VALUES (
 			seq_productaccount_idx.nextVal,
 			#{account_productname}, 
@@ -143,11 +147,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{products_rate}, 
 			#{products_tax}, 
 			#{user_id}, 
-			#{auto}) 
+			#{auto},
+			#{end_saving_money}
+			) 
 	</insert>
 	
 	<select id="account_prselectone" resultType="product" parameterType="java.util.Map">
-		select * from DEPOSIT_PRODUCTS where account_number = #{account_number} and user_id = #{user_id}
+	SELECT * FROM (
+        SELECT *
+        FROM DEPOSIT_PRODUCTS
+        WHERE account_number = #{account_number} AND user_id = #{user_id}
+        ORDER BY PRODUCTS_DATE DESC
+    )
+    WHERE ROWNUM = 1
+
 	</select>
 	
 	<select id="selectone_pr_idx" resultType="product" parameterType="String">
@@ -163,8 +176,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				TO_CHAR(ENDPRODUCTS_DATE, 'YYYY-MM-DD') AS ENDPRODUCTS_DATE, 
 				PRODUCTS_RATE, 
 				PRODUCTS_TAX, 
-				USER_ID, 
-				AUTO
+				USER_ID, 		
+				AUTO,
+				end_saving_money
 				from deposit_products where productaccount_idx = #{pd_idx}
 		 ]]>	
 	</select>
@@ -183,7 +197,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			PRODUCTS_RATE, 
 			PRODUCTS_TAX, 
 			USER_ID, 
-			AUTO
+			AUTO,
+			end_saving_money
 			from deposit_products where user_id = #{user_id}
 		   ]]>	
 	</select>

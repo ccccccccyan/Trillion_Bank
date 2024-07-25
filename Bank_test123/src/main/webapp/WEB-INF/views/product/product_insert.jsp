@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script src="/bank/resources/js/httpRequest.js"></script>
      <style>
      
      	header {
@@ -342,7 +343,7 @@
              } else {
                  document.getElementById('limit_money').style.display = 'none';
              }
-        	// 모든 설명을 숨김
+        	// 모든 설명을 숨김1
             document.querySelectorAll('.tooltiptext').forEach(tooltip => {
                 tooltip.style.visibility = 'hidden';
                 tooltip.style.opacity = '0';
@@ -392,22 +393,30 @@
             }
 		}
         function insert_product(f) {
-        	let taxFavored = document.getElementById('tax-favored').classList.contains('active');
+        	let taxfavored = document.getElementById('tax-favored').classList.contains('active');
             let taxable = document.getElementById('taxable').classList.contains('active');
-            let nonTaxable = document.getElementById('non-taxable').classList.contains('active');
-            let now_money = f.accountSelect.value;
-            let input_Pwd = f.input_pwd.value;
-            let productPeriod = f.product_period.value;
-            let inputDealMoney = f.input_deal_money.value;
-            let maturity = f.maturity.value;
+            let nontaxable = document.getElementById('non-taxable').classList.contains('active');
+            let now_money = Number(f.accountSelect.value);
+            let input_pwd = f.input_pwd.value;
+            let product_period = f.product_period.value;
+            let deal_money = Number(f.input_deal_money.value);
+            let auto = f.maturity.value;
 			let tax_type = "";
+			let idx = f.idx.value;
+			let product = "";
+			if(idx == "1"){				
+				product = "정기예금";
+			}else{
+				product = "청년정기예금"
+			}
+			let limit_money = Number(f.limit_money.value);
 			let selectElement = document.getElementById('accountSelect');
             // 선택된 option 요소를 가져옵니다.
             let selectedOption = selectElement.options[selectElement.selectedIndex];
             // 선택된 option의 id 속성을 가져옵니다.
-            let selectedAccountNumber = selectedOption.id;
+            let account_number = selectedOption.id;
         	
-            if(taxFavored){
+            if(taxfavored){
             	tax_type = "세금우대";
             }else if(taxable){
             	tax_type = "과세";
@@ -415,26 +424,98 @@
             	tax_type = "비과세";
             }
             
+            let onlynumberdeal_money = /^[0-9]+$/;
             
+            if (!onlynumberdeal_money.test(deal_money) || deal_money <= 0){
+            	alert("유효한 금액을 입력해주세요.");
+            	return;
+            }
             
-            // 예시: 폼 값 출력
-            console.log("tax_type: " + tax_type);
+            //잔액이 부족한지 확인
+            if(now_money < deal_money){
+            	alert("잔액이 부족합니다.");
+            	return;
+            }
+            //예적금 한도 금액 초과여부
+            if(deal_money > limit_money){
+            	alert("세금우대 한도를 초과하셨습니다.");
+            	return;
+            }
             
-            console.log("now_money: " + now_money);
-            console.log("Password: " + input_Pwd);
-            console.log("Product Period: " + productPeriod);
-            console.log("Deal Money: " + inputDealMoney);
-            console.log("Maturity: " + maturity);
-            console.log("account_number: " + selectedAccountNumber);
-		}
+            let onlynumberpwd = /^[0-9]{4}$/;
+            
+            if(!onlynumberpwd.test(input_pwd)){
+            	alert("계좌비밀번호는 숫자 4자리입니다.");
+            	return;
+            }
+            
+            let url = "check_product_pwd.do";
+            let param = "account_number=" + account_number + "&account_pwd=" + encodeURIComponent(input_pwd) + "&tax_type=" + tax_type + "&product_period=" + product_period + "&deal_money=" + deal_money + "&auto=" + auto + "&product=" + product;
+            	sendRequest(url, param,  function () { resultcheck_productpwd(f); }, "post");
+        	
+        }
+        function resultcheck_productpwd(f) {
+        	if (xhr.readyState == 4 && xhr.status == 200) {
+		        let data = xhr.responseText;
+		        let json = (new Function('return ' + data))();
+		        if (json[0].account_lockcnt == '5') {
+	                alert("계좌 비빌번호 5회 실패! 일조은행에 문의해주세요.");
+	                location.href = "account_list.do";
+	            }
+		        
+		        if (json[0].result == 'no') {
+	                alert( json[0].account_lockcnt + "/5 비밀번호 불일치");
+	                return;
+	            }else {
+	                location.href = "result_deposit_product.do?pd_idx=" + json[0].pd_idx;
+	           }
+	      }
+	}
+        function check_form() {
+            let input_deal_money = document.getElementsByName("input_deal_money")[0].value;
+            let input_pwd = document.getElementsByName("input_pwd")[0].value;
+            let product_period = document.getElementById("product_period").value;
+            let maturity = document.querySelector('input[name="maturity"]:checked');
+
+            // 각 필수 항목이 입력되었는지 확인
+            if (input_deal_money.trim() !== "" &&
+                input_pwd.trim() !== "" &&
+                product_period !== "" &&
+                maturity !== null) {
+                // 모든 필수 항목이 입력되었으면 버튼 활성화
+                document.getElementById("submit_button").disabled = false;
+            } else {
+                // 하나라도 입력되지 않았으면 버튼 비활성화
+                document.getElementById("submit_button").disabled = true;
+            }
+        }
+
+        // 페이지 로드 후 초기 체크
+        document.addEventListener("DOMContentLoaded", function() {
+            // 초기 유효성 검사
+            check_form();
+
+            // 입력 필드와 선택 옵션의 이벤트 핸들러 설정
+            let input_deal_money = document.getElementsByName("input_deal_money")[0];
+            let input_pwd = document.getElementsByName("input_pwd")[0];
+            let product_period = document.getElementById("product_period");
+            let maturity_options = document.querySelectorAll('input[name="maturity"]');
+            
+            input_deal_money.addEventListener("input", check_form);
+            input_pwd.addEventListener("input", check_form);
+            product_period.addEventListener("change", check_form);
+            maturity_options.forEach(function(option) {
+                option.addEventListener("change", check_form);
+            });
+        }); 
         
     </script>	
 </head>
 <body>
-    <header>
+ <header>
         <jsp:include page="/WEB-INF/views/bank_header.jsp"></jsp:include>
-    </header>
-    <div id="container">
+ </header>
+	<div id="container">
         <div><h2>약관 및 상품설명서</h2></div>
         <div>
             <input type="checkbox" id="checkAll" onclick="toggleAll()"> 전체 동의
@@ -454,6 +535,7 @@
         <div>
             <input type="checkbox" class="term-check" id="term5" onclick="updateAgreeButton()"> [필수] 계좌간 자동이체/인터넷뱅킹 연결계좌 서비스 이용약관 <button onclick="showTerm(5)">보기</button>
         </div>
+        
         <div><h2>예금자 보호 안내</h2></div>
         <div>
             <input type="checkbox" class="term-check" id="term6" onclick="updateAgreeButton()"> 확인 [필수] <button onclick="showTerm(6)">보기</button>
@@ -461,8 +543,9 @@
         <br><br>
         <input type="button" value="동의" id="agreeButton" class="agree-button" disabled onclick="showForm()">
     </div>
+
     <div id="form-container" style="display: none">
-     <form>
+        <form>
             <h4>세금우대한도 조회 및 설정</h4>
             <div class="options options-tax">
                 <div class="option" id="tax-favored" onclick="optionSelected('tax-favored')">
@@ -491,11 +574,11 @@
             </div>
             <div id="limit_money" style="display: none">
 	            <h3>우대한도 설정</h3>
-	            <p> ·총한도 : 30,000,000원 / 가입가능한도: ${limit_money}원</p>	
+	            <p> ·총한도 : 50000000원 / 가입가능한도: ${limit_money}원</p>	
             </div>
             
             <h4>출금계좌정보</h4>
-            <select id="accountSelect" onchange="showAccountDetails()">
+            <select id="accountSelect" onchange="showAccountDetails()" onchange="check_form()">
                 <option value="">계좌를 선택하세요</option>
                 <c:forEach var="vo" items="${list}">
                     <option value="${vo.now_money}" id="${vo.account_number}">
@@ -510,13 +593,13 @@
                 <h4>계약일자</h4>
                 <div id="product_date"></div>
                 <h4>계약기간</h4>
-                <select id="product_period" onchange="showAccountDetails()">
+                <select id="product_period" onchange="showAccountDetails()" onchange="check_form()">
                 	<option value="">선택하세요</option>
-                	<option>3 개월</option>
-                	<option>6 개월</option>
-                	<option>12 개월</option>
-                	<option>24 개월</option>
-                	<option>36 개월</option>
+                	<option>3개월</option>
+                	<option>6개월</option>
+                	<option>12개월</option>
+                	<option>24개월</option>
+                	<option>36개월</option>
                 </select>
                 
                 <h4>약정이율</h4>
@@ -525,49 +608,56 @@
                 <div><table id="rate_viewtable" border="1" style="border-collapse: collapse; display: none">
                 	<tr>
                 		<td>계약기간</td>
-                		<td>만기지급식<br>기본이율</td>                		
+                		<td>만기지급식<br>기본이율</td>
+                		<td>만기지급식<br>청년우대이율</td>              		
                 	</tr>
                 	<tr>
                 		<td>3개월</td>
                 		<td>연 2.7%</td>
+                		<td>연 3.7%</td>
                 	</tr>
                 	<tr>
                 		<td>6개월</td>
                 		<td>연 2.9%</td>
+                		<td>연 3.9%</td>
                 	</tr>
                 	<tr>
                 		<td>12개월</td>
                 		<td>연 3.6%</td>
+                		<td>연 4.6%</td>
                 	</tr>
                 	<tr>
                 		<td>24개월</td>
                 		<td>연 3.6%</td>
+                		<td>연 4.6%</td>
                 	</tr>
                 	<tr>
                 		<td>36개월</td>
                 		<td>연 3.6%</td>
+                		<td>연 4.6%</td>
                 	</tr>
                 	
                 </table></div>
-                
+                <input type="hidden" value="${param.idx}" name="idx">
+                <input type="hidden" value="${limit_money}" name="limit_money">
                 <h4>계약금액</h4>
-                <input name="input_deal_money" placeholder="금액 입력(숫자입력)">원
+                <input name="input_deal_money" placeholder="금액 입력(숫자입력)" onchange="check_form()">원
                 <h4>만기시 자동해지 설정</h4>
-                <input type="radio" id="no-auto-maturity" name="maturity" value="자동해지설정안함">
+                <input type="radio" id="no-auto-maturity" name="maturity" value="자동해지설정안함" onchange="check_form()">
 			    <label for="no-auto-maturity">설정안함</label>
 			    
-			    <input type="radio" id="auto-maturity" name="maturity" value="자동해지설정">
+			    <input type="radio" id="auto-maturity" name="maturity" value="자동해지설정" onchange="check_form()">
 			    <label for="auto-maturity">설정</label><br>
-                <input type="button" value="가입하기" onclick="insert_product(this.form);">
+                <input type="button" id="submit_button" class="submit_button" value="가입하기" disabled="disabled" onclick="insert_product(this.form);">
         </form>
     </div>
-    
+	
     <div class="modal" id="modal">
         <div class="modal-content">
             <p id="termContent"></p>
             <button onclick="agreeTerm()">동의하기</button>
         </div>
     </div>
+    
 </body>
-
 </html>

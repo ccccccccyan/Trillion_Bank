@@ -186,7 +186,7 @@
     <div class="link-all">
         <div class="bank-link">
         <div class="title">
-            <h2>정기예탁금</h2>
+            <h2>청년정기예탁금</h2>
         </div>
         <div class="product-description">일정기간 예치 후, 이자수익을 받는 거치식예금</div><br>
         <div class="prduct-img">

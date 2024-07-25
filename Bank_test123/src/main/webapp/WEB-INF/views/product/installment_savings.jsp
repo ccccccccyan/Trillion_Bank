@@ -196,7 +196,7 @@
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/기간.png"><br>
-                1개월~3년
+                3개월~3년
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/금액제한없음.png"><br>

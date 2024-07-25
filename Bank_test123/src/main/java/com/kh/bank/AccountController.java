@@ -609,36 +609,36 @@ public class AccountController {
 	@RequestMapping("regular_deposit.do")
 	public String deposit(int idx) {
 		if(idx == 1) {
-			return Common.Product.VIEW_PATH_PR + "regular_deposit.jsp";
+			return Common.Product.VIEW_PATH_PR + "regular_deposit.jsp?idx="+idx;
 		}else {
-			return Common.Product.VIEW_PATH_PR + "regular_deposit2.jsp";
+			return Common.Product.VIEW_PATH_PR + "regular_deposit2.jsp?idx="+idx;
 		}
 	}
 
 	@RequestMapping("installment_savings.do")
 	public String savings(int idx) {
 		if(idx == 1) {
-			return Common.Product.VIEW_PATH_PR + "installment_savings.jsp";
+			return Common.Product.VIEW_PATH_PR + "installment_savings.jsp?idx="+idx;
 		}else {
-			return Common.Product.VIEW_PATH_PR + "installment_savings2.jsp";
+			return Common.Product.VIEW_PATH_PR + "installment_savings2.jsp?idx="+idx;
 		}
 	}
 	@RequestMapping("product_insert.do")
-	public String p_insert(Model model) {
+	public String p_insert(Model model, int idx) {
 		if(session.getAttribute("user_id") == null) {
 			return Common.Product.VIEW_PATH_PR + "no_user.jsp";
 		}
 
 		String user_id = (String)session.getAttribute("user_id");
 		String bankname = "일조";
-		int limit_money = 30000000;
+		int limit_money = 50000000;
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("user_id", user_id);
 		map.put("bank_name", bankname);
 		List<AccountVO> list = account_dao.bankname_List(map);
 
-		List<ProductVO> plist = account_dao.user_productList(user_id);
+		List<ProductVO> plist = account_dao.taxlimit_productList(user_id);
 
 		if(plist == null || plist.isEmpty()) {
 			model.addAttribute("limit_money", limit_money);
@@ -653,19 +653,19 @@ public class AccountController {
 			return Common.Product.VIEW_PATH_PR + "no_bank.jsp";
 		}else {
 			model.addAttribute("list", list);
-			return Common.Product.VIEW_PATH_PR + "product_insert.jsp";
+			return Common.Product.VIEW_PATH_PR + "product_insert.jsp?idx="+idx;
 		}
 	}
 
 	@RequestMapping("product_insert2.do")
-	public String p_insert2(Model model) {
+	public String p_insert2(Model model, int idx) {
 		if(session.getAttribute("user_id") == null) {
 			return Common.Product.VIEW_PATH_PR + "no_user.jsp";
 		}
 
 		String user_id = (String)session.getAttribute("user_id");
 		String bankname = "일조";
-		int limit_money = 30000000;
+		int limit_money = 50000000;
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("user_id", user_id);
@@ -687,7 +687,7 @@ public class AccountController {
 			return Common.Product.VIEW_PATH_PR + "no_bank.jsp";
 		}else {
 			model.addAttribute("list", list);
-			return Common.Product.VIEW_PATH_PR + "product_insert2.jsp";
+			return Common.Product.VIEW_PATH_PR + "product_insert2.jsp?idx=" + idx;
 		}
 	}
 
@@ -736,19 +736,40 @@ public class AccountController {
 			//계약 만기일
 			if(product_period.equals("3개월")) {
 				prMap.put("endproducts_date", nowdate.plusMonths(3));
+				if(product.equals("정기예금")) {
 				prMap.put("products_rate", 0.00675);
+				}else {
+					prMap.put("products_rate", 0.00675 + 0.0025);
+				}
 			}else if(product_period.equals("6개월")){
 				prMap.put("endproducts_date", nowdate.plusMonths(6));
-				prMap.put("products_rate", 0.0145);
+				if(product.equals("정기예금")) {
+					prMap.put("products_rate", 0.0145);
+				}else {
+					prMap.put("products_rate", 0.0145 + 0.005);
+				}
+				
 			}else if(product_period.equals("12개월")){
-				prMap.put("endproducts_date", nowdate.plusYears(1));
-				prMap.put("products_rate", 0.036);
+					prMap.put("endproducts_date", nowdate.plusYears(1));
+				if(product.equals("정기예금")) {
+					prMap.put("products_rate", 0.036);
+				}else {
+					prMap.put("products_rate", 0.046);
+				}
 			}else if(product_period.equals("24개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(2));
-				prMap.put("products_rate", 0.036);
+				if(product.equals("정기예금")) {
+					prMap.put("products_rate", 0.036);
+				}else {
+					prMap.put("products_rate", 0.046);
+				}
 			}else if(product_period.equals("36개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(3));
-				prMap.put("products_rate", 0.036);
+				if(product.equals("정기예금")) {
+					prMap.put("products_rate", 0.036);					
+				}else {
+					prMap.put("products_rate", 0.046);
+				}
 			}
 			prMap.put("products_deal_money", 0);
 			if(tax_type.equals("세금우대")) {
@@ -758,24 +779,24 @@ public class AccountController {
 			}else {
 				prMap.put("products_tax", 0.154);
 			}
-
+			
+				prMap.put("end_saving_money", 0);
 
 			//DEPOSIT_PRODUCTS에 예금 정보를 인설트해줌
 			account_dao.productinsert(prMap);
 
-			List<ProductVO> oneproduct = account_dao.prselect_list(prMap);
-
-			int last_deal = oneproduct.size()-1;
-
-			String pd_idx = String.valueOf(oneproduct.get(last_deal).getProductaccount_idx());
+			//방금 업데이트한 product정보를 가져옴
+			ProductVO oneproduct = account_dao.prselect_list(prMap);
+			
+			
 
 
 			//거래내역 정보를 detail_vo에 담음
 			AccountdetailVO detail_vo = new AccountdetailVO();
 			detail_vo.setAccount_number(user.getAccount_number());
 			detail_vo.setUser_name(myuser.getUser_name());//조회한 유저 이름을 저장
-			detail_vo.setDepo_username(oneproduct.get(last_deal).getAccount_productname());//조회한 상대 계좌주의 이름을 저장
-			detail_vo.setDepo_account(pd_idx);
+			detail_vo.setDepo_username(oneproduct.getAccount_productname());//조회한 상대 계좌주의 이름을 저장
+			detail_vo.setDepo_account(String.valueOf(oneproduct.getProductaccount_idx()));
 			detail_vo.setDeal_money(dealmoney);
 			//	System.out.println(myusername.getUser_name()+"/"+targetusername.getUser_name());
 			//거래내역을 담은 vo를 insert해줌
@@ -828,7 +849,7 @@ public class AccountController {
 			user.setNow_money(usermoney);
 
 			// DEPOSIT_PRODUCTS 테이블에 인설트할 정보를 담아줌 예금 금액!
-			prMap.put("saving_money", saving_money);
+			prMap.put("saving_money", 0);
 
 			// 그 금액을 각각 유저계좌와 상대계좌 db에 업데이트로 갱신함
 			account_dao.updateremittance(user);
@@ -886,16 +907,13 @@ public class AccountController {
 			}else {
 				prMap.put("products_tax", 0.154);
 			}
-
+				prMap.put("end_saving_money", saving_money);
 			// DEPOSIT_PRODUCTS에 예금 정보를 인설트해줌
 			account_dao.productinsert(prMap);
+			//방금 업데이트한 product정보를 가져옴
+			ProductVO oneproduct = account_dao.prselect_list(prMap);
 
-			List<ProductVO> oneproduct = account_dao.prselect_list(prMap);
-
-			int last_deal = oneproduct.size()-1;
-
-			String pd_idx = String.valueOf(oneproduct.get(last_deal).getProductaccount_idx());
-
+			
 			// 월별로 금액을 나누어 삽입
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			AccountdetailVO detail_vo = new AccountdetailVO();
@@ -913,7 +931,7 @@ public class AccountController {
 
 			String resIdx = String.format(
 					"[{'result':'yes', 'pd_idx':'%s'}]",
-					pd_idx);
+					 oneproduct.getProductaccount_idx());
 			return resIdx;
 		} else {
 			myaccount.setAccount_lockcnt(myaccount.getAccount_lockcnt() + 1);
@@ -927,11 +945,31 @@ public class AccountController {
 	}
 
 
+	
 	@RequestMapping("/result_deposit_product.do")
 	public String product_result(Model model, String pd_idx) {
 		ProductVO vo = account_dao.selectone_idx(pd_idx);
+		int res = vo.getSaving_money();
+		double rate = vo.getProducts_rate();
+		double tax = vo.getProducts_tax();
+		
+		double rate_money = res * rate; 
+		double result = rate_money * tax;
+		double tax_rate_money = rate_money - result;
+		// 소수점 첫 번째 자리에서 반올림하여 정수값으로 변환
+		int maturitymoney = (int) Math.round(tax_rate_money * 10) / 10;
+		int real_maturitymoney = res + maturitymoney;
+		model.addAttribute("maturitymoney", real_maturitymoney);
 		model.addAttribute("vo", vo);
-		return Common.Product.VIEW_PATH_PR + "product_result.jsp";
+		return Common.Product.VIEW_PATH_PR + "deposit_result.jsp";
+	}
+	
+	@RequestMapping("/result_installment_product.do")
+	public String installment_product_result(Model model, String pd_idx) {
+		ProductVO vo = account_dao.selectone_idx(pd_idx);
+		
+		model.addAttribute("vo", vo);
+		return Common.Product.VIEW_PATH_PR + "installment_result.jsp";
 	}
 
 	@RequestMapping("/account_pwd_update.do")
