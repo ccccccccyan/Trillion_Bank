@@ -36,10 +36,12 @@
     - Q&A 게시판 (답변 reply 기능)
     - Notice 공지사항 게시판
 
+
 - 회원가입 및 로그인 (Sign Up, Log in)
     - 아이디 저장(Remember ID), 아이디 찾기(Find ID), 비밀번호 찾기(Find Password)
     - ID, 전화번호 중복체크
         - 전화번호 인증 (SMS 문자 인증)
+
 
 - 내 계좌 보기
     - 새로운 계좌 개설(추가)
@@ -48,19 +50,25 @@
         - 계좌 번호 입력
         - 비밀번호 입력 (숫자 4자리)
 
+
 - 송금 (Remittance)
     - 송금하기
     - 거래 내역 보기
     - 현재 잔액 확인
     - 계좌 번호 확인
 
+
 - 내 예금/적금 보기 (My Deposits/My Installment savings)
     - 예금 (Deposits)
         - ![image](https://github.com/user-attachments/assets/8ea11ad5-77b9-46eb-b901-21231ccb8d3b)
         - ![image (1)](https://github.com/user-attachments/assets/4678221d-e99d-49a6-a12a-982565fe5d71)
+        - ![image](https://github.com/user-attachments/assets/4f44cd6e-5cd7-4fb3-94ca-c52b2b10b95e)
+        - ![image (1)](https://github.com/user-attachments/assets/49dadfcb-8662-4751-9ae0-f3be7872d5fb)
+
 
     - 적금 (Installment savings)
         - 
+
 
 - 환율 조회 (Exchange rate check)
     - 비회원 / 관리자
@@ -72,6 +80,7 @@
         - 원화 환전
         - 외화 환전
         - 나의 외화 목록
+
 
 - 환율 토론 게시판 (댓글 comment 기능)
     - 비회원
@@ -87,6 +96,7 @@
         - 댓글을 작성할 수 있습니다.
         - 비밀번호를 입력하여 댓글을 삭제할 수 있습니다.
 
+
 - Q&A 게시판 (답변 reply 기능)
     - 비회원
         - 게시글을 볼 수 있습니다.
@@ -96,6 +106,7 @@
         - 게시글에 답변할 수 있습니다.
         - 게시글을 삭제할 수 있습니다.
 
+
 - Notice 공지사항 게시판
     - 비회원 / 회원
         - 게시글을 볼 수 있습니다.
@@ -104,7 +115,9 @@
         - 게시글을 수정할 수 있습니다.
         - 게시글을 삭제할 수 있습니다.
 
+
 - 관리자 메인 페이지
     - 사용자의 계정을 찾아 관리할 수 있습니다.
         - 사용자의 전화번호 인증을 받은 후 계정에 접근이 가능합니다.
         - 사용자의 정보를 관리할 수 있습니다. (사진 넣기)
+
