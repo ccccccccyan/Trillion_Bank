@@ -120,16 +120,16 @@
 
 - 내 예금/적금 보기 (My Deposits/My Installment savings)
     - 예금 (Deposits)
-            ![image](https://github.com/user-attachments/assets/37c13d40-5285-4f62-9d23-e8eb0342d586)
-            ![image (1)](https://github.com/user-attachments/assets/7e97010a-0281-411e-a0d8-b95cb61d1078)
-            ![image (2)](https://github.com/user-attachments/assets/1b7325ee-cded-4e64-bc63-9719c5a7d910)
-            ![image (3)](https://github.com/user-attachments/assets/41e3c389-20e6-4ccf-9126-e5d73788f412)
+           - ![image](https://github.com/user-attachments/assets/37c13d40-5285-4f62-9d23-e8eb0342d586)
+           - ![image (1)](https://github.com/user-attachments/assets/7e97010a-0281-411e-a0d8-b95cb61d1078)
+           - ![image (2)](https://github.com/user-attachments/assets/1b7325ee-cded-4e64-bc63-9719c5a7d910)
+           - ![image (3)](https://github.com/user-attachments/assets/41e3c389-20e6-4ccf-9126-e5d73788f412)
 
 
 
 
     - 적금 (Installment savings)
-          ![image](https://github.com/user-attachments/assets/81d98f3b-4571-4dc0-9259-635f26df5b30)
+         - ![image](https://github.com/user-attachments/assets/81d98f3b-4571-4dc0-9259-635f26df5b30)
 
 
 
