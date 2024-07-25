@@ -120,19 +120,16 @@
 
 - 내 예금/적금 보기 (My Deposits/My Installment savings)
     - 예금 (Deposits)
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/97590d82-64e5-433c-b472-64c516d00ae4/c8bdb574-9df9-40db-b6cb-ada05bd89be8/image.png)
-            
-            ![image (1).png](https://prod-files-secure.s3.us-west-2.amazonaws.com/97590d82-64e5-433c-b472-64c516d00ae4/e71966b3-23b6-4ae9-a9f0-5e39cec9fc38/image_(1).png)
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/97590d82-64e5-433c-b472-64c516d00ae4/a5a7bcb5-a811-4c23-acc7-7cbd7158ae1f/image.png)
-            
-            ![image (1).png](https://prod-files-secure.s3.us-west-2.amazonaws.com/97590d82-64e5-433c-b472-64c516d00ae4/2bd6394d-b4a9-4db9-9af0-e746a04cb2a2/image_(1).png)
+            ![image](https://github.com/user-attachments/assets/37c13d40-5285-4f62-9d23-e8eb0342d586)
+            ![image (1)](https://github.com/user-attachments/assets/7e97010a-0281-411e-a0d8-b95cb61d1078)
+            ![image (2)](https://github.com/user-attachments/assets/1b7325ee-cded-4e64-bc63-9719c5a7d910)
+            ![image (3)](https://github.com/user-attachments/assets/41e3c389-20e6-4ccf-9126-e5d73788f412)
 
 
 
 
     - 적금 (Installment savings)
-        - ![image](https://github.com/user-attachments/assets/81d98f3b-4571-4dc0-9259-635f26df5b30)
+          ![image](https://github.com/user-attachments/assets/81d98f3b-4571-4dc0-9259-635f26df5b30)
 
 
 
