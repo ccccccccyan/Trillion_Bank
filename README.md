@@ -56,8 +56,9 @@
 
 - 내 예금/적금 보기 (My Deposits/My Installment savings)
     - 예금 (Deposits)
-        - 
-    
+        - ![Uploading image.png…]()
+        - ![image (1)](https://github.com/user-attachments/assets/4678221d-e99d-49a6-a12a-982565fe5d71)
+
     - 적금 (Installment savings)
         - 
 
