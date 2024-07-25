@@ -206,6 +206,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete_product_end" parameterType="int" >
 		delete from deposit_products where PRODUCTACCOUNT_IDX = #{productaccount_idx}
 	</delete>
+	
+	<select id="product_beforecheck" resultType="account_detail" parameterType="account_detail">
+		select * from account_detail where depo_account=#{depo_account} and depo_username =#{depo_username}
+	</select>
+	
+	<update id="product_update_saving_money" parameterType="product">
+		update deposit_products set saving_money = #{saving_money} where productaccount_idx = #{productaccount_idx}
+	</update>
 </mapper>
 
 

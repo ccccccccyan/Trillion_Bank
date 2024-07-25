@@ -70,6 +70,10 @@ public class AccountDAO {
 		UserVO vo = sqlSession.selectOne("ac.user_info", user_id);
 		return vo;
 	}
+	public AccountdetailVO productinsert_beforecheck(AccountdetailVO vo) {
+		AccountdetailVO res_vo = sqlSession.selectOne("ac.product_beforecheck", vo);
+		return res_vo; 
+	}
 	public int insertremittance(AccountdetailVO vo) {
 		int res = sqlSession.insert("ac.detail_insert", vo);
 		return res;
@@ -143,10 +147,12 @@ public class AccountDAO {
 		return res;
 	}
 	
-	
-	
 	public int delete_product_end(int productaccount_idx) {
 		int res = sqlSession.delete("ac.delete_product_end", productaccount_idx);
+		return res;
+	}
+	public int product_update_money(ProductVO vo) {
+		int res = sqlSession.update("ac.product_update_saving_money", vo);
 		return res;
 	}
 }
