@@ -130,7 +130,6 @@
 
 
     - 적금 (Installment savings)
-      
          - ![image](https://github.com/user-attachments/assets/81d98f3b-4571-4dc0-9259-635f26df5b30)
 
 
