@@ -876,27 +876,47 @@ public class AccountController {
 
 			if(product_period.equals("3개월")) {
 				prMap.put("endproducts_date", nowdate.plusMonths(3));
-				prMap.put("products_rate", 0.00675);
+				if(product.equals("정기적금")) {
+					prMap.put("products_rate", 0.00675);
+					}else {
+						prMap.put("products_rate", 0.00675 + 0.0025);
+					}
 				periodInMonths = 3;
 				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("6개월")){
 				prMap.put("endproducts_date", nowdate.plusMonths(6));
-				prMap.put("products_rate", 0.0145);
+				if(product.equals("정기적금")) {
+					prMap.put("products_rate", 0.0145);
+					}else {
+						prMap.put("products_rate", 0.0145 + 0.005);
+					}
 				periodInMonths = 6;
 				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("12개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(1));
-				prMap.put("products_rate", 0.036);
+				if(product.equals("정기적금")) {
+					prMap.put("products_rate", 0.036);
+					}else {
+						prMap.put("products_rate", 0.046);
+					}
 				periodInMonths = 12;
 				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("24개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(2));
-				prMap.put("products_rate", 0.036);
+				if(product.equals("정기적금")) {
+					prMap.put("products_rate", 0.036);
+					}else {
+						prMap.put("products_rate", 0.046);
+					}
 				periodInMonths = 24;
 				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}else if(product_period.equals("36개월")){
 				prMap.put("endproducts_date", nowdate.plusYears(3));
-				prMap.put("products_rate", 0.036);
+				if(product.equals("정기적금")) {
+					prMap.put("products_rate", 0.036);
+					}else {
+						prMap.put("products_rate", 0.046);
+					}
 				periodInMonths = 36;
 				prMap.put("products_deal_money", dealmoney/periodInMonths);
 			}
@@ -953,12 +973,18 @@ public class AccountController {
 		double rate = vo.getProducts_rate();
 		double tax = vo.getProducts_tax();
 		
+		
 		double rate_money = res * rate; 
 		double result = rate_money * tax;
 		double tax_rate_money = rate_money - result;
 		// 소수점 첫 번째 자리에서 반올림하여 정수값으로 변환
 		int maturitymoney = (int) Math.round(tax_rate_money * 10) / 10;
 		int real_maturitymoney = res + maturitymoney;
+		
+		double res_rate = rate * 100;
+		double res_tax = rate * 100; 
+		model.addAttribute("res_rate", res_rate);
+		model.addAttribute("res_tax", res_tax);
 		model.addAttribute("maturitymoney", real_maturitymoney);
 		model.addAttribute("vo", vo);
 		return Common.Product.VIEW_PATH_PR + "deposit_result.jsp";
@@ -967,7 +993,22 @@ public class AccountController {
 	@RequestMapping("/result_installment_product.do")
 	public String installment_product_result(Model model, String pd_idx) {
 		ProductVO vo = account_dao.selectone_idx(pd_idx);
+		int res = vo.getEnd_saving_money();
+		double rate = vo.getProducts_rate();
+		double tax = vo.getProducts_tax();
 		
+		double rate_money = res * rate; 
+		double result = rate_money * tax;
+		double tax_rate_money = rate_money - result;
+		// 소수점 첫 번째 자리에서 반올림하여 정수값으로 변환
+		int maturitymoney = (int) Math.round(tax_rate_money * 10) / 10;
+		int real_maturitymoney = res + maturitymoney;
+		
+		double res_rate = rate * 100;
+		double res_tax = rate * 100; 
+		model.addAttribute("res_rate", res_rate);
+		model.addAttribute("res_tax", res_tax);	
+		model.addAttribute("maturitymoney", real_maturitymoney);	
 		model.addAttribute("vo", vo);
 		return Common.Product.VIEW_PATH_PR + "installment_result.jsp";
 	}

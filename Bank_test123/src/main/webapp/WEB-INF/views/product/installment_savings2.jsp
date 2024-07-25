@@ -186,7 +186,7 @@
     <div class="link-all">
         <div class="bank-link">
         <div class="title">
-            <h2>정기적금</h2>
+            <h2>청년정기적금</h2>
         </div>
         <div class="product-description">매월 일정액을 납입하는 적금</div><br>
         <div class="prduct-img">
@@ -196,15 +196,15 @@
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/기간.png"><br>
-                1개월~3년
+                3개월~3년
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/금액제한없음.png"><br>
-                금액제한5000만원
+                과세: 금액제한없음<br>세금혜택상품: 5000만원 
             </div>
         </div>
         <br><br>
-        <button class="confirmation" onclick="location.href='product_insert2.do'">상품가입</button>
+        <button class="confirmation" onclick="location.href='product_insert2.do?idx='+${param.idx}">상품가입</button>
         </div>
          <div class="product-info" onclick="toggleInfo('info')">
             <span>상품정보</span>

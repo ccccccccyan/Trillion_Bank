@@ -200,7 +200,7 @@
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/금액제한없음.png"><br>
-                금액제한5000만원
+                과세: 금액제한없음<br>세금혜택상품: 5000만원 
             </div>
         </div>
         <br><br>
@@ -238,7 +238,7 @@
         <div id="product-tax-details" class="info-details" style="display:none;">
             <h1>1.세금우대저축</h1>
             <h3>가입한도</h3>
-            <p>일조은행 예적금 합산 3,000만원</p>
+            <p>일조은행 예적금 합산 5000만원</p>
             <h3>가입대상자</h3>
             <p>만 19세 이상 회원 가입가능</p>
             <span style="color: #7CB5BE; font-weight: bold;">가입 직전 3개 과세기간 중 1회 이상 금융소득종합과세 대상자는 제외</span>

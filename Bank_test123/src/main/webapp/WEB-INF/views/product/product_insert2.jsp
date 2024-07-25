@@ -232,18 +232,31 @@
             background-color: #cccccc;
             cursor: not-allowed;
         }
+        .submit_button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
         
         /* 비활성화되지 않은 상태일 때의 호버 효과 */
-      .agree-button:not(:disabled):hover {
-          background-color: #45a049; /* 호버 시 배경색 변경 */
-      }
+		.agree-button:not(:disabled):hover {
+		    background-color: #45a049; /* 호버 시 배경색 변경 */
+		}
+        
+        .submit_button:not(:disabled):hover {
+		    background-color: #45a049; /* 호버 시 배경색 변경 */
+		}
         
         input[type="button"] {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
         }
-        input[type="button"]:hover {
+        input[type="button"][name="agreeButton"]:hover {
+    		background-color: #cccccc; /* 호버 시 배경색 변경 */
+		}
+        
+        
+        input[type="button"][name="insert_product"]:hover {
             background-color: #45a049;
         }
         #limit_money, #rate_viewtable {
@@ -405,9 +418,9 @@
 			let product = "";
 			let idx = f.idx.value;
 			if(idx == 1){
-				product = "정기예금";
+				product = "정기적금";
 			}else{
-				product = "청년정기예금";
+				product = "청년정기적금";
 			}
 			
 			let limit_money = Number(f.limit_money.value);
@@ -438,9 +451,11 @@
             	return;
             }
             //예적금 한도 금액 초과여부
-            if(deal_money > limit_money){
-            	alert("세금우대 한도를 초과하셨습니다.");
-            	return;
+            if(tax_type != "과세"){
+	            if(deal_money > limit_money){
+	            	alert("세금우대 한도를 초과하셨습니다.");
+	            	return;
+	            }
             }
             
             let onlynumberpwd = /^[0-9]{4}$/;
@@ -468,7 +483,7 @@
 	                alert( json[0].account_lockcnt + "/5 비밀번호 불일치");
 	                return;
 	            }else {
-	                location.href = "result_deposit_product.do?pd_idx=" + json[0].pd_idx;
+	                location.href = "result_installment_product.do?pd_idx=" + json[0].pd_idx;
 	           }
 	      }
 	}
@@ -639,7 +654,7 @@
                 	</tr>
                 	
                 </table></div>
-                <input type="hidden" value="${idx}" name="idx">
+                <input type="hidden" value="${param.idx}" name="idx">
                 <input type="hidden" value="${limit_money}" name="limit_money">
                 <h4>계약금액</h4>
                 <input name="input_deal_money" placeholder="금액 입력(숫자입력)" onchange="check_form()">원

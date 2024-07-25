@@ -200,11 +200,11 @@
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/금액제한없음.png"><br>
-                금액제한5000만원
+                과세: 금액제한없음<br>세금혜택상품: 5000만원 
             </div>
         </div>
         <br><br>
-        <button class="confirmation" onclick="location.href='product_insert2.do'">상품가입</button>
+        <button class="confirmation" onclick="location.href='product_insert2.do?idx='+${param.idx}">상품가입</button>
         </div>
          <div class="product-info" onclick="toggleInfo('info')">
             <span>상품정보</span>

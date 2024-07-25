@@ -187,7 +187,7 @@
             border-radius: 5px;
             padding: 5px;
             position: absolute;
-            z-index: 1;
+            z-index: 2000;
             bottom: 125%;
             left: 50%;
             margin-left: -145px;
@@ -214,7 +214,7 @@
         h4 {
             margin-bottom: 10px;
         }
-        select, input[type="text"], input[type="button"] {
+       select, input[type="text"], input[type="button"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0 15px 0;
@@ -232,18 +232,31 @@
             background-color: #cccccc;
             cursor: not-allowed;
         }
+        .submit_button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
         
         /* 비활성화되지 않은 상태일 때의 호버 효과 */
-      .agree-button:not(:disabled):hover {
-          background-color: #45a049; /* 호버 시 배경색 변경 */
-      }
+		.agree-button:not(:disabled):hover {
+		    background-color: #45a049; /* 호버 시 배경색 변경 */
+		}
+        
+        .submit_button:not(:disabled):hover {
+		    background-color: #45a049; /* 호버 시 배경색 변경 */
+		}
         
         input[type="button"] {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
         }
-        input[type="button"]:hover {
+        input[type="button"][name="agreeButton"]:hover {
+    		background-color: #cccccc; /* 호버 시 배경색 변경 */
+		}
+        
+        
+        input[type="button"][name="insert_product"]:hover {
             background-color: #45a049;
         }
         #limit_money, #rate_viewtable {
@@ -437,11 +450,12 @@
             	return;
             }
             //예적금 한도 금액 초과여부
-            if(deal_money > limit_money){
-            	alert("세금우대 한도를 초과하셨습니다.");
-            	return;
+            if(tax_type != 과세){
+	            if(deal_money > limit_money){
+	            	alert("세금우대 한도를 초과하셨습니다.");
+	            	return;
+	            }
             }
-            
             let onlynumberpwd = /^[0-9]{4}$/;
             
             if(!onlynumberpwd.test(input_pwd)){
