@@ -450,7 +450,7 @@
             	return;
             }
             //예적금 한도 금액 초과여부
-            if(tax_type != 과세){
+            if(tax_type != "과세"){
 	            if(deal_money > limit_money){
 	            	alert("세금우대 한도를 초과하셨습니다.");
 	            	return;
