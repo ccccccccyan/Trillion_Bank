@@ -76,6 +76,12 @@
                 <td><strong>적금 금액 :</strong></td>
                 <td>${vo.products_deal_money}</td>
             </tr>
+            <tr>
+                <td><strong>만기 금액 :</strong></td>
+                <td>${vo.end_saving_money}</td>
+            </tr>
+           
+            
         </table>
         <input type="button" value="메인페이지로" onclick="location.href='account_list.do'">
     </div>

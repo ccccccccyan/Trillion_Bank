@@ -1,12 +1,18 @@
 package vo;
 
 public class ProductVO {
-	private int productaccount_idx, saving_money, products_deal_money, auto;
+	private int productaccount_idx, saving_money, products_deal_money, auto, end_saving_money;
     private String user_id, account_productname, account_number, products_period, products_date, endproducts_date, deadline;
 
     private double products_rate, products_tax;
     
-    public String getDeadline() {
+    public int getEnd_saving_money() {
+		return end_saving_money;
+	}
+	public void setEnd_saving_money(int end_saving_money) {
+		this.end_saving_money = end_saving_money;
+	}
+	public String getDeadline() {
 		return deadline;
 	}
 	public void setDeadline(String deadline) {

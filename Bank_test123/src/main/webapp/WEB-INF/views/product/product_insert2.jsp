@@ -402,7 +402,14 @@
             let deal_money = Number(f.input_deal_money.value);
             let auto = f.maturity.value;
 			let tax_type = "";
-			let product = "정기적금";
+			let product = "";
+			let idx = f.idx.value;
+			if(idx == 1){
+				product = "정기예금";
+			}else{
+				product = "청년정기예금";
+			}
+			
 			let limit_money = Number(f.limit_money.value);
 			let selectElement = document.getElementById('accountSelect');
             // 선택된 option 요소를 가져옵니다.
@@ -432,7 +439,7 @@
             }
             //예적금 한도 금액 초과여부
             if(deal_money > limit_money){
-            	alert("예적금 한도를 초과하셨습니다.");
+            	alert("세금우대 한도를 초과하셨습니다.");
             	return;
             }
             
@@ -602,30 +609,37 @@
                 <div><table id="rate_viewtable" border="1" style="border-collapse: collapse; display: none">
                 	<tr>
                 		<td>계약기간</td>
-                		<td>만기지급식<br>기본이율</td>                		
+                		<td>만기지급식<br>기본이율</td>
+                		<td>만기지급식<br>청년우대이율</td>              		
                 	</tr>
                 	<tr>
                 		<td>3개월</td>
                 		<td>연 2.7%</td>
+                		<td>연 3.7%</td>
                 	</tr>
                 	<tr>
                 		<td>6개월</td>
                 		<td>연 2.9%</td>
+                		<td>연 3.9%</td>
                 	</tr>
                 	<tr>
                 		<td>12개월</td>
                 		<td>연 3.6%</td>
+                		<td>연 4.6%</td>
                 	</tr>
                 	<tr>
                 		<td>24개월</td>
                 		<td>연 3.6%</td>
+                		<td>연 4.6%</td>
                 	</tr>
                 	<tr>
                 		<td>36개월</td>
                 		<td>연 3.6%</td>
+                		<td>연 4.6%</td>
                 	</tr>
                 	
                 </table></div>
+                <input type="hidden" value="${idx}" name="idx">
                 <input type="hidden" value="${limit_money}" name="limit_money">
                 <h4>계약금액</h4>
                 <input name="input_deal_money" placeholder="금액 입력(숫자입력)" onchange="check_form()">원
