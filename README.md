@@ -13,7 +13,7 @@
 - Front end
   - JavaScript, HTML5, CSS3, Ajax
 - Back end
-  - JavaScript, HTML5, CSS3, Ajax
+  - Java, JSP&Servlet, MyBatis
 - Framework
   - Spring
 - Open Api/Library 
