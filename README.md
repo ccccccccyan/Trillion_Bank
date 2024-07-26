@@ -27,7 +27,48 @@
 - Collaboration
   - GitHub 
     
-
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Technologies</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Front End</td>
+            <td>JavaScript, HTML5, CSS3, Ajax</td>
+        </tr>
+        <tr>
+            <td>Back End</td>
+            <td>Java, JSP & Servlet, MyBatis</td>
+        </tr>
+        <tr>
+            <td>Framework</td>
+            <td>Spring</td>
+        </tr>
+        <tr>
+            <td>Open API/Library</td>
+            <td>Daum Address API, Kakao Maps API, Coolsms API / Swiper.js, Chart.js, Boxicons</td>
+        </tr>
+        <tr>
+            <td>Database</td>
+            <td>Oracle</td>
+        </tr>
+        <tr>
+            <td>Tool</td>
+            <td>Oracle</td>
+        </tr>
+        <tr>
+            <td>Environment</td>
+            <td>Windows 10, Tomcat</td>
+        </tr>
+        <tr>
+            <td>Collaboration</td>
+            <td>GitHub</td>
+        </tr>
+    </tbody>
+</table>
   
 <hr>
 
