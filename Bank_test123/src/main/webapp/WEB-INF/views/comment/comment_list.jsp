@@ -21,7 +21,7 @@
 			
 			<div class="comment-box">
 				${ vo.content }<br>
-				작성자 ( ${ vo.name } ) / ${ vo.comm_pwd }<br>
+				작성자 ( ${ vo.name } )<br>
 				<input type="password" name="c_pwd" placeholder="input password">
 				<input type="button" value="삭제" onclick="del_comment(this.form);">
 			</div>

@@ -39,8 +39,15 @@ public class BankService {
 		connection.setReadTimeout(10000); // 10초
 		connection.setInstanceFollowRedirects(false); // 리디렉션 비활성화 ++
 		
-		// connection을 통해 요청한 검색 결과를 읽어오자
-		BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		BufferedReader br = null;
+		
+		try {
+			// connection을 통해 요청한 검색 결과를 읽어오자
+			br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		String line = "";
 		String resultJson = "";
@@ -50,14 +57,10 @@ public class BankService {
 			resultJson += line;
 		}
 		
-		System.out.println("왜? "+resultJson);
-		
 		// 데이터 없을 때 바로 반환
 		//resultJson == null || resultJson.isEmpty() || resultJson.equals("[]")
 		if(resultJson == null || resultJson.equals("[]") || resultJson.isEmpty()) {
 			List<RateVO> no_vo = new ArrayList<RateVO>(); // 받을 리스트
-			
-			System.out.println("들어와1");
 			
 			RateVO vo = new RateVO();
 			
@@ -66,9 +69,6 @@ public class BankService {
 			
 			return no_vo;
 		}
-		
-		System.out.println("들어와2");
-		
 		
 		br.close();
 		connection.disconnect();
@@ -98,14 +98,10 @@ public class BankService {
 				vo.setCur_unit((String) json_obj_in.get("cur_unit"));
 				vo.setRate_date(formattedDate);
 				bank_vo.add(vo);
-				
-				System.out.println(i + "dasd");
 			}
 			 
-			
-			System.out.println("들어와......... : " + bank_vo);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return bank_vo; // 최종적으로 담은 vo 리스트를 반환
 	}

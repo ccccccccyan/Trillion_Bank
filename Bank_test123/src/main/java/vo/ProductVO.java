@@ -2,9 +2,36 @@ package vo;
 
 public class ProductVO {
 	private int productaccount_idx, saving_money, products_deal_money, auto, end_saving_money;
-    private String user_id, account_productname, account_number, products_period, products_date, endproducts_date, deadline;
+    private String user_id, account_productname, account_number, products_period, products_date, endproducts_date, deadline, product_color, product_card_img;
 
     private double products_rate, products_tax;
+    
+    public String getProduct_color() {
+    	if(account_productname.equals("정기예금")) {
+    		return "#51d3ed";
+    	}else if(account_productname.equals("청년정기예금")) {
+    		return "#40a4e3";
+    		
+    	}else if(account_productname.equals("정기적금")) {
+    		return "#f5a364";
+    		
+    	}else{
+    		return "#F6C2CF";
+    	}
+    }
+    public String getProduct_card_img() {
+    	if(account_productname.equals("정기예금")) {
+    		return "환호";
+    	}else if(account_productname.equals("청년정기예금")) {
+    		return "사람";
+    		
+    	}else if(account_productname.equals("정기적금")) {
+    		return "새";
+    		
+    	}else{
+    		return "개";
+    	}
+    }
     
     public int getEnd_saving_money() {
 		return end_saving_money;

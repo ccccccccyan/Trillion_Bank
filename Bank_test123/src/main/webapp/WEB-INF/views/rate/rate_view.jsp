@@ -338,11 +338,6 @@
 				</tr>
 				
 				<tr>
-					<td class="color_same">비밀번호</td>
-					<td>${ vo.pwd }</td>
-				</tr>
-				
-				<tr>
 					<td class="color_same">비번 입력</td>
 					<td><input type="password" name="c_pwd" maxlength="4"></td>
 				</tr>

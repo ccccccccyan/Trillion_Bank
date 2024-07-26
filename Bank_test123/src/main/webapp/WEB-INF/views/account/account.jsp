@@ -727,8 +727,8 @@
 								<div class="swiper-wrapper" >
 								<c:forEach var="vo" items="${product_list}" >
 									<div class="swiper-slide" >
-										<c:if test="${vo.account_productname eq '정기적금'}">
-											<div class="card_shape" style="background: #f5a364; box-shadow: inset 0 0 10px rgba(227, 131, 57, 0.8); ">
+										<c:if test="${vo.account_productname eq '정기적금' || vo.account_productname eq '청년정기적금'}">
+											<div class="card_shape" style="background: ${vo.product_color};  ">
 												<div class="card_main_content">
 													<h3 style="position: absolute; top: -120px; right: -40px;">${vo.account_productname}</h3>
 													<h4>현재 금액 : ${vo.saving_money }원</h4>
@@ -736,7 +736,7 @@
 												
 												
 												<img src="/bank/resources/img/심.png" class="card_sim" >
-												<img src="/bank/resources/img/개.png" class="card_design" >
+												<img src="/bank/resources/img/${vo.product_card_img}.png" class="card_design" >
 											</div>
 											<div class="card_hidden_content">
 												<h3>${vo.account_productname}</h3>
@@ -757,16 +757,10 @@
 													<h5>자동해지 : X</h5>
 												</c:if>
 											</div>
-											<c:if test="${vo.deadline eq '해지필요'}">
-												<div class="need_to_delete">
-													<h5>기간이 만료되었습니다</h5>
-													<input type="button" value="해지하기" onclick="user_product_delete('${vo.productaccount_idx}');" style="background: black; color: white; cursor: pointer;">
-												</div>
-											</c:if>
 										</c:if>
 
 										<c:if test="${vo.account_productname eq '청년정기예금' || vo.account_productname eq '정기예금'}">
-											<div class="card_shape" style="background: #40a4e3; box-shadow: inset 0 0 10px rgba(56, 162, 255, 0.8);">
+											<div class="card_shape" style="background: ${vo.product_color}; ">
 												<div class="card_main_content">
 													<h3 style="position: absolute; top: -120px; right: -40px;">${vo.account_productname}</h3>
 													<h4>현재 금액 : ${vo.saving_money }원</h4>
@@ -774,7 +768,7 @@
 												
 												
 												<img src="/bank/resources/img/심.png" class="card_sim" >
-												<img src="/bank/resources/img/사람.png" class="card_design" >
+												<img src="/bank/resources/img/${vo.product_card_img}.png" class="card_design" >
 											</div>
 											<div class="card_hidden_content">
 												<h3>${vo.account_productname}</h3>
@@ -794,12 +788,13 @@
 													<h5>자동해지 : X</h5>
 												</c:if>
 											</div>
-											<c:if test="${vo.deadline eq '해지필요'}">
-												<div class="need_to_delete">
-													<h5>기간이 만료되었습니다</h5>
-													<input type="button" value="해지하기" onclick="user_product_delete('${vo.productaccount_idx}');" style="background: black; color: white; cursor: pointer;">
-												</div>
-											</c:if>
+										</c:if>
+										
+										<c:if test="${vo.deadline eq '해지필요'}">
+											<div class="need_to_delete">
+												<h5>기간이 만료되었습니다</h5>
+												<input type="button" value="해지하기" onclick="user_product_delete('${vo.productaccount_idx}');" style="background: black; color: white; cursor: pointer;">
+											</div>
 										</c:if>
 									</div>
 								</c:forEach>
