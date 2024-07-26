@@ -9,23 +9,6 @@
 
 
 ### ⚙ 개발 환경
-
-- Front end
-  - JavaScript, HTML5, CSS3, Ajax
-- Back end
-  - Java, JSP&Servlet, MyBatis
-- Framework
-  - Spring
-- Open Api/Library 
-  - Daum Address api, kakaoMaps api, Coolsms api / Swiper.js, Chart.js, Boxicons  
-- DB 
-  - Oracle
-- Tool
-  - Oracle
-- Environment
-  - Window 10, Tomcat
-- Collaboration
-  - GitHub 
     
 <table>
     <thead>
