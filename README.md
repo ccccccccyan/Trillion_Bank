@@ -13,8 +13,8 @@
 <table>
     <thead>
         <tr>
-            <th>Category</th>
-            <th>Technologies</th>
+            <th>구분</th>
+            <th>상세 Skill</th>
         </tr>
     </thead>
     <tbody>
