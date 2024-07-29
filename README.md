@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td>Open API/Library</td>
-            <td>Daum Address API, Kakao Maps API, Coolsms API / Swiper.js, Chart.js, Boxicons</td>
+            <td>Daum Address API, Kakao Maps API, Coolsms API, 한국수출입은행 환율 API / Swiper.js, Chart.js, Boxicons</td>
         </tr>
         <tr>
             <td>Database</td>
