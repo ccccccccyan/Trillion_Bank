@@ -38,13 +38,13 @@
         }
         
         #form-container {
+        	position: absolute;
    			background-color: white;
 		    padding: 20px;
-		    margin-top: 15%;
+		    top: 150px;
 		    border-radius: 10px;
 		    width: 80%;
-		    max-width: 520px;
-		    max-height: calc(100vh - 0px);		    
+		    max-width: 520px;	    
 		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		}
         .modal {
@@ -620,7 +620,7 @@
                 
                 <h4>약정이율</h4>
                 <div>약정이율 = 기본이율(%) + 우대이율(%)</div>
-                <div id="detail-tax" onclick="rate_view();">기본이율 자세히 보기</div>
+                <div id="detail-tax" onclick="rate_view();"  style="color: #7CB5BE; font-weight: bold; cursor: pointer;">기본이율 자세히 보기</div>
                 <div><table id="rate_viewtable" border="1" style="border-collapse: collapse; display: none">
                 	<tr>
                 		<td>계약기간</td>

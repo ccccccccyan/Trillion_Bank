@@ -173,10 +173,23 @@ public class AccountController {
 				if(formattedDate.compareTo(vo.getEndproducts_date()) >= 0 && vo.getAuto() == 0) { // date1.compareTo(date2) > 0 // date1이 date2보다 이후 날짜
 					vo.setDeadline("해지필요");
 				}
-				double res_rate = vo.getSaving_money() * vo.getProducts_rate(); // sav * rate 이율 
-				double res_tax =  res_rate * vo.getProducts_tax(); // sav * rate * tax 세금
-				vo.setEnd_saving_money(vo.getSaving_money() + (int) Math.round(res_rate-res_tax));
-				vo.setProducts_rate(vo.getProducts_rate() * 100);
+				
+				if(vo.getAccount_productname().contains("예금")) {
+					double res_rate = vo.getSaving_money() * vo.getProducts_rate(); // sav * rate 이율 
+					double res_tax =  res_rate * vo.getProducts_tax(); // sav * rate * tax 세금
+					vo.setEnd_saving_money(vo.getSaving_money() + (int) Math.round(res_rate-res_tax));
+				
+				}else {
+					double res_rate = vo.getEnd_saving_money() * vo.getProducts_rate(); // sav * rate 이율 
+					double res_tax =  res_rate * vo.getProducts_tax(); // sav * rate * tax 세금
+					vo.setEnd_saving_money(vo.getEnd_saving_money() + (int) Math.round(res_rate-res_tax));
+					
+				}
+				
+				double res_rateresult = vo.getProducts_rate() * 100;
+				double roundedRate = Math.round(res_rateresult * 100.0) / 100.0;
+				
+				vo.setProducts_rate(roundedRate);
 				vo.setProducts_tax(vo.getProducts_tax() * 100);
 			}
 			model.addAttribute("product_list", product_list);
@@ -228,7 +241,10 @@ public class AccountController {
 		int delete_res = account_dao.delete_product_end(vo.getProductaccount_idx());
 		
 		vo.setSaving_money(vo.getSaving_money() + (int) Math.round(res_rate-res_tax));
-		vo.setProducts_rate(vo.getProducts_rate() * 100);
+		double res_rateresult = vo.getProducts_rate() * 100;
+		double roundedRate = Math.round(res_rateresult * 100.0) / 100.0;
+		
+		vo.setProducts_rate(roundedRate);
 		vo.setProducts_tax(vo.getProducts_tax() * 100);
 		
 		if(insert_res > 0 &&  delete_res > 0) {
@@ -672,7 +688,11 @@ public class AccountController {
 			model.addAttribute("limit_money", limit_money);
 		}else {
 			for(int i = 0; i < plist.size(); i++) {
+				if(plist.get(i).getAccount_productname().equals("정기예금") || plist.get(i).getAccount_productname().equals("청년정기예금")) {
 				limit_money -= plist.get(i).getSaving_money();
+				}else {
+					limit_money -= plist.get(i).getEnd_saving_money();
+				}
 			}
 			model.addAttribute("limit_money", limit_money);
 		} 	
@@ -700,16 +720,20 @@ public class AccountController {
 		map.put("bank_name", bankname);
 		List<AccountVO> list = account_dao.bankname_List(map);
 
-		List<ProductVO> plist = account_dao.user_productList(user_id);
+		List<ProductVO> plist = account_dao.taxlimit_productList(user_id);
 
 		if(plist == null || plist.isEmpty()) {
 			model.addAttribute("limit_money", limit_money);
 		}else {
 			for(int i = 0; i < plist.size(); i++) {
+				if(plist.get(i).getAccount_productname().contains("예금")) {
 				limit_money -= plist.get(i).getSaving_money();
+				}else {
+					limit_money -= plist.get(i).getEnd_saving_money();
+				}
 			}
 			model.addAttribute("limit_money", limit_money);
-		} 	
+		}
 
 		if(list == null || list.isEmpty() ) {
 			return Common.Product.VIEW_PATH_PR + "no_bank.jsp";
@@ -1010,8 +1034,9 @@ public class AccountController {
 		int real_maturitymoney = res + maturitymoney;
 		
 		double res_rate = rate * 100;
-		double res_tax = rate * 100; 
-		model.addAttribute("res_rate", res_rate);
+		double res_tax = tax * 100; 
+		double roundedRate = Math.round(res_rate * 100.0) / 100.0;
+		model.addAttribute("res_rate", roundedRate);
 		model.addAttribute("res_tax", res_tax);
 		model.addAttribute("maturitymoney", real_maturitymoney);
 		model.addAttribute("vo", vo);
@@ -1033,8 +1058,9 @@ public class AccountController {
 		int real_maturitymoney = res + maturitymoney;
 		
 		double res_rate = rate * 100;
-		double res_tax = rate * 100; 
-		model.addAttribute("res_rate", res_rate);
+		double res_tax = tax * 100; 
+		double roundedRate = Math.round(res_rate * 100.0) / 100.0;
+		model.addAttribute("res_rate", roundedRate);
 		model.addAttribute("res_tax", res_tax);	
 		model.addAttribute("maturitymoney", real_maturitymoney);	
 		model.addAttribute("vo", vo);
