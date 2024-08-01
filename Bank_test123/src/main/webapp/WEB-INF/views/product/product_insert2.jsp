@@ -294,8 +294,10 @@
 
         function showTerm(id) {
             currentTermId = id;
+            const termContentElement = document.getElementById('termContent');
             document.getElementById('termContent').innerHTML = terms[id].replace(/\n/g, '<br>');
             document.getElementById('modal').style.display = 'flex';
+            termContentElement.scrollTop = 0;
         }
 
         function agreeTerm() {
