@@ -123,7 +123,7 @@
         }
         #form1{position: absolute;
         		top: 150px;
-             	left: 740px;
+             	left: 820px;
         		z-index: 1;}
         
         #confirmform {
@@ -132,7 +132,7 @@
              width : 250px;
              height : 300px;
              top: 700px;
-             left: 820px;
+             left: 896px;
              text-align: center;
              background-color: #fff;
              border-radius: 8px;
@@ -187,7 +187,7 @@
 	        }
 	        #blockall {
 	          position: absolute;
-	          width: 2000px;
+	          width: 2400px;
 	          height: 2000px;
 	           
 	          background-color: #d7dbd8;
@@ -203,7 +203,7 @@
 	             width : 250px;
 	             height : 300px;
 	             top: 700px;
-	             left: 820px;
+	             left: 896px;
 	             text-align: center;
 	             background-color: #fff;
 	             border-radius: 8px;
@@ -274,7 +274,7 @@
 	                <td>아이디: ${vo.user_id}</td>
 	            </tr>
 	            <tr>
-	                <td>계좌번호<input id="target_account_number" name="target_account_number" maxlength="14" oninput="send(this.form);" type="text" >
+	                <td>계좌번호<input id="target_account_number" name="target_account_number" maxlength="14" oninput="send(this.form);" type="text">
 	                 <span id="target_account_warn_msg" style="color: red"></span></td>
 	            </tr>
 	            <tr>
