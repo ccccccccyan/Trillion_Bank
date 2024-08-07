@@ -98,7 +98,7 @@
 		    <div class="bank-link" onclick="location.href='regular_deposit.do?idx='+2">
 		        <a href="#">일조은행 청년희망 정기예탁금</a>
 		        <button class="confirmation">가입</button>
-		        <div class="product-description">세금 우대와 1~2%높은 이자수익을 받는 거치식예금</div>
+		        <div class="product-description">18~34세 청년들 대상, 1%높은 이자수익을 받는 거치식예금</div>
 		    </div>
 		    
 		    
@@ -111,7 +111,7 @@
 		    <div class="bank-link" onclick="location.href='installment_savings.do?idx='+2">
 		        <a href="#">일조은행 청년희망 정기적금</a>
 		        <button class="confirmation">가입</button>
-		        <div class="product-description">매월 일정액을 납입하는 적금</div>
+		        <div class="product-description">18~34세 청년들 대상, 1% 높은 이자수익을 매월 일정액을 납입하는 적금</div>
 		    </div>
 		    
 		</div>
