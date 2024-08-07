@@ -11,6 +11,12 @@
         <script src="/bank/resources/js/remittance_js.js"></script>
 		<style>
 			
+		html, body {
+		    margin: 0;
+		    padding: 0;
+		    height: 100%;
+		    overflow: hidden;
+		} 
 			
         #body-container{
         	position: relative;
@@ -123,7 +129,7 @@
         }
         #form1{position: absolute;
         		top: 150px;
-             	left: 820px;
+             	left: 745px;
         		z-index: 1;}
         
         #confirmform {
@@ -132,7 +138,7 @@
              width : 250px;
              height : 300px;
              top: 700px;
-             left: 896px;
+             left: 820px;
              text-align: center;
              background-color: #fff;
              border-radius: 8px;
@@ -187,8 +193,8 @@
 	        }
 	        #blockall {
 	          position: absolute;
-	          width: 2400px;
-	          height: 2000px;
+	          width: 1920px;
+	          height: 1100px;
 	           
 	          background-color: #d7dbd8;
 	          opacity: 0.7;
@@ -203,7 +209,7 @@
 	             width : 250px;
 	             height : 300px;
 	             top: 700px;
-	             left: 896px;
+	             left: 820px;
 	             text-align: center;
 	             background-color: #fff;
 	             border-radius: 8px;
