@@ -200,7 +200,7 @@
             </div>
             <div>
                 <img width="50px" height="50px" src="/bank/resources/img/금액제한없음.png"><br>
-                과세: 금액제한없음<br>세금혜택상품: 5000만원 
+                과세:금액제한없음<br>세금우대:5000만원
             </div>
         </div>
         <br><br>
